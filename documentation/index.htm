@@ -56,6 +56,7 @@ table td
 <ul>
   <li><a href="#quintessence/Krampus24/Game/Configurations/Main.q.yml">quintessence/Krampus24/Game/Configurations/Main.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</a></li>
 </ul>
@@ -300,6 +301,172 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">type</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">model</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">texture</td>
+  <td class="property">ALLEGRO_BITMAP*</td>
+</tr>
+<tr>
+  <td class="property">placement</td>
+  <td class="property">AllegroFlare::Placement3D</td>
+</tr>
+<tr>
+  <td class="property">velocity</td>
+  <td class="property">AllegroFlare::Placement3D</td>
+</tr>
+<tr>
+  <td class="property">hit_box_2d</td>
+  <td class="property">AllegroFlare::Physics::AABB2D</td>
+</tr>
+<tr>
+  <td class="property">player_input_controller</td>
+  <td class="property">AllegroFlare::PlayerInputControllers::Base*</td>
+</tr>
+<tr>
+  <td class="property">box_corners</td>
+  <td class="property">std::vector&lt;AllegroFlare::Vec3D&gt;</td>
+</tr>
+<tr>
+  <td class="property">active</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">visible</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">affected_by_environmental_forces</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">collides_with_environment</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">collides_with_player</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">collides_with_enemies</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>has_player_input_controller</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_time_step</b>(double time_step=0.0f, double time_now=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_tile_map_collision_stepper_step</b>(AllegroFlare::Physics::TileMapCollisionStepperStepResult* collision_step_result=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_enter_player_bbox_collision</b>(Krampus24::Gameplay::Entities::Base* player_entity=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_exit_player_bbox_collision</b>(Krampus24::Gameplay::Entities::Base* player_entity=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_enter_player_position_collision</b>(Krampus24::Gameplay::Entities::Base* player_entity=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_exit_player_position_collision</b>(Krampus24::Gameplay::Entities::Base* player_entity=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_player_inspect_or_use</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>collides</b>(Krampus24::Gameplay::Entities::Base* other=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>calculate_box_corners</b>()</td>
+</tr>
+<tr>
+  <td class="method">ALLEGRO_COLOR</td>
+  <td class="method"><b>build_color</b>(float opacity=1.0f)</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;ALLEGRO_VERTEX&gt;</td>
+  <td class="method"><b>build_line_list_vertices</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;ALLEGRO_VERTEX&gt;</td>
+  <td class="method"><b>build_triangle_list_vertices_for_faces</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::SceneGraph::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/SceneGraph/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_BITMAP&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Placement3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Placement3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::AABB2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/AABB2D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::TileMapCollisionStepperStepResult&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/TileMapCollisionStepperStepResult.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::PlayerInputControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/PlayerInputControllers/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_COLOR&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_VERTEX&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_primitives.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -362,7 +529,7 @@ table td
 </tr>
 <tr>
   <td class="property">entities</td>
-  <td class="property">std::vector&lt;AllegroFlare::Prototypes::MeshFPS::Entities::Base*&gt;*</td>
+  <td class="property">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;*</td>
 </tr>
 <tr>
   <td class="property">collision_mesh</td>
@@ -408,7 +575,7 @@ table td
   <td class="method"><b>on_deactivate</b>()</td>
 </tr>
 <tr>
-  <td class="method">AllegroFlare::Prototypes::MeshFPS::Entities::Base*</td>
+  <td class="method">Krampus24::Gameplay::Entities::Base*</td>
   <td class="method"><b>find_0th_entity</b>()</td>
 </tr>
 <tr>
@@ -494,7 +661,7 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/Base.hpp&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Prototypes::MeshFPS::Screen&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Prototypes/MeshFPS/Screen.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Screen.hpp&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameConfigurations::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameConfigurations/Base.hpp&quot;]}</td>
@@ -524,7 +691,7 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Prototypes::MeshFPS::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Prototypes/MeshFPS/Entities/Base.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Routers::Standard&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Routers/Standard.hpp&quot;]}</td>
@@ -617,6 +784,7 @@ table td
   ],
   "Krampus24/Gameplay/Screen": [
     "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Screens/Gameplay": [
@@ -650,6 +818,41 @@ table td
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
+  "AllegroFlare/SceneGraph/Entities/Base": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Model3D": [
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "ALLEGRO_BITMAP": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Placement3D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Physics/AABB2D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Physics/TileMapCollisionStepperStepResult": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "Krampus24/Gameplay/Entities/Base": [
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/PlayerInputControllers/Base": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "ALLEGRO_COLOR": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "ALLEGRO_VERTEX": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Vec3D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"
   ],
@@ -677,9 +880,6 @@ table td
   "AllegroFlare/VirtualControllers/Base": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/Prototypes/MeshFPS/Screen": [
-    "Krampus24/Gameplay/Screen"
-  ],
   "AllegroFlare/GameConfigurations/Base": [
     "Krampus24/Gameplay/Screen"
   ],
@@ -695,16 +895,10 @@ table td
   "AllegroFlare/Camera3D": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/Model3D": [
-    "Krampus24/Gameplay/Screen"
-  ],
   "std/get": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Physics/CollisionMesh": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Prototypes/MeshFPS/Entities/Base": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Routers/Standard": [

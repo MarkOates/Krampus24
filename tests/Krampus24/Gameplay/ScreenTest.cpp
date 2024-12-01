@@ -57,6 +57,7 @@ static Krampus24::Gameplay::Entities::Base* build_entity(
 }
 
 
+
 TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    CAPTURE__TIMED_INTERACTIVE__will_run_as_expected)
 {
@@ -106,6 +107,8 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    std::vector<Krampus24::Gameplay::Entities::Base*> entities;
    entities.push_back(player_entity); // Player entity
    entities.push_back(build_entity(AllegroFlare::Vec3D(3, 2, -8)));
+   entities.push_back(build_entity(AllegroFlare::Vec3D(6, 4, -9)));
+   //entities.push_back(build_entity(AllegroFlare::Vec3D(16, 4, -9)));
    //entities.push_back(build_entity(AllegroFlare::Vec3D(-3, 2, -8), false));
    screen.set_entities(&entities);
 

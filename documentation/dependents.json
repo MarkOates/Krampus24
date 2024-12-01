@@ -48,6 +48,7 @@
   ],
   "Krampus24/Gameplay/Screen": [
     "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Screens/Gameplay": [
@@ -81,6 +82,41 @@
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
+  "AllegroFlare/SceneGraph/Entities/Base": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Model3D": [
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "ALLEGRO_BITMAP": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Placement3D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Physics/AABB2D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Physics/TileMapCollisionStepperStepResult": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "Krampus24/Gameplay/Entities/Base": [
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/PlayerInputControllers/Base": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "ALLEGRO_COLOR": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "ALLEGRO_VERTEX": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Vec3D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"
   ],
@@ -108,9 +144,6 @@
   "AllegroFlare/VirtualControllers/Base": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/Prototypes/MeshFPS/Screen": [
-    "Krampus24/Gameplay/Screen"
-  ],
   "AllegroFlare/GameConfigurations/Base": [
     "Krampus24/Gameplay/Screen"
   ],
@@ -126,16 +159,10 @@
   "AllegroFlare/Camera3D": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/Model3D": [
-    "Krampus24/Gameplay/Screen"
-  ],
   "std/get": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Physics/CollisionMesh": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Prototypes/MeshFPS/Entities/Base": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Routers/Standard": [
