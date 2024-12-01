@@ -34,6 +34,17 @@ documentation:
 methods:
 
 
+  - name: for_each_entity
+    parameters:
+      - name: function
+        type: std::function<void(Krampus24::BlenderBlockingLoaderEntity*)>
+        default_argument: '{}'
+    guards: [ loaded ]
+    body: |
+      for (auto &entity : entities) function(&entity);
+      return;
+
+
   - name: assemble_height_map
     type: AllegroFlare::TileMaps::TileMap<float>
     parameters:

@@ -40,7 +40,7 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* game_configuration;
          AllegroFlare::Camera2D hud_camera;
          AllegroFlare::Camera3D live_camera;
-         std::vector<Krampus24::Gameplay::Entities::Base*>* entities;
+         std::vector<Krampus24::Gameplay::Entities::Base*> entities;
          AllegroFlare::Physics::CollisionMesh* collision_mesh;
          AllegroFlare::Model3D* visual_mesh;
          AllegroFlare::Vec3D player_spawn_position;
@@ -58,7 +58,7 @@ namespace Krampus24
 
 
       public:
-         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*>* entities=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string collision_mesh_identifier="basic_baking-01-collision_mesh.obj", std::string visual_mesh_identifier="basic_baking-01-visual.obj", std::string visual_mesh_texture_identifier="basic_baking-01-baked_shadow-reduced.jpg", std::string blocking_filename="basic_baking-02.blocking");
+         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*> entities={}, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string collision_mesh_identifier="basic_baking-01-collision_mesh.obj", std::string visual_mesh_identifier="basic_baking-01-visual.obj", std::string visual_mesh_texture_identifier="basic_baking-01-baked_shadow-reduced.jpg", std::string blocking_filename="basic_baking-02.blocking");
          virtual ~Screen();
 
          void set_data_folder_path(std::string data_folder_path);
@@ -69,7 +69,7 @@ namespace Krampus24
          void set_game_configuration(AllegroFlare::GameConfigurations::Base* game_configuration);
          void set_hud_camera(AllegroFlare::Camera2D hud_camera);
          void set_live_camera(AllegroFlare::Camera3D live_camera);
-         void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities);
+         void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*> entities);
          void set_collision_mesh(AllegroFlare::Physics::CollisionMesh* collision_mesh);
          void set_visual_mesh(AllegroFlare::Model3D* visual_mesh);
          void set_player_spawn_position(AllegroFlare::Vec3D player_spawn_position);
@@ -85,7 +85,7 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
          AllegroFlare::Camera3D get_live_camera() const;
-         std::vector<Krampus24::Gameplay::Entities::Base*>* get_entities() const;
+         std::vector<Krampus24::Gameplay::Entities::Base*> get_entities() const;
          AllegroFlare::Physics::CollisionMesh* get_collision_mesh() const;
          AllegroFlare::Model3D* get_visual_mesh() const;
          AllegroFlare::Vec3D get_player_spawn_position() const;
@@ -97,6 +97,7 @@ namespace Krampus24
          std::function<void(Krampus24::Gameplay::Screen*, void*)> get_on_finished_callback_func() const;
          void* get_on_finished_callback_func_user_data() const;
          bool get_initialized() const;
+         std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
          void initialize();
          void load_or_reload_meshes();
          virtual void on_activate() override;

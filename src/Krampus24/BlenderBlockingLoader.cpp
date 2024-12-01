@@ -52,6 +52,19 @@ bool BlenderBlockingLoader::get_loaded() const
 }
 
 
+void BlenderBlockingLoader::for_each_entity(std::function<void(Krampus24::BlenderBlockingLoaderEntity*)> function)
+{
+   if (!(loaded))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::BlenderBlockingLoader::for_each_entity]: error: guard \"loaded\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::BlenderBlockingLoader::for_each_entity]: error: guard \"loaded\" not met");
+   }
+   for (auto &entity : entities) function(&entity);
+   return;
+}
+
 AllegroFlare::TileMaps::TileMap<float> BlenderBlockingLoader::assemble_height_map(float floor_height)
 {
    if (!(loaded))

@@ -22,7 +22,7 @@ namespace Gameplay
 {
 
 
-Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*>* entities, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string collision_mesh_identifier, std::string visual_mesh_identifier, std::string visual_mesh_texture_identifier, std::string blocking_filename)
+Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*> entities, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string collision_mesh_identifier, std::string visual_mesh_identifier, std::string visual_mesh_texture_identifier, std::string blocking_filename)
    : AllegroFlare::Screens::Gameplay()
    , data_folder_path("[unset-data_folder_path]")
    , event_emitter(event_emitter)
@@ -109,7 +109,7 @@ void Screen::set_live_camera(AllegroFlare::Camera3D live_camera)
 }
 
 
-void Screen::set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities)
+void Screen::set_entities(std::vector<Krampus24::Gameplay::Entities::Base*> entities)
 {
    this->entities = entities;
 }
@@ -209,7 +209,7 @@ AllegroFlare::Camera3D Screen::get_live_camera() const
 }
 
 
-std::vector<Krampus24::Gameplay::Entities::Base*>* Screen::get_entities() const
+std::vector<Krampus24::Gameplay::Entities::Base*> Screen::get_entities() const
 {
    return entities;
 }
@@ -278,6 +278,12 @@ void* Screen::get_on_finished_callback_func_user_data() const
 bool Screen::get_initialized() const
 {
    return initialized;
+}
+
+
+std::vector<Krampus24::Gameplay::Entities::Base*> &Screen::get_entities_ref()
+{
+   return entities;
 }
 
 
@@ -381,10 +387,15 @@ void Screen::load_or_reload_meshes()
    visual_mesh->set_texture(bitmap_bin->operator[](visual_mesh_texture_identifier));
 
    // Load the blocking file
-   // TODO: delete all entities
+   // TODO: Delete all entities
+   // TODO: Create the 0th entity (the player)
    std::string blocking_file_full_path = data_folder_path + "maps/" + blocking_filename;
    Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
    blender_blocking_loader.load();
+   blender_blocking_loader.for_each_entity([](Krampus24::BlenderBlockingLoaderEntity* entity){
+      // HERE
+   });
+
 
    return;
 }
@@ -423,21 +434,14 @@ void Screen::load_or_reload_level_mesh()
 
 Krampus24::Gameplay::Entities::Base* Screen::find_0th_entity()
 {
-   if (!(entities))
+   if (!((entities.size() > 0)))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Screen::find_0th_entity]: error: guard \"entities\" not met.";
+      error_message << "[Krampus24::Gameplay::Screen::find_0th_entity]: error: guard \"(entities.size() > 0)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Screen::find_0th_entity]: error: guard \"entities\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::find_0th_entity]: error: guard \"(entities.size() > 0)\" not met");
    }
-   if (!((entities->size() > 0)))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Screen::find_0th_entity]: error: guard \"(entities->size() > 0)\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Screen::find_0th_entity]: error: guard \"(entities->size() > 0)\" not met");
-   }
-   return entities->at(0);
+   return entities.at(0);
 }
 
 void Screen::create_and_set_player_input_controller_for_0th_entity()
@@ -484,7 +488,7 @@ void Screen::update()
    float air_drag = AllegroFlare::Physics::CollisionMeshCollisionStepper::DEFAULT_AIR_DRAG;
    AllegroFlare::Vec3D velocity_direction = AllegroFlare::Vec3D(0.0f, 1.0f, 0.0f).normalized();
 
-   for (auto &entity : *entities)
+   for (auto &entity : entities)
    {
       if (!entity->active || !entity->affected_by_environmental_forces) continue;
 
@@ -500,8 +504,8 @@ void Screen::update()
    // Build the entities list to be stepped by the stepper
    std::vector<std::tuple<AllegroFlare::Vec3D*, AllegroFlare::Vec3D*, void*>>
       collision_stepper_entities;
-   collision_stepper_entities.reserve(entities->size());
-   for (auto &entity : *entities)
+   collision_stepper_entities.reserve(entities.size());
+   for (auto &entity : entities)
    {
       if (!entity->active || !entity->collides_with_environment) continue;
 
@@ -527,7 +531,7 @@ void Screen::update()
 
    std::set<void*> collidables;
    auto player_entity = find_0th_entity();
-   for (auto &entity : *entities)
+   for (auto &entity : entities)
    {
       if (entity == player_entity) continue;
       if (!entity->active || !entity->collides_with_player) continue;
@@ -577,7 +581,7 @@ void Screen::render()
    // TODO: Draw the entities (models?, bounding boxes?)
    al_set_render_state(ALLEGRO_DEPTH_TEST, 0);
    auto player_entity = find_0th_entity();
-   for (auto &entity : *entities)
+   for (auto &entity : entities)
    {
       if (!entity->active || !entity->visible) continue;
       //if (entity == player_entity) continue;
