@@ -21,7 +21,7 @@ namespace Gameplay
 {
 
 
-Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*>* entities, AllegroFlare::Physics::CollisionMesh* collision_mesh)
+Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*>* entities, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string collision_mesh_identifier, std::string visual_mesh_identifier, std::string visual_mesh_texture_identifier)
    : AllegroFlare::Screens::Gameplay()
    , event_emitter(event_emitter)
    , bitmap_bin(bitmap_bin)
@@ -34,6 +34,9 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , collision_mesh(collision_mesh)
    , visual_mesh(nullptr)
    , player_spawn_position(AllegroFlare::Vec3D(0, 0, 0))
+   , collision_mesh_identifier(collision_mesh_identifier)
+   , visual_mesh_identifier(visual_mesh_identifier)
+   , visual_mesh_texture_identifier(visual_mesh_texture_identifier)
    , gems_collected(0)
    , collision_observer({})
    , on_finished_callback_func()
@@ -45,6 +48,9 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
 
 Screen::~Screen()
 {
+   // TODO: Destroy meshes (which should now be owned by this class)
+   // TODO: Destroy visual mesh bitmap (which should now be owned by this class)
+   return;
 }
 
 
@@ -118,6 +124,27 @@ void Screen::set_player_spawn_position(AllegroFlare::Vec3D player_spawn_position
 }
 
 
+void Screen::set_collision_mesh_identifier(std::string collision_mesh_identifier)
+{
+   if (get_initialized()) throw std::runtime_error("[Screen::set_collision_mesh_identifier]: error: guard \"get_initialized()\" not met.");
+   this->collision_mesh_identifier = collision_mesh_identifier;
+}
+
+
+void Screen::set_visual_mesh_identifier(std::string visual_mesh_identifier)
+{
+   if (get_initialized()) throw std::runtime_error("[Screen::set_visual_mesh_identifier]: error: guard \"get_initialized()\" not met.");
+   this->visual_mesh_identifier = visual_mesh_identifier;
+}
+
+
+void Screen::set_visual_mesh_texture_identifier(std::string visual_mesh_texture_identifier)
+{
+   if (get_initialized()) throw std::runtime_error("[Screen::set_visual_mesh_texture_identifier]: error: guard \"get_initialized()\" not met.");
+   this->visual_mesh_texture_identifier = visual_mesh_texture_identifier;
+}
+
+
 void Screen::set_gems_collected(int gems_collected)
 {
    this->gems_collected = gems_collected;
@@ -181,6 +208,24 @@ AllegroFlare::Model3D* Screen::get_visual_mesh() const
 AllegroFlare::Vec3D Screen::get_player_spawn_position() const
 {
    return player_spawn_position;
+}
+
+
+std::string Screen::get_collision_mesh_identifier() const
+{
+   return collision_mesh_identifier;
+}
+
+
+std::string Screen::get_visual_mesh_identifier() const
+{
+   return visual_mesh_identifier;
+}
+
+
+std::string Screen::get_visual_mesh_texture_identifier() const
+{
+   return visual_mesh_texture_identifier;
 }
 
 
@@ -307,6 +352,11 @@ void Screen::on_deactivate()
       throw std::runtime_error("[Krampus24::Gameplay::Screen::on_deactivate]: error: guard \"initialized\" not met");
    }
    //emit_hide_and_restore_size_input_hints_bar_event();
+   return;
+}
+
+void Screen::load_or_reload_level_mesh()
+{
    return;
 }
 
@@ -562,14 +612,17 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Screen::key_down_func]: error: guard \"initialized\" not met");
    }
-   if (!(event_emitter))
+   if (!(ev))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Screen::key_down_func]: error: guard \"event_emitter\" not met.";
+      error_message << "[Krampus24::Gameplay::Screen::key_down_func]: error: guard \"ev\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Screen::key_down_func]: error: guard \"event_emitter\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::key_down_func]: error: guard \"ev\" not met");
    }
    AllegroFlare::Screens::Gameplay::key_down_func(ev);
+
+   bool shift = ev->keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
+   bool ctrl = ev->keyboard.modifiers & ALLEGRO_KEYMOD_COMMAND;
 
    //bool keyboard_control_caught = false;
    // This method is DEBUGGING
@@ -611,6 +664,13 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
          auto player_entity = find_0th_entity();
          player_entity->get_placement_ref().position = player_spawn_position;
          player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+      } break;
+
+      case ALLEGRO_KEY_R: {
+         if (ctrl)
+         {
+            // Reload the map
+         }
       } break;
       //case ALLEGRO_KEY_W:
       //case ALLEGRO_KEY_UP: {

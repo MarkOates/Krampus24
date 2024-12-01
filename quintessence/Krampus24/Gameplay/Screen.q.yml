@@ -79,6 +79,27 @@ properties:
     getter: true
     setter: true
 
+  - name: collision_mesh_identifier
+    type: std::string
+    init_with: '"basic_baking-01-collision_mesh.obj"'
+    constructor_arg: true
+    getter: true
+    setter: before_initialized
+
+  - name: visual_mesh_identifier
+    type: std::string
+    init_with: '"basic_baking-01-visual.obj"'
+    constructor_arg: true
+    getter: true
+    setter: before_initialized
+
+  - name: visual_mesh_texture_identifier
+    type: std::string
+    init_with: '"basic_baking-01-baked_shadow-reduced.jpg"'
+    constructor_arg: true
+    getter: true
+    setter: before_initialized
+
   - name: gems_collected
     type: int
     init_with: 0
@@ -140,6 +161,13 @@ methods:
       - al_is_primitives_addon_initialized
 
 
+  - name: ~destruct
+    body: |
+      // TODO: Destroy meshes (which should now be owned by this class)
+      // TODO: Destroy visual mesh bitmap (which should now be owned by this class)
+      return;
+
+
   - name: on_activate
     virtual: true
     override: true
@@ -156,6 +184,11 @@ methods:
     guards: [ initialized ]
     body: |
       //emit_hide_and_restore_size_input_hints_bar_event();
+      return;
+
+
+  - name: load_or_reload_level_mesh
+    body: |
       return;
 
 
@@ -404,9 +437,12 @@ methods:
       - name: ev
         type: ALLEGRO_EVENT*
         default_argument: nullptr
-    guards: [ initialized, event_emitter ]
+    guards: [ initialized, ev ]
     body: |
       AllegroFlare::Screens::Gameplay::key_down_func(ev);
+
+      bool shift = ev->keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
+      bool ctrl = ev->keyboard.modifiers & ALLEGRO_KEYMOD_COMMAND;
 
       //bool keyboard_control_caught = false;
       // This method is DEBUGGING
@@ -448,6 +484,13 @@ methods:
             auto player_entity = find_0th_entity();
             player_entity->get_placement_ref().position = player_spawn_position;
             player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+         } break;
+
+         case ALLEGRO_KEY_R: {
+            if (ctrl)
+            {
+               // Reload the map
+            }
          } break;
          //case ALLEGRO_KEY_W:
          //case ALLEGRO_KEY_UP: {

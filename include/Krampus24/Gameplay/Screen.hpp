@@ -21,6 +21,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <functional>
+#include <string>
 #include <vector>
 
 
@@ -42,6 +43,9 @@ namespace Krampus24
          AllegroFlare::Physics::CollisionMesh* collision_mesh;
          AllegroFlare::Model3D* visual_mesh;
          AllegroFlare::Vec3D player_spawn_position;
+         std::string collision_mesh_identifier;
+         std::string visual_mesh_identifier;
+         std::string visual_mesh_texture_identifier;
          int gems_collected;
          AllegroFlare::CollisionObservers::Simple collision_observer;
          std::function<void(Krampus24::Gameplay::Screen*, void*)> on_finished_callback_func;
@@ -52,7 +56,7 @@ namespace Krampus24
 
 
       public:
-         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*>* entities=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr);
+         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*>* entities=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string collision_mesh_identifier="basic_baking-01-collision_mesh.obj", std::string visual_mesh_identifier="basic_baking-01-visual.obj", std::string visual_mesh_texture_identifier="basic_baking-01-baked_shadow-reduced.jpg");
          virtual ~Screen();
 
          void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
@@ -66,6 +70,9 @@ namespace Krampus24
          void set_collision_mesh(AllegroFlare::Physics::CollisionMesh* collision_mesh);
          void set_visual_mesh(AllegroFlare::Model3D* visual_mesh);
          void set_player_spawn_position(AllegroFlare::Vec3D player_spawn_position);
+         void set_collision_mesh_identifier(std::string collision_mesh_identifier);
+         void set_visual_mesh_identifier(std::string visual_mesh_identifier);
+         void set_visual_mesh_texture_identifier(std::string visual_mesh_texture_identifier);
          void set_gems_collected(int gems_collected);
          void set_on_finished_callback_func(std::function<void(Krampus24::Gameplay::Screen*, void*)> on_finished_callback_func);
          void set_on_finished_callback_func_user_data(void* on_finished_callback_func_user_data);
@@ -77,6 +84,9 @@ namespace Krampus24
          AllegroFlare::Physics::CollisionMesh* get_collision_mesh() const;
          AllegroFlare::Model3D* get_visual_mesh() const;
          AllegroFlare::Vec3D get_player_spawn_position() const;
+         std::string get_collision_mesh_identifier() const;
+         std::string get_visual_mesh_identifier() const;
+         std::string get_visual_mesh_texture_identifier() const;
          int get_gems_collected() const;
          std::function<void(Krampus24::Gameplay::Screen*, void*)> get_on_finished_callback_func() const;
          void* get_on_finished_callback_func_user_data() const;
@@ -84,6 +94,7 @@ namespace Krampus24
          void initialize();
          virtual void on_activate() override;
          virtual void on_deactivate() override;
+         void load_or_reload_level_mesh();
          Krampus24::Gameplay::Entities::Base* find_0th_entity();
          void create_and_set_player_input_controller_for_0th_entity();
          void update();

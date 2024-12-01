@@ -544,6 +544,18 @@ table td
   <td class="property">AllegroFlare::Vec3D</td>
 </tr>
 <tr>
+  <td class="property">collision_mesh_identifier</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">visual_mesh_identifier</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">visual_mesh_texture_identifier</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
   <td class="property">gems_collected</td>
   <td class="property">int</td>
 </tr>
@@ -572,11 +584,19 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>~destruct</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>on_activate</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>on_deactivate</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>load_or_reload_level_mesh</b>()</td>
 </tr>
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Base*</td>
