@@ -602,14 +602,12 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
       // DEVELOPMENT keys
 
       case ALLEGRO_KEY_0: {
-         // HERE
          auto player_entity = find_0th_entity();
          player_entity->get_placement_ref().position = AllegroFlare::Vec3D(0, 0, 0);
          player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
       } break;
 
       case ALLEGRO_KEY_9: {
-         // HERE
          auto player_entity = find_0th_entity();
          player_entity->get_placement_ref().position = player_spawn_position;
          player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
