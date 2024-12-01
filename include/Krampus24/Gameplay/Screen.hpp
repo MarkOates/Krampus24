@@ -54,7 +54,7 @@ namespace Krampus24
 
 
       public:
-         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*> entities={}, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string collision_mesh_identifier="basic_baking-01-collision_mesh.obj", std::string visual_mesh_identifier="basic_baking-01-visual.obj", std::string visual_mesh_texture_identifier="basic_baking-01-baked_shadow-reduced.jpg", std::string blocking_filename="basic_baking-02.blocking");
+         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*> entities={}, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string collision_mesh_identifier="basic_baking-02-collision_mesh.obj", std::string visual_mesh_identifier="basic_baking-02-visual.obj", std::string visual_mesh_texture_identifier="basic_baking-01-baked_shadow-reduced.jpg", std::string blocking_filename="basic_baking-02.blocking");
          virtual ~Screen();
 
          void set_data_folder_path(std::string data_folder_path);

@@ -54,6 +54,7 @@ namespace Krampus24
             virtual AllegroFlare::Screens::PauseScreen* create_pause_screen(AllegroFlare::Runners::Complete* runner=nullptr) override;
             virtual void handle_primary_gameplay_screen_paused() override;
             virtual void handle_primary_gameplay_screen_unpaused() override;
+            virtual void handle_primary_gameplay_screen_finished() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_logos_storyboard_pages() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_storyboard_pages() override;
             virtual std::vector<std::pair<std::string, std::string>> build_title_screen_menu_options() override;

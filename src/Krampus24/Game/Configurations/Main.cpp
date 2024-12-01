@@ -84,10 +84,18 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    result->set_bitmap_bin(runner->get_bitmap_bin());
    result->set_model_bin(runner->get_model_bin());
    result->set_event_emitter(runner->get_event_emitter());
-   result->set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
+   result->set_on_finished_callback_func(//[](AllegroFlare::Screens::Gameplay*, void*){
+      [runner](AllegroFlare::Screens::Gameplay* screen, void* user_data){
+         runner->get_event_emitter()->emit_router_event(
+            AllegroFlare::Routers::Standard::EVENT_PRIMARY_GAMEPLAY_SCREEN_FINISHED,
+            nullptr,
+            al_get_time()
+         );
+      }
       // HERE: Trigger a game won (DEVELOPMENT)
-      std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
-   });
+      //std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
+   //}
+   );
 
    result->initialize();
 
@@ -260,6 +268,66 @@ void Main::handle_primary_gameplay_screen_unpaused()
       nullptr,
       al_get_time()
    );
+   return;
+}
+
+void Main::handle_primary_gameplay_screen_finished()
+{
+   { // DEVELOPMENT
+      primary_gameplay_screen->get_event_emitter()->emit_router_event(
+         AllegroFlare::Routers::Standard::EVENT_WIN_GAME,
+         nullptr,
+         al_get_time()
+      );
+   }
+   /*
+   AllegroFlare::Elements::LevelSelect &level_select_element = 
+      get_runner()->get_level_select_screen_ref().get_level_select_element_ref();
+   bool level_was_won = primary_gameplay_screen->infer_level_was_won();
+
+   if (level_was_won)
+   {
+      std::string current_level_identifier = primary_gameplay_screen->get_current_level_identifier();
+
+      // In the game_progress_and_state_info, set the level as completed and save
+      game_progress_and_state_info.add_level_cleared(current_level_identifier);
+      game_progress_and_state_info.save();
+
+      // On the level select screen, mark the level as completed
+      //std::string current_level_identifier = primary_gameplay_screen->get_current_level_identifier();
+      level_select_element.add_to_completed_list(current_level_identifier);
+
+      // If all the levels are completed, and you just played the last level, the game is beaten
+      bool all_levels_are_completed =
+         level_select_element.get_completed_list().size() == level_select_element.get_levels_list().size();
+      bool just_played_last_level =
+         current_level_identifier == build_level_list_for_level_select_screen_by_identifier().back().second;
+      if (all_levels_are_completed && just_played_last_level)
+      {
+         primary_gameplay_screen->get_event_emitter()->emit_router_event(
+            AllegroFlare::Routers::Standard::EVENT_WIN_GAME,
+            nullptr,
+            al_get_time()
+         );
+      }
+      else
+      {
+         primary_gameplay_screen->get_event_emitter()->emit_router_event(
+            AllegroFlare::Routers::Standard::EVENT_ACTIVATE_LEVEL_SELECT_SCREEN,
+            nullptr,
+            al_get_time()
+         );
+      }
+   }
+   else
+   {
+      primary_gameplay_screen->get_event_emitter()->emit_router_event(
+         AllegroFlare::Routers::Standard::EVENT_ACTIVATE_LEVEL_SELECT_SCREEN,
+         nullptr,
+         al_get_time()
+      );
+   }
+   */
    return;
 }
 
