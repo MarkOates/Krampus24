@@ -1,0 +1,116 @@
+{
+  "AllegroFlare/GameConfigurations/Complete": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Levels/Base": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Level"
+  ],
+  "AllegroFlare/DialogTree/NodeBank": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeBankFactory": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/Wait": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/ExitProgram": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/Nodes/MultipageWithOptions": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "Krampus24/Gameplay/Level": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Achievement": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Elements/StoryboardPages/Base": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameSession": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameProgressAndStateInfos/Base": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/GameProgressAndStateInfo"
+  ],
+  "AllegroFlare/LoadASavedGame/SaveSlots/Base": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "Krampus24/Gameplay/Screen": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Screens/Gameplay": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Runners/Complete": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/AudioController": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/EventNames": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameEventDatas/AchievementUnlocked": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/GameEvent": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Screens/PauseScreen": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/Screens/Subscreen/Screen": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
+    "Krampus24/GameProgressAndStateInfo"
+  ],
+  "ALLEGRO_FONT": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "ALLEGRO_EVENT": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/BitmapBin": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/EventEmitter": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/ModelBin": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "al_is_primitives_addon_initialized": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Player": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/Base": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/GenericController": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/AssetStudio/Database": [
+    "Krampus24/Gameplay/Screen"
+  ]
+}
