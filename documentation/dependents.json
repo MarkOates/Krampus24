@@ -28,8 +28,7 @@
     "Krampus24/Game/Configurations/Main"
   ],
   "Krampus24/Gameplay/Level": [
-    "Krampus24/Game/Configurations/Main",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/Achievement": [
     "Krampus24/Game/Configurations/Main"
@@ -62,7 +61,9 @@
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/EventNames": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/GameEventDatas/AchievementUnlocked": [
     "Krampus24/Game/Configurations/Main"
@@ -80,10 +81,10 @@
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
-  "ALLEGRO_FONT": [
+  "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"
   ],
-  "ALLEGRO_EVENT": [
+  "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/BitmapBin": [
@@ -107,10 +108,54 @@
   "AllegroFlare/VirtualControllers/Base": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/VirtualControllers/GenericController": [
+  "AllegroFlare/Prototypes/MeshFPS/Screen": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/AssetStudio/Database": [
+  "AllegroFlare/GameConfigurations/Base": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Game/Configurations/Main": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Gameplay/Level": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Physics/CollisionMeshCollisionStepper": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Camera3D": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Model3D": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "std/get": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Physics/CollisionMesh": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Prototypes/MeshFPS/Entities/Base": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Routers/Standard": [
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier": [
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/PlayerInputControllers/Generic": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/CollisionObservers/Simple": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Camera2D": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "ALLEGRO_FONT": [
     "Krampus24/Gameplay/Screen"
   ]
 }

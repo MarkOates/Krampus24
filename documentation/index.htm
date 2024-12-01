@@ -333,14 +333,6 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
-  <td class="property">data_folder_path</td>
-  <td class="property">std::string</td>
-</tr>
-<tr>
-  <td class="property">asset_studio_database</td>
-  <td class="property">AllegroFlare::AssetStudio::Database*</td>
-</tr>
-<tr>
   <td class="property">event_emitter</td>
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
@@ -357,24 +349,48 @@ table td
   <td class="property">AllegroFlare::ModelBin*</td>
 </tr>
 <tr>
-  <td class="property">current_level_identifier</td>
-  <td class="property">std::string</td>
+  <td class="property">game_configuration</td>
+  <td class="property">AllegroFlare::GameConfigurations::Base*</td>
 </tr>
 <tr>
-  <td class="property">current_level</td>
-  <td class="property">Krampus24::Gameplay::Level*</td>
+  <td class="property">hud_camera</td>
+  <td class="property">AllegroFlare::Camera2D</td>
+</tr>
+<tr>
+  <td class="property">live_camera</td>
+  <td class="property">AllegroFlare::Camera3D</td>
+</tr>
+<tr>
+  <td class="property">entities</td>
+  <td class="property">std::vector&lt;AllegroFlare::Prototypes::MeshFPS::Entities::Base*&gt;*</td>
+</tr>
+<tr>
+  <td class="property">collision_mesh</td>
+  <td class="property">AllegroFlare::Physics::CollisionMesh*</td>
+</tr>
+<tr>
+  <td class="property">visual_mesh</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">gems_collected</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">collision_observer</td>
+  <td class="property">AllegroFlare::CollisionObservers::Simple</td>
+</tr>
+<tr>
+  <td class="property">on_finished_callback_func</td>
+  <td class="property">std::function&lt;void(Krampus24::Gameplay::Screen*, void*)&gt;</td>
+</tr>
+<tr>
+  <td class="property">on_finished_callback_func_user_data</td>
+  <td class="property">void*</td>
 </tr>
 <tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
-</tr>
-<tr>
-  <td class="property">DEFAULT_DATA_FOLDER_PATH</td>
-  <td class="property">char*</td>
-</tr>
-<tr>
-  <td class="property">TYPE</td>
-  <td class="property">char*</td>
 </tr>
     </table>
 </div>    <h3>Methods</h3>
@@ -382,10 +398,6 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>initialize</b>()</td>
-</tr>
-<tr>
-  <td class="method">bool</td>
-  <td class="method"><b>load_level_by_identifier</b>(std::string level_identifier=&quot;[unset-level_identifier]&quot;)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -396,12 +408,24 @@ table td
   <td class="method"><b>on_deactivate</b>()</td>
 </tr>
 <tr>
+  <td class="method">AllegroFlare::Prototypes::MeshFPS::Entities::Base*</td>
+  <td class="method"><b>find_0th_entity</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>create_and_set_player_input_controller_for_0th_entity</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>update</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>render</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>call_on_finished_callback_func</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -417,6 +441,14 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>key_down_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>key_up_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>virtual_control_button_up_func</b>(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false)</td>
 </tr>
 <tr>
@@ -429,19 +461,16 @@ table td
 </tr>
 <tr>
   <td class="method">ALLEGRO_FONT*</td>
-  <td class="method"><b>obtain_font</b>()</td>
+  <td class="method"><b>obtain_hud_font</b>()</td>
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
-</tr>
-<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_EVENT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Gameplay&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Gameplay.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Base.hpp&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
@@ -465,19 +494,73 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/Base.hpp&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::GenericController&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/GenericController.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Prototypes::MeshFPS::Screen&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Prototypes/MeshFPS/Screen.hpp&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Screen.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameConfigurations::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameConfigurations/Base.hpp&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Level&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Level.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Game::Configurations::Main&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Game/Configurations/Main.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Gameplay::Level&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Gameplay/Level.hpp&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEvent&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEvent.hpp&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AssetStudio::Database&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AssetStudio/Database.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMeshCollisionStepper&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMeshCollisionStepper.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Camera3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Camera3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::get&quot;, &quot;headers&quot;=&gt;[&quot;tuple&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Prototypes::MeshFPS::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Prototypes/MeshFPS/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Routers::Standard&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Routers/Standard.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::RouteEventDatas::ActivateScreenByIdentifier&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventNames&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventNames.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Routers::Standard&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Routers/Standard.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::RouteEventDatas::ActivateScreenByIdentifier&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventNames&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventNames.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Screens::Gameplay&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Screens/Gameplay.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::PlayerInputControllers::Generic&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/PlayerInputControllers/Generic.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::CollisionObservers::Simple&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/CollisionObservers/Simple.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Camera2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Camera2D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_font.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Screen.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -514,8 +597,7 @@ table td
     "Krampus24/Game/Configurations/Main"
   ],
   "Krampus24/Gameplay/Level": [
-    "Krampus24/Game/Configurations/Main",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/Achievement": [
     "Krampus24/Game/Configurations/Main"
@@ -548,7 +630,9 @@ table td
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/EventNames": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/GameEventDatas/AchievementUnlocked": [
     "Krampus24/Game/Configurations/Main"
@@ -566,10 +650,10 @@ table td
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
-  "ALLEGRO_FONT": [
+  "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"
   ],
-  "ALLEGRO_EVENT": [
+  "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/BitmapBin": [
@@ -593,10 +677,54 @@ table td
   "AllegroFlare/VirtualControllers/Base": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/VirtualControllers/GenericController": [
+  "AllegroFlare/Prototypes/MeshFPS/Screen": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/AssetStudio/Database": [
+  "AllegroFlare/GameConfigurations/Base": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Game/Configurations/Main": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Gameplay/Level": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Physics/CollisionMeshCollisionStepper": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Camera3D": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Model3D": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "std/get": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Physics/CollisionMesh": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Prototypes/MeshFPS/Entities/Base": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Routers/Standard": [
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier": [
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/PlayerInputControllers/Generic": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/CollisionObservers/Simple": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Camera2D": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "ALLEGRO_FONT": [
     "Krampus24/Gameplay/Screen"
   ]
 }
