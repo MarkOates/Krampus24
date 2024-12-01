@@ -98,6 +98,9 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_visual_mesh_identifier(visual_mesh_identifier);
    screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
    screen.set_blocking_filename(blocking_filename);
+   screen.set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
+      std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
+   });
    screen.initialize();
 
    // Build a map

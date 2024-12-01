@@ -42,8 +42,6 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , blocking_filename(blocking_filename)
    , gems_collected(0)
    , collision_observer({})
-   , on_finished_callback_func()
-   , on_finished_callback_func_user_data(nullptr)
    , initialized(false)
 {
 }
@@ -167,18 +165,6 @@ void Screen::set_gems_collected(int gems_collected)
 }
 
 
-void Screen::set_on_finished_callback_func(std::function<void(Krampus24::Gameplay::Screen*, void*)> on_finished_callback_func)
-{
-   this->on_finished_callback_func = on_finished_callback_func;
-}
-
-
-void Screen::set_on_finished_callback_func_user_data(void* on_finished_callback_func_user_data)
-{
-   this->on_finished_callback_func_user_data = on_finished_callback_func_user_data;
-}
-
-
 std::string Screen::get_data_folder_path() const
 {
    return data_folder_path;
@@ -260,18 +246,6 @@ std::string Screen::get_blocking_filename() const
 int Screen::get_gems_collected() const
 {
    return gems_collected;
-}
-
-
-std::function<void(Krampus24::Gameplay::Screen*, void*)> Screen::get_on_finished_callback_func() const
-{
-   return on_finished_callback_func;
-}
-
-
-void* Screen::get_on_finished_callback_func_user_data() const
-{
-   return on_finished_callback_func_user_data;
 }
 
 
@@ -607,6 +581,20 @@ void Screen::update()
 
    live_camera.position = find_0th_entity()->get_placement_ref().position;
 
+
+   //
+   // Evaluate win condition (DEVELOPMENT)
+   //
+
+   if (gems_collected >= 3)
+   {
+      call_on_finished_callback_func();
+      //else
+      //{
+         //throw std::runtime_error("on_finished_callback_func not provided");
+      //}
+   }
+
    return;
 }
 
@@ -663,10 +651,10 @@ void Screen::render()
    return;
 }
 
-void Screen::call_on_finished_callback_func()
+void Screen::xxxcall_on_finished_callback_func()
 {
    // TODO: Test this callback call
-   if (on_finished_callback_func) on_finished_callback_func(this, on_finished_callback_func_user_data);
+   //if (on_finished_callback_func) on_finished_callback_func(this, on_finished_callback_func_user_data);
 }
 
 void Screen::game_event_func(AllegroFlare::GameEvent* game_event)

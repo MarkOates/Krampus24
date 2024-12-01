@@ -17,10 +17,8 @@
 #include <AllegroFlare/Vec3D.hpp>
 #include <AllegroFlare/VirtualControllers/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
-#include <Krampus24/Gameplay/Screen.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
-#include <functional>
 #include <string>
 #include <vector>
 
@@ -50,8 +48,6 @@ namespace Krampus24
          std::string blocking_filename;
          int gems_collected;
          AllegroFlare::CollisionObservers::Simple collision_observer;
-         std::function<void(Krampus24::Gameplay::Screen*, void*)> on_finished_callback_func;
-         void* on_finished_callback_func_user_data;
          bool initialized;
 
       protected:
@@ -78,8 +74,6 @@ namespace Krampus24
          void set_visual_mesh_texture_identifier(std::string visual_mesh_texture_identifier);
          void set_blocking_filename(std::string blocking_filename);
          void set_gems_collected(int gems_collected);
-         void set_on_finished_callback_func(std::function<void(Krampus24::Gameplay::Screen*, void*)> on_finished_callback_func);
-         void set_on_finished_callback_func_user_data(void* on_finished_callback_func_user_data);
          std::string get_data_folder_path() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
@@ -94,8 +88,6 @@ namespace Krampus24
          std::string get_visual_mesh_texture_identifier() const;
          std::string get_blocking_filename() const;
          int get_gems_collected() const;
-         std::function<void(Krampus24::Gameplay::Screen*, void*)> get_on_finished_callback_func() const;
-         void* get_on_finished_callback_func_user_data() const;
          bool get_initialized() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
          void initialize();
@@ -109,7 +101,7 @@ namespace Krampus24
          void create_and_set_player_input_controller_for_0th_entity();
          void update();
          void render();
-         void call_on_finished_callback_func();
+         void xxxcall_on_finished_callback_func();
          virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
          virtual void primary_update_func(double time_now=0.0f, double delta_time=1.0f) override;
          virtual void primary_render_func() override;

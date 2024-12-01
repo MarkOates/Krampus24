@@ -84,6 +84,11 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    result->set_bitmap_bin(runner->get_bitmap_bin());
    result->set_model_bin(runner->get_model_bin());
    result->set_event_emitter(runner->get_event_emitter());
+   result->set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
+      // HERE: Trigger a game won (DEVELOPMENT)
+      std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
+   });
+
    result->initialize();
 
    primary_gameplay_screen = result;
