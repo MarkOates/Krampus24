@@ -13,9 +13,9 @@
 #include <AllegroFlare/ModelBin.hpp>
 #include <AllegroFlare/Physics/CollisionMesh.hpp>
 #include <AllegroFlare/Player.hpp>
-#include <AllegroFlare/Prototypes/MeshFPS/Entities/Base.hpp>
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/VirtualControllers/Base.hpp>
+#include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Screen.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -37,7 +37,7 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* game_configuration;
          AllegroFlare::Camera2D hud_camera;
          AllegroFlare::Camera3D live_camera;
-         std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>* entities;
+         std::vector<Krampus24::Gameplay::Entities::Base*>* entities;
          AllegroFlare::Physics::CollisionMesh* collision_mesh;
          AllegroFlare::Model3D* visual_mesh;
          int gems_collected;
@@ -50,7 +50,7 @@ namespace Krampus24
 
 
       public:
-         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>* entities=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr);
+         Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*>* entities=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr);
          virtual ~Screen();
 
          void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
@@ -60,7 +60,7 @@ namespace Krampus24
          void set_game_configuration(AllegroFlare::GameConfigurations::Base* game_configuration);
          void set_hud_camera(AllegroFlare::Camera2D hud_camera);
          void set_live_camera(AllegroFlare::Camera3D live_camera);
-         void set_entities(std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>* entities);
+         void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities);
          void set_collision_mesh(AllegroFlare::Physics::CollisionMesh* collision_mesh);
          void set_visual_mesh(AllegroFlare::Model3D* visual_mesh);
          void set_gems_collected(int gems_collected);
@@ -70,7 +70,7 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
          AllegroFlare::Camera3D get_live_camera() const;
-         std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>* get_entities() const;
+         std::vector<Krampus24::Gameplay::Entities::Base*>* get_entities() const;
          AllegroFlare::Physics::CollisionMesh* get_collision_mesh() const;
          AllegroFlare::Model3D* get_visual_mesh() const;
          int get_gems_collected() const;
@@ -80,7 +80,7 @@ namespace Krampus24
          void initialize();
          virtual void on_activate() override;
          virtual void on_deactivate() override;
-         AllegroFlare::Prototypes::MeshFPS::Entities::Base* find_0th_entity();
+         Krampus24::Gameplay::Entities::Base* find_0th_entity();
          void create_and_set_player_input_controller_for_0th_entity();
          void update();
          void render();

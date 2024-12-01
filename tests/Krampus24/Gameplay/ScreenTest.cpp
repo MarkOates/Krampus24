@@ -43,12 +43,12 @@ TEST_F(Krampus24_Gameplay_ScreenTest, can_be_created_without_blowing_up)
 }
 
 
-static AllegroFlare::Prototypes::MeshFPS::Entities::Base* build_entity(
+static Krampus24::Gameplay::Entities::Base* build_entity(
    AllegroFlare::Vec3D position,
    bool affected_by_environmental_forces = true
 )
 {
-   AllegroFlare::Prototypes::MeshFPS::Entities::Base* result = new AllegroFlare::Prototypes::MeshFPS::Entities::Base();
+   Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
    result->get_placement_ref().position = position;
    result->get_placement_ref().size = { 0.5, 0.5, 0.5 };
    result->collides_with_player = true;
@@ -98,12 +98,12 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_collision_mesh(collision_mesh);
 
    // Create some entities
-   AllegroFlare::Prototypes::MeshFPS::Entities::Base* player_entity =
-      new AllegroFlare::Prototypes::MeshFPS::Entities::Base();
+   Krampus24::Gameplay::Entities::Base* player_entity =
+      new Krampus24::Gameplay::Entities::Base();
    player_entity->get_placement_ref().size = {0.5, 0.5, 0.5};
    player_entity->get_placement_ref().position = {2, 0.001, -2};
    //player_entity->get_placement_ref().align = {0.5, 0.5, 0.5}; // Align has no effect in this case
-   std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*> entities;
+   std::vector<Krampus24::Gameplay::Entities::Base*> entities;
    entities.push_back(player_entity); // Player entity
    entities.push_back(build_entity(AllegroFlare::Vec3D(3, 2, -8)));
    //entities.push_back(build_entity(AllegroFlare::Vec3D(-3, 2, -8), false));

@@ -54,7 +54,7 @@ properties:
     setter: true
 
   - name: entities
-    type: std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>*
+    type: std::vector<Krampus24::Gameplay::Entities::Base*>*
     init_with: nullptr
     constructor_arg: true
     getter: true
@@ -154,7 +154,7 @@ methods:
 
 
   - name: find_0th_entity
-    type: AllegroFlare::Prototypes::MeshFPS::Entities::Base*
+    type: Krampus24::Gameplay::Entities::Base*
     guards: [ entities, (entities->size() > 0) ]
     body: |
       return entities->at(0);
@@ -259,8 +259,8 @@ methods:
       collision_observer.set_subject(find_0th_entity());
       collision_observer.set_collidables(collidables);
       collision_observer.set_on_test_collide([](void* subject, void* collidable) -> bool {
-         return static_cast<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>(subject)->
-            collides(static_cast<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>(collidable));
+        return static_cast<Krampus24::Gameplay::Entities::Base*>(subject)->
+        collides(static_cast<Krampus24::Gameplay::Entities::Base*>(collidable));
       });
       collision_observer.process();
 
@@ -268,8 +268,8 @@ methods:
       for (auto &entered : collision_observer.get_entered())
       {
          // TODO: Consider extracting this to a method
-         AllegroFlare::Prototypes::MeshFPS::Entities::Base* entity =
-            static_cast<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>(entered);
+           Krampus24::Gameplay::Entities::Base* entity =
+           static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
          entity->active = false;
          entity->visible = false;
 
@@ -644,8 +644,8 @@ dependencies:
     headers: [ AllegroFlare/Player.hpp ]
   - symbol: AllegroFlare::VirtualControllers::Base
     headers: [ AllegroFlare/VirtualControllers/Base.hpp ]
-  - symbol: AllegroFlare::Prototypes::MeshFPS::Screen
-    headers: [ AllegroFlare/Prototypes/MeshFPS/Screen.hpp ]
+  - symbol: Krampus24::Gameplay::Screen
+    headers: [ Krampus24/Gameplay/Screen.hpp ]
   - symbol: AllegroFlare::GameConfigurations::Base
     headers: [ AllegroFlare/GameConfigurations/Base.hpp ]
   - symbol: AllegroFlare::Game::Configurations::Main
@@ -665,8 +665,8 @@ dependencies:
     headers: [ tuple ]
   - symbol: AllegroFlare::Physics::CollisionMesh
     headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
-  - symbol: AllegroFlare::Prototypes::MeshFPS::Entities::Base
-    headers: [ AllegroFlare/Prototypes/MeshFPS/Entities/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
   - symbol: AllegroFlare::Routers::Standard
     headers: [ AllegroFlare/Routers/Standard.hpp ]
   - symbol: AllegroFlare::RouteEventDatas::ActivateScreenByIdentifier

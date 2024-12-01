@@ -21,7 +21,7 @@ namespace Gameplay
 {
 
 
-Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>* entities, AllegroFlare::Physics::CollisionMesh* collision_mesh)
+Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*>* entities, AllegroFlare::Physics::CollisionMesh* collision_mesh)
    : AllegroFlare::Screens::Gameplay()
    , event_emitter(event_emitter)
    , bitmap_bin(bitmap_bin)
@@ -93,7 +93,7 @@ void Screen::set_live_camera(AllegroFlare::Camera3D live_camera)
 }
 
 
-void Screen::set_entities(std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>* entities)
+void Screen::set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities)
 {
    this->entities = entities;
 }
@@ -153,7 +153,7 @@ AllegroFlare::Camera3D Screen::get_live_camera() const
 }
 
 
-std::vector<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>* Screen::get_entities() const
+std::vector<Krampus24::Gameplay::Entities::Base*>* Screen::get_entities() const
 {
    return entities;
 }
@@ -297,7 +297,7 @@ void Screen::on_deactivate()
    return;
 }
 
-AllegroFlare::Prototypes::MeshFPS::Entities::Base* Screen::find_0th_entity()
+Krampus24::Gameplay::Entities::Base* Screen::find_0th_entity()
 {
    if (!(entities))
    {
@@ -412,8 +412,8 @@ void Screen::update()
    collision_observer.set_subject(find_0th_entity());
    collision_observer.set_collidables(collidables);
    collision_observer.set_on_test_collide([](void* subject, void* collidable) -> bool {
-      return static_cast<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>(subject)->
-         collides(static_cast<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>(collidable));
+     return static_cast<Krampus24::Gameplay::Entities::Base*>(subject)->
+     collides(static_cast<Krampus24::Gameplay::Entities::Base*>(collidable));
    });
    collision_observer.process();
 
@@ -421,8 +421,8 @@ void Screen::update()
    for (auto &entered : collision_observer.get_entered())
    {
       // TODO: Consider extracting this to a method
-      AllegroFlare::Prototypes::MeshFPS::Entities::Base* entity =
-         static_cast<AllegroFlare::Prototypes::MeshFPS::Entities::Base*>(entered);
+        Krampus24::Gameplay::Entities::Base* entity =
+        static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
       entity->active = false;
       entity->visible = false;
 
