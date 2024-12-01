@@ -73,6 +73,12 @@ properties:
     getter: true
     setter: true
 
+  - name: player_spawn_position
+    type: AllegroFlare::Vec3D
+    init_with: AllegroFlare::Vec3D(0, 0, 0)
+    getter: true
+    setter: true
+
   - name: gems_collected
     type: int
     init_with: 0
@@ -430,6 +436,21 @@ methods:
             live_camera.spin += ALLEGRO_PI * 0.25;
          } break;
 
+         // DEVELOPMENT keys
+
+         case ALLEGRO_KEY_0: {
+            // HERE
+            auto player_entity = find_0th_entity();
+            player_entity->get_placement_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+            player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+         } break;
+
+         case ALLEGRO_KEY_9: {
+            // HERE
+            auto player_entity = find_0th_entity();
+            player_entity->get_placement_ref().position = player_spawn_position;
+            player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+         } break;
          //case ALLEGRO_KEY_W:
          //case ALLEGRO_KEY_UP: {
             //player_up_pressed = true;
@@ -691,5 +712,7 @@ dependencies:
     headers: [ allegro5/allegro_font.h ]
   - symbol: Krampus24::Gameplay::Screen
     headers: [ Krampus24/Gameplay/Screen.hpp ]
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
 
 

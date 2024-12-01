@@ -14,6 +14,7 @@
 #include <AllegroFlare/Physics/CollisionMesh.hpp>
 #include <AllegroFlare/Player.hpp>
 #include <AllegroFlare/Screens/Gameplay.hpp>
+#include <AllegroFlare/Vec3D.hpp>
 #include <AllegroFlare/VirtualControllers/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Screen.hpp>
@@ -40,6 +41,7 @@ namespace Krampus24
          std::vector<Krampus24::Gameplay::Entities::Base*>* entities;
          AllegroFlare::Physics::CollisionMesh* collision_mesh;
          AllegroFlare::Model3D* visual_mesh;
+         AllegroFlare::Vec3D player_spawn_position;
          int gems_collected;
          AllegroFlare::CollisionObservers::Simple collision_observer;
          std::function<void(Krampus24::Gameplay::Screen*, void*)> on_finished_callback_func;
@@ -63,6 +65,7 @@ namespace Krampus24
          void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities);
          void set_collision_mesh(AllegroFlare::Physics::CollisionMesh* collision_mesh);
          void set_visual_mesh(AllegroFlare::Model3D* visual_mesh);
+         void set_player_spawn_position(AllegroFlare::Vec3D player_spawn_position);
          void set_gems_collected(int gems_collected);
          void set_on_finished_callback_func(std::function<void(Krampus24::Gameplay::Screen*, void*)> on_finished_callback_func);
          void set_on_finished_callback_func_user_data(void* on_finished_callback_func_user_data);
@@ -73,6 +76,7 @@ namespace Krampus24
          std::vector<Krampus24::Gameplay::Entities::Base*>* get_entities() const;
          AllegroFlare::Physics::CollisionMesh* get_collision_mesh() const;
          AllegroFlare::Model3D* get_visual_mesh() const;
+         AllegroFlare::Vec3D get_player_spawn_position() const;
          int get_gems_collected() const;
          std::function<void(Krampus24::Gameplay::Screen*, void*)> get_on_finished_callback_func() const;
          void* get_on_finished_callback_func_user_data() const;

@@ -540,6 +540,10 @@ table td
   <td class="property">AllegroFlare::Model3D*</td>
 </tr>
 <tr>
+  <td class="property">player_spawn_position</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
   <td class="property">gems_collected</td>
   <td class="property">int</td>
 </tr>
@@ -729,6 +733,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Screen.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -851,7 +858,8 @@ table td
     "Krampus24/Gameplay/Entities/Base"
   ],
   "AllegroFlare/Vec3D": [
-    "Krampus24/Gameplay/Entities/Base"
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"

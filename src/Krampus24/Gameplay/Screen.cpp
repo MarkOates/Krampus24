@@ -33,6 +33,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , entities(entities)
    , collision_mesh(collision_mesh)
    , visual_mesh(nullptr)
+   , player_spawn_position(AllegroFlare::Vec3D(0, 0, 0))
    , gems_collected(0)
    , collision_observer({})
    , on_finished_callback_func()
@@ -111,6 +112,12 @@ void Screen::set_visual_mesh(AllegroFlare::Model3D* visual_mesh)
 }
 
 
+void Screen::set_player_spawn_position(AllegroFlare::Vec3D player_spawn_position)
+{
+   this->player_spawn_position = player_spawn_position;
+}
+
+
 void Screen::set_gems_collected(int gems_collected)
 {
    this->gems_collected = gems_collected;
@@ -168,6 +175,12 @@ AllegroFlare::Physics::CollisionMesh* Screen::get_collision_mesh() const
 AllegroFlare::Model3D* Screen::get_visual_mesh() const
 {
    return visual_mesh;
+}
+
+
+AllegroFlare::Vec3D Screen::get_player_spawn_position() const
+{
+   return player_spawn_position;
 }
 
 
@@ -586,6 +599,21 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
          live_camera.spin += ALLEGRO_PI * 0.25;
       } break;
 
+      // DEVELOPMENT keys
+
+      case ALLEGRO_KEY_0: {
+         // HERE
+         auto player_entity = find_0th_entity();
+         player_entity->get_placement_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+         player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+      } break;
+
+      case ALLEGRO_KEY_9: {
+         // HERE
+         auto player_entity = find_0th_entity();
+         player_entity->get_placement_ref().position = player_spawn_position;
+         player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+      } break;
       //case ALLEGRO_KEY_W:
       //case ALLEGRO_KEY_UP: {
          //player_up_pressed = true;

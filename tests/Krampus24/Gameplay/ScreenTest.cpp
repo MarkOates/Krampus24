@@ -99,10 +99,12 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_collision_mesh(collision_mesh);
 
    // Create some entities
+   AllegroFlare::Vec3D player_spawn_position = {2, 0.001, -2};
+   
    Krampus24::Gameplay::Entities::Base* player_entity =
       new Krampus24::Gameplay::Entities::Base();
    player_entity->get_placement_ref().size = {0.5, 0.5, 0.5};
-   player_entity->get_placement_ref().position = {2, 0.001, -2};
+   player_entity->get_placement_ref().position = player_spawn_position;
    //player_entity->get_placement_ref().align = {0.5, 0.5, 0.5}; // Align has no effect in this case
    std::vector<Krampus24::Gameplay::Entities::Base*> entities;
    entities.push_back(player_entity); // Player entity
@@ -116,6 +118,9 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    AllegroFlare::Model3D *visual_mesh = get_framework_model_bin()->operator[](visual_mesh_identifier);
    visual_mesh->set_texture(get_framework_bitmap_bin()->operator[](visual_mesh_texture_identifier));
    screen.set_visual_mesh(visual_mesh);
+
+   // Set the player spawn position
+   screen.set_player_spawn_position(player_spawn_position);
 
 
    framework_register_and_activate_screen("screen", &screen);
