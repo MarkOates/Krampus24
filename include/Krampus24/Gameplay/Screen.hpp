@@ -104,6 +104,7 @@ namespace Krampus24
          virtual void on_activate() override;
          virtual void on_deactivate() override;
          void load_or_reload_level_mesh();
+         bool a_0th_entity_exists();
          Krampus24::Gameplay::Entities::Base* find_0th_entity();
          void create_and_set_player_input_controller_for_0th_entity();
          void update();

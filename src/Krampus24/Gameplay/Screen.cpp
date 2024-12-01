@@ -377,7 +377,11 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(AllegroFlare::Vec3D po
 
 void Screen::load_or_reload_meshes()
 {
-   player_spawn_position = {2, 0.001, -2}; // DEVELOPMENT
+   AllegroFlare::Vec3D player_spawn_position = {3, 0.001, -2}; // DEVELOPMENT
+   //AllegroFlare::Vec3D restored_player_position = player_spawn_position;
+   Krampus24::Gameplay::Entities::Base* existing_player_entity = nullptr;
+   if (a_0th_entity_exists()) existing_player_entity = find_0th_entity();
+   //if (existing_player_entity);
 
    // Load the collision mesh
    if (collision_mesh)
@@ -399,16 +403,26 @@ void Screen::load_or_reload_meshes()
    visual_mesh->set_texture(bitmap_bin->operator[](visual_mesh_texture_identifier));
 
    // Load the blocking file
-   // TODO: Delete all entities
-   // HERE
-   for (auto &entity : entities) delete entity; // Hmm, good luck here
+   // Delete all entities (except the existing player entity)
+   for (auto &entity : entities)
+   {
+      if (entity == existing_player_entity) continue; // Skip the player entity if it already exists
+      delete entity; // Hmm, good luck here
+   }
    entities.clear();
    // Create the 0th entity (the player)
-   Krampus24::Gameplay::Entities::Base* player_entity =
-      new Krampus24::Gameplay::Entities::Base();
-   player_entity->get_placement_ref().size = {0.5, 0.5, 0.5};
-   player_entity->get_placement_ref().position = player_spawn_position;
-   entities.push_back(player_entity);
+   if (existing_player_entity)
+   {
+      entities.push_back(existing_player_entity);
+   }
+   else
+   {
+      Krampus24::Gameplay::Entities::Base* player_entity =
+         new Krampus24::Gameplay::Entities::Base();
+      player_entity->get_placement_ref().size = {0.5, 0.5, 0.5};
+      player_entity->get_placement_ref().position = player_spawn_position;
+      entities.push_back(player_entity);
+   }
    // Create entities from the blocking file
    std::string blocking_file_full_path = data_folder_path + "maps/" + blocking_filename;
    Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
@@ -454,6 +468,11 @@ void Screen::on_deactivate()
 void Screen::load_or_reload_level_mesh()
 {
    return;
+}
+
+bool Screen::a_0th_entity_exists()
+{
+   return (entities.size() > 0);
 }
 
 Krampus24::Gameplay::Entities::Base* Screen::find_0th_entity()
