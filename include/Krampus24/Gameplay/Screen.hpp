@@ -99,6 +99,7 @@ namespace Krampus24
          bool get_initialized() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
          void initialize();
+         Krampus24::Gameplay::Entities::Base* build_entity(AllegroFlare::Vec3D position={}, bool affected_by_environmental_forces=true);
          void load_or_reload_meshes();
          virtual void on_activate() override;
          virtual void on_deactivate() override;

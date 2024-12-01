@@ -365,6 +365,16 @@ void Screen::initialize()
    return;
 }
 
+Krampus24::Gameplay::Entities::Base* Screen::build_entity(AllegroFlare::Vec3D position, bool affected_by_environmental_forces)
+{
+   Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
+   result->get_placement_ref().position = position;
+   result->get_placement_ref().size = { 0.5, 0.5, 0.5 };
+   result->collides_with_player = true;
+   result->affected_by_environmental_forces = affected_by_environmental_forces;
+   return result;
+}
+
 void Screen::load_or_reload_meshes()
 {
    player_spawn_position = {2, 0.001, -2}; // DEVELOPMENT
@@ -403,8 +413,11 @@ void Screen::load_or_reload_meshes()
    std::string blocking_file_full_path = data_folder_path + "maps/" + blocking_filename;
    Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
    blender_blocking_loader.load();
-   blender_blocking_loader.for_each_entity([](Krampus24::BlenderBlockingLoaderEntity* entity){
-      // HERE
+   blender_blocking_loader.for_each_entity([this](Krampus24::BlenderBlockingLoaderEntity* entity){
+      float x = entity->location.x;
+      float y = entity->location.z; // Swapping z<->y
+      float z = entity->location.y; // Swapping z<->y
+      entities.push_back(build_entity(AllegroFlare::Vec3D(x, y, z)));
    });
 
 
