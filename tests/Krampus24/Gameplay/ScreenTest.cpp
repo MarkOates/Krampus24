@@ -67,10 +67,13 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    //std::string visual_mesh_texture_identifier = "tiles_dungeon_v1.1-1_to_1.png";
    //std::string visual_mesh_texture_identifier = "bark.jpg";
 
-   std::string collision_mesh_identifier = "basic_baking-01-collision_mesh.obj";
-   std::string visual_mesh_identifier = "basic_baking-01-visual.obj";
-   //std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow.png";
+
+   std::string collision_mesh_identifier = "basic_baking-02-collision_mesh.obj";
+   std::string visual_mesh_identifier = "basic_baking-02-visual.obj";
    std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow-reduced.jpg";
+
+
+   //std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow.png";
 
    //std::string visual_mesh_identifier = "basic_baking-01-visual.obj";
    //std::string collision_mesh_identifier = "station2-01-collision_mesh.obj";
@@ -89,14 +92,17 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_bitmap_bin(get_framework_bitmap_bin());
    screen.set_font_bin(get_framework_font_bin());
    screen.set_model_bin(get_framework_model_bin());
-   screen.set_game_configuration(&game_configuration),
+   screen.set_game_configuration(&game_configuration);
+   screen.set_collision_mesh_identifier(collision_mesh_identifier);
+   screen.set_visual_mesh_identifier(visual_mesh_identifier);
+   screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
    screen.initialize();
 
    // Build a map
-   AllegroFlare::Physics::CollisionMesh *collision_mesh = new AllegroFlare::Physics::CollisionMesh();
-   collision_mesh->set_model(get_framework_model_bin()->operator[](collision_mesh_identifier));
-   collision_mesh->load();
-   screen.set_collision_mesh(collision_mesh);
+   //AllegroFlare::Physics::CollisionMesh *collision_mesh = new AllegroFlare::Physics::CollisionMesh();
+   //collision_mesh->set_model(get_framework_model_bin()->operator[](collision_mesh_identifier));
+   //collision_mesh->load();
+   //screen.set_collision_mesh(collision_mesh);
 
    // Create some entities
    AllegroFlare::Vec3D player_spawn_position = {2, 0.001, -2};
@@ -115,9 +121,9 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_entities(&entities);
 
    // Set the visual mesh
-   AllegroFlare::Model3D *visual_mesh = get_framework_model_bin()->operator[](visual_mesh_identifier);
-   visual_mesh->set_texture(get_framework_bitmap_bin()->operator[](visual_mesh_texture_identifier));
-   screen.set_visual_mesh(visual_mesh);
+   //AllegroFlare::Model3D *visual_mesh = get_framework_model_bin()->operator[](visual_mesh_identifier);
+   //visual_mesh->set_texture(get_framework_bitmap_bin()->operator[](visual_mesh_texture_identifier));
+   //screen.set_visual_mesh(visual_mesh);
 
    // Set the player spawn position
    screen.set_player_spawn_position(player_spawn_position);
@@ -125,7 +131,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
 
    framework_register_and_activate_screen("screen", &screen);
 
-   framework_run_loop(6);
+   framework_run_loop(-12);
 }
 
 

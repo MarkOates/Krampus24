@@ -321,10 +321,37 @@ void Screen::initialize()
    //live_camera.stepout = AllegroFlare::Vec3D(0, 0.25, 10); // Third person
    //live_camera.tilt = 0.8;
 
+   // Load level and entities
+   load_or_reload_meshes();
+
    // Create a player input controller for the 0th entity
    create_and_set_player_input_controller_for_0th_entity();
 
    initialized = true;
+   return;
+}
+
+void Screen::load_or_reload_meshes()
+{
+   // Load the collision mesh
+   if (collision_mesh)
+   {
+      model_bin->destroy(collision_mesh_identifier);
+      collision_mesh = nullptr;
+   }
+   collision_mesh = new AllegroFlare::Physics::CollisionMesh();
+   collision_mesh->set_model(model_bin->operator[](collision_mesh_identifier));
+   collision_mesh->load();
+
+   // Load the visual mesh
+   if (visual_mesh)
+   {
+      model_bin->destroy(visual_mesh_identifier);
+      visual_mesh = nullptr;
+   }
+   visual_mesh = model_bin->operator[](visual_mesh_identifier);
+   visual_mesh->set_texture(bitmap_bin->operator[](visual_mesh_texture_identifier));
+
    return;
 }
 
@@ -669,7 +696,9 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
       case ALLEGRO_KEY_R: {
          if (ctrl)
          {
-            // Reload the map
+            std::cout << "> Reload meshes...";
+            load_or_reload_meshes();
+            std::cout << "done" << std::endl;
          }
       } break;
       //case ALLEGRO_KEY_W:

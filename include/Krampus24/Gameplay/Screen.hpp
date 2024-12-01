@@ -92,6 +92,7 @@ namespace Krampus24
          void* get_on_finished_callback_func_user_data() const;
          bool get_initialized() const;
          void initialize();
+         void load_or_reload_meshes();
          virtual void on_activate() override;
          virtual void on_deactivate() override;
          void load_or_reload_level_mesh();
