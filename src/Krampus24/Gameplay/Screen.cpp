@@ -367,6 +367,8 @@ void Screen::initialize()
 
 void Screen::load_or_reload_meshes()
 {
+   player_spawn_position = {2, 0.001, -2}; // DEVELOPMENT
+
    // Load the collision mesh
    if (collision_mesh)
    {
@@ -388,7 +390,16 @@ void Screen::load_or_reload_meshes()
 
    // Load the blocking file
    // TODO: Delete all entities
-   // TODO: Create the 0th entity (the player)
+   // HERE
+   for (auto &entity : entities) delete entity; // Hmm, good luck here
+   entities.clear();
+   // Create the 0th entity (the player)
+   Krampus24::Gameplay::Entities::Base* player_entity =
+      new Krampus24::Gameplay::Entities::Base();
+   player_entity->get_placement_ref().size = {0.5, 0.5, 0.5};
+   player_entity->get_placement_ref().position = player_spawn_position;
+   entities.push_back(player_entity);
+   // Create entities from the blocking file
    std::string blocking_file_full_path = data_folder_path + "maps/" + blocking_filename;
    Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
    blender_blocking_loader.load();
