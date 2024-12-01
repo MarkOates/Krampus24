@@ -78,7 +78,7 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
 
    Krampus24::Gameplay::Screen *result = new Krampus24::Gameplay::Screen;
 
-   //result->set_data_folder_path(runner->get_framework()->get_data_folder_path());
+   result->set_data_folder_path(runner->get_framework()->get_data_folder_path());
    //result->set_asset_studio_database(&runner->get_framework()->get_asset_studio_database_ref());
    result->set_font_bin(runner->get_font_bin());
    result->set_bitmap_bin(runner->get_bitmap_bin());

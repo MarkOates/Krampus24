@@ -667,6 +667,10 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">data_folder_path</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
   <td class="property">event_emitter</td>
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
@@ -720,6 +724,10 @@ table td
 </tr>
 <tr>
   <td class="property">visual_mesh_texture_identifier</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">blocking_filename</td>
   <td class="property">std::string</td>
 </tr>
 <tr>
@@ -926,6 +934,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoader&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoader.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1145,6 +1156,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_FONT": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/BlenderBlockingLoader": [
     "Krampus24/Gameplay/Screen"
   ]
 }

@@ -36,7 +36,6 @@ class Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture
 {};
 
 
-
 TEST_F(Krampus24_Gameplay_ScreenTest, can_be_created_without_blowing_up)
 {
    Krampus24::Gameplay::Screen screen;
@@ -71,6 +70,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    std::string collision_mesh_identifier = "basic_baking-02-collision_mesh.obj";
    std::string visual_mesh_identifier = "basic_baking-02-visual.obj";
    std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow-reduced.jpg";
+   std::string blocking_filename = "basic_baking-02.blocking";
 
 
    //std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow.png";
@@ -88,6 +88,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    // Setup the screen
    TestGameConfiguration game_configuration;
    Krampus24::Gameplay::Screen screen;
+   screen.set_data_folder_path(get_framework_data_folder_path());
    screen.set_event_emitter(get_framework_event_emitter());
    screen.set_bitmap_bin(get_framework_bitmap_bin());
    screen.set_font_bin(get_framework_font_bin());
@@ -96,6 +97,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_collision_mesh_identifier(collision_mesh_identifier);
    screen.set_visual_mesh_identifier(visual_mesh_identifier);
    screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
+   screen.set_blocking_filename(blocking_filename);
    screen.initialize();
 
    // Build a map

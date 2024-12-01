@@ -9,6 +9,12 @@ parent_classes:
 properties:
 
 
+  - name: data_folder_path
+    type: std::string
+    init_with: '"[unset-data_folder_path]"'
+    getter: true
+    setter: true
+
   - name: event_emitter
     type: AllegroFlare::EventEmitter*
     init_with: nullptr
@@ -100,6 +106,13 @@ properties:
     getter: true
     setter: before_initialized
 
+  - name: blocking_filename
+    type: std::string
+    init_with: '"basic_baking-02.blocking"'
+    constructor_arg: true
+    getter: true
+    setter: before_initialized
+
   - name: gems_collected
     type: int
     init_with: 0
@@ -185,7 +198,15 @@ methods:
       visual_mesh = model_bin->operator[](visual_mesh_identifier);
       visual_mesh->set_texture(bitmap_bin->operator[](visual_mesh_texture_identifier));
 
+      // Load the blocking file
+      // TODO: delete all entities
+      std::string blocking_file_full_path = data_folder_path + "maps/" + blocking_filename;
+      Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
+      blender_blocking_loader.load();
+
       return;
+    body_dependency_symbols:
+      - Krampus24::BlenderBlockingLoader
 
 
   - name: ~destruct
@@ -784,5 +805,7 @@ dependencies:
     headers: [ Krampus24/Gameplay/Screen.hpp ]
   - symbol: AllegroFlare::Vec3D
     headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: Krampus24::BlenderBlockingLoader
+    headers: [ Krampus24/BlenderBlockingLoader.hpp ]
 
 

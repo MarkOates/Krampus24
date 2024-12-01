@@ -8,6 +8,7 @@
 #include <AllegroFlare/PlayerInputControllers/Generic.hpp>
 #include <AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier.hpp>
 #include <AllegroFlare/Routers/Standard.hpp>
+#include <Krampus24/BlenderBlockingLoader.hpp>
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <sstream>
@@ -21,8 +22,9 @@ namespace Gameplay
 {
 
 
-Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*>* entities, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string collision_mesh_identifier, std::string visual_mesh_identifier, std::string visual_mesh_texture_identifier)
+Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*>* entities, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string collision_mesh_identifier, std::string visual_mesh_identifier, std::string visual_mesh_texture_identifier, std::string blocking_filename)
    : AllegroFlare::Screens::Gameplay()
+   , data_folder_path("[unset-data_folder_path]")
    , event_emitter(event_emitter)
    , bitmap_bin(bitmap_bin)
    , font_bin(font_bin)
@@ -37,6 +39,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , collision_mesh_identifier(collision_mesh_identifier)
    , visual_mesh_identifier(visual_mesh_identifier)
    , visual_mesh_texture_identifier(visual_mesh_texture_identifier)
+   , blocking_filename(blocking_filename)
    , gems_collected(0)
    , collision_observer({})
    , on_finished_callback_func()
@@ -51,6 +54,12 @@ Screen::~Screen()
    // TODO: Destroy meshes (which should now be owned by this class)
    // TODO: Destroy visual mesh bitmap (which should now be owned by this class)
    return;
+}
+
+
+void Screen::set_data_folder_path(std::string data_folder_path)
+{
+   this->data_folder_path = data_folder_path;
 }
 
 
@@ -145,6 +154,13 @@ void Screen::set_visual_mesh_texture_identifier(std::string visual_mesh_texture_
 }
 
 
+void Screen::set_blocking_filename(std::string blocking_filename)
+{
+   if (get_initialized()) throw std::runtime_error("[Screen::set_blocking_filename]: error: guard \"get_initialized()\" not met.");
+   this->blocking_filename = blocking_filename;
+}
+
+
 void Screen::set_gems_collected(int gems_collected)
 {
    this->gems_collected = gems_collected;
@@ -160,6 +176,12 @@ void Screen::set_on_finished_callback_func(std::function<void(Krampus24::Gamepla
 void Screen::set_on_finished_callback_func_user_data(void* on_finished_callback_func_user_data)
 {
    this->on_finished_callback_func_user_data = on_finished_callback_func_user_data;
+}
+
+
+std::string Screen::get_data_folder_path() const
+{
+   return data_folder_path;
 }
 
 
@@ -226,6 +248,12 @@ std::string Screen::get_visual_mesh_identifier() const
 std::string Screen::get_visual_mesh_texture_identifier() const
 {
    return visual_mesh_texture_identifier;
+}
+
+
+std::string Screen::get_blocking_filename() const
+{
+   return blocking_filename;
 }
 
 
@@ -351,6 +379,12 @@ void Screen::load_or_reload_meshes()
    }
    visual_mesh = model_bin->operator[](visual_mesh_identifier);
    visual_mesh->set_texture(bitmap_bin->operator[](visual_mesh_texture_identifier));
+
+   // Load the blocking file
+   // TODO: delete all entities
+   std::string blocking_file_full_path = data_folder_path + "maps/" + blocking_filename;
+   Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
+   blender_blocking_loader.load();
 
    return;
 }

@@ -212,5 +212,8 @@
   ],
   "ALLEGRO_FONT": [
     "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/BlenderBlockingLoader": [
+    "Krampus24/Gameplay/Screen"
   ]
 }
