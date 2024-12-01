@@ -54,6 +54,9 @@ table td
 <body>
 <h1>Table of Contents</h1>
 <ul>
+  <li><a href="#quintessence/Krampus24/BlenderBlockingLoader.q.yml">quintessence/Krampus24/BlenderBlockingLoader.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml">quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml">quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Configurations/Main.q.yml">quintessence/Krampus24/Game/Configurations/Main.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
@@ -61,6 +64,170 @@ table td
   <li><a href="#quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</a></li>
 </ul>
 <h1>Components</h1>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/BlenderBlockingLoader.q.yml">quintessence/Krampus24/BlenderBlockingLoader.q.yml</h3>
+    <h3>Overview</h3>
+    <p>{"notes"=>["To use, build the map using Blender. Your blender file will need to have 2 collections \"blocking\" and \"entities\"", "Would like to add \"visual\" and \"collision\""]}</p>    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">filename</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">blocks</td>
+  <td class="property">std::vector&lt;Krampus24::BlenderBlockingLoaderBlock&gt;</td>
+</tr>
+<tr>
+  <td class="property">entities</td>
+  <td class="property">std::vector&lt;Krampus24::BlenderBlockingLoaderEntity&gt;</td>
+</tr>
+<tr>
+  <td class="property">loaded</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">AllegroFlare::TileMaps::TileMap&lt;float&gt;</td>
+  <td class="method"><b>assemble_height_map</b>(float floor_height=-10.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>load</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>build_blocks</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;std::pair&lt;int, int&gt;&gt;</td>
+  <td class="method"><b>tiles_within</b>(float x=0.0f, float y=0.0f, float width=1.0f, float height=1.0f, int tile_width=16, int tile_height=16)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::istringstream&quot;, &quot;headers&quot;=&gt;[&quot;sstream&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderBlock&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderBlock.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::TileMaps::TileMap&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/TileMaps/TileMap.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Int2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Int2D.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml">quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">min_coordinates</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
+  <td class="property">max_coordinates</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
+  <td class="property">scale</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
+  <td class="property">tile_coordinates</td>
+  <td class="property">std::vector&lt;std::pair&lt;int, int&gt;&gt;</td>
+</tr>
+<tr>
+  <td class="property">height</td>
+  <td class="property">float</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml">quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">location</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
+  <td class="property">rotation</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
+  <td class="property">scale</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>get_name_unversioned</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>remove_dot_instance</b>(std::string string=&quot;[unset-string]&quot;)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::all_of&quot;, &quot;headers&quot;=&gt;[&quot;algorithm&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::isdigit&quot;, &quot;headers&quot;=&gt;[&quot;cctype&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
 <br><br><br>
 <br><br><br>
 <ul>
@@ -766,6 +933,37 @@ table td
 <h1>Dependents</h1>
 <pre>
 {
+  "std/istringstream": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/Logger": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/Vec3D": [
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderBlockingLoaderBlock",
+    "Krampus24/BlenderBlockingLoaderEntity",
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/BlenderBlockingLoaderBlock": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "Krampus24/BlenderBlockingLoaderEntity": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/TileMaps/TileMap": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/Int2D": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "std/all_of": [
+    "Krampus24/BlenderBlockingLoaderEntity"
+  ],
+  "std/isdigit": [
+    "Krampus24/BlenderBlockingLoaderEntity"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "Krampus24/Game/Configurations/Main"
   ],
@@ -880,10 +1078,6 @@ table td
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
-  ],
-  "AllegroFlare/Vec3D": [
-    "Krampus24/Gameplay/Entities/Base",
-    "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"

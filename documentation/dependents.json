@@ -1,4 +1,35 @@
 {
+  "std/istringstream": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/Logger": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/Vec3D": [
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderBlockingLoaderBlock",
+    "Krampus24/BlenderBlockingLoaderEntity",
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/BlenderBlockingLoaderBlock": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "Krampus24/BlenderBlockingLoaderEntity": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/TileMaps/TileMap": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "AllegroFlare/Int2D": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
+  "std/all_of": [
+    "Krampus24/BlenderBlockingLoaderEntity"
+  ],
+  "std/isdigit": [
+    "Krampus24/BlenderBlockingLoaderEntity"
+  ],
   "AllegroFlare/GameConfigurations/Complete": [
     "Krampus24/Game/Configurations/Main"
   ],
@@ -113,10 +144,6 @@
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
-  ],
-  "AllegroFlare/Vec3D": [
-    "Krampus24/Gameplay/Entities/Base",
-    "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"

@@ -1,0 +1,83 @@
+properties:
+
+
+  - name: name
+    type: std::string
+    init_with: '"[unset-name]"'
+    exposed: true
+
+  - name: location
+    type: AllegroFlare::Vec3D
+    init_with: '{}'
+    exposed: true
+
+  - name: rotation
+    type: AllegroFlare::Vec3D
+    init_with: '{}'
+    exposed: true
+
+  - name: scale
+    type: AllegroFlare::Vec3D
+    init_with: '{}'
+    exposed: true
+
+
+methods:
+
+
+  - name: get_name_unversioned
+    type: std::string
+    body: |
+      std::string result = remove_dot_instance(name);
+
+      size_t pos = result.find_last_of('-');
+      if (pos != std::string::npos && pos < result.length() - 1)
+      {
+         std::string version = result.substr(pos + 1);
+         bool isNumber = !version.empty() && std::all_of(version.begin(), version.end(), std::isdigit);
+         if (isNumber)
+         {
+            return result.substr(0, pos);
+         }
+      }
+      return result;
+    body_dependency_symbols:
+      - std::all_of
+      - std::isdigit
+
+
+  - name: remove_dot_instance
+    static: true
+    type: std::string
+    parameters:
+      - name: string
+        type: std::string
+        default_argument: '"[unset-string]"'
+    body: |
+      size_t pos = string.find_last_of('.');
+      if (pos != std::string::npos && pos < string.length() - 1)
+      {
+         std::string version = string.substr(pos + 1);
+         bool isNumber = !version.empty() && std::all_of(version.begin(), version.end(), ::isdigit);
+         if (isNumber)
+         {
+            return string.substr(0, pos);
+         }
+      }
+      return string;
+    body_dependency_symbols:
+      - std::all_of
+      - std::isdigit
+
+
+dependencies:
+
+
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: std::all_of
+    headers: [ algorithm ]
+  - symbol: std::isdigit
+    headers: [ cctype ]
+
+
