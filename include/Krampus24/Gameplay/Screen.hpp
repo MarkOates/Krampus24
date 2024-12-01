@@ -46,6 +46,9 @@ namespace Krampus24
          std::string visual_mesh_identifier;
          std::string visual_mesh_texture_identifier;
          std::string blocking_filename;
+         bool rendering_visual_mesh;
+         bool rendering_collision_wiremesh;
+         bool rendering_entity_bounding_boxes;
          int gems_collected;
          AllegroFlare::CollisionObservers::Simple collision_observer;
          bool initialized;

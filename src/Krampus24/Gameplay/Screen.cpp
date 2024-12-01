@@ -40,6 +40,9 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , visual_mesh_identifier(visual_mesh_identifier)
    , visual_mesh_texture_identifier(visual_mesh_texture_identifier)
    , blocking_filename(blocking_filename)
+   , rendering_visual_mesh(true)
+   , rendering_collision_wiremesh(true)
+   , rendering_entity_bounding_boxes(true)
    , gems_collected(0)
    , collision_observer({})
    , initialized(false)
@@ -604,35 +607,44 @@ void Screen::render()
    live_camera.setup_projection_on(target_bitmap);
 
    // Draw the visual mesh
-   if (visual_mesh)
+   if (rendering_visual_mesh)
    {
-      visual_mesh->draw();
+      if (visual_mesh)
+      {
+         visual_mesh->draw();
+      }
    }
 
    // TODO: Draw the entities (models?, bounding boxes?)
-   al_set_render_state(ALLEGRO_DEPTH_TEST, 0);
-   auto player_entity = find_0th_entity();
-   for (auto &entity : entities)
+   if (rendering_entity_bounding_boxes)
    {
-      if (!entity->active || !entity->visible) continue;
-      //if (entity == player_entity) continue;
+      al_set_render_state(ALLEGRO_DEPTH_TEST, 0);
+      auto player_entity = find_0th_entity();
+      for (auto &entity : entities)
+      {
+         if (!entity->active || !entity->visible) continue;
+         if (entity == player_entity) continue;
 
-      std::vector<ALLEGRO_VERTEX> box_line_vertices = entity->build_line_list_vertices();
-      std::vector<ALLEGRO_VERTEX> box_triangle_vertices = entity->build_triangle_list_vertices_for_faces();
-      al_draw_prim(&box_line_vertices[0], nullptr, nullptr, 0, box_line_vertices.size(), ALLEGRO_PRIM_LINE_LIST);
-      al_draw_prim(&box_triangle_vertices[0], nullptr, nullptr, 0, box_triangle_vertices.size(), ALLEGRO_PRIM_TRIANGLE_LIST);
+         std::vector<ALLEGRO_VERTEX> box_line_vertices = entity->build_line_list_vertices();
+         std::vector<ALLEGRO_VERTEX> box_triangle_vertices = entity->build_triangle_list_vertices_for_faces();
+         al_draw_prim(&box_line_vertices[0], nullptr, nullptr, 0, box_line_vertices.size(), ALLEGRO_PRIM_LINE_LIST);
+         al_draw_prim(&box_triangle_vertices[0], nullptr, nullptr, 0, box_triangle_vertices.size(), ALLEGRO_PRIM_TRIANGLE_LIST);
+      }
+      al_set_render_state(ALLEGRO_DEPTH_TEST, 1);
    }
-   al_set_render_state(ALLEGRO_DEPTH_TEST, 1);
 
    // NOTE: For now, don't clear so that update() (with the legacy classes) has an opportunity to render debug
    // visuals
-   al_set_render_state(ALLEGRO_DEPTH_TEST, 0);
-   if (collision_mesh)
+   if (rendering_collision_wiremesh)
    {
-      // TODO: Consider using additive mesh
-      collision_mesh->draw(ALLEGRO_COLOR{0.2, 0.2, 0.3, 0.3});
+      al_set_render_state(ALLEGRO_DEPTH_TEST, 0);
+      if (collision_mesh)
+      {
+         // TODO: Consider using additive mesh
+         collision_mesh->draw(ALLEGRO_COLOR{0.2, 0.2, 0.3, 0.3});
+      }
+      al_set_render_state(ALLEGRO_DEPTH_TEST, 1);
    }
-   al_set_render_state(ALLEGRO_DEPTH_TEST, 1);
 
 
    hud_camera.setup_dimensional_projection(target_bitmap);
@@ -770,6 +782,20 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
             std::cout << "done" << std::endl;
          }
       } break;
+
+      case ALLEGRO_KEY_V: {
+         rendering_visual_mesh = !rendering_visual_mesh;
+      } break;
+
+      case ALLEGRO_KEY_E: {
+         rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+      } break;
+
+      case ALLEGRO_KEY_C: {
+         rendering_collision_wiremesh = !rendering_collision_wiremesh;
+      } break;
+
+
       //case ALLEGRO_KEY_W:
       //case ALLEGRO_KEY_UP: {
          //player_up_pressed = true;
