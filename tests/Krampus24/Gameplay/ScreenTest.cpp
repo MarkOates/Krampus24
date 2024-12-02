@@ -72,11 +72,10 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    //std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow-reduced.jpg";
    //std::string blocking_filename = "basic_baking-02.blocking";
 
-   std::string collision_mesh_identifier = "tree-03-collision_mesh.obj";
-   std::string visual_mesh_identifier = "tree-03-visual.obj";
-   std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-01.png";
-   //tree-03-baked_shadow-reduced.jpg";
-   std::string blocking_filename = "tree-03.blocking";
+   //std::string collision_mesh_identifier = "tree-03-collision_mesh.obj";
+   //std::string visual_mesh_identifier = "tree-03-visual.obj";
+   //std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-01.png";
+   //std::string blocking_filename = "tree-03.blocking";
 
 
    //std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow.png";
@@ -100,10 +99,10 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_font_bin(get_framework_font_bin());
    screen.set_model_bin(get_framework_model_bin());
    screen.set_game_configuration(&game_configuration);
-   screen.set_collision_mesh_identifier(collision_mesh_identifier);
-   screen.set_visual_mesh_identifier(visual_mesh_identifier);
-   screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
-   screen.set_blocking_filename(blocking_filename);
+   //screen.set_collision_mesh_identifier(collision_mesh_identifier);
+   //screen.set_visual_mesh_identifier(visual_mesh_identifier);
+   //screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
+   //screen.set_blocking_filename(blocking_filename);
    screen.set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
       std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
       throw std::runtime_error("Game is completed.");

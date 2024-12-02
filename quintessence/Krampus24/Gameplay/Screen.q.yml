@@ -88,28 +88,28 @@ properties:
 
   - name: collision_mesh_identifier
     type: std::string
-    init_with: '"basic_baking-02-collision_mesh.obj"'
+    init_with: '"tree-03-collision_mesh.obj"'
     constructor_arg: true
     getter: true
     setter: before_initialized
 
   - name: visual_mesh_identifier
     type: std::string
-    init_with: '"basic_baking-02-visual.obj"'
+    init_with: '"tree-03-visual.obj"'
     constructor_arg: true
     getter: true
     setter: before_initialized
 
   - name: visual_mesh_texture_identifier
     type: std::string
-    init_with: '"basic_baking-01-baked_shadow-reduced.jpg"'
+    init_with: '"RETRO_TEXTURE_PACK_V15-atlas-01.png"'
     constructor_arg: true
     getter: true
     setter: before_initialized
 
   - name: blocking_filename
     type: std::string
-    init_with: '"basic_baking-02.blocking"'
+    init_with: '"tree-03.blocking"'
     constructor_arg: true
     getter: true
     setter: before_initialized
