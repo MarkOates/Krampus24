@@ -100,6 +100,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_blocking_filename(blocking_filename);
    screen.set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
       std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
+      throw std::runtime_error("Game is completed.");
    });
    screen.initialize();
 
