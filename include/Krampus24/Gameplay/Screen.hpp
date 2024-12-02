@@ -16,6 +16,7 @@
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/Vec3D.hpp>
 #include <AllegroFlare/VirtualControllers/Base.hpp>
+#include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -46,6 +47,7 @@ namespace Krampus24
          std::string visual_mesh_identifier;
          std::string visual_mesh_texture_identifier;
          std::string blocking_filename;
+         Krampus24::Game::Scripting::Tree scripting;
          bool rendering_visual_mesh;
          bool rendering_collision_wiremesh;
          bool rendering_entity_bounding_boxes;

@@ -18,7 +18,7 @@ namespace Scripting
 Tree::Tree(std::vector<Krampus24::Gameplay::Entities::Base*>* entities)
    : entities(entities)
    , on_entity_collision_callbacks({})
-   , initialized(true)
+   , initialized(false)
 {
 }
 
@@ -70,7 +70,6 @@ void Tree::initialize()
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"entities\" not met");
    }
    initialized = true;
-   build_on_collision_callbacks();
    return;
 }
 
@@ -94,8 +93,18 @@ void Tree::call_on_collision_callback(void* entity)
 
 bool Tree::entity_with_name_exists(std::string name)
 {
-   // TODO
-   return true;
+   if (!(entities))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::entity_with_name_exists]: error: guard \"entities\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::entity_with_name_exists]: error: guard \"entities\" not met");
+   }
+   for (auto entity : *entities)
+   {
+      if (entity->name == name) return true;
+   }
+   return false;
 }
 
 void* Tree::find_entity_by_name_or_throw(std::string name)
@@ -107,7 +116,8 @@ void* Tree::find_entity_by_name_or_throw(std::string name)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::find_entity_by_name_or_throw]: error: guard \"entity_with_name_exists(name)\" not met");
    }
-   for (auto &entity : *entities)
+   // TODO: Improve error message on entity_with_name_exists(name)
+   for (auto entity : *entities)
    {
       if (entity->name == name) return entity;
    }

@@ -216,5 +216,8 @@
   ],
   "Krampus24/BlenderBlockingLoader": [
     "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Game/Scripting/Tree": [
+    "Krampus24/Gameplay/Screen"
   ]
 }

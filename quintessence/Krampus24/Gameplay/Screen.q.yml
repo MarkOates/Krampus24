@@ -114,6 +114,10 @@ properties:
     getter: true
     setter: before_initialized
 
+  - name: scripting
+    type: Krampus24::Game::Scripting::Tree
+    init_with: '{}'
+
   - name: rendering_visual_mesh
     type: bool
     init_with: true
@@ -165,6 +169,10 @@ methods:
 
       //live_camera.stepout = AllegroFlare::Vec3D(0, 0.25, 10); // Third person
       //live_camera.tilt = 0.8;
+
+      // Set this levels entities to the scripting logic
+      scripting.set_entities(&entities);
+      scripting.initialize();
 
       // Load level and entities
       load_or_reload_meshes();
@@ -252,9 +260,15 @@ methods:
          float x = entity->location.x;
          float y = entity->location.z; // Swapping z<->y
          float z = entity->location.y; // Swapping z<->y
-         entities.push_back(build_entity(AllegroFlare::Vec3D(x, y, z)));
+
+         Krampus24::Gameplay::Entities::Base* result_entity = build_entity(AllegroFlare::Vec3D(x, y, z));
+         result_entity->name = entity->name;
+
+         entities.push_back(result_entity);
       });
       
+      // Load up the scripting
+      scripting.build_on_collision_callbacks();
 
       return;
     body_dependency_symbols:
@@ -413,12 +427,14 @@ methods:
       for (auto &entered : collision_observer.get_entered())
       {
          // TODO: Consider extracting this to a method
-           Krampus24::Gameplay::Entities::Base* entity =
-           static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
+         Krampus24::Gameplay::Entities::Base* entity =
+            static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
          entity->active = false;
          entity->visible = false;
 
          gems_collected++;
+
+         if (scripting.has_on_collision_callback(entity)) scripting.call_on_collision_callback(entity);
       }
 
 
@@ -910,5 +926,7 @@ dependencies:
     headers: [ AllegroFlare/Vec3D.hpp ]
   - symbol: Krampus24::BlenderBlockingLoader
     headers: [ Krampus24/BlenderBlockingLoader.hpp ]
+  - symbol: Krampus24::Game::Scripting::Tree
+    headers: [ Krampus24/Game/Scripting/Tree.hpp ]
 
 

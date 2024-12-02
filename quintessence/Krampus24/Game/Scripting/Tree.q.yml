@@ -15,7 +15,7 @@ properties:
 
   - name: initialized
     type: bool
-    init_with: true
+    init_with: false
     getter: true
 
 
@@ -28,7 +28,6 @@ methods:
       - entities
     body: |
       initialized = true;
-      build_on_collision_callbacks();
       return;
 
 
@@ -59,9 +58,13 @@ methods:
       - name: name
         type: std::string
         default_argument: '"[unset-name]"'
+    guards: [ entities ]
     body: |
-      // TODO
-      return true;
+      for (auto entity : *entities)
+      {
+         if (entity->name == name) return true;
+      }
+      return false;
 
 
   - name: find_entity_by_name_or_throw
@@ -72,7 +75,8 @@ methods:
         default_argument: '"[unset-name]"'
     guards: [ entity_with_name_exists(name) ]
     body: |
-      for (auto &entity : *entities)
+      // TODO: Improve error message on entity_with_name_exists(name)
+      for (auto entity : *entities)
       {
          if (entity->name == name) return entity;
       }

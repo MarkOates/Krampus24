@@ -40,6 +40,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , visual_mesh_identifier(visual_mesh_identifier)
    , visual_mesh_texture_identifier(visual_mesh_texture_identifier)
    , blocking_filename(blocking_filename)
+   , scripting({})
    , rendering_visual_mesh(true)
    , rendering_collision_wiremesh(true)
    , rendering_entity_bounding_boxes(true)
@@ -332,6 +333,10 @@ void Screen::initialize()
    //live_camera.stepout = AllegroFlare::Vec3D(0, 0.25, 10); // Third person
    //live_camera.tilt = 0.8;
 
+   // Set this levels entities to the scripting logic
+   scripting.set_entities(&entities);
+   scripting.initialize();
+
    // Load level and entities
    load_or_reload_meshes();
 
@@ -408,9 +413,15 @@ void Screen::load_or_reload_meshes()
       float x = entity->location.x;
       float y = entity->location.z; // Swapping z<->y
       float z = entity->location.y; // Swapping z<->y
-      entities.push_back(build_entity(AllegroFlare::Vec3D(x, y, z)));
+
+      Krampus24::Gameplay::Entities::Base* result_entity = build_entity(AllegroFlare::Vec3D(x, y, z));
+      result_entity->name = entity->name;
+
+      entities.push_back(result_entity);
    });
 
+   // Load up the scripting
+   scripting.build_on_collision_callbacks();
 
    return;
 }
@@ -569,12 +580,14 @@ void Screen::update()
    for (auto &entered : collision_observer.get_entered())
    {
       // TODO: Consider extracting this to a method
-        Krampus24::Gameplay::Entities::Base* entity =
-        static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
+      Krampus24::Gameplay::Entities::Base* entity =
+         static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
       entity->active = false;
       entity->visible = false;
 
       gems_collected++;
+
+      if (scripting.has_on_collision_callback(entity)) scripting.call_on_collision_callback(entity);
    }
 
 
