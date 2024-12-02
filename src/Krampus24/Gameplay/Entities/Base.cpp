@@ -25,6 +25,7 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , hit_box_2d(hit_box_2d)
    , player_input_controller(player_input_controller)
    , box_corners({})
+   , name("[unset-name]")
    , active(true)
    , visible(true)
    , affected_by_environmental_forces(true)

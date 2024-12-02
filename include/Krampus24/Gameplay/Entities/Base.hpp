@@ -40,6 +40,7 @@ namespace Krampus24
 
          public:
             std::vector<AllegroFlare::Vec3D> box_corners;
+            std::string name;
             bool active;
             bool visible;
             bool affected_by_environmental_forces;

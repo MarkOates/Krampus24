@@ -58,6 +58,7 @@ table td
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml">quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml">quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Configurations/Main.q.yml">quintessence/Krampus24/Game/Configurations/Main.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Game/Scripting/Tree.q.yml">quintessence/Krampus24/Game/Scripting/Tree.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
@@ -433,6 +434,62 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Game/Scripting/Tree.q.yml">quintessence/Krampus24/Game/Scripting/Tree.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">entities</td>
+  <td class="property">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;*</td>
+</tr>
+<tr>
+  <td class="property">on_entity_collision_callbacks</td>
+  <td class="property">std::map&lt;void*, std::function&lt;void()&gt;&gt;</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>has_on_collision_callback</b>(void* entity=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>call_on_collision_callback</b>(void* entity=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>entity_with_name_exists</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void*</td>
+  <td class="method"><b>find_entity_by_name_or_throw</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>build_on_collision_callbacks</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -511,6 +568,10 @@ table td
 <tr>
   <td class="property">box_corners</td>
   <td class="property">std::vector&lt;AllegroFlare::Vec3D&gt;</td>
+</tr>
+<tr>
+  <td class="property">name</td>
+  <td class="property">std::string</td>
 </tr>
 <tr>
   <td class="property">active</td>
@@ -1075,6 +1136,11 @@ table td
   "AllegroFlare/Screens/Subscreen/Screen": [
     "Krampus24/Game/Configurations/Main"
   ],
+  "Krampus24/Gameplay/Entities/Base": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -1096,10 +1162,6 @@ table td
   ],
   "AllegroFlare/Physics/TileMapCollisionStepperStepResult": [
     "Krampus24/Gameplay/Entities/Base"
-  ],
-  "Krampus24/Gameplay/Entities/Base": [
-    "Krampus24/Gameplay/Entities/Base",
-    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/PlayerInputControllers/Base": [
     "Krampus24/Gameplay/Entities/Base"

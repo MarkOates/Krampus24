@@ -67,6 +67,11 @@ properties:
     init_with: '{}'
     exposed: true
 
+  - name: name
+    type: std::string
+    init_with: '"[unset-name]"'
+    exposed: true
+
   - name: active
     type: bool
     init_with: true

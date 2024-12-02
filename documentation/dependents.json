@@ -110,6 +110,11 @@
   "AllegroFlare/Screens/Subscreen/Screen": [
     "Krampus24/Game/Configurations/Main"
   ],
+  "Krampus24/Gameplay/Entities/Base": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -131,10 +136,6 @@
   ],
   "AllegroFlare/Physics/TileMapCollisionStepperStepResult": [
     "Krampus24/Gameplay/Entities/Base"
-  ],
-  "Krampus24/Gameplay/Entities/Base": [
-    "Krampus24/Gameplay/Entities/Base",
-    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/PlayerInputControllers/Base": [
     "Krampus24/Gameplay/Entities/Base"

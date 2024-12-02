@@ -1,0 +1,105 @@
+properties:
+
+
+  - name: entities
+    type: std::vector<Krampus24::Gameplay::Entities::Base*>*
+    init_with: nullptr
+    constructor_arg: true
+    setter: before_initialized
+
+  - name: on_entity_collision_callbacks
+    type: std::map<void*, std::function<void()>>
+    init_with: '{}'
+    getter: true
+    setter: true
+
+  - name: initialized
+    type: bool
+    init_with: true
+    getter: true
+
+
+methods:
+
+
+  - name: initialize
+    guards:
+      - (!initialized)
+      - entities
+    body: |
+      initialized = true;
+      build_on_collision_callbacks();
+      return;
+
+
+  - name: has_on_collision_callback
+    type: bool
+    parameters:
+      - name: entity
+        type: void*
+        default_argument: nullptr
+    body: |
+      return on_entity_collision_callbacks.find(entity) != on_entity_collision_callbacks.end();
+
+
+  - name: call_on_collision_callback
+    parameters:
+      - name: entity
+        type: void*
+        default_argument: nullptr
+    guards: [ has_on_collision_callback(entity) ]
+    body: |
+      on_entity_collision_callbacks[entity]();
+      return;
+
+
+  - name: entity_with_name_exists
+    type: bool
+    parameters:
+      - name: name
+        type: std::string
+        default_argument: '"[unset-name]"'
+    body: |
+      // TODO
+      return true;
+
+
+  - name: find_entity_by_name_or_throw
+    type: void*
+    parameters:
+      - name: name
+        type: std::string
+        default_argument: '"[unset-name]"'
+    guards: [ entity_with_name_exists(name) ]
+    body: |
+      for (auto &entity : *entities)
+      {
+         if (entity->name == name) return entity;
+      }
+      // TODO: Improve throw
+      throw std::runtime_error("asdfasdfasdfasdfasdfasdf");
+      return nullptr;
+
+
+  - name: build_on_collision_callbacks
+    body: |
+      on_entity_collision_callbacks = {
+         { find_entity_by_name_or_throw("elevator1"), [](){
+            // TODO: Do thing
+            std::cout << "Entered elevator1" << std::endl;
+         }},
+         { find_entity_by_name_or_throw("elevator2"), [](){
+            // TODO: Do thing
+            std::cout << "Entered elevator2" << std::endl;
+         }},
+      };
+      return;
+
+
+dependencies:
+
+
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
+
+
