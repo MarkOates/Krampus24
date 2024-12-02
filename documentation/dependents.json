@@ -115,6 +115,10 @@
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/CollisionObservers/Simple": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -203,9 +207,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/PlayerInputControllers/Generic": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/CollisionObservers/Simple": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Camera2D": [

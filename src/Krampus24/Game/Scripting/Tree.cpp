@@ -15,8 +15,9 @@ namespace Scripting
 {
 
 
-Tree::Tree(std::vector<Krampus24::Gameplay::Entities::Base*>* entities)
-   : entities(entities)
+Tree::Tree()
+   : entities(nullptr)
+   , collision_observer(nullptr)
    , on_entity_collision_callbacks({})
    , initialized(false)
 {
@@ -32,6 +33,13 @@ void Tree::set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entit
 {
    if (get_initialized()) throw std::runtime_error("[Tree::set_entities]: error: guard \"get_initialized()\" not met.");
    this->entities = entities;
+}
+
+
+void Tree::set_collision_observer(AllegroFlare::CollisionObservers::Simple* collision_observer)
+{
+   if (get_initialized()) throw std::runtime_error("[Tree::set_collision_observer]: error: guard \"get_initialized()\" not met.");
+   this->collision_observer = collision_observer;
 }
 
 
@@ -53,6 +61,37 @@ bool Tree::get_initialized() const
 }
 
 
+bool Tree::a_0th_entity_exists()
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::a_0th_entity_exists]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::a_0th_entity_exists]: error: guard \"initialized\" not met");
+   }
+   return (entities->size() > 0);
+}
+
+Krampus24::Gameplay::Entities::Base* Tree::find_0th_entity()
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::find_0th_entity]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::find_0th_entity]: error: guard \"initialized\" not met");
+   }
+   if (!((entities->size() > 0)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::find_0th_entity]: error: guard \"(entities->size() > 0)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::find_0th_entity]: error: guard \"(entities->size() > 0)\" not met");
+   }
+   return entities->at(0);
+}
+
 void Tree::initialize()
 {
    if (!((!initialized)))
@@ -68,6 +107,13 @@ void Tree::initialize()
       error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"entities\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"entities\" not met");
+   }
+   if (!(collision_observer))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"collision_observer\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"collision_observer\" not met");
    }
    initialized = true;
    return;
@@ -107,7 +153,7 @@ bool Tree::entity_with_name_exists(std::string name)
    return false;
 }
 
-void* Tree::find_entity_by_name_or_throw(std::string name)
+Krampus24::Gameplay::Entities::Base* Tree::find_entity_by_name_or_throw(std::string name)
 {
    if (!(entity_with_name_exists(name)))
    {
@@ -129,13 +175,23 @@ void* Tree::find_entity_by_name_or_throw(std::string name)
 void Tree::build_on_collision_callbacks()
 {
    on_entity_collision_callbacks = {
-      { find_entity_by_name_or_throw("elevator1"), [](){
+      { find_entity_by_name_or_throw("elevator1"), [this](){
          // TODO: Do thing
          std::cout << "Entered elevator1" << std::endl;
+         auto *player_entity = find_0th_entity();
+         auto *target_elevator = find_entity_by_name_or_throw("elevator2");
+         player_entity->get_placement_ref().position =
+            target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
+         collision_observer->passively_add_to_currently_colliding(target_elevator);
       }},
-      { find_entity_by_name_or_throw("elevator2"), [](){
+      { find_entity_by_name_or_throw("elevator2"), [this](){
          // TODO: Do thing
          std::cout << "Entered elevator2" << std::endl;
+         auto *player_entity = find_0th_entity();
+         auto *target_elevator = find_entity_by_name_or_throw("elevator1");
+         player_entity->get_placement_ref().position =
+            target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
+         collision_observer->passively_add_to_currently_colliding(target_elevator);
       }},
    };
    return;

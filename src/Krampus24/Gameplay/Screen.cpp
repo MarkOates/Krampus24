@@ -335,6 +335,7 @@ void Screen::initialize()
 
    // Set this levels entities to the scripting logic
    scripting.set_entities(&entities);
+   scripting.set_collision_observer(&collision_observer);
    scripting.initialize();
 
    // Load level and entities
@@ -582,12 +583,17 @@ void Screen::update()
       // TODO: Consider extracting this to a method
       Krampus24::Gameplay::Entities::Base* entity =
          static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
-      entity->active = false;
-      entity->visible = false;
+      // TODO: Add scripting for collecting gems
 
+      // TODO: Incorporate this gem collection logic
+      //entity->active = false;
+      //entity->visible = false;
       gems_collected++;
 
-      if (scripting.has_on_collision_callback(entity)) scripting.call_on_collision_callback(entity);
+      if (scripting.has_on_collision_callback(entity))
+      {
+         scripting.call_on_collision_callback(entity);
+      }
    }
 
 

@@ -4,7 +4,11 @@ properties:
   - name: entities
     type: std::vector<Krampus24::Gameplay::Entities::Base*>*
     init_with: nullptr
-    constructor_arg: true
+    setter: before_initialized
+
+  - name: collision_observer
+    type: AllegroFlare::CollisionObservers::Simple*
+    init_with: nullptr
     setter: before_initialized
 
   - name: on_entity_collision_callbacks
@@ -22,10 +26,25 @@ properties:
 methods:
 
 
+  - name: a_0th_entity_exists
+    type: bool
+    guards: [ initialized ]
+    body: |
+      return (entities->size() > 0);
+
+
+  - name: find_0th_entity
+    type: Krampus24::Gameplay::Entities::Base*
+    guards: [ initialized, (entities->size() > 0) ]
+    body: |
+      return entities->at(0);
+
+
   - name: initialize
     guards:
       - (!initialized)
       - entities
+      - collision_observer
     body: |
       initialized = true;
       return;
@@ -68,7 +87,7 @@ methods:
 
 
   - name: find_entity_by_name_or_throw
-    type: void*
+    type: Krampus24::Gameplay::Entities::Base*
     parameters:
       - name: name
         type: std::string
@@ -88,13 +107,23 @@ methods:
   - name: build_on_collision_callbacks
     body: |
       on_entity_collision_callbacks = {
-         { find_entity_by_name_or_throw("elevator1"), [](){
+         { find_entity_by_name_or_throw("elevator1"), [this](){
             // TODO: Do thing
             std::cout << "Entered elevator1" << std::endl;
+            auto *player_entity = find_0th_entity();
+            auto *target_elevator = find_entity_by_name_or_throw("elevator2");
+            player_entity->get_placement_ref().position =
+               target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
+            collision_observer->passively_add_to_currently_colliding(target_elevator);
          }},
-         { find_entity_by_name_or_throw("elevator2"), [](){
+         { find_entity_by_name_or_throw("elevator2"), [this](){
             // TODO: Do thing
             std::cout << "Entered elevator2" << std::endl;
+            auto *player_entity = find_0th_entity();
+            auto *target_elevator = find_entity_by_name_or_throw("elevator1");
+            player_entity->get_placement_ref().position =
+               target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
+            collision_observer->passively_add_to_currently_colliding(target_elevator);
          }},
       };
       return;
@@ -105,5 +134,7 @@ dependencies:
 
   - symbol: Krampus24::Gameplay::Entities::Base
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
+  - symbol: AllegroFlare::CollisionObservers::Simple
+    headers: [ AllegroFlare/CollisionObservers/Simple.hpp ]
 
 

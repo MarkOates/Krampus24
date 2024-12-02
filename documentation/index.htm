@@ -443,6 +443,10 @@ table td
   <td class="property">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;*</td>
 </tr>
 <tr>
+  <td class="property">collision_observer</td>
+  <td class="property">AllegroFlare::CollisionObservers::Simple*</td>
+</tr>
+<tr>
   <td class="property">on_entity_collision_callbacks</td>
   <td class="property">std::map&lt;void*, std::function&lt;void()&gt;&gt;</td>
 </tr>
@@ -453,6 +457,14 @@ table td
     </table>
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>a_0th_entity_exists</b>()</td>
+</tr>
+<tr>
+  <td class="method">Krampus24::Gameplay::Entities::Base*</td>
+  <td class="method"><b>find_0th_entity</b>()</td>
+</tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>initialize</b>()</td>
@@ -470,7 +482,7 @@ table td
   <td class="method"><b>entity_with_name_exists</b>(std::string name=&quot;[unset-name]&quot;)</td>
 </tr>
 <tr>
-  <td class="method">void*</td>
+  <td class="method">Krampus24::Gameplay::Entities::Base*</td>
   <td class="method"><b>find_entity_by_name_or_throw</b>(std::string name=&quot;[unset-name]&quot;)</td>
 </tr>
 <tr>
@@ -482,6 +494,9 @@ table td
 <div class="property-box dependencies">     <table>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::CollisionObservers::Simple&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/CollisionObservers/Simple.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1148,6 +1163,10 @@ table td
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/CollisionObservers/Simple": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -1236,9 +1255,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/PlayerInputControllers/Generic": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/CollisionObservers/Simple": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Camera2D": [
