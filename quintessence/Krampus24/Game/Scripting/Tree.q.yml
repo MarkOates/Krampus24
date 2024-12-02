@@ -1,10 +1,27 @@
 properties:
 
 
+  - name: font_bin
+    type: AllegroFlare::FontBin*
+    init_with: nullptr
+    setter: before_initialized
+
   - name: entities
     type: std::vector<Krampus24::Gameplay::Entities::Base*>*
     init_with: nullptr
     setter: before_initialized
+
+  - name: primary_power_coil_collected
+    type: bool
+    init_with: false
+    getter: true
+    setter: true
+
+  - name: primary_power_coil_returned_to_ship
+    type: bool
+    init_with: false
+    getter: true
+    setter: true
 
   - name: collision_observer
     type: AllegroFlare::CollisionObservers::Simple*
@@ -26,6 +43,22 @@ properties:
 methods:
 
 
+  - name: render_hud
+    body: |
+      if (primary_power_coil_collected)
+      {
+         al_draw_textf(
+            obtain_hud_font(),
+            ALLEGRO_COLOR{1, 0.65, 0, 1.0},
+            40,
+            30,
+            ALLEGRO_ALIGN_LEFT,
+            "PRIMARY POWER COIL COLLECTED"
+         );
+      }
+      return;
+
+
   - name: a_0th_entity_exists
     type: bool
     guards: [ initialized ]
@@ -45,6 +78,7 @@ methods:
       - (!initialized)
       - entities
       - collision_observer
+      - font_bin
     body: |
       initialized = true;
       return;
@@ -139,7 +173,7 @@ methods:
     body: |
       link_elevators("elevator1", "elevator2");
       link_elevators("elevator3", "elevator4");
-      link_elevators("elevator5", "elevator9");
+      link_elevators("elevator5", "elevator6");
       link_elevators("elevator7", "elevator8");
       link_elevators("elevator9", "elevator10");
 
@@ -174,8 +208,27 @@ methods:
          { find_entity_by_name_or_throw("elevator10"), [this](){
             travel_player_to_elevators_target("elevator10");
          }},
+
+         { find_entity_by_name_or_throw("player_ship"), [this](){
+            //travel_player_to_elevators_target("elevator10");
+            if (primary_power_coil_collected)
+            {
+               primary_power_coil_returned_to_ship = true;
+            }
+         }},
+         { find_entity_by_name_or_throw("primary_power_coil"), [this](){
+            find_entity_by_name_or_throw("primary_power_coil")->active = false;
+            find_entity_by_name_or_throw("primary_power_coil")->visible = false;
+            primary_power_coil_collected = true;
+         }},
       };
       return;
+
+
+  - name: obtain_hud_font
+    type: ALLEGRO_FONT*
+    body: |
+      return font_bin->auto_get("Oswald-Medium.ttf -52");
 
 
 dependencies:
@@ -185,5 +238,11 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
   - symbol: AllegroFlare::CollisionObservers::Simple
     headers: [ AllegroFlare/CollisionObservers/Simple.hpp ]
+  - symbol: Krampus24::Gameplay::Screen
+    headers: [ Krampus24/Gameplay/Screen.hpp ]
+  - symbol: AllegroFlare::FontBin
+    headers: [ AllegroFlare/FontBin.hpp ]
+  - symbol: ALLEGRO_FONT
+    headers: [ allegro5/allegro_font.h ]
 
 

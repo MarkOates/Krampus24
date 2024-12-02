@@ -16,7 +16,10 @@ namespace Scripting
 
 
 Tree::Tree()
-   : entities(nullptr)
+   : font_bin(nullptr)
+   , entities(nullptr)
+   , primary_power_coil_collected(false)
+   , primary_power_coil_returned_to_ship(false)
    , collision_observer(nullptr)
    , on_entity_collision_callbacks({})
    , initialized(false)
@@ -29,10 +32,29 @@ Tree::~Tree()
 }
 
 
+void Tree::set_font_bin(AllegroFlare::FontBin* font_bin)
+{
+   if (get_initialized()) throw std::runtime_error("[Tree::set_font_bin]: error: guard \"get_initialized()\" not met.");
+   this->font_bin = font_bin;
+}
+
+
 void Tree::set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities)
 {
    if (get_initialized()) throw std::runtime_error("[Tree::set_entities]: error: guard \"get_initialized()\" not met.");
    this->entities = entities;
+}
+
+
+void Tree::set_primary_power_coil_collected(bool primary_power_coil_collected)
+{
+   this->primary_power_coil_collected = primary_power_coil_collected;
+}
+
+
+void Tree::set_primary_power_coil_returned_to_ship(bool primary_power_coil_returned_to_ship)
+{
+   this->primary_power_coil_returned_to_ship = primary_power_coil_returned_to_ship;
 }
 
 
@@ -49,6 +71,18 @@ void Tree::set_on_entity_collision_callbacks(std::map<void*, std::function<void(
 }
 
 
+bool Tree::get_primary_power_coil_collected() const
+{
+   return primary_power_coil_collected;
+}
+
+
+bool Tree::get_primary_power_coil_returned_to_ship() const
+{
+   return primary_power_coil_returned_to_ship;
+}
+
+
 std::map<void*, std::function<void()>> Tree::get_on_entity_collision_callbacks() const
 {
    return on_entity_collision_callbacks;
@@ -60,6 +94,22 @@ bool Tree::get_initialized() const
    return initialized;
 }
 
+
+void Tree::render_hud()
+{
+   if (primary_power_coil_collected)
+   {
+      al_draw_textf(
+         obtain_hud_font(),
+         ALLEGRO_COLOR{1, 0.65, 0, 1.0},
+         40,
+         30,
+         ALLEGRO_ALIGN_LEFT,
+         "PRIMARY POWER COIL COLLECTED"
+      );
+   }
+   return;
+}
 
 bool Tree::a_0th_entity_exists()
 {
@@ -114,6 +164,13 @@ void Tree::initialize()
       error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"collision_observer\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"collision_observer\" not met");
+   }
+   if (!(font_bin))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met");
    }
    initialized = true;
    return;
@@ -196,7 +253,7 @@ void Tree::build_on_collision_callbacks()
 {
    link_elevators("elevator1", "elevator2");
    link_elevators("elevator3", "elevator4");
-   link_elevators("elevator5", "elevator9");
+   link_elevators("elevator5", "elevator6");
    link_elevators("elevator7", "elevator8");
    link_elevators("elevator9", "elevator10");
 
@@ -231,8 +288,26 @@ void Tree::build_on_collision_callbacks()
       { find_entity_by_name_or_throw("elevator10"), [this](){
          travel_player_to_elevators_target("elevator10");
       }},
+
+      { find_entity_by_name_or_throw("player_ship"), [this](){
+         //travel_player_to_elevators_target("elevator10");
+         if (primary_power_coil_collected)
+         {
+            primary_power_coil_returned_to_ship = true;
+         }
+      }},
+      { find_entity_by_name_or_throw("primary_power_coil"), [this](){
+         find_entity_by_name_or_throw("primary_power_coil")->active = false;
+         find_entity_by_name_or_throw("primary_power_coil")->visible = false;
+         primary_power_coil_collected = true;
+      }},
    };
    return;
+}
+
+ALLEGRO_FONT* Tree::obtain_hud_font()
+{
+   return font_bin->auto_get("Oswald-Medium.ttf -52");
 }
 
 

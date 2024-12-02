@@ -51,7 +51,6 @@ namespace Krampus24
          bool rendering_visual_mesh;
          bool rendering_collision_wiremesh;
          bool rendering_entity_bounding_boxes;
-         int gems_collected;
          AllegroFlare::CollisionObservers::Simple collision_observer;
          bool initialized;
 
@@ -78,7 +77,6 @@ namespace Krampus24
          void set_visual_mesh_identifier(std::string visual_mesh_identifier);
          void set_visual_mesh_texture_identifier(std::string visual_mesh_texture_identifier);
          void set_blocking_filename(std::string blocking_filename);
-         void set_gems_collected(int gems_collected);
          std::string get_data_folder_path() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
@@ -92,7 +90,6 @@ namespace Krampus24
          std::string get_visual_mesh_identifier() const;
          std::string get_visual_mesh_texture_identifier() const;
          std::string get_blocking_filename() const;
-         int get_gems_collected() const;
          bool get_initialized() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
          void initialize();

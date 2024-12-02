@@ -44,7 +44,6 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , rendering_visual_mesh(true)
    , rendering_collision_wiremesh(true)
    , rendering_entity_bounding_boxes(true)
-   , gems_collected(0)
    , collision_observer({})
    , initialized(false)
 {
@@ -163,12 +162,6 @@ void Screen::set_blocking_filename(std::string blocking_filename)
 }
 
 
-void Screen::set_gems_collected(int gems_collected)
-{
-   this->gems_collected = gems_collected;
-}
-
-
 std::string Screen::get_data_folder_path() const
 {
    return data_folder_path;
@@ -244,12 +237,6 @@ std::string Screen::get_visual_mesh_texture_identifier() const
 std::string Screen::get_blocking_filename() const
 {
    return blocking_filename;
-}
-
-
-int Screen::get_gems_collected() const
-{
-   return gems_collected;
 }
 
 
@@ -336,6 +323,7 @@ void Screen::initialize()
    // Set this levels entities to the scripting logic
    scripting.set_entities(&entities);
    scripting.set_collision_observer(&collision_observer);
+   scripting.set_font_bin(font_bin);
    scripting.initialize();
 
    // Load level and entities
@@ -608,13 +596,9 @@ void Screen::update()
    // Evaluate win condition (DEVELOPMENT)
    //
 
-   if (gems_collected >= 3)
+   if (scripting.get_primary_power_coil_returned_to_ship()) // DEVELOPMENT
    {
       call_on_finished_callback_func();
-      //else
-      //{
-         //throw std::runtime_error("on_finished_callback_func not provided");
-      //}
    }
 
    return;
@@ -667,15 +651,21 @@ void Screen::render()
 
 
    hud_camera.setup_dimensional_projection(target_bitmap);
-   al_draw_textf(
-      obtain_hud_font(),
-      ALLEGRO_COLOR{1, 0.65, 0, 1.0},
-      40,
-      30,
-      ALLEGRO_ALIGN_LEFT,
-      "GEMS: %d",
-      gems_collected
-   );
+
+   scripting.render_hud();
+   /*
+   if (power_cell_collected)
+   {
+      al_draw_textf(
+         obtain_hud_font(),
+         ALLEGRO_COLOR{1, 0.65, 0, 1.0},
+         40,
+         30,
+         ALLEGRO_ALIGN_LEFT,
+         "PRIMARY POWER COIL COLLECTED",
+      );
+   }
+   */
 
 
    //ALLEGRO_COLOR col=AllegroFlare::color::azure);
