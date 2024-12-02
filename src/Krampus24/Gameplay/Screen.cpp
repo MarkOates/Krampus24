@@ -588,7 +588,7 @@ void Screen::update()
       // TODO: Incorporate this gem collection logic
       //entity->active = false;
       //entity->visible = false;
-      gems_collected++;
+      //gems_collected++;
 
       if (scripting.has_on_collision_callback(entity))
       {

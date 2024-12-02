@@ -102,6 +102,11 @@ properties:
     init_with: false
     exposed: true
 
+  - name: elevator__target
+    type: Krampus24::Gameplay::Entities::Base*
+    init_with: nullptr
+    exposed: true
+
   - name: TYPE
     type: char*
     init_with: '(char*)"Krampus24/Gameplay/Entities/Base"'

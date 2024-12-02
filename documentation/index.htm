@@ -487,6 +487,14 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>link_elevators</b>(std::string elevator_a_name=&quot;[unset-elevator_a_name]&quot;, std::string elevator_b_name=&quot;[unset-elevator_b_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>travel_player_to_elevators_target</b>(std::string entering_elevator_name=&quot;[unset-entering_elevator_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>build_on_collision_callbacks</b>()</td>
 </tr>
     </table>
@@ -611,6 +619,10 @@ table td
 <tr>
   <td class="property">collides_with_enemies</td>
   <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">elevator__target</td>
+  <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
 <tr>
   <td class="property">TYPE</td>

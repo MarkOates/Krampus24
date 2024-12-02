@@ -32,6 +32,7 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , collides_with_environment(true)
    , collides_with_player(false)
    , collides_with_enemies(false)
+   , elevator__target(nullptr)
 {
 }
 

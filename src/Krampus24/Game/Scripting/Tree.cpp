@@ -172,26 +172,64 @@ Krampus24::Gameplay::Entities::Base* Tree::find_entity_by_name_or_throw(std::str
    return nullptr;
 }
 
+void Tree::link_elevators(std::string elevator_a_name, std::string elevator_b_name)
+{
+   Krampus24::Gameplay::Entities::Base* elevator_a = find_entity_by_name_or_throw(elevator_a_name);
+   Krampus24::Gameplay::Entities::Base* elevator_b = find_entity_by_name_or_throw(elevator_b_name);
+   elevator_a->elevator__target = elevator_b;
+   elevator_b->elevator__target = elevator_a;
+   return;
+}
+
+void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
+{
+   auto *player_entity = find_0th_entity();
+   auto *target_elevator = find_entity_by_name_or_throw(entering_elevator_name)->elevator__target;
+
+   player_entity->get_placement_ref().position =
+      target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
+   collision_observer->passively_add_to_currently_colliding(target_elevator);
+   return;
+}
+
 void Tree::build_on_collision_callbacks()
 {
+   link_elevators("elevator1", "elevator2");
+   link_elevators("elevator3", "elevator4");
+   link_elevators("elevator5", "elevator9");
+   link_elevators("elevator7", "elevator8");
+   link_elevators("elevator9", "elevator10");
+
    on_entity_collision_callbacks = {
       { find_entity_by_name_or_throw("elevator1"), [this](){
-         // TODO: Do thing
-         std::cout << "Entered elevator1" << std::endl;
-         auto *player_entity = find_0th_entity();
-         auto *target_elevator = find_entity_by_name_or_throw("elevator2");
-         player_entity->get_placement_ref().position =
-            target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
-         collision_observer->passively_add_to_currently_colliding(target_elevator);
+         travel_player_to_elevators_target("elevator1");
       }},
       { find_entity_by_name_or_throw("elevator2"), [this](){
-         // TODO: Do thing
-         std::cout << "Entered elevator2" << std::endl;
-         auto *player_entity = find_0th_entity();
-         auto *target_elevator = find_entity_by_name_or_throw("elevator1");
-         player_entity->get_placement_ref().position =
-            target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
-         collision_observer->passively_add_to_currently_colliding(target_elevator);
+         travel_player_to_elevators_target("elevator2");
+      }},
+      { find_entity_by_name_or_throw("elevator3"), [this](){
+         travel_player_to_elevators_target("elevator3");
+      }},
+      { find_entity_by_name_or_throw("elevator4"), [this](){
+         travel_player_to_elevators_target("elevator4");
+      }},
+      { find_entity_by_name_or_throw("elevator5"), [this](){
+         travel_player_to_elevators_target("elevator5");
+      }},
+      { find_entity_by_name_or_throw("elevator6"), [this](){
+         travel_player_to_elevators_target("elevator6");
+      }},
+      { find_entity_by_name_or_throw("elevator7"), [this](){
+         travel_player_to_elevators_target("elevator7");
+      }},
+      { find_entity_by_name_or_throw("elevator8"), [this](){
+         travel_player_to_elevators_target("elevator8");
+      }},
+      { find_entity_by_name_or_throw("elevator9"), [this](){
+         travel_player_to_elevators_target("elevator9");
+      }},
+      { find_entity_by_name_or_throw("elevator10"), [this](){
+         travel_player_to_elevators_target("elevator10");
       }},
    };
    return;
