@@ -760,6 +760,14 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
          live_camera.spin += ALLEGRO_PI * 0.25;
       } break;
 
+      case ALLEGRO_KEY_U: {
+         live_camera.tilt -= ALLEGRO_PI * 0.125;
+      } break;
+
+      case ALLEGRO_KEY_N: {
+         live_camera.tilt += ALLEGRO_PI * 0.125;
+      } break;
+
       // DEVELOPMENT keys
 
       case ALLEGRO_KEY_0: {
