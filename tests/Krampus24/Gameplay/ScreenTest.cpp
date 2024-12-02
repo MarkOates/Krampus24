@@ -74,7 +74,8 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
 
    std::string collision_mesh_identifier = "tree-03-collision_mesh.obj";
    std::string visual_mesh_identifier = "tree-03-visual.obj";
-   std::string visual_mesh_texture_identifier = "tree-03-baked_shadow-reduced.jpg";
+   std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-01.png";
+   //tree-03-baked_shadow-reduced.jpg";
    std::string blocking_filename = "tree-03.blocking";
 
 
