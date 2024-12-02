@@ -67,10 +67,15 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    //std::string visual_mesh_texture_identifier = "bark.jpg";
 
 
-   std::string collision_mesh_identifier = "basic_baking-02-collision_mesh.obj";
-   std::string visual_mesh_identifier = "basic_baking-02-visual.obj";
-   std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow-reduced.jpg";
-   std::string blocking_filename = "basic_baking-02.blocking";
+   //std::string collision_mesh_identifier = "basic_baking-02-collision_mesh.obj";
+   //std::string visual_mesh_identifier = "basic_baking-02-visual.obj";
+   //std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow-reduced.jpg";
+   //std::string blocking_filename = "basic_baking-02.blocking";
+
+   std::string collision_mesh_identifier = "tree-03-collision_mesh.obj";
+   std::string visual_mesh_identifier = "tree-03-visual.obj";
+   std::string visual_mesh_texture_identifier = "tree-03-baked_shadow-reduced.jpg";
+   std::string blocking_filename = "tree-03.blocking";
 
 
    //std::string visual_mesh_texture_identifier = "basic_baking-01-baked_shadow.png";
