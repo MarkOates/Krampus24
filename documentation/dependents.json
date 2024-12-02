@@ -16,7 +16,8 @@
     "Krampus24/BlenderBlockingLoader"
   ],
   "Krampus24/BlenderBlockingLoaderEntity": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/TileMaps/TileMap": [
     "Krampus24/BlenderBlockingLoader"
@@ -79,6 +80,7 @@
   ],
   "Krampus24/Gameplay/Screen": [
     "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
@@ -116,6 +118,14 @@
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/CollisionObservers/Simple": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "ALLEGRO_FONT": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
@@ -160,9 +170,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/FontBin": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/ModelBin": [
@@ -210,9 +217,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Camera2D": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "ALLEGRO_FONT": [
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/BlenderBlockingLoader": [

@@ -439,8 +439,20 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">font_bin</td>
+  <td class="property">AllegroFlare::FontBin*</td>
+</tr>
+<tr>
   <td class="property">entities</td>
   <td class="property">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;*</td>
+</tr>
+<tr>
+  <td class="property">primary_power_coil_collected</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">primary_power_coil_returned_to_ship</td>
+  <td class="property">bool</td>
 </tr>
 <tr>
   <td class="property">collision_observer</td>
@@ -457,6 +469,10 @@ table td
     </table>
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>render_hud</b>()</td>
+</tr>
 <tr>
   <td class="method">bool</td>
   <td class="method"><b>a_0th_entity_exists</b>()</td>
@@ -497,6 +513,10 @@ table td
   <td class="method">void</td>
   <td class="method"><b>build_on_collision_callbacks</b>()</td>
 </tr>
+<tr>
+  <td class="method">ALLEGRO_FONT*</td>
+  <td class="method"><b>obtain_hud_font</b>()</td>
+</tr>
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
@@ -505,6 +525,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::CollisionObservers::Simple&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/CollisionObservers/Simple.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Screen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::FontBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/FontBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_font.h&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -591,6 +620,10 @@ table td
 <tr>
   <td class="property">box_corners</td>
   <td class="property">std::vector&lt;AllegroFlare::Vec3D&gt;</td>
+</tr>
+<tr>
+  <td class="property">box_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
 </tr>
 <tr>
   <td class="property">name</td>
@@ -843,10 +876,6 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
-  <td class="property">gems_collected</td>
-  <td class="property">int</td>
-</tr>
-<tr>
   <td class="property">collision_observer</td>
   <td class="property">AllegroFlare::CollisionObservers::Simple</td>
 </tr>
@@ -863,7 +892,7 @@ table td
 </tr>
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Base*</td>
-  <td class="method"><b>build_entity</b>(AllegroFlare::Vec3D position={}, bool affected_by_environmental_forces=true)</td>
+  <td class="method"><b>build_entity</b>(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1053,6 +1082,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Game::Scripting::Tree&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Game/Scripting/Tree.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -1076,7 +1108,8 @@ table td
     "Krampus24/BlenderBlockingLoader"
   ],
   "Krampus24/BlenderBlockingLoaderEntity": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/TileMaps/TileMap": [
     "Krampus24/BlenderBlockingLoader"
@@ -1139,6 +1172,7 @@ table td
   ],
   "Krampus24/Gameplay/Screen": [
     "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
@@ -1176,6 +1210,14 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/CollisionObservers/Simple": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/FontBin": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "ALLEGRO_FONT": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
@@ -1220,9 +1262,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/FontBin": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/ModelBin": [
@@ -1270,9 +1309,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Camera2D": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "ALLEGRO_FONT": [
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/BlenderBlockingLoader": [

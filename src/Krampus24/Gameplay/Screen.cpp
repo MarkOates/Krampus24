@@ -336,13 +336,41 @@ void Screen::initialize()
    return;
 }
 
-Krampus24::Gameplay::Entities::Base* Screen::build_entity(AllegroFlare::Vec3D position, bool affected_by_environmental_forces)
+Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBlockingLoaderEntity* entity)
 {
+   if (!(entity))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::build_entity]: error: guard \"entity\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::build_entity]: error: guard \"entity\" not met");
+   }
+   //AllegroFlare::Vec3D position;
+   bool affected_by_environmental_forces = true;
+
+
    Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
+
+   float x = entity->location.x;
+   float y = entity->location.z; // Swapping z<->y
+   float z = entity->location.y; // Swapping z<->y
+
+   AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
+
    result->get_placement_ref().position = position;
    result->get_placement_ref().size = { 0.5, 0.5, 0.5 };
    result->collides_with_player = true;
    result->affected_by_environmental_forces = affected_by_environmental_forces;
+
+   result->name = entity->name;
+   std::string entity_root_name = entity->get_name_unversioned();
+   if (entity_root_name == "elevator")
+   {
+      // Do elevator stuff
+      result->get_placement_ref().size = { 1.0, 2.0, 1.0 };
+      result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
+   }
+
    return result;
 }
 
@@ -399,12 +427,15 @@ void Screen::load_or_reload_meshes()
    Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
    blender_blocking_loader.load();
    blender_blocking_loader.for_each_entity([this](Krampus24::BlenderBlockingLoaderEntity* entity){
-      float x = entity->location.x;
-      float y = entity->location.z; // Swapping z<->y
-      float z = entity->location.y; // Swapping z<->y
+      //float x = entity->location.x;
+      //float y = entity->location.z; // Swapping z<->y
+      //float z = entity->location.y; // Swapping z<->y
 
-      Krampus24::Gameplay::Entities::Base* result_entity = build_entity(AllegroFlare::Vec3D(x, y, z));
-      result_entity->name = entity->name;
+      Krampus24::Gameplay::Entities::Base* result_entity = build_entity(entity);
+      //entity->name, AllegroFlare::Vec3D(x, y, z));
+
+      //std::string entity_root_name = entity->get_name_unversioned();
+      //if (entity_root_name == "elevator")
 
       entities.push_back(result_entity);
    });

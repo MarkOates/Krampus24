@@ -40,6 +40,7 @@ namespace Krampus24
 
          public:
             std::vector<AllegroFlare::Vec3D> box_corners;
+            ALLEGRO_COLOR box_color;
             std::string name;
             bool active;
             bool visible;

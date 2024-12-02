@@ -251,46 +251,46 @@ void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
 
 void Tree::build_on_collision_callbacks()
 {
-   link_elevators("elevator1", "elevator2");
-   link_elevators("elevator3", "elevator4");
-   link_elevators("elevator5", "elevator6");
-   link_elevators("elevator7", "elevator8");
-   link_elevators("elevator9", "elevator10");
+   link_elevators("elevator-01", "elevator-02");
+   link_elevators("elevator-03", "elevator-04");
+   link_elevators("elevator-05", "elevator-06");
+   link_elevators("elevator-07", "elevator-08");
+   link_elevators("elevator-09", "elevator-10");
 
    on_entity_collision_callbacks = {
-      { find_entity_by_name_or_throw("elevator1"), [this](){
-         travel_player_to_elevators_target("elevator1");
+      { find_entity_by_name_or_throw("elevator-01"), [this](){
+         travel_player_to_elevators_target("elevator-01");
       }},
-      { find_entity_by_name_or_throw("elevator2"), [this](){
-         travel_player_to_elevators_target("elevator2");
+      { find_entity_by_name_or_throw("elevator-02"), [this](){
+         travel_player_to_elevators_target("elevator-02");
       }},
-      { find_entity_by_name_or_throw("elevator3"), [this](){
-         travel_player_to_elevators_target("elevator3");
+      { find_entity_by_name_or_throw("elevator-03"), [this](){
+         travel_player_to_elevators_target("elevator-03");
       }},
-      { find_entity_by_name_or_throw("elevator4"), [this](){
-         travel_player_to_elevators_target("elevator4");
+      { find_entity_by_name_or_throw("elevator-04"), [this](){
+         travel_player_to_elevators_target("elevator-04");
       }},
-      { find_entity_by_name_or_throw("elevator5"), [this](){
-         travel_player_to_elevators_target("elevator5");
+      { find_entity_by_name_or_throw("elevator-05"), [this](){
+         travel_player_to_elevators_target("elevator-05");
       }},
-      { find_entity_by_name_or_throw("elevator6"), [this](){
-         travel_player_to_elevators_target("elevator6");
+      { find_entity_by_name_or_throw("elevator-06"), [this](){
+         travel_player_to_elevators_target("elevator-06");
       }},
-      { find_entity_by_name_or_throw("elevator7"), [this](){
-         travel_player_to_elevators_target("elevator7");
+      { find_entity_by_name_or_throw("elevator-07"), [this](){
+         travel_player_to_elevators_target("elevator-07");
       }},
-      { find_entity_by_name_or_throw("elevator8"), [this](){
-         travel_player_to_elevators_target("elevator8");
+      { find_entity_by_name_or_throw("elevator-08"), [this](){
+         travel_player_to_elevators_target("elevator-08");
       }},
-      { find_entity_by_name_or_throw("elevator9"), [this](){
-         travel_player_to_elevators_target("elevator9");
+      { find_entity_by_name_or_throw("elevator-09"), [this](){
+         travel_player_to_elevators_target("elevator-09");
       }},
-      { find_entity_by_name_or_throw("elevator10"), [this](){
-         travel_player_to_elevators_target("elevator10");
+      { find_entity_by_name_or_throw("elevator-10"), [this](){
+         travel_player_to_elevators_target("elevator-10");
       }},
 
       { find_entity_by_name_or_throw("player_ship"), [this](){
-         //travel_player_to_elevators_target("elevator10");
+         //travel_player_to_elevators_target("elevator-10");
          if (primary_power_coil_collected)
          {
             primary_power_coil_returned_to_ship = true;

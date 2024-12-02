@@ -16,6 +16,7 @@
 #include <AllegroFlare/Screens/Gameplay.hpp>
 #include <AllegroFlare/Vec3D.hpp>
 #include <AllegroFlare/VirtualControllers/Base.hpp>
+#include <Krampus24/BlenderBlockingLoaderEntity.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <allegro5/allegro.h>
@@ -93,7 +94,7 @@ namespace Krampus24
          bool get_initialized() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
          void initialize();
-         Krampus24::Gameplay::Entities::Base* build_entity(AllegroFlare::Vec3D position={}, bool affected_by_environmental_forces=true);
+         Krampus24::Gameplay::Entities::Base* build_entity(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr);
          void load_or_reload_meshes();
          virtual void on_activate() override;
          virtual void on_deactivate() override;

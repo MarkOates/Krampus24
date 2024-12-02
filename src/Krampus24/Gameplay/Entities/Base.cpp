@@ -25,6 +25,7 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , hit_box_2d(hit_box_2d)
    , player_input_controller(player_input_controller)
    , box_corners({})
+   , box_color(ALLEGRO_COLOR{1.0, 0.65, 1.0, 1.0})
    , name("[unset-name]")
    , active(true)
    , visible(true)
@@ -276,7 +277,7 @@ void Base::calculate_box_corners()
 
 ALLEGRO_COLOR Base::build_color(float opacity)
 {
-   ALLEGRO_COLOR color = ALLEGRO_COLOR{1.0, 0.65, 1.0, 1.0};
+   ALLEGRO_COLOR color = box_color; //ALLEGRO_COLOR{1.0, 0.65, 1.0, 1.0};
    return ALLEGRO_COLOR{color.r*opacity, color.g*opacity, color.b*opacity, color.a*opacity};
 }
 
