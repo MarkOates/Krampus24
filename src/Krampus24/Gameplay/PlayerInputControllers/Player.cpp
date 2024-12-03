@@ -182,7 +182,12 @@ void Player::update_time_step(double time_now, double delta_time)
          player_control_move_velocity.y
       );
    //camera_entity->get_velocity_ref().position = camera_strafe_speed + camera_forward_back_speed;
+   //player_entity->velocity.position = camera_strafe_speed + camera_forward_back_speed;
+
+   float preserved_upward_downward_force = player_entity->velocity.position.y;
    player_entity->velocity.position = camera_strafe_speed + camera_forward_back_speed;
+   player_entity->velocity.position.y = preserved_upward_downward_force;
+
    //}
    //else
    //{
