@@ -140,7 +140,8 @@
   ],
   "AllegroFlare/FontBin": [
     "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
   ],
   "ALLEGRO_FONT": [
     "Krampus24/Game/Scripting/Tree",
@@ -173,7 +174,8 @@
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "ALLEGRO_COLOR": [
-    "Krampus24/Gameplay/Entities/Base"
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Shaders/Fog"
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
@@ -184,7 +186,8 @@
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
   ],
   "AllegroFlare/ModelBin": [
     "Krampus24/Gameplay/Entities/Hen",
@@ -229,7 +232,8 @@
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
   ],
   "al_is_primitives_addon_initialized": [
     "Krampus24/Gameplay/Screen"
@@ -280,6 +284,9 @@
   ],
   "Krampus24/Shaders/Fog": [
     "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Shaders/Base": [
+    "Krampus24/Shaders/Fog"
   ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"
