@@ -2,8 +2,11 @@
 
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 
+#include <AllegroFlare/Logger.hpp>
+#include <AllegroFlare/Vec2D.hpp>
 #include <cmath>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -18,8 +21,13 @@ namespace Entities
 
 Hen::Hen()
    : Krampus24::Gameplay::Entities::Base()
+   , initial_position(AllegroFlare::Vec3D(0, 0, 0))
+   , range(3.0f)
    , movement_direction({})
    , movement_velocity(0.01f)
+   , state(STATE_UNDEF)
+   , state_is_busy(false)
+   , state_changed_at(0.0f)
    , initialized(false)
 {
 }
@@ -27,6 +35,12 @@ Hen::Hen()
 
 Hen::~Hen()
 {
+}
+
+
+uint32_t Hen::get_state() const
+{
+   return state;
 }
 
 
@@ -63,7 +77,7 @@ Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model
    AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
 
    result->placement.position = position;
-   result->placement.align = { -0.5, 0.0, -0.5 };
+   result->placement.align = { -0.5, 0.0, -0.5 }; // Not sure how this will make sense
    result->placement.size = { 0.5, 0.5, 0.5 };
    result->collides_with_player = true;
    //result->affected_by_environmental_forces = affected_by_environmental_forces;
@@ -82,6 +96,8 @@ Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model
 
    result->initialized = true;
 
+   result->set_state(STATE_ROAMING);
+
    return result;
 }
 
@@ -94,13 +110,177 @@ void Hen::on_time_step(double time_step, double time_now)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Hen::on_time_step]: error: guard \"initialized\" not met");
    }
-   velocity.position = movement_direction * movement_velocity;
-
-   float anchor_x = 0.0;
-   float anchor_y = std::sin(time_now*6) * 0.05;
-   float anchor_z = 0.0;
-   placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+   update_state(time_step, time_now);
    return;
+}
+
+void Hen::set_state(uint32_t state, bool override_if_busy)
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Hen::set_state]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Hen::set_state]: error: guard \"initialized\" not met");
+   }
+   if (!(is_valid_state(state)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Hen::set_state]: error: guard \"is_valid_state(state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Hen::set_state]: error: guard \"is_valid_state(state)\" not met");
+   }
+   if (this->state == state) return;
+   if (!override_if_busy && state_is_busy) return;
+   uint32_t previous_state = this->state;
+
+   this->state = state;
+   state_changed_at = al_get_time();
+
+   switch (state)
+   {
+      case STATE_STANDING: {
+      } break;
+
+      case STATE_ROAMING: {
+      } break;
+
+      case STATE_RETURNING: {
+      } break;
+
+      case STATE_TURNING: {
+      } break;
+
+      default:
+         AllegroFlare::Logger::throw_error(
+            "ClassName::set_state",
+            "Unable to handle case for state \"" + std::to_string(state) + "\""
+         );
+      break;
+   }
+
+   return;
+}
+
+void Hen::update_state(double time_step, double time_now)
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Hen::update_state]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Hen::update_state]: error: guard \"initialized\" not met");
+   }
+   if (!(is_valid_state(state)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Hen::update_state]: error: guard \"is_valid_state(state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Hen::update_state]: error: guard \"is_valid_state(state)\" not met");
+   }
+   float age = infer_current_state_age(time_now);
+
+   switch (state)
+   {
+      case STATE_STANDING: {
+         //velocity.position = movement_direction * movement_velocity;
+         //float anchor_x = 0.0;
+         //float anchor_y = std::sin(time_now*12) * 0.05;
+         //float anchor_z = 0.0;
+         //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+      } break;
+
+      case STATE_RETURNING: {
+         if (infer_distance_from_initial_position() <= 0.1)
+         {
+            //movement_direction = -movement_direction;
+            auto new_dir_2d = AllegroFlare::Vec2D::polar_coords(0.0, 1.0f).normalized();
+            movement_direction = AllegroFlare::Vec3D(new_dir_2d.x, 0, new_dir_2d.y);
+            placement.rotation.y += 0.5f;
+            set_state(STATE_ROAMING);
+            //velocity.position = movement_direction * movement_velocity;
+            //movement_direction = (initial_position - placement.position).normalized();
+         }
+         else
+         {
+            velocity.position = movement_direction * movement_velocity * 2;
+            float anchor_x = 0.0;
+            float anchor_y = std::sin(time_now*22) * 0.05;
+            float anchor_z = 0.0;
+            placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+         }
+      } break;
+
+      case STATE_ROAMING: {
+         if (infer_distance_from_initial_position() >= range)
+         {
+            movement_direction = -movement_direction;
+            placement.rotation.y += 0.5f;
+            //movement_direction = -movement_direction;
+            set_state(STATE_RETURNING);
+            //movement_direction = (initial_position - placement.position).normalized();
+         }
+         else
+         {
+            velocity.position = movement_direction * movement_velocity;
+            float anchor_x = 0.0;
+            float anchor_y = std::sin(time_now*12) * 0.05;
+            float anchor_z = 0.0;
+            placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+         }
+      } break;
+
+      case STATE_TURNING: {
+      } break;
+
+      default:
+         AllegroFlare::Logger::throw_error(
+            "ClassName::update_state",
+            "Unable to handle case for state \"" + std::to_string(state) + "\""
+         );
+      break;
+   }
+
+   return;
+}
+
+bool Hen::is_valid_state(uint32_t state)
+{
+   std::set<uint32_t> valid_states =
+   {
+      STATE_STANDING,
+      STATE_RETURNING,
+      STATE_ROAMING,
+      STATE_TURNING,
+   };
+   return (valid_states.count(state) > 0);
+}
+
+bool Hen::is_state(uint32_t possible_state)
+{
+   return (state == possible_state);
+}
+
+float Hen::infer_current_state_age(float time_now)
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Hen::infer_current_state_age]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Hen::infer_current_state_age]: error: guard \"initialized\" not met");
+   }
+   return (time_now - state_changed_at);
+}
+
+float Hen::infer_distance_from_initial_position()
+{
+   return manhattan_distance(&initial_position, &placement.position);
+}
+
+float Hen::manhattan_distance(AllegroFlare::Vec3D* point1, AllegroFlare::Vec3D* point2)
+{
+   return std::abs(point2->x - point1->x) + std::abs(point2->y - point1->y) + std::abs(point2->z - point1->z);
 }
 
 

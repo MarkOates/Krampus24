@@ -21,3 +21,30 @@ TEST_F(Krampus24_Gameplay_Entities_HenWithConstructFixtureTest, can_be_created_w
 }
 
 
+/*
+   float distance(const Vec3D &point1, const Vec3D &point2)
+   {
+      // TODO: add tests for this function
+      return sqrt(
+           ((point1.x - point2.x) * (point1.x - point2.x))
+         + ((point1.y - point2.y) * (point1.y - point2.y))
+         + ((point1.z - point2.z) * (point1.z - point2.z))
+      );
+   }
+
+
+
+   float manhattan_distance(const vec2d *point1, const vec2d *point2)
+   {
+      // may consider writing out the abs function
+      return std::abs(point2->x - point1->x) + std::abs(point2->y - point1->y);
+   }
+
+   float distance_squared(const vec2d &point1, const vec2d &point2)
+   {
+      return ((point1.x - point2.x) * (point1.x - point2.x)) + ((point1.y - point2.y) * (point1.y - point2.y));
+   }
+*/
+
+
+

@@ -4,6 +4,7 @@
   ],
   "AllegroFlare/Logger": [
     "Krampus24/BlenderBlockingLoader",
+    "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec3D": [
@@ -184,18 +185,22 @@
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/Vec2D": [
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
   "std/sin": [
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
+  "std/abs": [
+    "Krampus24/Gameplay/Entities/Hen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
   ],
   "std/fabs": [
-    "Krampus24/Gameplay/PlayerInputControllers/Player"
-  ],
-  "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "AllegroFlare/VirtualControllers/GenericController": [
