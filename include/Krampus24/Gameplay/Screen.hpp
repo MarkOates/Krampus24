@@ -20,7 +20,7 @@
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Screen.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
-#include <Krampus24/Shaders/Fog.hpp>
+#include <Krampus24/Shaders/Principled.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <functional>
@@ -54,7 +54,7 @@ namespace Krampus24
          std::string blocking_filename;
          Krampus24::Gameplay::ScriptingInterface* scripting;
          std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func;
-         Krampus24::Shaders::Fog fog_shader;
+         Krampus24::Shaders::Principled principled_shader;
          bool rendering_visual_mesh;
          bool rendering_collision_wiremesh;
          bool rendering_entity_models;

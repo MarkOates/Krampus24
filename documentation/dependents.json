@@ -287,6 +287,9 @@
   "Krampus24/Shaders/Fog": [
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Shaders/Principled": [
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",

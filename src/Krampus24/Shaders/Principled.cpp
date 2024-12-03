@@ -101,9 +101,12 @@ std::string Principled::obtain_vertex_source()
        gl_Position = al_projview_matrix * al_pos;
 
        // Capture the depth
-       depth = gl_Position.z / 100.0; // NOTE: 100.0 is the far plane in Camera3D
-                                       // TODO: pass in far_plane as a varying
-                                       // https://stackoverflow.com/a/17621928/6072362
+       //depth = gl_Position.z / 100.0; // NOTE: 100.0 is the far plane in Camera3D
+                                     // TODO: pass in far_plane as a varying
+                                     // https://stackoverflow.com/a/17621928/6072362
+       depth = gl_Position.z / 20.0; // / 100.0; // NOTE: 100.0 is the far plane in Camera3D
+                                          // TODO: pass in far_plane as a varying
+                                          // https://stackoverflow.com/a/17621928/6072362
      }
    )DELIM";
    return source;
@@ -139,7 +142,8 @@ std::string Principled::obtain_fragment_source()
        {
           //gl_FragColor = vec4(depth, depth, depth, 1.0);
           //gl_FragColor = c;
-          gl_FragColor = vec4(c.r * depth, c.g * depth, c.b * depth, 1.0);
+          float depth_contrib = (1.0 - depth);
+          gl_FragColor = vec4(c.r * depth_contrib, c.g * depth_contrib, c.b * depth_contrib, 1.0);
        }
        else
        {

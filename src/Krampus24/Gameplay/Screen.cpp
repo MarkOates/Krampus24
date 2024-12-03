@@ -48,7 +48,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , blocking_filename(blocking_filename)
    , scripting(nullptr)
    , build_scripting_instance_func({})
-   , fog_shader({})
+   , principled_shader({})
    , rendering_visual_mesh(true)
    , rendering_collision_wiremesh(false)
    , rendering_entity_models(true)
@@ -380,7 +380,7 @@ void Screen::initialize()
    // Create a player input controller for the 0th entity
    create_and_set_player_input_controller_for_0th_entity();
 
-   fog_shader.initialize();
+   principled_shader.initialize();
 
    initialized = true;
    return;
@@ -774,7 +774,7 @@ void Screen::render()
    live_camera.setup_projection_on(target_bitmap);
 
 
-   //fog_shader.activate();
+   principled_shader.activate();
 
    // Draw the visual mesh
    if (rendering_visual_mesh)
@@ -804,7 +804,7 @@ void Screen::render()
       }
    }
 
-   //fog_shader.deactivate();
+   principled_shader.deactivate();
 
    // TODO: Draw the entities (models?, bounding boxes?)
    if (rendering_entity_bounding_boxes)
