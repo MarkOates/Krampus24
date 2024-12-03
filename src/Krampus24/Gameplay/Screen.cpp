@@ -599,7 +599,16 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
 
 void Screen::update()
 {
+   float time_now = al_get_time();
    float step_duration = 1.0f;
+
+   // Step each entity via its update function
+   for (auto &entity : entities)
+   {
+      if (!entity->active) continue;
+      entity->on_time_step(step_duration, time_now); // Should this be al_get_time or a globally tracked time now?
+   }
+
 
    //
    // Apply environmental forces (gravity, air drag)

@@ -11,6 +11,7 @@
     "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity",
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/BlenderBlockingLoaderBlock": [
@@ -179,6 +180,9 @@
   "AllegroFlare/ModelBin": [
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
+  ],
+  "std/sin": [
+    "Krampus24/Gameplay/Entities/Hen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"

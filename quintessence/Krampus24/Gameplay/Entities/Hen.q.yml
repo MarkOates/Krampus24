@@ -8,6 +8,17 @@ parent_classes:
 
 properties:
 
+  - name: movement_direction
+    type: AllegroFlare::Vec3D
+    init_with: '{}'
+
+  - name: movement_velocity
+    type: float
+    init_with: 0.01f
+
+  - name: initialized
+    type: bool
+    init_with: false
 
   - name: BLENDER_IDENTIFIER
     type: char*
@@ -32,7 +43,7 @@ methods:
     guards: [ model_bin, bitmap_bin ]
     body: |
       Krampus24::Gameplay::Entities::Hen* result = new Krampus24::Gameplay::Entities::Hen;
-      result->model = model_bin->auto_get("hen-01.obj");
+      result->model = model_bin->auto_get("hen-02.obj");
       result->texture = bitmap_bin->auto_get("entities_texture-01.png");
 
 
@@ -48,6 +59,7 @@ methods:
       AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
 
       result->placement.position = position;
+      result->placement.align = { -0.5, 0.0, -0.5 };
       result->placement.size = { 0.5, 0.5, 0.5 };
       result->collides_with_player = true;
       //result->affected_by_environmental_forces = affected_by_environmental_forces;
@@ -61,8 +73,35 @@ methods:
          //result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
       //}
 
+      result->movement_direction = AllegroFlare::Vec3D(0, 0, 1);
+      result->movement_velocity = 0.01;
+
+      result->initialized = true;
 
       return result;
+
+
+  - name: on_time_step
+    virtual: true
+    override: true
+    guards: [ initialized ]
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 0.0f
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+    body: |
+      velocity.position = movement_direction * movement_velocity;
+
+      float anchor_x = 0.0;
+      float anchor_y = std::sin(time_now*6) * 0.05;
+      float anchor_z = 0.0;
+      placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+      return;
+    body_dependency_symbols:
+      - std::sin
 
 
 dependencies:
@@ -76,5 +115,9 @@ dependencies:
     headers: [ AllegroFlare/BitmapBin.hpp ]
   - symbol: AllegroFlare::ModelBin
     headers: [ AllegroFlare/ModelBin.hpp ]
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: std::sin
+    headers: [ cmath ]
 
 
