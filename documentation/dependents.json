@@ -166,19 +166,21 @@
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen"
   ],
+  "AllegroFlare/BitmapBin": [
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/ModelBin": [
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
+  ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/BitmapBin": [
-    "Krampus24/Gameplay/Screen"
-  ],
   "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/ModelBin": [
     "Krampus24/Gameplay/Screen"
   ],
   "al_is_primitives_addon_initialized": [

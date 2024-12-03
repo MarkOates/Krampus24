@@ -357,8 +357,8 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
 
    AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
 
-   result->get_placement_ref().position = position;
-   result->get_placement_ref().size = { 0.5, 0.5, 0.5 };
+   result->placement.position = position;
+   result->placement.size = { 0.5, 0.5, 0.5 };
    result->collides_with_player = true;
    result->affected_by_environmental_forces = affected_by_environmental_forces;
 
@@ -367,7 +367,7 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
    if (entity_root_name == "elevator")
    {
       // Do elevator stuff
-      result->get_placement_ref().size = { 1.0, 2.0, 1.0 };
+      result->placement.size = { 1.0, 2.0, 1.0 };
       result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
    }
 
@@ -418,8 +418,8 @@ void Screen::load_or_reload_meshes()
    {
       Krampus24::Gameplay::Entities::Base* player_entity =
          new Krampus24::Gameplay::Entities::Base();
-      player_entity->get_placement_ref().size = {0.5, 0.5, 0.5};
-      player_entity->get_placement_ref().position = player_spawn_position;
+      player_entity->placement.size = {0.5, 0.5, 0.5};
+      player_entity->placement.position = player_spawn_position;
       entities.push_back(player_entity);
    }
    // Create entities from the blocking file
@@ -520,8 +520,8 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
       float angle = live_camera.spin;
       float x_prime = control_movement.x * std::cos(angle) - control_movement.y * std::sin(angle);
       float y_prime = control_movement.x * std::sin(angle) + control_movement.y * std::cos(angle);
-      entity->get_velocity_ref().position.x = x_prime * 0.1;
-      entity->get_velocity_ref().position.z = y_prime * 0.1;
+      entity->velocity.position.x = x_prime * 0.1;
+      entity->velocity.position.z = y_prime * 0.1;
    });
 
    set_player_input_controller(result_player_input_controller);
@@ -543,8 +543,8 @@ void Screen::update()
    {
       if (!entity->active || !entity->affected_by_environmental_forces) continue;
 
-      entity->get_velocity_ref().position += velocity_direction * gravity * step_duration;
-      entity->get_velocity_ref().position *= (1.0 - air_drag);
+      entity->velocity.position += velocity_direction * gravity * step_duration;
+      entity->velocity.position *= (1.0 - air_drag);
    }
 
 
@@ -561,8 +561,8 @@ void Screen::update()
       if (!entity->active || !entity->collides_with_environment) continue;
 
       collision_stepper_entities.push_back(std::make_tuple(
-         &entity->get_placement_ref().position,
-         &entity->get_velocity_ref().position,
+         &entity->placement.position,
+         &entity->velocity.position,
          (void*)entity
       ));
    }
@@ -620,7 +620,7 @@ void Screen::update()
    // Update the position of the camera
    //
 
-   live_camera.position = find_0th_entity()->get_placement_ref().position;
+   live_camera.position = find_0th_entity()->placement.position;
 
 
    //
@@ -812,14 +812,14 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
 
       case ALLEGRO_KEY_0: {
          auto player_entity = find_0th_entity();
-         player_entity->get_placement_ref().position = AllegroFlare::Vec3D(0, 0, 0);
-         player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+         player_entity->placement.position = AllegroFlare::Vec3D(0, 0, 0);
+         player_entity->velocity.position = AllegroFlare::Vec3D(0, 0, 0);
       } break;
 
       case ALLEGRO_KEY_9: {
          auto player_entity = find_0th_entity();
-         player_entity->get_placement_ref().position = player_spawn_position;
-         player_entity->get_velocity_ref().position = AllegroFlare::Vec3D(0, 0, 0);
+         player_entity->placement.position = player_spawn_position;
+         player_entity->velocity.position = AllegroFlare::Vec3D(0, 0, 0);
       } break;
 
       case ALLEGRO_KEY_R: {

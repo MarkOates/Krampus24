@@ -28,17 +28,17 @@ namespace Krampus24
 
          private:
             std::string type;
+
+         protected:
+
+
+         public:
             AllegroFlare::Model3D* model;
             ALLEGRO_BITMAP* texture;
             AllegroFlare::Placement3D placement;
             AllegroFlare::Placement3D velocity;
             AllegroFlare::Physics::AABB2D hit_box_2d;
             AllegroFlare::PlayerInputControllers::Base* player_input_controller;
-
-         protected:
-
-
-         public:
             std::vector<AllegroFlare::Vec3D> box_corners;
             ALLEGRO_COLOR box_color;
             std::string name;
@@ -53,23 +53,7 @@ namespace Krampus24
             virtual ~Base();
 
             void set_type(std::string type);
-            void set_model(AllegroFlare::Model3D* model);
-            void set_texture(ALLEGRO_BITMAP* texture);
-            void set_placement(AllegroFlare::Placement3D placement);
-            void set_velocity(AllegroFlare::Placement3D velocity);
-            void set_hit_box_2d(AllegroFlare::Physics::AABB2D hit_box_2d);
-            void set_player_input_controller(AllegroFlare::PlayerInputControllers::Base* player_input_controller);
             std::string get_type() const;
-            AllegroFlare::Model3D* get_model() const;
-            ALLEGRO_BITMAP* get_texture() const;
-            AllegroFlare::Placement3D get_placement() const;
-            AllegroFlare::Placement3D get_velocity() const;
-            AllegroFlare::Physics::AABB2D get_hit_box_2d() const;
-            AllegroFlare::PlayerInputControllers::Base* get_player_input_controller() const;
-            AllegroFlare::Placement3D &get_placement_ref();
-            AllegroFlare::Placement3D &get_velocity_ref();
-            AllegroFlare::Physics::AABB2D &get_hit_box_2d_ref();
-            AllegroFlare::PlayerInputControllers::Base* &get_player_input_controller_ref();
             bool has_player_input_controller();
             virtual void destroy();
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f);

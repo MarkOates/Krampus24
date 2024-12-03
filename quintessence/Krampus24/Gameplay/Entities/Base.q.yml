@@ -20,47 +20,37 @@ properties:
     type: AllegroFlare::Model3D*
     init_with: nullptr
     constructor_arg: true
-    getter: true
-    setter: true
+    exposed: true
 
   - name: texture
     type: ALLEGRO_BITMAP*
     init_with: nullptr
     constructor_arg: true
-    getter: true
-    setter: true
+    exposed: true
 
   - name: placement
     type: AllegroFlare::Placement3D
     init_with: '{}'
     constructor_arg: true
-    getter: true
-    setter: true
-    getter_ref: true
+    exposed: true
 
   - name: velocity
     type: AllegroFlare::Placement3D
     init_with: '{}'
     constructor_arg: true
-    getter: true
-    setter: true
-    getter_ref: true
+    exposed: true
 
   - name: hit_box_2d
     type: AllegroFlare::Physics::AABB2D
     init_with: '{}'
     constructor_arg: true
-    getter: true
-    setter: true
-    getter_ref: true
+    exposed: true
 
   - name: player_input_controller
     type: AllegroFlare::PlayerInputControllers::Base*
     init_with: nullptr
     constructor_arg: true
-    getter: true
-    setter: true
-    getter_ref: true
+    exposed: true
 
   - name: box_corners
     type: std::vector<AllegroFlare::Vec3D>

@@ -48,8 +48,8 @@ static Krampus24::Gameplay::Entities::Base* build_entity(
 )
 {
    Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
-   result->get_placement_ref().position = position;
-   result->get_placement_ref().size = { 0.5, 0.5, 0.5 };
+   result->placement.position = position;
+   result->placement.size = { 0.5, 0.5, 0.5 };
    result->collides_with_player = true;
    result->affected_by_environmental_forces = affected_by_environmental_forces;
    return result;

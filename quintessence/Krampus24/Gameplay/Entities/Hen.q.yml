@@ -22,8 +22,18 @@ methods:
   - name: construct
     static: true
     type: Krampus24::Gameplay::Entities::Hen*
+    parameters:
+      - name: model_bin
+        type: AllegroFlare::ModelBin*
+        default_argument: nullptr
+      - name: bitmap_bin
+        type: AllegroFlare::BitmapBin*
+        default_argument: nullptr
+    guards: [ model_bin, bitmap_bin ]
     body: |
       Krampus24::Gameplay::Entities::Hen* result = new Krampus24::Gameplay::Entities::Hen;
+      result->model = model_bin->auto_get("hen-01.obj");
+      result->texture = bitmap_bin->auto_get("entities_texture-01.png");
       return result;
 
 
@@ -34,5 +44,9 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Hen
     headers: [ Krampus24/Gameplay/Entities/Hen.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: AllegroFlare::ModelBin
+    headers: [ AllegroFlare/ModelBin.hpp ]
 
 

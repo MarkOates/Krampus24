@@ -163,8 +163,8 @@ methods:
       auto *player_entity = find_0th_entity();
       auto *target_elevator = find_entity_by_name_or_throw(entering_elevator_name)->elevator__target;
 
-      player_entity->get_placement_ref().position =
-         target_elevator->get_placement_ref().position + AllegroFlare::Vec3D(0, 0.5, 0);
+      player_entity->placement.position =
+         target_elevator->placement.position + AllegroFlare::Vec3D(0, 0.5, 0);
       collision_observer->passively_add_to_currently_colliding(target_elevator);
       return;
 

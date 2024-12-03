@@ -778,7 +778,7 @@ table td
 <div class="property-box methods">     <table>
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Hen*</td>
-  <td class="method"><b>construct</b>()</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr)</td>
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>
@@ -788,6 +788,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Hen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Hen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::ModelBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/ModelBin.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1339,19 +1345,21 @@ table td
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen"
   ],
+  "AllegroFlare/BitmapBin": [
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/ModelBin": [
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
+  ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/BitmapBin": [
-    "Krampus24/Gameplay/Screen"
-  ],
   "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/ModelBin": [
     "Krampus24/Gameplay/Screen"
   ],
   "al_is_primitives_addon_initialized": [
