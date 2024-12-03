@@ -114,6 +114,10 @@
   "AllegroFlare/Screens/Subscreen/Screen": [
     "Krampus24/Game/Configurations/Main"
   ],
+  "Krampus24/Gameplay/ScriptingInterface": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Gameplay/Entities/Base": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",

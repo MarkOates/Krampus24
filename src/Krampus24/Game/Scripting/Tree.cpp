@@ -16,12 +16,12 @@ namespace Scripting
 
 
 Tree::Tree()
-   : font_bin(nullptr)
+   : Krampus24::Gameplay::ScriptingInterface()
+   , font_bin(nullptr)
    , entities(nullptr)
    , primary_power_coil_collected(false)
    , primary_power_coil_returned_to_ship(false)
    , collision_observer(nullptr)
-   , on_entity_collision_callbacks({})
    , initialized(false)
 {
 }
@@ -65,12 +65,6 @@ void Tree::set_collision_observer(AllegroFlare::CollisionObservers::Simple* coll
 }
 
 
-void Tree::set_on_entity_collision_callbacks(std::map<void*, std::function<void()>> on_entity_collision_callbacks)
-{
-   this->on_entity_collision_callbacks = on_entity_collision_callbacks;
-}
-
-
 bool Tree::get_primary_power_coil_collected() const
 {
    return primary_power_coil_collected;
@@ -80,12 +74,6 @@ bool Tree::get_primary_power_coil_collected() const
 bool Tree::get_primary_power_coil_returned_to_ship() const
 {
    return primary_power_coil_returned_to_ship;
-}
-
-
-std::map<void*, std::function<void()>> Tree::get_on_entity_collision_callbacks() const
-{
-   return on_entity_collision_callbacks;
 }
 
 
@@ -109,6 +97,11 @@ void Tree::render_hud()
       );
    }
    return;
+}
+
+bool Tree::end_state_achieved()
+{
+   return primary_power_coil_collected;
 }
 
 bool Tree::a_0th_entity_exists()
@@ -173,24 +166,6 @@ void Tree::initialize()
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met");
    }
    initialized = true;
-   return;
-}
-
-bool Tree::has_on_collision_callback(void* entity)
-{
-   return on_entity_collision_callbacks.find(entity) != on_entity_collision_callbacks.end();
-}
-
-void Tree::call_on_collision_callback(void* entity)
-{
-   if (!(has_on_collision_callback(entity)))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Game::Scripting::Tree::call_on_collision_callback]: error: guard \"has_on_collision_callback(entity)\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::call_on_collision_callback]: error: guard \"has_on_collision_callback(entity)\" not met");
-   }
-   on_entity_collision_callbacks[entity]();
    return;
 }
 

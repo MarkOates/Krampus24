@@ -64,6 +64,7 @@ table td
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Hen.q.yml">quintessence/Krampus24/Gameplay/Entities/Hen.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml">quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</a></li>
 </ul>
 <h1>Components</h1>
@@ -461,10 +462,6 @@ table td
   <td class="property">AllegroFlare::CollisionObservers::Simple*</td>
 </tr>
 <tr>
-  <td class="property">on_entity_collision_callbacks</td>
-  <td class="property">std::map&lt;void*, std::function&lt;void()&gt;&gt;</td>
-</tr>
-<tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
 </tr>
@@ -477,6 +474,10 @@ table td
 </tr>
 <tr>
   <td class="method">bool</td>
+  <td class="method"><b>end_state_achieved</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
   <td class="method"><b>a_0th_entity_exists</b>()</td>
 </tr>
 <tr>
@@ -486,14 +487,6 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>initialize</b>()</td>
-</tr>
-<tr>
-  <td class="method">bool</td>
-  <td class="method"><b>has_on_collision_callback</b>(void* entity=nullptr)</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>call_on_collision_callback</b>(void* entity=nullptr)</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -522,6 +515,9 @@ table td
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::ScriptingInterface&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/ScriptingInterface.hpp&quot;]}</td>
+</tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
 </tr>
@@ -900,7 +896,7 @@ table td
 </tr>
 <tr>
   <td class="property">scripting</td>
-  <td class="property">Krampus24::Game::Scripting::Tree</td>
+  <td class="property">Krampus24::Gameplay::ScriptingInterface*</td>
 </tr>
 <tr>
   <td class="property">rendering_visual_mesh</td>
@@ -1119,6 +1115,9 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoader&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoader.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::ScriptingInterface&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/ScriptingInterface.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Game::Scripting::Tree&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Game/Scripting/Tree.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -1126,6 +1125,41 @@ table td
 </tr>
     </table>
 </div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml">quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">on_entity_collision_callbacks</td>
+  <td class="property">std::map&lt;void*, std::function&lt;void()&gt;&gt;</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>render_hud</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>end_state_achieved</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>has_on_collision_callback</b>(void* entity=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>call_on_collision_callback</b>(void* entity=nullptr)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<p>This class contains no dependencies</p>  </div>
 </ul>
 <br><br><br>
 <br><br><br>
@@ -1299,6 +1333,10 @@ table td
   ],
   "AllegroFlare/Screens/Subscreen/Screen": [
     "Krampus24/Game/Configurations/Main"
+  ],
+  "Krampus24/Gameplay/ScriptingInterface": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/Base": [
     "Krampus24/Game/Scripting/Tree",

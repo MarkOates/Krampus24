@@ -1,3 +1,11 @@
+parent_classes:
+
+
+  - class: Krampus24::Gameplay::ScriptingInterface
+    scope: public
+    init_with: ''
+
+
 properties:
 
 
@@ -28,12 +36,6 @@ properties:
     init_with: nullptr
     setter: before_initialized
 
-  - name: on_entity_collision_callbacks
-    type: std::map<void*, std::function<void()>>
-    init_with: '{}'
-    getter: true
-    setter: true
-
   - name: initialized
     type: bool
     init_with: false
@@ -44,6 +46,8 @@ methods:
 
 
   - name: render_hud
+    virtual: true
+    override: true
     body: |
       if (primary_power_coil_collected)
       {
@@ -57,6 +61,14 @@ methods:
          );
       }
       return;
+
+
+  - name: end_state_achieved
+    type: bool
+    virtual: true
+    override: true
+    body: |
+      return primary_power_coil_collected;
 
 
   - name: a_0th_entity_exists
@@ -81,27 +93,6 @@ methods:
       - font_bin
     body: |
       initialized = true;
-      return;
-
-
-  - name: has_on_collision_callback
-    type: bool
-    parameters:
-      - name: entity
-        type: void*
-        default_argument: nullptr
-    body: |
-      return on_entity_collision_callbacks.find(entity) != on_entity_collision_callbacks.end();
-
-
-  - name: call_on_collision_callback
-    parameters:
-      - name: entity
-        type: void*
-        default_argument: nullptr
-    guards: [ has_on_collision_callback(entity) ]
-    body: |
-      on_entity_collision_callbacks[entity]();
       return;
 
 
@@ -234,6 +225,8 @@ methods:
 dependencies:
 
 
+  - symbol: Krampus24::Gameplay::ScriptingInterface
+    headers: [ Krampus24/Gameplay/ScriptingInterface.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Base
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
   - symbol: AllegroFlare::CollisionObservers::Simple

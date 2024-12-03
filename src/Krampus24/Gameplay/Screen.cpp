@@ -9,6 +9,7 @@
 #include <AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier.hpp>
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
+#include <Krampus24/Game/Scripting/Tree.hpp>
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <sstream>
@@ -40,7 +41,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , visual_mesh_identifier(visual_mesh_identifier)
    , visual_mesh_texture_identifier(visual_mesh_texture_identifier)
    , blocking_filename(blocking_filename)
-   , scripting({})
+   , scripting(nullptr)
    , rendering_visual_mesh(true)
    , rendering_collision_wiremesh(true)
    , rendering_entity_bounding_boxes(true)
@@ -321,10 +322,12 @@ void Screen::initialize()
    //live_camera.tilt = 0.8;
 
    // Set this levels entities to the scripting logic
-   scripting.set_entities(&entities);
-   scripting.set_collision_observer(&collision_observer);
-   scripting.set_font_bin(font_bin);
-   scripting.initialize();
+   //Krampus24::Game::Scripting::Tree *tree_scripting = new Krampus24::Game::Scripting::Tree;
+   //tree_scripting.set_entities(&entities);
+   //tree_scripting.set_collision_observer(&collision_observer);
+   //tree_scripting.set_font_bin(font_bin);
+   //tree_scripting.initialize();
+   //scripting = tree_scripting;
 
    // Load level and entities
    load_or_reload_meshes();
@@ -441,7 +444,18 @@ void Screen::load_or_reload_meshes()
    });
 
    // Load up the scripting
-   scripting.build_on_collision_callbacks();
+   if (scripting)
+   {
+      delete scripting;
+      scripting = nullptr;
+   }
+   Krampus24::Game::Scripting::Tree *tree_scripting = new Krampus24::Game::Scripting::Tree;
+   tree_scripting->set_entities(&entities);
+   tree_scripting->set_collision_observer(&collision_observer);
+   tree_scripting->set_font_bin(font_bin);
+   tree_scripting->initialize();
+   scripting = tree_scripting;
+   //scripting.build_on_collision_callbacks();
 
    return;
 }
@@ -609,9 +623,9 @@ void Screen::update()
       //entity->visible = false;
       //gems_collected++;
 
-      if (scripting.has_on_collision_callback(entity))
+      if (scripting && scripting->has_on_collision_callback(entity))
       {
-         scripting.call_on_collision_callback(entity);
+         scripting->call_on_collision_callback(entity);
       }
    }
 
@@ -624,10 +638,10 @@ void Screen::update()
 
 
    //
-   // Evaluate win condition (DEVELOPMENT)
+   // Evaluate win condition
    //
 
-   if (scripting.get_primary_power_coil_returned_to_ship()) // DEVELOPMENT
+   if (scripting->end_state_achieved())
    {
       call_on_finished_callback_func();
    }
@@ -683,7 +697,7 @@ void Screen::render()
 
    hud_camera.setup_dimensional_projection(target_bitmap);
 
-   scripting.render_hud();
+   if (scripting) scripting->render_hud();
    /*
    if (power_cell_collected)
    {

@@ -1,0 +1,46 @@
+properties:
+
+
+  - name: on_entity_collision_callbacks
+    type: std::map<void*, std::function<void()>>
+    init_with: '{}'
+    exposed: true
+
+
+methods:
+
+
+  - name: render_hud
+    virtual: true
+    body: |
+      return;
+
+
+  - name: end_state_achieved
+    type: bool
+    virtual: true
+    body: |
+      return false;
+
+
+  - name: has_on_collision_callback
+    type: bool
+    parameters:
+      - name: entity
+        type: void*
+        default_argument: nullptr
+    body: |
+      return on_entity_collision_callbacks.find(entity) != on_entity_collision_callbacks.end();
+
+
+  - name: call_on_collision_callback
+    parameters:
+      - name: entity
+        type: void*
+        default_argument: nullptr
+    guards: [ has_on_collision_callback(entity) ]
+    body: |
+      on_entity_collision_callbacks[entity]();
+      return;
+
+
