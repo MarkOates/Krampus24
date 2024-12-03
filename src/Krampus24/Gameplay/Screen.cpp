@@ -12,6 +12,7 @@
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
+#include <Krampus24/Gameplay/Entities/Turret.hpp>
 #include <Krampus24/Gameplay/PlayerInputControllers/Player.hpp>
 #include <Krampus24/Gameplay/Scripting/Empty.hpp>
 #include <allegro5/allegro_primitives.h>
@@ -410,6 +411,13 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
       result->name = entity->name;
       return result;
    }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::Turret::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      auto *result = Krampus24::Gameplay::Entities::Turret::construct(model_bin, bitmap_bin, position, rotation);
+      result->name = entity->name;
+      return result;
+   }
 
    //AllegroFlare::Vec3D position;
    bool affected_by_environmental_forces = true;
@@ -442,7 +450,8 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
 
 void Screen::load_or_reload_meshes()
 {
-   AllegroFlare::Vec3D player_spawn_position = {3, 0.001, -2}; // DEVELOPMENT
+   player_spawn_position = {3.5, 0.001, 3.5}; // DEVELOPMENT
+   float player_initial_spin = ALLEGRO_PI * -0.25;
    //AllegroFlare::Vec3D restored_player_position = player_spawn_position;
    Krampus24::Gameplay::Entities::Base* existing_player_entity = nullptr;
    if (a_0th_entity_exists()) existing_player_entity = find_0th_entity();
@@ -486,6 +495,7 @@ void Screen::load_or_reload_meshes()
          new Krampus24::Gameplay::Entities::Base();
       player_entity->placement.size = {0.5, 0.5, 0.5};
       player_entity->placement.position = player_spawn_position;
+      player_entity->player__spin = player_initial_spin;
       entities.push_back(player_entity);
    }
    // Create entities from the blocking file
@@ -497,13 +507,34 @@ void Screen::load_or_reload_meshes()
       //float y = entity->location.z; // Swapping z<->y
       //float z = entity->location.y; // Swapping z<->y
 
-      Krampus24::Gameplay::Entities::Base* result_entity = build_entity(entity);
-      //entity->name, AllegroFlare::Vec3D(x, y, z));
+      // HERE
+      std::string entity_root_name = entity->get_name_unversioned();
+      if (entity_root_name == "player_spawn")
+      {
+         float x = entity->location.x;
+         float y = entity->location.z; // Swapping z<->y
+         float z = entity->location.y; // Swapping z<->y
 
-      //std::string entity_root_name = entity->get_name_unversioned();
-      //if (entity_root_name == "elevator")
+         AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
 
-      entities.push_back(result_entity);
+         Krampus24::Gameplay::Entities::Base* player_entity = find_0th_entity();
+         player_spawn_position = position;
+         player_entity->placement.position = player_spawn_position; // + AllegroFlare::Vec3D(0, 0.01, 0);
+         //float rotation = entity->rotation.z / 360.0;
+         //auto *result = Krampus24::Gameplay::Entities::Turret::construct(model_bin, bitmap_bin, position, rotation);
+         //result->name = entity->name;
+         //return result;
+      }
+      else
+      {
+         Krampus24::Gameplay::Entities::Base* result_entity = build_entity(entity);
+         //entity->name, AllegroFlare::Vec3D(x, y, z));
+
+         //std::string entity_root_name = entity->get_name_unversioned();
+         //if (entity_root_name == "elevator")
+
+         entities.push_back(result_entity);
+      }
    });
 
    // Load up the scripting

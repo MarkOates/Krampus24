@@ -62,6 +62,7 @@ table td
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Hen.q.yml">quintessence/Krampus24/Gameplay/Entities/Hen.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Gameplay/Entities/Turret.q.yml">quintessence/Krampus24/Gameplay/Entities/Turret.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml">quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</a></li>
@@ -899,6 +900,60 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Gameplay/Entities/Turret.q.yml">quintessence/Krampus24/Gameplay/Entities/Turret.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">BLENDER_IDENTIFIER</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">Krampus24::Gameplay::Entities::Turret*</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D position={}, float rotation=0.0f)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventEmitter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventEmitter.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::ModelBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/ModelBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Turret&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Turret.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -1416,6 +1471,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Shaders::Principled&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Shaders/Principled.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Turret&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Turret.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -1688,6 +1746,7 @@ table td
   "AllegroFlare/Logger": [
     "Krampus24/BlenderBlockingLoader",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec3D": [
@@ -1696,6 +1755,7 @@ table td
     "Krampus24/BlenderBlockingLoaderEntity",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
   ],
@@ -1813,6 +1873,7 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
@@ -1871,11 +1932,13 @@ table td
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
   ],
   "AllegroFlare/ModelBin": [
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec2D": [
@@ -1891,6 +1954,15 @@ table td
   ],
   "AllegroFlare/Random": [
     "Krampus24/Gameplay/Entities/Hen"
+  ],
+  "AllegroFlare/EventEmitter": [
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
+  "Krampus24/Gameplay/Entities/Turret": [
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",
@@ -1915,10 +1987,6 @@ table td
   ],
   "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
   ],
   "al_is_primitives_addon_initialized": [
     "Krampus24/Gameplay/Screen"

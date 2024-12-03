@@ -5,6 +5,7 @@
   "AllegroFlare/Logger": [
     "Krampus24/BlenderBlockingLoader",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec3D": [
@@ -13,6 +14,7 @@
     "Krampus24/BlenderBlockingLoaderEntity",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
   ],
@@ -130,6 +132,7 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
@@ -188,11 +191,13 @@
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
   ],
   "AllegroFlare/ModelBin": [
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec2D": [
@@ -208,6 +213,15 @@
   ],
   "AllegroFlare/Random": [
     "Krampus24/Gameplay/Entities/Hen"
+  ],
+  "AllegroFlare/EventEmitter": [
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
+  "Krampus24/Gameplay/Entities/Turret": [
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",
@@ -232,10 +246,6 @@
   ],
   "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
   ],
   "al_is_primitives_addon_initialized": [
     "Krampus24/Gameplay/Screen"
