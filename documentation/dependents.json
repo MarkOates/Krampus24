@@ -278,6 +278,9 @@
   "Krampus24/Gameplay/PlayerInputControllers/Player": [
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Shaders/Fog": [
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"
   ],

@@ -1163,6 +1163,10 @@ table td
   <td class="property">std::function&lt;Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)&gt;</td>
 </tr>
 <tr>
+  <td class="property">fog_shader</td>
+  <td class="property">Krampus24::Shaders::Fog</td>
+</tr>
+<tr>
   <td class="property">rendering_visual_mesh</td>
   <td class="property">bool</td>
 </tr>
@@ -1402,6 +1406,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Hen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Hen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Shaders::Fog&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Shaders/Fog.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1776,6 +1783,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/PlayerInputControllers/Player": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Shaders/Fog": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

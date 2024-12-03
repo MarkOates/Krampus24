@@ -131,6 +131,10 @@ properties:
     getter: true
     setter: true
 
+  - name: fog_shader
+    type: Krampus24::Shaders::Fog
+    init_with: '{}'
+
   - name: rendering_visual_mesh
     type: bool
     init_with: true
@@ -196,6 +200,8 @@ methods:
 
       // Create a player input controller for the 0th entity
       create_and_set_player_input_controller_for_0th_entity();
+
+      fog_shader.initialize();
 
       initialized = true;
       return;
@@ -597,6 +603,9 @@ methods:
       ALLEGRO_BITMAP *target_bitmap = al_get_target_bitmap();
       live_camera.setup_projection_on(target_bitmap);
 
+
+      //fog_shader.activate();
+
       // Draw the visual mesh
       if (rendering_visual_mesh)
       {
@@ -624,6 +633,8 @@ methods:
             //visual_mesh->draw();
          }
       }
+
+      //fog_shader.deactivate();
 
       // TODO: Draw the entities (models?, bounding boxes?)
       if (rendering_entity_bounding_boxes)
@@ -1099,5 +1110,7 @@ dependencies:
     headers: [ Krampus24/Gameplay/PlayerInputControllers/Player.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Hen
     headers: [ Krampus24/Gameplay/Entities/Hen.hpp ]
+  - symbol: Krampus24::Shaders::Fog
+    headers: [ Krampus24/Shaders/Fog.hpp ]
 
 
