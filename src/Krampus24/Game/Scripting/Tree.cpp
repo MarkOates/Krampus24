@@ -234,6 +234,11 @@ void Tree::build_on_collision_callbacks()
    link_elevators("elevator-09", "elevator-10");
 
    on_entity_collision_callbacks = {
+
+      //{ find_entity_by_name_or_throw("hen-01"), [this](){
+         //travel_player_to_elevators_target("elevator-01");
+      //}},
+
       { find_entity_by_name_or_throw("elevator-01"), [this](){
          travel_player_to_elevators_target("elevator-01");
       }},

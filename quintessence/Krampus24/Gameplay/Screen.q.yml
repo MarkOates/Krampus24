@@ -137,7 +137,7 @@ properties:
 
   - name: rendering_collision_wiremesh
     type: bool
-    init_with: true
+    init_with: false
 
   - name: rendering_entity_models
     type: bool

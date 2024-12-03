@@ -8,6 +8,7 @@
 #include <AllegroFlare/GameEventDatas/AchievementUnlocked.hpp>
 #include <AllegroFlare/GameProgressAndStateInfos/Base.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
+#include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Level.hpp>
 #include <Krampus24/Gameplay/Screen.hpp>
 #include <functional>
@@ -84,6 +85,19 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    result->set_bitmap_bin(runner->get_bitmap_bin());
    result->set_model_bin(runner->get_model_bin());
    result->set_event_emitter(runner->get_event_emitter());
+   result->set_build_scripting_instance_func(
+      [](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
+
+      //std::cout << "---- ****** inside building scripting ----" << std::endl;
+      // Build a scripting
+      Krampus24::Game::Scripting::Tree *scripting = new Krampus24::Game::Scripting::Tree;
+      scripting->set_entities(&screen->get_entities_ref());
+      scripting->set_collision_observer(&screen->get_collision_observer_ref());
+      scripting->set_font_bin(screen->get_font_bin());
+      scripting->initialize();
+
+      return scripting;
+   });
    result->set_on_finished_callback_func(//[](AllegroFlare::Screens::Gameplay*, void*){
       [runner](AllegroFlare::Screens::Gameplay* screen, void* user_data){
          runner->get_event_emitter()->emit_router_event(

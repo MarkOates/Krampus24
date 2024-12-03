@@ -94,6 +94,19 @@ methods:
       result->set_bitmap_bin(runner->get_bitmap_bin());
       result->set_model_bin(runner->get_model_bin());
       result->set_event_emitter(runner->get_event_emitter());
+      result->set_build_scripting_instance_func(
+         [](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
+
+         //std::cout << "---- ****** inside building scripting ----" << std::endl;
+         // Build a scripting
+         Krampus24::Game::Scripting::Tree *scripting = new Krampus24::Game::Scripting::Tree;
+         scripting->set_entities(&screen->get_entities_ref());
+         scripting->set_collision_observer(&screen->get_collision_observer_ref());
+         scripting->set_font_bin(screen->get_font_bin());
+         scripting->initialize();
+
+         return scripting;
+      });
       result->set_on_finished_callback_func(//[](AllegroFlare::Screens::Gameplay*, void*){
          [runner](AllegroFlare::Screens::Gameplay* screen, void* user_data){
             runner->get_event_emitter()->emit_router_event(
@@ -115,6 +128,7 @@ methods:
     body_dependency_symbols:
       - Krampus24::Gameplay::Screen
       - AllegroFlare::Runners::Complete
+      - Krampus24::Game::Scripting::Tree
 
 
   - name: create_primary_gameplay_subscreen
@@ -709,5 +723,7 @@ dependencies:
     headers: [ AllegroFlare/Screens/PauseScreen.hpp ]
   - symbol: AllegroFlare::Screens::Subscreen::Screen
     headers: [ AllegroFlare/Screens/Subscreen/Screen.hpp ]
+  - symbol: Krampus24::Game::Scripting::Tree
+    headers: [ Krampus24/Game/Scripting/Tree.hpp ]
 
 
