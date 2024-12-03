@@ -42,6 +42,7 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* game_configuration;
          AllegroFlare::Camera2D hud_camera;
          AllegroFlare::Camera3D live_camera;
+         float player_spin;
          std::vector<Krampus24::Gameplay::Entities::Base*> entities;
          AllegroFlare::Physics::CollisionMesh* collision_mesh;
          AllegroFlare::Model3D* visual_mesh;
@@ -74,6 +75,7 @@ namespace Krampus24
          void set_game_configuration(AllegroFlare::GameConfigurations::Base* game_configuration);
          void set_hud_camera(AllegroFlare::Camera2D hud_camera);
          void set_live_camera(AllegroFlare::Camera3D live_camera);
+         void set_player_spin(float player_spin);
          void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*> entities);
          void set_collision_mesh(AllegroFlare::Physics::CollisionMesh* collision_mesh);
          void set_visual_mesh(AllegroFlare::Model3D* visual_mesh);
@@ -89,6 +91,7 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
          AllegroFlare::Camera3D get_live_camera() const;
+         float get_player_spin() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> get_entities() const;
          AllegroFlare::Physics::CollisionMesh* get_collision_mesh() const;
          AllegroFlare::Model3D* get_visual_mesh() const;

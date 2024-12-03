@@ -102,6 +102,16 @@ properties:
     init_with: nullptr
     exposed: true
 
+  - name: player__spin
+    type: float
+    init_with: 0.0f
+    exposed: true
+
+  - name: player__tilt
+    type: float
+    init_with: 0.0f
+    exposed: true
+
   - name: TYPE
     type: char*
     init_with: '(char*)"Krampus24/Gameplay/Entities/Base"'

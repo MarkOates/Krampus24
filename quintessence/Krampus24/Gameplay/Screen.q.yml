@@ -60,6 +60,12 @@ properties:
     getter: true
     setter: true
 
+  - name: player_spin
+    type: float
+    init_with: 0.0f
+    getter: true
+    setter: true
+
   - name: entities
     type: std::vector<Krampus24::Gameplay::Entities::Base*>
     init_with: '{}'
@@ -395,6 +401,19 @@ methods:
 
   - name: create_and_set_player_input_controller_for_0th_entity
     body: |
+      Krampus24::Gameplay::PlayerInputControllers::Player *result_player_input_controller = new
+         Krampus24::Gameplay::PlayerInputControllers::Player();
+      result_player_input_controller->set_player_entity(find_0th_entity());
+      result_player_input_controller->initialize();
+
+      set_player_input_controller(result_player_input_controller);
+
+      return;
+
+
+
+
+      /*
       AllegroFlare::PlayerInputControllers::Generic *result_player_input_controller =
          new AllegroFlare::PlayerInputControllers::Generic();
 
@@ -415,7 +434,8 @@ methods:
          auto entity = find_0th_entity();
 
          // Relative to camera:
-         float angle = live_camera.spin;
+         float angle = player_spin;
+         //float angle = live_camera.spin;
          float x_prime = control_movement.x * std::cos(angle) - control_movement.y * std::sin(angle);
          float y_prime = control_movement.x * std::sin(angle) + control_movement.y * std::cos(angle);
          entity->velocity.position.x = x_prime * 0.1;
@@ -423,9 +443,11 @@ methods:
       });
 
       set_player_input_controller(result_player_input_controller);
-
+      */
+      return;
     body_dependency_symbols:
        - AllegroFlare::PlayerInputControllers::Generic
+       - Krampus24::Gameplay::PlayerInputControllers::Player
 
 
   - name: update
@@ -531,6 +553,9 @@ methods:
       //
 
       live_camera.position = find_0th_entity()->placement.position;
+      live_camera.spin = find_0th_entity()->player__spin;
+      live_camera.tilt = find_0th_entity()->player__tilt;
+
 
 
       //
@@ -719,19 +744,21 @@ methods:
          } break;
 
          case ALLEGRO_KEY_J: {
-            live_camera.spin -= ALLEGRO_PI * 0.25;
+            //live_camera.spin -= ALLEGRO_PI * 0.25;
+            //player_spin -= ALLEGRO_PI * 0.25;
          } break;
 
          case ALLEGRO_KEY_K: {
-            live_camera.spin += ALLEGRO_PI * 0.25;
+            //live_camera.spin += ALLEGRO_PI * 0.25;
+            //player_spin += ALLEGRO_PI * 0.25;
          } break;
 
          case ALLEGRO_KEY_U: {
-            live_camera.tilt -= ALLEGRO_PI * 0.125;
+            //live_camera.tilt -= ALLEGRO_PI * 0.125;
          } break;
 
          case ALLEGRO_KEY_N: {
-            live_camera.tilt += ALLEGRO_PI * 0.125;
+            //live_camera.tilt += ALLEGRO_PI * 0.125;
          } break;
 
          // DEVELOPMENT keys
@@ -1049,5 +1076,7 @@ dependencies:
     headers: [ Krampus24/Gameplay/Scripting/Empty.hpp ]
   - symbol: AllegroFlare::Logger
     headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: Krampus24::Gameplay::PlayerInputControllers::Player
+    headers: [ Krampus24/Gameplay/PlayerInputControllers/Player.hpp ]
 
 

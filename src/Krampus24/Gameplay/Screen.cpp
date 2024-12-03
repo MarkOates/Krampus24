@@ -11,6 +11,7 @@
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
+#include <Krampus24/Gameplay/PlayerInputControllers/Player.hpp>
 #include <Krampus24/Gameplay/Scripting/Empty.hpp>
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
@@ -35,6 +36,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , game_configuration(game_configuration)
    , hud_camera({})
    , live_camera({})
+   , player_spin(0.0f)
    , entities(entities)
    , collision_mesh(collision_mesh)
    , visual_mesh(nullptr)
@@ -112,6 +114,12 @@ void Screen::set_hud_camera(AllegroFlare::Camera2D hud_camera)
 void Screen::set_live_camera(AllegroFlare::Camera3D live_camera)
 {
    this->live_camera = live_camera;
+}
+
+
+void Screen::set_player_spin(float player_spin)
+{
+   this->player_spin = player_spin;
 }
 
 
@@ -206,6 +214,12 @@ AllegroFlare::Camera2D Screen::get_hud_camera() const
 AllegroFlare::Camera3D Screen::get_live_camera() const
 {
    return live_camera;
+}
+
+
+float Screen::get_player_spin() const
+{
+   return player_spin;
 }
 
 
@@ -567,6 +581,19 @@ Krampus24::Gameplay::Entities::Base* Screen::find_0th_entity()
 
 void Screen::create_and_set_player_input_controller_for_0th_entity()
 {
+   Krampus24::Gameplay::PlayerInputControllers::Player *result_player_input_controller = new
+      Krampus24::Gameplay::PlayerInputControllers::Player();
+   result_player_input_controller->set_player_entity(find_0th_entity());
+   result_player_input_controller->initialize();
+
+   set_player_input_controller(result_player_input_controller);
+
+   return;
+
+
+
+
+   /*
    AllegroFlare::PlayerInputControllers::Generic *result_player_input_controller =
       new AllegroFlare::PlayerInputControllers::Generic();
 
@@ -587,7 +614,8 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
       auto entity = find_0th_entity();
 
       // Relative to camera:
-      float angle = live_camera.spin;
+      float angle = player_spin;
+      //float angle = live_camera.spin;
       float x_prime = control_movement.x * std::cos(angle) - control_movement.y * std::sin(angle);
       float y_prime = control_movement.x * std::sin(angle) + control_movement.y * std::cos(angle);
       entity->velocity.position.x = x_prime * 0.1;
@@ -595,6 +623,8 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
    });
 
    set_player_input_controller(result_player_input_controller);
+   */
+   return;
 }
 
 void Screen::update()
@@ -700,6 +730,9 @@ void Screen::update()
    //
 
    live_camera.position = find_0th_entity()->placement.position;
+   live_camera.spin = find_0th_entity()->player__spin;
+   live_camera.tilt = find_0th_entity()->player__tilt;
+
 
 
    //
@@ -891,19 +924,21 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
       } break;
 
       case ALLEGRO_KEY_J: {
-         live_camera.spin -= ALLEGRO_PI * 0.25;
+         //live_camera.spin -= ALLEGRO_PI * 0.25;
+         //player_spin -= ALLEGRO_PI * 0.25;
       } break;
 
       case ALLEGRO_KEY_K: {
-         live_camera.spin += ALLEGRO_PI * 0.25;
+         //live_camera.spin += ALLEGRO_PI * 0.25;
+         //player_spin += ALLEGRO_PI * 0.25;
       } break;
 
       case ALLEGRO_KEY_U: {
-         live_camera.tilt -= ALLEGRO_PI * 0.125;
+         //live_camera.tilt -= ALLEGRO_PI * 0.125;
       } break;
 
       case ALLEGRO_KEY_N: {
-         live_camera.tilt += ALLEGRO_PI * 0.125;
+         //live_camera.tilt += ALLEGRO_PI * 0.125;
       } break;
 
       // DEVELOPMENT keys

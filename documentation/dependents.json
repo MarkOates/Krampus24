@@ -12,6 +12,7 @@
     "Krampus24/BlenderBlockingLoaderEntity",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/BlenderBlockingLoaderBlock": [
@@ -124,6 +125,7 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
   ],
@@ -162,7 +164,8 @@
     "Krampus24/Gameplay/Entities/Base"
   ],
   "AllegroFlare/PlayerInputControllers/Base": [
-    "Krampus24/Gameplay/Entities/Base"
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "ALLEGRO_COLOR": [
     "Krampus24/Gameplay/Entities/Base"
@@ -182,10 +185,32 @@
     "Krampus24/Gameplay/Screen"
   ],
   "std/sin": [
-    "Krampus24/Gameplay/Entities/Hen"
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "ALLEGRO_EVENT": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
+  ],
+  "std/fabs": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
+  "AllegroFlare/Vec2D": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
+  "AllegroFlare/VirtualControllers/GenericController": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
+  "AllegroFlare/Player": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/Base": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "std/cos": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
@@ -194,12 +219,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "al_is_primitives_addon_initialized": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Player": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/VirtualControllers/Base": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/GameConfigurations/Base": [
@@ -244,6 +263,9 @@
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Scripting/Empty": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/PlayerInputControllers/Player": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

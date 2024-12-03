@@ -68,7 +68,7 @@ methods:
     virtual: true
     override: true
     body: |
-      return primary_power_coil_collected;
+      return primary_power_coil_returned_to_ship;
 
 
   - name: a_0th_entity_exists

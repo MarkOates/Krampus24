@@ -101,7 +101,7 @@ void Tree::render_hud()
 
 bool Tree::end_state_achieved()
 {
-   return primary_power_coil_collected;
+   return primary_power_coil_returned_to_ship;
 }
 
 bool Tree::a_0th_entity_exists()

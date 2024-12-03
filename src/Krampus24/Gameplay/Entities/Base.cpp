@@ -34,6 +34,8 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , collides_with_player(false)
    , collides_with_enemies(false)
    , elevator__target(nullptr)
+   , player__spin(0.0f)
+   , player__tilt(0.0f)
 {
 }
 

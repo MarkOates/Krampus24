@@ -63,6 +63,7 @@ table td
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Hen.q.yml">quintessence/Krampus24/Gameplay/Entities/Hen.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml">quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml">quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</a></li>
@@ -656,6 +657,14 @@ table td
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
 <tr>
+  <td class="property">player__spin</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">player__tilt</td>
+  <td class="property">float</td>
+</tr>
+<tr>
   <td class="property">TYPE</td>
   <td class="property">char*</td>
 </tr>
@@ -848,6 +857,164 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml">quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml</h3>
+    <h3>Overview</h3>
+    <p>{"todos"=>["figure out what to do with 'interact_with_focused_object()'. Should it be here, in the screen?", "figure out what to do with show/hide inspect hints", "figure out how to spawn and change the control hints"]}</p>    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">camera_entity</td>
+  <td class="property">void*</td>
+</tr>
+<tr>
+  <td class="property">player_entity</td>
+  <td class="property">Krampus24::Gameplay::Entities::Base*</td>
+</tr>
+<tr>
+  <td class="property">player_control_move_velocity</td>
+  <td class="property">AllegroFlare::Vec2D</td>
+</tr>
+<tr>
+  <td class="property">player_control_look_velocity</td>
+  <td class="property">AllegroFlare::Vec2D</td>
+</tr>
+<tr>
+  <td class="property">player_right_pressed</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">player_left_pressed</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">player_up_pressed</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">player_down_pressed</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>player_stop_moving</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>player_spin_change</b>(float delta=0.0f)</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>player_tilt_change</b>(float delta=0.0f)</td>
+</tr>
+<tr>
+  <td class="private_method">AllegroFlare::Vec2D</td>
+  <td class="private_method"><b>infer_player_control_move_velocity_from_keypress</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_time_step</b>(double time_now=0.0, double delta_time=1.0 / 60.0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>gameplay_suspend_func</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>gameplay_resume_func</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>virtual_control_button_up_func</b>(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>virtual_control_button_down_func</b>(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>key_down_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>key_up_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>joy_axis_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>mouse_down_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>mouse_axes_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="private_method">AllegroFlare::Vec3D</td>
+  <td class="private_method"><b>calculate_strafe_xy</b>(float spin=0.0f, float displacement=0.0f)</td>
+</tr>
+<tr>
+  <td class="private_method">AllegroFlare::Vec3D</td>
+  <td class="private_method"><b>calculate_forward_back_xy</b>(float spin=0.0f, float displacement=0.0f)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::PlayerInputControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/PlayerInputControllers/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_EVENT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::fabs&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec2D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::GenericController&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/GenericController.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Player&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Player.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::VirtualControllers::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/VirtualControllers/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::cos&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::sin&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -883,6 +1050,10 @@ table td
 <tr>
   <td class="property">live_camera</td>
   <td class="property">AllegroFlare::Camera3D</td>
+</tr>
+<tr>
+  <td class="property">player_spin</td>
+  <td class="property">float</td>
 </tr>
 <tr>
   <td class="property">entities</td>
@@ -1159,6 +1330,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::PlayerInputControllers::Player&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/PlayerInputControllers/Player.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -1268,6 +1442,7 @@ table td
     "Krampus24/BlenderBlockingLoaderEntity",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/BlenderBlockingLoaderBlock": [
@@ -1380,6 +1555,7 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
   ],
@@ -1418,7 +1594,8 @@ table td
     "Krampus24/Gameplay/Entities/Base"
   ],
   "AllegroFlare/PlayerInputControllers/Base": [
-    "Krampus24/Gameplay/Entities/Base"
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "ALLEGRO_COLOR": [
     "Krampus24/Gameplay/Entities/Base"
@@ -1438,10 +1615,32 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "std/sin": [
-    "Krampus24/Gameplay/Entities/Hen"
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "ALLEGRO_EVENT": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
+  ],
+  "std/fabs": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
+  "AllegroFlare/Vec2D": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
+  "AllegroFlare/VirtualControllers/GenericController": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
+  ],
+  "AllegroFlare/Player": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/VirtualControllers/Base": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "std/cos": [
+    "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
@@ -1450,12 +1649,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "al_is_primitives_addon_initialized": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Player": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/VirtualControllers/Base": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/GameConfigurations/Base": [
@@ -1500,6 +1693,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Scripting/Empty": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/PlayerInputControllers/Player": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [
