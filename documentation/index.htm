@@ -61,6 +61,7 @@ table td
   <li><a href="#quintessence/Krampus24/Game/Scripting/Tree.q.yml">quintessence/Krampus24/Game/Scripting/Tree.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Gameplay/Entities/Hen.q.yml">quintessence/Krampus24/Gameplay/Entities/Hen.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</a></li>
@@ -764,6 +765,37 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Gameplay/Entities/Hen.q.yml">quintessence/Krampus24/Gameplay/Entities/Hen.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">BLENDER_IDENTIFIER</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">Krampus24::Gameplay::Entities::Hen*</td>
+  <td class="method"><b>construct</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Hen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Hen.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -1258,6 +1290,7 @@ table td
   "Krampus24/Gameplay/Entities/Base": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/CollisionObservers/Simple": [
@@ -1302,6 +1335,9 @@ table td
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
+  ],
+  "Krampus24/Gameplay/Entities/Hen": [
+    "Krampus24/Gameplay/Entities/Hen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"

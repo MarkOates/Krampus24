@@ -117,6 +117,7 @@
   "Krampus24/Gameplay/Entities/Base": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/CollisionObservers/Simple": [
@@ -161,6 +162,9 @@
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
+  ],
+  "Krampus24/Gameplay/Entities/Hen": [
+    "Krampus24/Gameplay/Entities/Hen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/Screen"

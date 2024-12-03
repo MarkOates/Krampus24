@@ -1,0 +1,38 @@
+parent_classes:
+
+
+  - class: Krampus24::Gameplay::Entities::Base
+    scope: public
+    init_with: ''
+
+
+properties:
+
+
+  - name: BLENDER_IDENTIFIER
+    type: char*
+    init_with: '(char*)"hen"'
+    static: true
+    constexpr: true
+
+
+methods:
+
+
+  - name: construct
+    static: true
+    type: Krampus24::Gameplay::Entities::Hen*
+    body: |
+      Krampus24::Gameplay::Entities::Hen* result = new Krampus24::Gameplay::Entities::Hen;
+      return result;
+
+
+dependencies:
+
+
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Hen
+    headers: [ Krampus24/Gameplay/Entities/Hen.hpp ]
+
+
