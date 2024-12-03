@@ -771,7 +771,11 @@ void Screen::update()
 void Screen::render()
 {
    ALLEGRO_BITMAP *target_bitmap = al_get_target_bitmap();
-   live_camera.setup_projection_on(target_bitmap);
+   live_camera.setup_projection_on(target_bitmap); // TODO: Check if clear color and remove;
+
+
+   al_clear_to_color(ALLEGRO_COLOR{0, 0, 0, 1}); // TODO: Check clear to color here
+
 
 
    principled_shader.activate();
