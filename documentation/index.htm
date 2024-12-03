@@ -68,6 +68,7 @@ table td
   <li><a href="#quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml">quintessence/Krampus24/Gameplay/ScriptingInterface.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Shaders/AllegroDefault.q.yml">quintessence/Krampus24/Shaders/AllegroDefault.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Shaders/Fog.q.yml">quintessence/Krampus24/Shaders/Fog.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Shaders/Principled.q.yml">quintessence/Krampus24/Shaders/Principled.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</a></li>
 </ul>
 <h1>Components</h1>
@@ -1565,6 +1566,65 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Shaders/Principled.q.yml">quintessence/Krampus24/Shaders/Principled.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">TYPE</td>
+  <td class="property">char*</td>
+</tr>
+<tr>
+  <td class="property">fog_tint</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">fog_tint_intensity</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>activate</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>set_values_to_activated_shader</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">std::string</td>
+  <td class="private_method"><b>obtain_vertex_source</b>()</td>
+</tr>
+<tr>
+  <td class="private_method">std::string</td>
+  <td class="private_method"><b>obtain_fragment_source</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Shaders::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Shaders/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_COLOR&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -1796,7 +1856,8 @@ table td
   "ALLEGRO_COLOR": [
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Shaders/AllegroDefault",
-    "Krampus24/Shaders/Fog"
+    "Krampus24/Shaders/Fog",
+    "Krampus24/Shaders/Principled"
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
@@ -1908,7 +1969,8 @@ table td
   ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Shaders/AllegroDefault",
-    "Krampus24/Shaders/Fog"
+    "Krampus24/Shaders/Fog",
+    "Krampus24/Shaders/Principled"
   ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"

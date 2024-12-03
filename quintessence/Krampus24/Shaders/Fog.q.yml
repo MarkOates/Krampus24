@@ -42,12 +42,8 @@ methods:
     type: void
     virtual: true
     override: true
+    guards: [ initialized ]
     body: |
-      if (!initialized)
-      {
-         throw std::runtime_error("[CubeShooter::Shaders::Fog] Attempting to activate() "
-                                  "shader before it has been initialized");
-      }
       AllegroFlare::Shaders::Base::activate();
       set_values_to_activated_shader();
       return;

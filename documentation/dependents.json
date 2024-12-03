@@ -176,7 +176,8 @@
   "ALLEGRO_COLOR": [
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Shaders/AllegroDefault",
-    "Krampus24/Shaders/Fog"
+    "Krampus24/Shaders/Fog",
+    "Krampus24/Shaders/Principled"
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
@@ -288,7 +289,8 @@
   ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Shaders/AllegroDefault",
-    "Krampus24/Shaders/Fog"
+    "Krampus24/Shaders/Fog",
+    "Krampus24/Shaders/Principled"
   ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"

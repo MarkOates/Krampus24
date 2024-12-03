@@ -15,6 +15,8 @@ namespace Shaders
 
 Principled::Principled()
    : AllegroFlare::Shaders::Base(Krampus24::Shaders::Principled::TYPE, obtain_vertex_source(), obtain_fragment_source())
+   , fog_tint(ALLEGRO_COLOR{1, 1, 1, 1})
+   , fog_tint_intensity(1.0f)
    , initialized(false)
 {
 }
@@ -22,6 +24,30 @@ Principled::Principled()
 
 Principled::~Principled()
 {
+}
+
+
+void Principled::set_fog_tint(ALLEGRO_COLOR fog_tint)
+{
+   this->fog_tint = fog_tint;
+}
+
+
+void Principled::set_fog_tint_intensity(float fog_tint_intensity)
+{
+   this->fog_tint_intensity = fog_tint_intensity;
+}
+
+
+ALLEGRO_COLOR Principled::get_fog_tint() const
+{
+   return fog_tint;
+}
+
+
+float Principled::get_fog_tint_intensity() const
+{
+   return fog_tint_intensity;
 }
 
 
@@ -43,6 +69,13 @@ void Principled::activate()
    AllegroFlare::Shaders::Base::activate();
 }
 
+void Principled::set_values_to_activated_shader()
+{
+   set_vec3("fog_tint", fog_tint.r, fog_tint.g, fog_tint.b);
+   set_float("fog_tint_intensity", fog_tint_intensity);
+   return;
+}
+
 std::string Principled::obtain_vertex_source()
 {
    static const std::string source = R"DELIM(
@@ -54,6 +87,8 @@ std::string Principled::obtain_vertex_source()
      uniform mat4 al_tex_matrix;
      varying vec4 varying_color;
      varying vec2 varying_texcoord;
+     varying float depth;
+
      void main()
      {
        varying_color = al_color;
@@ -64,6 +99,11 @@ std::string Principled::obtain_vertex_source()
        else
          varying_texcoord = al_texcoord;
        gl_Position = al_projview_matrix * al_pos;
+
+       // Capture the depth
+       depth = gl_Position.z / 100.0; // NOTE: 100.0 is the far plane in Camera3D
+                                       // TODO: pass in far_plane as a varying
+                                       // https://stackoverflow.com/a/17621928/6072362
      }
    )DELIM";
    return source;
@@ -82,6 +122,7 @@ std::string Principled::obtain_fragment_source()
      uniform float al_alpha_test_val;
      varying vec4 varying_color;
      varying vec2 varying_texcoord;
+     varying float depth;
 
      bool alpha_test_func(float x, int op, float compare);
 
@@ -92,10 +133,18 @@ std::string Principled::obtain_fragment_source()
          c = varying_color * texture2D(al_tex, varying_texcoord);
        else
          c = varying_color;
+
+
        if (!al_alpha_test || alpha_test_func(c.a, al_alpha_func, al_alpha_test_val))
-         gl_FragColor = c;
+       {
+          //gl_FragColor = vec4(depth, depth, depth, 1.0);
+          //gl_FragColor = c;
+          gl_FragColor = vec4(c.r * depth, c.g * depth, c.b * depth, 1.0);
+       }
        else
-         discard;
+       {
+          discard;
+       }
      }
 
      bool alpha_test_func(float x, int op, float compare)
