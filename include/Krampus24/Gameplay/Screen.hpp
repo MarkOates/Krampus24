@@ -18,9 +18,11 @@
 #include <AllegroFlare/VirtualControllers/Base.hpp>
 #include <Krampus24/BlenderBlockingLoaderEntity.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
+#include <Krampus24/Gameplay/Screen.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -49,8 +51,10 @@ namespace Krampus24
          std::string visual_mesh_texture_identifier;
          std::string blocking_filename;
          Krampus24::Gameplay::ScriptingInterface* scripting;
+         std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func;
          bool rendering_visual_mesh;
          bool rendering_collision_wiremesh;
+         bool rendering_entity_models;
          bool rendering_entity_bounding_boxes;
          AllegroFlare::CollisionObservers::Simple collision_observer;
          bool initialized;
@@ -78,8 +82,10 @@ namespace Krampus24
          void set_visual_mesh_identifier(std::string visual_mesh_identifier);
          void set_visual_mesh_texture_identifier(std::string visual_mesh_texture_identifier);
          void set_blocking_filename(std::string blocking_filename);
+         void set_build_scripting_instance_func(std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func);
          std::string get_data_folder_path() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
+         AllegroFlare::FontBin* get_font_bin() const;
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
          AllegroFlare::Camera3D get_live_camera() const;
@@ -91,8 +97,10 @@ namespace Krampus24
          std::string get_visual_mesh_identifier() const;
          std::string get_visual_mesh_texture_identifier() const;
          std::string get_blocking_filename() const;
+         std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> get_build_scripting_instance_func() const;
          bool get_initialized() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
+         AllegroFlare::CollisionObservers::Simple &get_collision_observer_ref();
          void initialize();
          Krampus24::Gameplay::Entities::Base* build_entity(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr);
          void load_or_reload_meshes();

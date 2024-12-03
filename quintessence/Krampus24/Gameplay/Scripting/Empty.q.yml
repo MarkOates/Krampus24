@@ -1,0 +1,15 @@
+parent_classes:
+
+
+  - class: Krampus24::Gameplay::ScriptingInterface
+    scope: public
+    init_with: ''
+
+
+dependencies:
+
+
+  - symbol: Krampus24::Gameplay::ScriptingInterface
+    headers: [ Krampus24/Gameplay/ScriptingInterface.hpp ]
+
+

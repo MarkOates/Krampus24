@@ -93,6 +93,7 @@ methods:
       - font_bin
     body: |
       initialized = true;
+      build_on_collision_callbacks();
       return;
 
 
@@ -161,6 +162,7 @@ methods:
 
 
   - name: build_on_collision_callbacks
+    private: true
     body: |
       link_elevators("elevator-01", "elevator-02");
       link_elevators("elevator-03", "elevator-04");

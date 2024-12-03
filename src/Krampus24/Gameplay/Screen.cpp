@@ -4,12 +4,14 @@
 
 #include <AllegroFlare/Camera3D.hpp>
 #include <AllegroFlare/EventNames.hpp>
+#include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Physics/CollisionMeshCollisionStepper.hpp>
 #include <AllegroFlare/PlayerInputControllers/Generic.hpp>
 #include <AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier.hpp>
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
+#include <Krampus24/Gameplay/Scripting/Empty.hpp>
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <sstream>
@@ -42,8 +44,10 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , visual_mesh_texture_identifier(visual_mesh_texture_identifier)
    , blocking_filename(blocking_filename)
    , scripting(nullptr)
+   , build_scripting_instance_func({})
    , rendering_visual_mesh(true)
    , rendering_collision_wiremesh(true)
+   , rendering_entity_models(true)
    , rendering_entity_bounding_boxes(true)
    , collision_observer({})
    , initialized(false)
@@ -163,6 +167,12 @@ void Screen::set_blocking_filename(std::string blocking_filename)
 }
 
 
+void Screen::set_build_scripting_instance_func(std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func)
+{
+   this->build_scripting_instance_func = build_scripting_instance_func;
+}
+
+
 std::string Screen::get_data_folder_path() const
 {
    return data_folder_path;
@@ -172,6 +182,12 @@ std::string Screen::get_data_folder_path() const
 AllegroFlare::EventEmitter* Screen::get_event_emitter() const
 {
    return event_emitter;
+}
+
+
+AllegroFlare::FontBin* Screen::get_font_bin() const
+{
+   return font_bin;
 }
 
 
@@ -241,6 +257,12 @@ std::string Screen::get_blocking_filename() const
 }
 
 
+std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> Screen::get_build_scripting_instance_func() const
+{
+   return build_scripting_instance_func;
+}
+
+
 bool Screen::get_initialized() const
 {
    return initialized;
@@ -250,6 +272,12 @@ bool Screen::get_initialized() const
 std::vector<Krampus24::Gameplay::Entities::Base*> &Screen::get_entities_ref()
 {
    return entities;
+}
+
+
+AllegroFlare::CollisionObservers::Simple &Screen::get_collision_observer_ref()
+{
+   return collision_observer;
 }
 
 
@@ -449,12 +477,40 @@ void Screen::load_or_reload_meshes()
       delete scripting;
       scripting = nullptr;
    }
-   Krampus24::Game::Scripting::Tree *tree_scripting = new Krampus24::Game::Scripting::Tree;
-   tree_scripting->set_entities(&entities);
-   tree_scripting->set_collision_observer(&collision_observer);
-   tree_scripting->set_font_bin(font_bin);
-   tree_scripting->initialize();
-   scripting = tree_scripting;
+
+
+   if (build_scripting_instance_func)
+   {
+      //std::cout << "---- Building scripting ----" << std::endl;
+      scripting = build_scripting_instance_func(this);
+      if (!scripting)
+      {
+         AllegroFlare::Logger::throw_error(
+            "Krampus24::Gameplay::Screen::load_or_reload_meshes",
+            "When calling the provided \"build_scripting_interface_func\", a nullptr was returned."
+         );
+      }
+   }
+   else
+   {
+      // TODO: Output warning
+      AllegroFlare::Logger::warn_from(
+         "Krampus24::Gameplay::Screen::load_or_reload_meshes",
+         "When loading, there was no \"build_scripting_interface_func\" provided. A generic Empty class will be "
+            "used."
+      );
+      scripting = new Krampus24::Gameplay::Scripting::Empty();
+   }
+
+
+   //Krampus24::Game::Scripting::Tree *tree_scripting = new Krampus24::Game::Scripting::Tree;
+   //tree_scripting->set_entities(&entities);
+   //tree_scripting->set_collision_observer(&collision_observer);
+   //tree_scripting->set_font_bin(font_bin);
+   //tree_scripting->initialize();
+   //scripting = tree_scripting
+
+
    //scripting.build_on_collision_callbacks();
 
    return;
@@ -663,6 +719,25 @@ void Screen::render()
       }
    }
 
+   // Draw the entities
+   if (rendering_entity_models)
+   {
+      for (auto &entity : entities)
+      {
+         if (!entity->active) continue;
+         if (!entity->visible) continue;
+         if (!entity->model) continue;
+
+         if (entity->texture) entity->model->set_texture(entity->texture);
+
+         entity->placement.start_transform();
+         entity->model->draw();
+         entity->placement.restore_transform();
+         
+         //visual_mesh->draw();
+      }
+   }
+
    // TODO: Draw the entities (models?, bounding boxes?)
    if (rendering_entity_bounding_boxes)
    {
@@ -851,6 +926,10 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
 
       case ALLEGRO_KEY_E: {
          rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+      } break;
+
+      case ALLEGRO_KEY_M: {
+         rendering_entity_models = !rendering_entity_models;
       } break;
 
       case ALLEGRO_KEY_C: {

@@ -30,35 +30,38 @@ methods:
       AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture::SetUp();
 
 
-      //std::string collision_mesh_identifier = "testing_construct-01-collision_mesh.obj";
-      //std::string visual_mesh_identifier = "testing_construct-01-visual.obj";
-      //std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-01.png";
-      //std::string blocking_filename = "testing_construct-01.blocking";
+      std::string collision_mesh_identifier = "testing_construct-01-collision_mesh.obj";
+      std::string visual_mesh_identifier = "testing_construct-01-visual.obj";
+      std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-01.png";
+      std::string blocking_filename = "testing_construct-01.blocking";
 
 
       // Setup the screen
       //TestGameConfiguration game_configuration;
-      Krampus24::Gameplay::Screen screen;
-      screen.set_data_folder_path(get_framework_data_folder_path());
-      screen.set_event_emitter(get_framework_event_emitter());
-      screen.set_bitmap_bin(get_framework_bitmap_bin());
-      screen.set_font_bin(get_framework_font_bin());
-      screen.set_model_bin(get_framework_model_bin());
+      screen = new Krampus24::Gameplay::Screen;
+      screen->set_data_folder_path(get_framework_data_folder_path());
+      screen->set_event_emitter(get_framework_event_emitter());
+      screen->set_bitmap_bin(get_framework_bitmap_bin());
+      screen->set_font_bin(get_framework_font_bin());
+      screen->set_model_bin(get_framework_model_bin());
       //screen.set_game_configuration(&game_configuration);
-      //screen.set_collision_mesh_identifier(collision_mesh_identifier);
-      //screen.set_visual_mesh_identifier(visual_mesh_identifier);
-      //screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
-      //screen.set_blocking_filename(blocking_filename);
-      screen.set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
+      screen->set_collision_mesh_identifier(collision_mesh_identifier);
+      screen->set_visual_mesh_identifier(visual_mesh_identifier);
+      screen->set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
+      screen->set_blocking_filename(blocking_filename);
+      screen->set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
          std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
          throw std::runtime_error("Game is completed.");
       });
-      screen.initialize();
+      screen->initialize();
+
+      framework_register_screen("screen", screen);
 
 
-      framework_register_and_activate_screen("screen", &screen);
 
-      framework_run_loop(-12);
+      //framework_register_and_activate_screen("screen", &screen);
+
+      //framework_run_loop(-12);
 
 
 

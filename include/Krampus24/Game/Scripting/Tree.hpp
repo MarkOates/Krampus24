@@ -25,6 +25,7 @@ namespace Krampus24
             bool primary_power_coil_returned_to_ship;
             AllegroFlare::CollisionObservers::Simple* collision_observer;
             bool initialized;
+            void build_on_collision_callbacks();
 
          protected:
 
@@ -50,7 +51,6 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Base* find_entity_by_name_or_throw(std::string name="[unset-name]");
             void link_elevators(std::string elevator_a_name="[unset-elevator_a_name]", std::string elevator_b_name="[unset-elevator_b_name]");
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
-            void build_on_collision_callbacks();
             ALLEGRO_FONT* obtain_hud_font();
          };
       }

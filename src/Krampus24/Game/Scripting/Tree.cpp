@@ -166,6 +166,7 @@ void Tree::initialize()
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met");
    }
    initialized = true;
+   build_on_collision_callbacks();
    return;
 }
 

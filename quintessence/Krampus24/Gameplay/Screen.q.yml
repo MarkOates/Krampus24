@@ -33,6 +33,7 @@ properties:
     init_with: nullptr
     constructor_arg: true
     setter: before_initialized
+    getter: true
 
   - name: model_bin
     type: AllegroFlare::ModelBin*
@@ -118,11 +119,21 @@ properties:
     type: Krampus24::Gameplay::ScriptingInterface*
     init_with: nullptr
 
+  - name: build_scripting_instance_func
+    type: std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)>
+    init_with: '{}'
+    getter: true
+    setter: true
+
   - name: rendering_visual_mesh
     type: bool
     init_with: true
 
   - name: rendering_collision_wiremesh
+    type: bool
+    init_with: true
+
+  - name: rendering_entity_models
     type: bool
     init_with: true
 
@@ -133,6 +144,7 @@ properties:
   - name: collision_observer
     type: AllegroFlare::CollisionObservers::Simple
     init_with: '{}'
+    getter_ref: true
 
   - name: initialized
     type: bool
@@ -294,17 +306,47 @@ methods:
          delete scripting;
          scripting = nullptr;
       }
-      Krampus24::Game::Scripting::Tree *tree_scripting = new Krampus24::Game::Scripting::Tree;
-      tree_scripting->set_entities(&entities);
-      tree_scripting->set_collision_observer(&collision_observer);
-      tree_scripting->set_font_bin(font_bin);
-      tree_scripting->initialize();
-      scripting = tree_scripting;
+
+
+      if (build_scripting_instance_func)
+      {
+         //std::cout << "---- Building scripting ----" << std::endl;
+         scripting = build_scripting_instance_func(this);
+         if (!scripting)
+         {
+            AllegroFlare::Logger::throw_error(
+               "Krampus24::Gameplay::Screen::load_or_reload_meshes",
+               "When calling the provided \"build_scripting_interface_func\", a nullptr was returned."
+            );
+         }
+      }
+      else
+      {
+         // TODO: Output warning
+         AllegroFlare::Logger::warn_from(
+            "Krampus24::Gameplay::Screen::load_or_reload_meshes",
+            "When loading, there was no \"build_scripting_interface_func\" provided. A generic Empty class will be "
+               "used."
+         );
+         scripting = new Krampus24::Gameplay::Scripting::Empty();
+      }
+
+
+      //Krampus24::Game::Scripting::Tree *tree_scripting = new Krampus24::Game::Scripting::Tree;
+      //tree_scripting->set_entities(&entities);
+      //tree_scripting->set_collision_observer(&collision_observer);
+      //tree_scripting->set_font_bin(font_bin);
+      //tree_scripting->initialize();
+      //scripting = tree_scripting
+
+
       //scripting.build_on_collision_callbacks();
 
       return;
     body_dependency_symbols:
       - Krampus24::BlenderBlockingLoader
+      - Krampus24::Gameplay::Scripting::Empty
+      - AllegroFlare::Logger
 
 
   - name: ~destruct
@@ -511,6 +553,25 @@ methods:
          }
       }
 
+      // Draw the entities
+      if (rendering_entity_models)
+      {
+         for (auto &entity : entities)
+         {
+            if (!entity->active) continue;
+            if (!entity->visible) continue;
+            if (!entity->model) continue;
+
+            if (entity->texture) entity->model->set_texture(entity->texture);
+
+            entity->placement.start_transform();
+            entity->model->draw();
+            entity->placement.restore_transform();
+            
+            //visual_mesh->draw();
+         }
+      }
+
       // TODO: Draw the entities (models?, bounding boxes?)
       if (rendering_entity_bounding_boxes)
       {
@@ -693,6 +754,10 @@ methods:
 
          case ALLEGRO_KEY_E: {
             rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+         } break;
+
+         case ALLEGRO_KEY_M: {
+            rendering_entity_models = !rendering_entity_models;
          } break;
 
          case ALLEGRO_KEY_C: {
@@ -971,5 +1036,9 @@ dependencies:
     headers: [ Krampus24/Game/Scripting/Tree.hpp ]
   - symbol: Krampus24::BlenderBlockingLoaderEntity
     headers: [ Krampus24/BlenderBlockingLoaderEntity.hpp ]
+  - symbol: Krampus24::Gameplay::Scripting::Empty
+    headers: [ Krampus24/Gameplay/Scripting/Empty.hpp ]
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
 
 

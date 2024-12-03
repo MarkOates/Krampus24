@@ -5,6 +5,7 @@
 
 #include <AllegroFlare/Testing/WithAllegroRenderingFixture.hpp>
 #include <AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture.hpp>
+#include <Krampus24/Game/Scripting/Tree.hpp>
 
 //#include <AllegroFlare/Frameworks/Full.hpp>
 
@@ -99,6 +100,20 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_font_bin(get_framework_font_bin());
    screen.set_model_bin(get_framework_model_bin());
    screen.set_game_configuration(&game_configuration);
+   screen.set_build_scripting_instance_func(
+      [](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
+
+      //std::cout << "---- ****** inside building scripting ----" << std::endl;
+      // Build a scripting
+      Krampus24::Game::Scripting::Tree *scripting = new Krampus24::Game::Scripting::Tree;
+      scripting->set_entities(&screen->get_entities_ref());
+      scripting->set_collision_observer(&screen->get_collision_observer_ref());
+      scripting->set_font_bin(screen->get_font_bin());
+      scripting->initialize();
+
+      return scripting;
+   });
+
    //screen.set_collision_mesh_identifier(collision_mesh_identifier);
    //screen.set_visual_mesh_identifier(visual_mesh_identifier);
    //screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);

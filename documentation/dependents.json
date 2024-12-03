@@ -3,7 +3,8 @@
     "Krampus24/BlenderBlockingLoader"
   ],
   "AllegroFlare/Logger": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec3D": [
     "Krampus24/BlenderBlockingLoader",
@@ -236,6 +237,9 @@
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Game/Scripting/Tree": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Scripting/Empty": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

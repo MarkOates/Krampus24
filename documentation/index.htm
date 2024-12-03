@@ -505,8 +505,8 @@ table td
   <td class="method"><b>travel_player_to_elevators_target</b>(std::string entering_elevator_name=&quot;[unset-entering_elevator_name]&quot;)</td>
 </tr>
 <tr>
-  <td class="method">void</td>
-  <td class="method"><b>build_on_collision_callbacks</b>()</td>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>build_on_collision_callbacks</b>()</td>
 </tr>
 <tr>
   <td class="method">ALLEGRO_FONT*</td>
@@ -899,11 +899,19 @@ table td
   <td class="property">Krampus24::Gameplay::ScriptingInterface*</td>
 </tr>
 <tr>
+  <td class="property">build_scripting_instance_func</td>
+  <td class="property">std::function&lt;Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)&gt;</td>
+</tr>
+<tr>
   <td class="property">rendering_visual_mesh</td>
   <td class="property">bool</td>
 </tr>
 <tr>
   <td class="property">rendering_collision_wiremesh</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">rendering_entity_models</td>
   <td class="property">bool</td>
 </tr>
 <tr>
@@ -1123,6 +1131,12 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Scripting::Empty&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Scripting/Empty.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -1223,7 +1237,8 @@ table td
     "Krampus24/BlenderBlockingLoader"
   ],
   "AllegroFlare/Logger": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec3D": [
     "Krampus24/BlenderBlockingLoader",
@@ -1456,6 +1471,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Game/Scripting/Tree": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Scripting/Empty": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [
