@@ -1154,6 +1154,10 @@ table td
   <td class="method">void</td>
   <td class="method"><b>run_test_construct_loop</b>(float num_seconds_until_abort=60.0f)</td>
 </tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>add_entity_to_pool</b>(Krampus24::Gameplay::Entities::Base* entity=nullptr)</td>
+</tr>
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
@@ -1171,6 +1175,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Screen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1297,7 +1304,8 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/CollisionObservers/Simple": [
     "Krampus24/Game/Scripting/Tree",

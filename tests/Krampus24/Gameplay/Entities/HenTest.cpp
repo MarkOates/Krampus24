@@ -16,6 +16,7 @@ TEST_F(Krampus24_Gameplay_Entities_HenWithConstructFixtureTest, can_be_created_w
       get_framework_model_bin(),
       get_framework_bitmap_bin()
    );
+   add_entity_to_pool(hen);
    run_test_construct_loop();
 }
 

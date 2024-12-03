@@ -118,7 +118,8 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/CollisionObservers/Simple": [
     "Krampus24/Game/Scripting/Tree",

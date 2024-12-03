@@ -30,6 +30,12 @@ methods:
       AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture::SetUp();
 
 
+      //std::string collision_mesh_identifier = "testing_construct-01-collision_mesh.obj";
+      //std::string visual_mesh_identifier = "testing_construct-01-visual.obj";
+      //std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-01.png";
+      //std::string blocking_filename = "testing_construct-01.blocking";
+
+
       // Setup the screen
       //TestGameConfiguration game_configuration;
       Krampus24::Gameplay::Screen screen;
@@ -244,6 +250,18 @@ methods:
       return;
 
 
+  - name: add_entity_to_pool
+    parameters:
+      - name: entity
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    guards: [ entity ]
+    body: |
+      screen->get_entities_ref().push_back(entity);
+      return;
+
+
+
 #  - name: add_entity_to_pool
 #    parameters:
 #      - name: entity
@@ -379,5 +397,7 @@ dependencies:
 #    headers: [ AllegroFlare/Prototypes/TileFPS/EntityFactory.hpp ]
   - symbol: Krampus24::Gameplay::Screen
     headers: [ Krampus24/Gameplay/Screen.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
 
 

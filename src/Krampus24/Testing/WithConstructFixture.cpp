@@ -3,6 +3,9 @@
 #include <Krampus24/Testing/WithConstructFixture.hpp>
 
 #include <AllegroFlare/SystemInfo.hpp>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
 
 
 namespace Krampus24
@@ -26,6 +29,12 @@ WithConstructFixture::~WithConstructFixture()
 void WithConstructFixture::SetUp()
 {
    AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture::SetUp();
+
+
+   //std::string collision_mesh_identifier = "testing_construct-01-collision_mesh.obj";
+   //std::string visual_mesh_identifier = "testing_construct-01-visual.obj";
+   //std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-01.png";
+   //std::string blocking_filename = "testing_construct-01.blocking";
 
 
    // Setup the screen
@@ -88,6 +97,19 @@ void WithConstructFixture::run_test_construct_loop(float num_seconds_until_abort
    //if (level) level->on_start();
    framework_activate_screen("screen");
    framework_run_loop(num_seconds_until_abort);
+   return;
+}
+
+void WithConstructFixture::add_entity_to_pool(Krampus24::Gameplay::Entities::Base* entity)
+{
+   if (!(entity))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Testing::WithConstructFixture::add_entity_to_pool]: error: guard \"entity\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Testing::WithConstructFixture::add_entity_to_pool]: error: guard \"entity\" not met");
+   }
+   screen->get_entities_ref().push_back(entity);
    return;
 }
 
