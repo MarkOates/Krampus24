@@ -819,7 +819,7 @@ table td
 <div class="property-box methods">     <table>
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Hen*</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr)</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float range=3.0f)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1397,6 +1397,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::PlayerInputControllers::Player&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/PlayerInputControllers/Player.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Hen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Hen.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -1669,7 +1672,8 @@ table td
     "Krampus24/Gameplay/Entities/Base"
   ],
   "Krampus24/Gameplay/Entities/Hen": [
-    "Krampus24/Gameplay/Entities/Hen"
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Hen",

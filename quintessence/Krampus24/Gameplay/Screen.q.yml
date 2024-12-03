@@ -95,14 +95,14 @@ properties:
 
   - name: collision_mesh_identifier
     type: std::string
-    init_with: '"tree-03-collision_mesh.obj"'
+    init_with: '"tree-04-collision_mesh.obj"'
     constructor_arg: true
     getter: true
     setter: before_initialized
 
   - name: visual_mesh_identifier
     type: std::string
-    init_with: '"tree-03-visual.obj"'
+    init_with: '"tree-04-visual.obj"'
     constructor_arg: true
     getter: true
     setter: before_initialized
@@ -116,7 +116,7 @@ properties:
 
   - name: blocking_filename
     type: std::string
-    init_with: '"tree-03.blocking"'
+    init_with: '"tree-04.blocking"'
     constructor_arg: true
     getter: true
     setter: before_initialized
@@ -193,6 +193,7 @@ methods:
       // Load level and entities
       load_or_reload_meshes();
 
+
       // Create a player input controller for the 0th entity
       create_and_set_player_input_controller_for_0th_entity();
 
@@ -211,11 +212,6 @@ methods:
         default_argument: nullptr
     guards: [ entity ]
     body: |
-      //AllegroFlare::Vec3D position;
-      bool affected_by_environmental_forces = true;
-
-
-      Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
 
       float x = entity->location.x;
       float y = entity->location.z; // Swapping z<->y
@@ -223,13 +219,34 @@ methods:
 
       AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
 
+      std::string entity_root_name = entity->get_name_unversioned();
+      if (entity_root_name == Krampus24::Gameplay::Entities::Hen::BLENDER_IDENTIFIER)
+      {
+         //std::cout << "HEN made" << std::endl;
+         auto *result = Krampus24::Gameplay::Entities::Hen::construct(model_bin, bitmap_bin, position, 6.0);
+         result->name = entity->name;
+         return result;
+      }
+
+      //AllegroFlare::Vec3D position;
+      bool affected_by_environmental_forces = true;
+
+
+      Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
+
+      //float x = entity->location.x;
+      //float y = entity->location.z; // Swapping z<->y
+      //float z = entity->location.y; // Swapping z<->y
+
+      //AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
+
       result->placement.position = position;
       result->placement.size = { 0.5, 0.5, 0.5 };
       result->collides_with_player = true;
       result->affected_by_environmental_forces = affected_by_environmental_forces;
 
       result->name = entity->name;
-      std::string entity_root_name = entity->get_name_unversioned();
+      //std::string entity_root_name = entity->get_name_unversioned();
       if (entity_root_name == "elevator")
       {
          // Do elevator stuff
@@ -238,6 +255,8 @@ methods:
       }
 
       return result;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::Hen
 
 
   - name: load_or_reload_meshes
@@ -1078,5 +1097,7 @@ dependencies:
     headers: [ AllegroFlare/Logger.hpp ]
   - symbol: Krampus24::Gameplay::PlayerInputControllers::Player
     headers: [ Krampus24/Gameplay/PlayerInputControllers/Player.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Hen
+    headers: [ Krampus24/Gameplay/Entities/Hen.hpp ]
 
 

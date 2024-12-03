@@ -11,6 +11,7 @@
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
+#include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/PlayerInputControllers/Player.hpp>
 #include <Krampus24/Gameplay/Scripting/Empty.hpp>
 #include <allegro5/allegro_primitives.h>
@@ -374,6 +375,7 @@ void Screen::initialize()
    // Load level and entities
    load_or_reload_meshes();
 
+
    // Create a player input controller for the 0th entity
    create_and_set_player_input_controller_for_0th_entity();
 
@@ -390,11 +392,6 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Screen::build_entity]: error: guard \"entity\" not met");
    }
-   //AllegroFlare::Vec3D position;
-   bool affected_by_environmental_forces = true;
-
-
-   Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
 
    float x = entity->location.x;
    float y = entity->location.z; // Swapping z<->y
@@ -402,13 +399,34 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
 
    AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
 
+   std::string entity_root_name = entity->get_name_unversioned();
+   if (entity_root_name == Krampus24::Gameplay::Entities::Hen::BLENDER_IDENTIFIER)
+   {
+      //std::cout << "HEN made" << std::endl;
+      auto *result = Krampus24::Gameplay::Entities::Hen::construct(model_bin, bitmap_bin, position, 6.0);
+      result->name = entity->name;
+      return result;
+   }
+
+   //AllegroFlare::Vec3D position;
+   bool affected_by_environmental_forces = true;
+
+
+   Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
+
+   //float x = entity->location.x;
+   //float y = entity->location.z; // Swapping z<->y
+   //float z = entity->location.y; // Swapping z<->y
+
+   //AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
+
    result->placement.position = position;
    result->placement.size = { 0.5, 0.5, 0.5 };
    result->collides_with_player = true;
    result->affected_by_environmental_forces = affected_by_environmental_forces;
 
    result->name = entity->name;
-   std::string entity_root_name = entity->get_name_unversioned();
+   //std::string entity_root_name = entity->get_name_unversioned();
    if (entity_root_name == "elevator")
    {
       // Do elevator stuff

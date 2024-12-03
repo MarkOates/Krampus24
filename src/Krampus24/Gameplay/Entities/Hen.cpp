@@ -45,7 +45,7 @@ uint32_t Hen::get_state() const
 }
 
 
-Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin)
+Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::Vec3D initial_position, float range)
 {
    if (!(model_bin))
    {
@@ -71,14 +71,16 @@ Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model
 
    //Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
 
-   float x = 0; //entity->location.x;
-   float y = 0.5; //entity->location.z; // Swapping z<->y
-   float z = 0; //entity->location.y; // Swapping z<->y
+   //float x = 0; //entity->location.x;
+   //float y = 0.5; //entity->location.z; // Swapping z<->y
+   //float z = 0; //entity->location.y; // Swapping z<->y
 
-   AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
+   //AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
+   //initial_position
 
-   result->placement.position = position;
-   result->placement.align = { -0.5, 0.0, -0.5 }; // Not sure how this will make sense
+   result->placement.position = initial_position;
+   result->placement.position.y += 0.001f; // Move slightly up
+   result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->placement.size = { 0.5, 0.5, 0.5 };
    result->collides_with_player = true;
    //result->affected_by_environmental_forces = affected_by_environmental_forces;
@@ -92,6 +94,8 @@ Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model
       //result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
    //}
 
+   result->initial_position = initial_position;
+   result->range = range;
    result->movement_direction = AllegroFlare::Vec3D(0, 0, 1);
    //result->movement_velocity = 0.01;
    result->movement_velocity = 0.01;
@@ -194,8 +198,9 @@ void Hen::update_state(double time_step, double time_now)
       } break;
 
       case STATE_RETURNING: {
-         if (infer_distance_from_initial_position() <= 0.1)
+         if (infer_distance_from_initial_position() <= 0.25)
          {
+            //float angle_in_radians = random.get_random_float(0, ALLEGRO_PI*2);
             //movement_direction = -movement_direction;
             float angle_in_radians = random.get_random_float(0, ALLEGRO_PI*2);
             //float new_direction_unit = new_direction_radians / ALLEGRO_PI*2;

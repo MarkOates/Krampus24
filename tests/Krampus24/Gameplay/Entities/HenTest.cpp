@@ -14,7 +14,9 @@ TEST_F(Krampus24_Gameplay_Entities_HenWithConstructFixtureTest, can_be_created_w
 {
    Krampus24::Gameplay::Entities::Hen *hen = Krampus24::Gameplay::Entities::Hen::construct(
       get_framework_model_bin(),
-      get_framework_bitmap_bin()
+      get_framework_bitmap_bin(),
+      AllegroFlare::Vec3D(0, 0, 0),
+      3.0
    );
    add_entity_to_pool(hen);
    run_test_construct_loop();
