@@ -196,6 +196,9 @@
   "std/abs": [
     "Krampus24/Gameplay/Entities/Hen"
   ],
+  "AllegroFlare/Random": [
+    "Krampus24/Gameplay/Entities/Hen"
+  ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"

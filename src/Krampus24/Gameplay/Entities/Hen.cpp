@@ -28,6 +28,7 @@ Hen::Hen()
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
+   , random({})
    , initialized(false)
 {
 }
@@ -92,9 +93,11 @@ Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model
    //}
 
    result->movement_direction = AllegroFlare::Vec3D(0, 0, 1);
+   //result->movement_velocity = 0.01;
    result->movement_velocity = 0.01;
 
    result->initialized = true;
+   result->random.set_seed(4371);
 
    result->set_state(STATE_ROAMING);
 
@@ -194,9 +197,15 @@ void Hen::update_state(double time_step, double time_now)
          if (infer_distance_from_initial_position() <= 0.1)
          {
             //movement_direction = -movement_direction;
-            auto new_dir_2d = AllegroFlare::Vec2D::polar_coords(0.0, 1.0f).normalized();
+            float angle_in_radians = random.get_random_float(0, ALLEGRO_PI*2);
+            //float new_direction_unit = new_direction_radians / ALLEGRO_PI*2;
+            float angle_in_degrees = angle_in_radians * (180.0 / ALLEGRO_PI);
+            //float angle_in_units = angle_in_degrees / 360.0f;
+            float angle_in_units = angle_in_radians / (2 * ALLEGRO_PI); 
+
+            auto new_dir_2d = AllegroFlare::Vec2D::polar_coords(angle_in_radians, 1.0f).normalized();
             movement_direction = AllegroFlare::Vec3D(new_dir_2d.x, 0, new_dir_2d.y);
-            placement.rotation.y += 0.5f;
+            placement.rotation.y = -angle_in_units + 0.25;
             set_state(STATE_ROAMING);
             //velocity.position = movement_direction * movement_velocity;
             //movement_direction = (initial_position - placement.position).normalized();

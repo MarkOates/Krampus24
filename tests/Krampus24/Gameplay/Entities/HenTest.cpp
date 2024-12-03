@@ -47,4 +47,11 @@ TEST_F(Krampus24_Gameplay_Entities_HenWithConstructFixtureTest, can_be_created_w
 */
 
 
+/*
+         AllegroFlare::Vec2D prime(x_prime, y_prime);
+         float angle_in_radians = prime.get_angle();
+         float angle_in_degrees = angle_in_radians * (180.0 / ALLEGRO_PI);
+         float angle_in_units = angle_in_degrees / 360.0f;
+*/
+
 

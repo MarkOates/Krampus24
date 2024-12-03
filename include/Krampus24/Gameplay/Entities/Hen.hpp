@@ -3,6 +3,7 @@
 
 #include <AllegroFlare/BitmapBin.hpp>
 #include <AllegroFlare/ModelBin.hpp>
+#include <AllegroFlare/Random.hpp>
 #include <AllegroFlare/Vec3D.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
@@ -36,6 +37,7 @@ namespace Krampus24
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
+            AllegroFlare::Random random;
             bool initialized;
 
          protected:
