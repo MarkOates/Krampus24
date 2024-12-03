@@ -63,6 +63,7 @@ table td
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Screen.q.yml">quintessence/Krampus24/Gameplay/Screen.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</a></li>
 </ul>
 <h1>Components</h1>
 <br><br><br>
@@ -1088,6 +1089,54 @@ table td
     </table>
 </div>  </div>
 </ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">screen</td>
+  <td class="property">Krampus24::Gameplay::Screen*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>SetUp</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>TearDown</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>run_test_construct_loop</b>(float num_seconds_until_abort=60.0f)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::SystemInfo&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/SystemInfo.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBank&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBank.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AudioRepositoryElement&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AudioRepositoryElement.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Screen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Screen.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
 <h1>Dependents</h1>
 <pre>
 {
@@ -1131,7 +1180,8 @@ table td
     "Krampus24/Gameplay/Level"
   ],
   "AllegroFlare/DialogTree/NodeBank": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/DialogTree/NodeBankFactory": [
     "Krampus24/Game/Configurations/Main"
@@ -1174,7 +1224,8 @@ table td
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Screens/Gameplay": [
     "Krampus24/Game/Configurations/Main",
@@ -1316,6 +1367,15 @@ table td
   ],
   "Krampus24/Game/Scripting/Tree": [
     "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/SystemInfo": [
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture": [
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "AllegroFlare/AudioRepositoryElement": [
+    "Krampus24/Testing/WithConstructFixture"
   ]
 }
 </pre>

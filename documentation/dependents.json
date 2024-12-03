@@ -39,7 +39,8 @@
     "Krampus24/Gameplay/Level"
   ],
   "AllegroFlare/DialogTree/NodeBank": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/DialogTree/NodeBankFactory": [
     "Krampus24/Game/Configurations/Main"
@@ -82,7 +83,8 @@
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Screens/Gameplay": [
     "Krampus24/Game/Configurations/Main",
@@ -224,5 +226,14 @@
   ],
   "Krampus24/Game/Scripting/Tree": [
     "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/SystemInfo": [
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture": [
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "AllegroFlare/AudioRepositoryElement": [
+    "Krampus24/Testing/WithConstructFixture"
   ]
 }

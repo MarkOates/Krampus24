@@ -1,0 +1,383 @@
+parent_classes:
+
+
+  - class: AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture
+    scope: public
+    init_with: ''
+
+
+properties:
+
+
+#  - name: level
+#    type: AllegroFlare::Prototypes::TileFPS::Level*
+#    init_with: nullptr
+#    getter: true
+
+  - name: screen
+    xtype: AllegroFlare::Prototypes::TileFPS::Screen*
+    type: Krampus24::Gameplay::Screen*
+    init_with: nullptr
+
+
+methods:
+
+
+  - name: SetUp
+    virtual: true
+    override: true
+    body: |
+      AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture::SetUp();
+
+
+      // Setup the screen
+      //TestGameConfiguration game_configuration;
+      Krampus24::Gameplay::Screen screen;
+      screen.set_data_folder_path(get_framework_data_folder_path());
+      screen.set_event_emitter(get_framework_event_emitter());
+      screen.set_bitmap_bin(get_framework_bitmap_bin());
+      screen.set_font_bin(get_framework_font_bin());
+      screen.set_model_bin(get_framework_model_bin());
+      //screen.set_game_configuration(&game_configuration);
+      //screen.set_collision_mesh_identifier(collision_mesh_identifier);
+      //screen.set_visual_mesh_identifier(visual_mesh_identifier);
+      //screen.set_visual_mesh_texture_identifier(visual_mesh_texture_identifier);
+      //screen.set_blocking_filename(blocking_filename);
+      screen.set_on_finished_callback_func([](AllegroFlare::Screens::Gameplay*, void*){
+         std::cout << "-- inside provided on_finished_callback_func()" << std::endl;
+         throw std::runtime_error("Game is completed.");
+      });
+      screen.initialize();
+
+
+      framework_register_and_activate_screen("screen", &screen);
+
+      framework_run_loop(-12);
+
+
+
+      //AllegroFlare::SystemInfo HACK_system_info; // TODO: Figure out how to remove this
+      //std::string HACK_sysname = HACK_system_info.get_sysname();
+      //AllegroFlare::Inventory player_inventory;
+
+      //screen = new AllegroFlare::Prototypes::TileFPS::Screen;
+      //screen->set_event_emitter(get_framework_event_emitter());
+      //screen->set_bitmap_bin(get_framework_bitmap_bin());
+      //screen->set_font_bin(get_framework_font_bin());
+      //screen->set_model_bin(get_framework_model_bin());
+      //screen->set_data_folder_path(get_framework_data_folder_path());
+      //screen->set_HACK_sysname(HACK_sysname);
+      //screen->set_player_inventory(&player_inventory);
+      //screen->set_player_view_height(1.8); // Should be 1.6 - 2.0
+      //screen->set_on_paused_callback_func([](AllegroFlare::Prototypes::TileFPS::Screen*, void*){}); // An empty function
+      //screen->set_on_finished_callback_func([](AllegroFlare::Prototypes::TileFPS::Screen*, void*){});
+      //screen->initialize();
+
+      // Register the screen into the system
+      //framework_register_screen("screen", screen);
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::SystemInfo
+#      - AllegroFlare::Prototypes::TileFPS::LevelFactory
+
+
+  - name: TearDown
+    virtual: true
+    override: true
+    body: |
+      // TODO: Delete the level
+      AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture::TearDown();
+
+
+#  - name: setup_test_level
+#    body: |
+#      set_level(create_test_level());
+#      return;
+
+
+#  - name: setup_test_level_with_heightmap
+#    body: |
+#      set_level(create_test_level_with_heightmap());
+#      return;
+
+
+#  - name: set_level
+#    parameters:
+#      - name: level
+#        type: AllegroFlare::Prototypes::TileFPS::Level*
+#        default_argument: nullptr
+#    guards: [ screen, (!this->level) ]
+#    body: |
+#      this->level = level;
+#      screen->set_current_level(level);
+#      return;
+
+
+#  - name: create_test_level
+#    type: AllegroFlare::Prototypes::TileFPS::Level*
+#    body: |
+#      // Build the level factory and create the test_environment level
+#      AllegroFlare::Prototypes::TileFPS::LevelFactory level_factory;
+#      level_factory.set_event_emitter(get_framework_event_emitter());
+#      level_factory.set_model_bin(get_framework_model_bin());
+#      level_factory.set_bitmap_bin(get_framework_bitmap_bin());
+#      level_factory.set_sample_bin(get_framework_sample_bin());
+#      level_factory.set_resources_path(get_framework_data_folder_path());
+#      AllegroFlare::Prototypes::TileFPS::Level* result_level = level_factory.create_arbitrary(
+#         "/maps/test_environment-02.tmj",
+#         "test_environment-03.obj",
+#         "test_environment-03.png",
+#         { 10, 10 } // Note this test environment is 20x20 meters
+#      );
+#      return result_level;
+
+
+#  - name: create_test_level_with_heightmap
+#    type: AllegroFlare::Prototypes::TileFPS::Level*
+#    body: |
+#      // Build the level factory and create the test_environment level
+#      AllegroFlare::Prototypes::TileFPS::LevelFactory level_factory;
+#      level_factory.set_resources_path(get_framework_data_folder_path());
+#      level_factory.set_event_emitter(get_framework_event_emitter());
+#      level_factory.set_model_bin(get_framework_model_bin());
+#      level_factory.set_sample_bin(get_framework_sample_bin());
+#      level_factory.set_bitmap_bin(get_framework_bitmap_bin());
+#
+#      // Create the level
+#      auto *result_level = new AllegroFlare::Prototypes::TileFPS::Level;
+#      result_level->set_event_emitter(get_framework_event_emitter());
+#      auto &entity_pool = result_level->get_entity_pool_ref();
+#
+#      // Add an additional environment mesh
+#      AllegroFlare::Prototypes::TileFPS::EntityFactory entity_factory;
+#      entity_factory.set_model_bin(get_framework_model_bin());
+#      entity_factory.set_bitmap_bin(get_framework_bitmap_bin());
+#
+#      // Create the camera, define it as the primary camera
+#      AllegroFlare::Prototypes::TileFPS::Entities::Camera3D* camera = entity_factory.create_camera();
+#      camera->set("primary_camera");
+#      camera->get_placement_ref().position.x = 10;
+#      camera->get_placement_ref().position.z = 10;
+#      camera->set(AllegroFlare::Prototypes::TileFPS::EntityFlags::COLLIDES_WITH_ENVIRONMENT);
+#      entity_pool.add(camera);
+#
+#      // Add the blocking model as an environment
+#      std::string height_map_filename = "tests/fixtures/maps/basic_environment_20x30.block";
+#      std::string blocking_model_identifier = "basic_environment_20x30.obj";
+#      AllegroFlare::Prototypes::TileFPS::Entities::Base* environment_mesh = entity_factory.create_environment_mesh(
+#         blocking_model_identifier,
+#         "uv_texture-04.png",
+#         { 0, 0, 0}
+#      );
+#      entity_pool.add(environment_mesh);
+#
+#      // Take the blocking model and automatically apply a texture to it
+#      AllegroFlare::Model3D* blocking_model = get_framework_model_bin()->auto_get(blocking_model_identifier);
+#      float texture_scale = 8.0f;
+#      for (auto &vertex : blocking_model->vertices)
+#      {
+#         if (vertex.nz == 1.0f || vertex.nz == -1.0f)
+#         {
+#            vertex.u = vertex.x / texture_scale;
+#            vertex.v = vertex.y / texture_scale;
+#         }
+#         else if (vertex.nx == 1.0f || vertex.nx == -1.0f)
+#         {
+#            vertex.u = vertex.y / texture_scale;
+#            vertex.v = vertex.z / texture_scale;
+#         }
+#         else if (vertex.ny == 1.0f || vertex.ny == -1.0f)
+#         {
+#            vertex.u = vertex.z / texture_scale;
+#            vertex.v = vertex.x / texture_scale;
+#         }
+#      }
+#
+#      result_level->get_entity_pool_ref().add(
+#         entity_factory.create_height_map(height_map_filename, "collision_height_map")
+#      );
+#      result_level->set_current_collision_height_map("collision_height_map");
+#
+#      return result_level;
+#    body_dependency_symbols:
+#      - AllegroFlare::Prototypes::TileFPS::EntityFactory
+
+
+#  - name: set_player_position
+#    parameters:
+#      - name: x
+#        type: float
+#        default_argument: 0.0f
+#      - name: y
+#        type: float
+#        default_argument: 0.0f
+#      - name: z
+#        type: float
+#        default_argument: 0.0f
+#      - name: spin
+#        type: float
+#        default_argument: 0.0f
+#      - name: tilt
+#        type: float
+#        default_argument: 0.0f
+#    body: |
+#      // Note the y is assigned to the z, e.g. there are multiple coordinate systems being used.
+#      AllegroFlare::Prototypes::TileFPS::Entities::Camera3D *camera = find_primary_camera();
+#      camera->get_placement_ref().position.x = x;
+#      camera->get_placement_ref().position.z = y; // TODO: Consider aligning the z and y values here
+#      camera->get_placement_ref().position.y = z; // TODO: Consider aligning the z and y values here
+#      camera->spin = spin;
+#      camera->tilt = tilt;
+#      return;
+
+
+  - name: run_test_construct_loop
+    parameters:
+      - name: num_seconds_until_abort
+        type: float
+        default_argument: 60.0f
+    body: |
+      //if (level) level->on_start();
+      framework_activate_screen("screen");
+      framework_run_loop(num_seconds_until_abort);
+      return;
+
+
+#  - name: add_entity_to_pool
+#    parameters:
+#      - name: entity
+#        type: AllegroFlare::Prototypes::TileFPS::Entities::Base*
+#        default_argument: nullptr
+#    body: |
+#      level->get_entity_pool_ref().add(entity);
+#      return;
+
+
+#  - name: add_entities_to_pool
+#    parameters:
+#      - name: entities
+#        type: std::vector<AllegroFlare::Prototypes::TileFPS::Entities::Base*>
+#        default_argument: '{}'
+#    body: |
+#      for (auto &entity : entities) level->get_entity_pool_ref().add(entity);
+#      return;
+
+
+#  - name: set_dialog_node_bank
+#    parameters:
+#      - name: node_bank
+#        type: AllegroFlare::DialogTree::NodeBank
+#        default_argument: '{}'
+#    body: |
+#      get_framework_dialog_system()->set_dialog_node_bank(node_bank);
+#      return;
+
+
+#  - name: set_sound_effect_elements
+#    parameters:
+#      - name: sound_effect_elements
+#        type: std::map<std::string, AllegroFlare::AudioRepositoryElement>
+#        default_argument: '{}'
+#    body: |
+#      get_framework_audio_controller()->set_and_load_sound_effect_elements(sound_effect_elements);
+#      //get_audio_controller_ref()
+#      //audio_controller->set_and_load_sound_effect_elements(sound_effect_elements);
+#         //{ "menu_move", { "ci-menu_move-01.ogg", false, "restart" } },
+#         //{ "menu_select", { "ci-menu_choice-01.ogg", false, "restart" } },
+#         //{ "null_interact", { "null_interact-01.ogg", false, "restart" } },
+#         //{ "kiosk_activate", { "kiosk_activate-02.ogg", false, "restart" } },
+#         //{ "flow_activation", { "flow_activation-01.ogg", false, "restart" } },
+#      //});
+#      // TODO: Populate
+#      return;
+
+
+#  - name: find_primary_camera
+#    type: AllegroFlare::Prototypes::TileFPS::Entities::Camera3D*
+#    guards: [ level ]
+#    body: |
+#      AllegroFlare::SceneGraph::Entities::Base *entity = nullptr;
+#      entity = level->get_entity_pool_ref().find_with_attribute("primary_camera");
+#      if (!entity) throw std::runtime_error("WithConstructFixture::find_primary_camera: no camera present");
+#      AllegroFlare::Prototypes::TileFPS::Entities::Camera3D *as_camera =
+#        static_cast<AllegroFlare::Prototypes::TileFPS::Entities::Camera3D*>(entity);
+#      return as_camera;
+
+
+#  - name: find_tilelayer_by_name
+#    type: AllegroFlare::Prototypes::TileFPS::Entities::TileMap*
+#    parameters:
+#      - name: tilelayer_name
+#        type: std::string
+#        default_argument: '"[unset-tilelayer_name]"'
+#    guards: [ level ]
+#    body: |
+#      // TODO: Test this function
+#      for (auto &entity : level->get_entity_pool_ref().get_entity_pool_ref())
+#      {
+#         if (entity->exists(AllegroFlare::Prototypes::TileFPS::EntityFlags::TMJ_TILELAYER_NAME, tilelayer_name))
+#         {
+#            //return entity;
+#            return static_cast<AllegroFlare::Prototypes::TileFPS::Entities::TileMap*>(entity);
+#         }
+#      }
+#      return nullptr;
+#    body_dependency_symbols:
+#      - AllegroFlare::Prototypes::TileFPS::EntityFlags
+
+
+#  - name: find_heightmap_by_name
+#    type: AllegroFlare::Prototypes::TileFPS::Entities::HeightMap*
+#    parameters:
+#      - name: heightmap_name
+#        type: std::string
+#        default_argument: '"[unset-heightmap_name]"'
+#    guards: [ level ]
+#    body: |
+#      // TODO: Test this function
+#      for (auto &entity : level->get_entity_pool_ref().get_entity_pool_ref())
+#      {
+#         if (entity->exists(AllegroFlare::Prototypes::TileFPS::EntityFlags::COLLISION_HEIGHT_MAP, heightmap_name))
+#         {
+#            return static_cast<AllegroFlare::Prototypes::TileFPS::Entities::HeightMap*>(entity);
+#         }
+#      }
+#      return nullptr;
+#    body_dependency_symbols:
+#      - AllegroFlare::Prototypes::TileFPS::EntityFlags
+
+
+dependencies:
+
+
+  - symbol: AllegroFlare::SystemInfo
+    headers: [ AllegroFlare/SystemInfo.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::LevelFactory
+#    headers: [ AllegroFlare/Prototypes/TileFPS/LevelFactory.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::Entities::Base
+#    headers: [ AllegroFlare/Prototypes/TileFPS/Entities/Base.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::Level
+#    headers: [ AllegroFlare/Prototypes/TileFPS/Level.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::Screen
+#    headers: [ AllegroFlare/Prototypes/TileFPS/Screen.hpp ]
+  - symbol: AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture
+    headers: [ AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::Entities::Camera3D
+#    headers: [ AllegroFlare/Prototypes/TileFPS/Entities/Camera3D.hpp ]
+  - symbol: AllegroFlare::DialogTree::NodeBank
+    headers: [ AllegroFlare/DialogTree/NodeBank.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::Entities::TileMap
+#    headers: [ AllegroFlare/Prototypes/TileFPS/Entities/TileMap.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::Entities::HeightMap
+#    headers: [ AllegroFlare/Prototypes/TileFPS/Entities/HeightMap.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::EntityFlags
+#    headers: [ AllegroFlare/Prototypes/TileFPS/EntityFlags.hpp ]
+  - symbol: AllegroFlare::AudioRepositoryElement
+    headers: [ AllegroFlare/AudioRepositoryElement.hpp ]
+#  - symbol: AllegroFlare::Prototypes::TileFPS::EntityFactory
+#    headers: [ AllegroFlare/Prototypes/TileFPS/EntityFactory.hpp ]
+  - symbol: Krampus24::Gameplay::Screen
+    headers: [ Krampus24/Gameplay/Screen.hpp ]
+
+
