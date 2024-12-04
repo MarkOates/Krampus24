@@ -16,6 +16,7 @@ namespace Krampus24
          static constexpr char* TYPE = (char*)"Krampus24/Shaders/Principled";
 
       private:
+         ALLEGRO_COLOR world_tint;
          ALLEGRO_COLOR fog_color;
          float fog_intensity;
          float fog_distance;
@@ -32,10 +33,12 @@ namespace Krampus24
          Principled();
          ~Principled();
 
+         void set_world_tint(ALLEGRO_COLOR world_tint);
          void set_fog_color(ALLEGRO_COLOR fog_color);
          void set_fog_intensity(float fog_intensity);
          void set_fog_distance(float fog_distance);
          void set_camera_far_plane(float camera_far_plane);
+         ALLEGRO_COLOR get_world_tint() const;
          ALLEGRO_COLOR get_fog_color() const;
          float get_fog_intensity() const;
          float get_fog_distance() const;

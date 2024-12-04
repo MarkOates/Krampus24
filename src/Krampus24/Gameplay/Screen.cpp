@@ -387,6 +387,8 @@ void Screen::initialize()
    principled_shader.set_fog_intensity(0.9);
    principled_shader.set_fog_distance(40.0);
 
+   principled_shader.set_world_tint(ALLEGRO_COLOR{0.3, 0.3, 0.4, 1.0});
+
    initialized = true;
    return;
 }

@@ -15,6 +15,12 @@ properties:
     static: true
     constexpr: true
 
+  - name: world_tint
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{1, 1, 1, 1}
+    getter: true
+    setter: true
+
   - name: fog_color
     type: ALLEGRO_COLOR
     init_with: ALLEGRO_COLOR{1, 1, 1, 1}
@@ -70,6 +76,7 @@ methods:
       set_float("fog_intensity", fog_intensity);
       set_float("fog_distance", fog_distance);
       set_float("camera_far_plane", camera_far_plane);
+      set_vec3("world_tint", world_tint.r, world_tint.g, world_tint.b);
       return;
     body_dependency_symbols:
       - std::cout
@@ -141,6 +148,7 @@ methods:
 
         uniform vec3 fog_color;
         uniform float fog_intensity;
+        uniform vec3 world_tint;
 
         bool alpha_test_func(float x, int op, float compare);
 
@@ -161,6 +169,7 @@ methods:
              //float inv_depth_contrib = depth;
              //float intensity = 0.5;
 
+             c = c * vec4(world_tint, 1.0);
              gl_FragColor = mix(c, mix(c, vec4(fog_color, 1.0), fog_depth), fog_intensity);
 
              //gl_FragColor = vec4(

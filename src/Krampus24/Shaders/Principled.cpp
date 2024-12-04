@@ -15,6 +15,7 @@ namespace Shaders
 
 Principled::Principled()
    : AllegroFlare::Shaders::Base(Krampus24::Shaders::Principled::TYPE, obtain_vertex_source(), obtain_fragment_source())
+   , world_tint(ALLEGRO_COLOR{1, 1, 1, 1})
    , fog_color(ALLEGRO_COLOR{1, 1, 1, 1})
    , fog_intensity(0.4f)
    , fog_distance(20.0f)
@@ -26,6 +27,12 @@ Principled::Principled()
 
 Principled::~Principled()
 {
+}
+
+
+void Principled::set_world_tint(ALLEGRO_COLOR world_tint)
+{
+   this->world_tint = world_tint;
 }
 
 
@@ -50,6 +57,12 @@ void Principled::set_fog_distance(float fog_distance)
 void Principled::set_camera_far_plane(float camera_far_plane)
 {
    this->camera_far_plane = camera_far_plane;
+}
+
+
+ALLEGRO_COLOR Principled::get_world_tint() const
+{
+   return world_tint;
 }
 
 
@@ -103,6 +116,7 @@ void Principled::set_values_to_activated_shader()
    set_float("fog_intensity", fog_intensity);
    set_float("fog_distance", fog_distance);
    set_float("camera_far_plane", camera_far_plane);
+   set_vec3("world_tint", world_tint.r, world_tint.g, world_tint.b);
    return;
 }
 
@@ -166,6 +180,7 @@ std::string Principled::obtain_fragment_source()
 
      uniform vec3 fog_color;
      uniform float fog_intensity;
+     uniform vec3 world_tint;
 
      bool alpha_test_func(float x, int op, float compare);
 
@@ -186,6 +201,7 @@ std::string Principled::obtain_fragment_source()
           //float inv_depth_contrib = depth;
           //float intensity = 0.5;
 
+          c = c * vec4(world_tint, 1.0);
           gl_FragColor = mix(c, mix(c, vec4(fog_color, 1.0), fog_depth), fog_intensity);
 
           //gl_FragColor = vec4(
