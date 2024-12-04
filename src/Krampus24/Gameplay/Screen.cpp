@@ -460,6 +460,7 @@ void Screen::load_or_reload_meshes()
    // Load the collision mesh
    if (collision_mesh)
    {
+
       model_bin->destroy(collision_mesh_identifier);
       collision_mesh = nullptr;
    }

@@ -95,14 +95,14 @@ properties:
 
   - name: collision_mesh_identifier
     type: std::string
-    init_with: '"tree-04-collision_mesh.obj"'
+    init_with: '"tree-0x-collision_mesh.obj"'
     constructor_arg: true
     getter: true
     setter: before_initialized
 
   - name: visual_mesh_identifier
     type: std::string
-    init_with: '"tree-04-visual.obj"'
+    init_with: '"tree-0x-visual.obj"'
     constructor_arg: true
     getter: true
     setter: before_initialized
@@ -116,7 +116,7 @@ properties:
 
   - name: blocking_filename
     type: std::string
-    init_with: '"tree-04.blocking"'
+    init_with: '"tree-0x.blocking"'
     constructor_arg: true
     getter: true
     setter: before_initialized
@@ -285,6 +285,7 @@ methods:
       // Load the collision mesh
       if (collision_mesh)
       {
+
          model_bin->destroy(collision_mesh_identifier);
          collision_mesh = nullptr;
       }
