@@ -15,8 +15,10 @@ namespace Shaders
 
 Principled::Principled()
    : AllegroFlare::Shaders::Base(Krampus24::Shaders::Principled::TYPE, obtain_vertex_source(), obtain_fragment_source())
-   , fog_tint(ALLEGRO_COLOR{1, 1, 1, 1})
-   , fog_tint_intensity(1.0f)
+   , fog_color(ALLEGRO_COLOR{1, 1, 1, 1})
+   , fog_intensity(0.4f)
+   , fog_distance(20.0f)
+   , camera_far_plane(100.0f)
    , initialized(false)
 {
 }
@@ -27,27 +29,51 @@ Principled::~Principled()
 }
 
 
-void Principled::set_fog_tint(ALLEGRO_COLOR fog_tint)
+void Principled::set_fog_color(ALLEGRO_COLOR fog_color)
 {
-   this->fog_tint = fog_tint;
+   this->fog_color = fog_color;
 }
 
 
-void Principled::set_fog_tint_intensity(float fog_tint_intensity)
+void Principled::set_fog_intensity(float fog_intensity)
 {
-   this->fog_tint_intensity = fog_tint_intensity;
+   this->fog_intensity = fog_intensity;
 }
 
 
-ALLEGRO_COLOR Principled::get_fog_tint() const
+void Principled::set_fog_distance(float fog_distance)
 {
-   return fog_tint;
+   this->fog_distance = fog_distance;
 }
 
 
-float Principled::get_fog_tint_intensity() const
+void Principled::set_camera_far_plane(float camera_far_plane)
 {
-   return fog_tint_intensity;
+   this->camera_far_plane = camera_far_plane;
+}
+
+
+ALLEGRO_COLOR Principled::get_fog_color() const
+{
+   return fog_color;
+}
+
+
+float Principled::get_fog_intensity() const
+{
+   return fog_intensity;
+}
+
+
+float Principled::get_fog_distance() const
+{
+   return fog_distance;
+}
+
+
+float Principled::get_camera_far_plane() const
+{
+   return camera_far_plane;
 }
 
 
@@ -67,12 +93,16 @@ void Principled::activate()
       throw std::runtime_error("[Krampus24::Shaders::Principled::activate]: error: guard \"initialized\" not met");
    }
    AllegroFlare::Shaders::Base::activate();
+   set_values_to_activated_shader();
+   return;
 }
 
 void Principled::set_values_to_activated_shader()
 {
-   set_vec3("fog_tint", fog_tint.r, fog_tint.g, fog_tint.b);
-   set_float("fog_tint_intensity", fog_tint_intensity);
+   set_vec3("fog_color", fog_color.r, fog_color.g, fog_color.b);
+   set_float("fog_intensity", fog_intensity);
+   set_float("fog_distance", fog_distance);
+   set_float("camera_far_plane", camera_far_plane);
    return;
 }
 
@@ -87,7 +117,11 @@ std::string Principled::obtain_vertex_source()
      uniform mat4 al_tex_matrix;
      varying vec4 varying_color;
      varying vec2 varying_texcoord;
-     varying float depth;
+     //varying float depth;
+     uniform float fog_distance;
+     varying float fog_depth;
+     //varying float fog_distance;
+     uniform float camera_far_plane;
 
      void main()
      {
@@ -104,9 +138,11 @@ std::string Principled::obtain_vertex_source()
        //depth = gl_Position.z / 100.0; // NOTE: 100.0 is the far plane in Camera3D
                                      // TODO: pass in far_plane as a varying
                                      // https://stackoverflow.com/a/17621928/6072362
-       depth = gl_Position.z / 20.0; // / 100.0; // NOTE: 100.0 is the far plane in Camera3D
-                                          // TODO: pass in far_plane as a varying
-                                          // https://stackoverflow.com/a/17621928/6072362
+       //depth = gl_Position.z / camera_far_plane; //100.0; // / 100.0; // NOTE: 100.0 is the far plane in Camera3D
+                                                 // TODO: pass in far_plane as a varying
+                                                 // https://stackoverflow.com/a/17621928/6072362
+       fog_depth = clamp(gl_Position.z / fog_distance, 0.0, 1.0);
+       //depth = clamp(depth, 0.0, 1.0);
      }
    )DELIM";
    return source;
@@ -125,7 +161,11 @@ std::string Principled::obtain_fragment_source()
      uniform float al_alpha_test_val;
      varying vec4 varying_color;
      varying vec2 varying_texcoord;
-     varying float depth;
+     //varying float depth;
+     varying float fog_depth;
+
+     uniform vec3 fog_color;
+     uniform float fog_intensity;
 
      bool alpha_test_func(float x, int op, float compare);
 
@@ -142,8 +182,20 @@ std::string Principled::obtain_fragment_source()
        {
           //gl_FragColor = vec4(depth, depth, depth, 1.0);
           //gl_FragColor = c;
-          float depth_contrib = (1.0 - depth);
-          gl_FragColor = vec4(c.r * depth_contrib, c.g * depth_contrib, c.b * depth_contrib, 1.0);
+          //float depth_contrib = (1.0 - depth);
+          //float inv_depth_contrib = depth;
+          //float intensity = 0.5;
+
+          gl_FragColor = mix(c, mix(c, vec4(fog_color, 1.0), fog_depth), fog_intensity);
+
+          //gl_FragColor = vec4(
+              //c.r * depth_contrib + fog_color.r * inv_depth_contrib,
+              //c.g * depth_contrib + fog_color.g * inv_depth_contrib,
+              //c.b * depth_contrib + fog_color.b * inv_depth_contrib,
+              ////c.g * depth_contrib,
+              ////c.b * depth_contrib,
+              //1.0
+           //);
        }
        else
        {

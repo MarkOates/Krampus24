@@ -15,15 +15,27 @@ properties:
     static: true
     constexpr: true
 
-  - name: fog_tint
+  - name: fog_color
     type: ALLEGRO_COLOR
     init_with: ALLEGRO_COLOR{1, 1, 1, 1}
     getter: true
     setter: true
 
-  - name: fog_tint_intensity
+  - name: fog_intensity
     type: float
-    init_with: 1.0f
+    init_with: 0.4f
+    getter: true
+    setter: true
+
+  - name: fog_distance
+    type: float
+    init_with: 20.0f
+    getter: true
+    setter: true
+
+  - name: camera_far_plane
+    type: float
+    init_with: 100.0f
     getter: true
     setter: true
 
@@ -47,13 +59,17 @@ methods:
     guards: [ initialized ]
     body: |
       AllegroFlare::Shaders::Base::activate();
+      set_values_to_activated_shader();
+      return;
 
 
   - name: set_values_to_activated_shader
     private: true
     body: |
-      set_vec3("fog_tint", fog_tint.r, fog_tint.g, fog_tint.b);
-      set_float("fog_tint_intensity", fog_tint_intensity);
+      set_vec3("fog_color", fog_color.r, fog_color.g, fog_color.b);
+      set_float("fog_intensity", fog_intensity);
+      set_float("fog_distance", fog_distance);
+      set_float("camera_far_plane", camera_far_plane);
       return;
     body_dependency_symbols:
       - std::cout
@@ -73,7 +89,11 @@ methods:
         uniform mat4 al_tex_matrix;
         varying vec4 varying_color;
         varying vec2 varying_texcoord;
-        varying float depth;
+        //varying float depth;
+        uniform float fog_distance;
+        varying float fog_depth;
+        //varying float fog_distance;
+        uniform float camera_far_plane;
 
         void main()
         {
@@ -90,9 +110,11 @@ methods:
           //depth = gl_Position.z / 100.0; // NOTE: 100.0 is the far plane in Camera3D
                                         // TODO: pass in far_plane as a varying
                                         // https://stackoverflow.com/a/17621928/6072362
-          depth = gl_Position.z / 20.0; // / 100.0; // NOTE: 100.0 is the far plane in Camera3D
-                                             // TODO: pass in far_plane as a varying
-                                             // https://stackoverflow.com/a/17621928/6072362
+          //depth = gl_Position.z / camera_far_plane; //100.0; // / 100.0; // NOTE: 100.0 is the far plane in Camera3D
+                                                    // TODO: pass in far_plane as a varying
+                                                    // https://stackoverflow.com/a/17621928/6072362
+          fog_depth = clamp(gl_Position.z / fog_distance, 0.0, 1.0);
+          //depth = clamp(depth, 0.0, 1.0);
         }
       )DELIM";
       return source;
@@ -114,7 +136,11 @@ methods:
         uniform float al_alpha_test_val;
         varying vec4 varying_color;
         varying vec2 varying_texcoord;
-        varying float depth;
+        //varying float depth;
+        varying float fog_depth;
+
+        uniform vec3 fog_color;
+        uniform float fog_intensity;
 
         bool alpha_test_func(float x, int op, float compare);
 
@@ -131,8 +157,20 @@ methods:
           {
              //gl_FragColor = vec4(depth, depth, depth, 1.0);
              //gl_FragColor = c;
-             float depth_contrib = (1.0 - depth);
-             gl_FragColor = vec4(c.r * depth_contrib, c.g * depth_contrib, c.b * depth_contrib, 1.0);
+             //float depth_contrib = (1.0 - depth);
+             //float inv_depth_contrib = depth;
+             //float intensity = 0.5;
+
+             gl_FragColor = mix(c, mix(c, vec4(fog_color, 1.0), fog_depth), fog_intensity);
+
+             //gl_FragColor = vec4(
+                 //c.r * depth_contrib + fog_color.r * inv_depth_contrib,
+                 //c.g * depth_contrib + fog_color.g * inv_depth_contrib,
+                 //c.b * depth_contrib + fog_color.b * inv_depth_contrib,
+                 ////c.g * depth_contrib,
+                 ////c.b * depth_contrib,
+                 //1.0
+              //);
           }
           else
           {

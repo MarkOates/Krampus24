@@ -300,6 +300,9 @@
   "Krampus24/Shaders/Principled": [
     "Krampus24/Gameplay/Screen"
   ],
+  "al_color_html": [
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",

@@ -15,6 +15,7 @@
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
 #include <Krampus24/Gameplay/PlayerInputControllers/Player.hpp>
 #include <Krampus24/Gameplay/Scripting/Empty.hpp>
+#include <allegro5/allegro_color.h>
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
 #include <sstream>
@@ -382,6 +383,9 @@ void Screen::initialize()
    create_and_set_player_input_controller_for_0th_entity();
 
    principled_shader.initialize();
+   principled_shader.set_fog_color(al_color_html("#31687a"));
+   principled_shader.set_fog_intensity(0.9);
+   principled_shader.set_fog_distance(40.0);
 
    initialized = true;
    return;

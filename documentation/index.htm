@@ -1474,6 +1474,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Turret&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Turret.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_color_html&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_color.h&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -1636,11 +1639,19 @@ table td
   <td class="property">char*</td>
 </tr>
 <tr>
-  <td class="property">fog_tint</td>
+  <td class="property">fog_color</td>
   <td class="property">ALLEGRO_COLOR</td>
 </tr>
 <tr>
-  <td class="property">fog_tint_intensity</td>
+  <td class="property">fog_intensity</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">fog_distance</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">camera_far_plane</td>
   <td class="property">float</td>
 </tr>
 <tr>
@@ -2039,6 +2050,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Shaders/Principled": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "al_color_html": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Shaders/Base": [
