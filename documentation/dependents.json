@@ -127,6 +127,11 @@
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/Door": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Gameplay/ScriptingInterface": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
@@ -194,10 +199,6 @@
   ],
   "AllegroFlare/Useful": [
     "Krampus24/Gameplay/Entities/Base"
-  ],
-  "Krampus24/Gameplay/Entities/Door": [
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Door",

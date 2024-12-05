@@ -90,6 +90,7 @@ methods:
 
       result->set_data_folder_path(runner->get_framework()->get_data_folder_path());
       //result->set_asset_studio_database(&runner->get_framework()->get_asset_studio_database_ref());
+      result->set_audio_controller(&runner->get_framework()->get_audio_controller_ref());
       result->set_font_bin(runner->get_font_bin());
       result->set_bitmap_bin(runner->get_bitmap_bin());
       result->set_model_bin(runner->get_model_bin());
@@ -433,11 +434,15 @@ methods:
         default_argument: nullptr
     guards: [ audio_controller ]
     body: |
+      //AllegroFlare::AudioController *audio_controller = get_framework_audio_controller();
+      audio_controller->set_and_load_sound_effect_elements(
+         Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list()
+      );
       // An example of how to load a sound effect track:
-      audio_controller->set_and_load_sound_effect_elements({
+      //audio_controller->set_and_load_sound_effect_elements({
          //{ "menu_move", { "ci-menu_move-01.ogg", false, "restart" } },
          //{ "menu_select", { "ci-menu_choice-01.ogg", false, "restart" } },
-      });
+      //});
 
       // How to play a sound effect:
       // event_emitter->emit_play_music_track_event("menu_select");
@@ -450,6 +455,9 @@ methods:
       // How to play a music track:
       // event_emitter->emit_play_music_track_event("intro_music");
       return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::Door
+
 
 
   - name: load_last_played_session_or_start_new
@@ -725,5 +733,7 @@ dependencies:
     headers: [ AllegroFlare/Screens/Subscreen/Screen.hpp ]
   - symbol: Krampus24::Game::Scripting::Tree
     headers: [ Krampus24/Game/Scripting/Tree.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Door
+    headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
 
 

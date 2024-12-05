@@ -9,6 +9,7 @@
 #include <AllegroFlare/GameProgressAndStateInfos/Base.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
+#include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Level.hpp>
 #include <Krampus24/Gameplay/Screen.hpp>
 #include <functional>
@@ -81,6 +82,7 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
 
    result->set_data_folder_path(runner->get_framework()->get_data_folder_path());
    //result->set_asset_studio_database(&runner->get_framework()->get_asset_studio_database_ref());
+   result->set_audio_controller(&runner->get_framework()->get_audio_controller_ref());
    result->set_font_bin(runner->get_font_bin());
    result->set_bitmap_bin(runner->get_bitmap_bin());
    result->set_model_bin(runner->get_model_bin());
@@ -415,11 +417,15 @@ void Main::load_audio_controller(AllegroFlare::AudioController* audio_controller
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Configurations::Main::load_audio_controller]: error: guard \"audio_controller\" not met");
    }
+   //AllegroFlare::AudioController *audio_controller = get_framework_audio_controller();
+   audio_controller->set_and_load_sound_effect_elements(
+      Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list()
+   );
    // An example of how to load a sound effect track:
-   audio_controller->set_and_load_sound_effect_elements({
+   //audio_controller->set_and_load_sound_effect_elements({
       //{ "menu_move", { "ci-menu_move-01.ogg", false, "restart" } },
       //{ "menu_select", { "ci-menu_choice-01.ogg", false, "restart" } },
-   });
+   //});
 
    // How to play a sound effect:
    // event_emitter->emit_play_music_track_event("menu_select");
