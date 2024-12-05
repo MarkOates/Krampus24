@@ -22,6 +22,7 @@ namespace Entities
 Door::Door()
    : Krampus24::Gameplay::Entities::Base()
    , event_emitter(nullptr)
+   , initial_position(AllegroFlare::Vec3D(0, 0, 0))
    , left_door(nullptr)
    , right_door(nullptr)
    , open_position(0.0f)
@@ -77,8 +78,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->placement.position = initial_position;
    result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 4.0, 0.5, 4.0 };
-   //result->initial_position = initial_position;
+   result->placement.size = { 4.0, 4.0, 4.0 };
+   result->initial_position = initial_position;
 
    // Left door
    result->left_door = new Krampus24::Gameplay::Entities::Base;
@@ -118,8 +119,8 @@ void Door::set_open_position(float open_position)
 {
    open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
-   left_door->placement.position.z = open_position * 2;
-   right_door->placement.position.z = -open_position * 2;
+   left_door->placement.position.z = initial_position.z + open_position * 2;
+   right_door->placement.position.z = initial_position.z + -open_position * 2;
    return;
 }
 

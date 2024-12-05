@@ -218,7 +218,7 @@ methods:
 
 
   - name: build_entity
-    type: Krampus24::Gameplay::Entities::Base*
+    type: std::vector<Krampus24::Gameplay::Entities::Base*>
     parameters:
       - name: entity
         type: Krampus24::BlenderBlockingLoaderEntity*
@@ -238,14 +238,27 @@ methods:
          //std::cout << "HEN made" << std::endl;
          auto *result = Krampus24::Gameplay::Entities::Hen::construct(model_bin, bitmap_bin, position, 6.0);
          result->name = entity->name;
-         return result;
+         return { result };
       }
       else if (entity_root_name == Krampus24::Gameplay::Entities::Turret::BLENDER_IDENTIFIER)
       {
          float rotation = entity->rotation.z / 360.0;
          auto *result = Krampus24::Gameplay::Entities::Turret::construct(model_bin, bitmap_bin, position, rotation);
          result->name = entity->name;
-         return result;
+         return { result };
+      }
+      else if (entity_root_name == Krampus24::Gameplay::Entities::Door::BLENDER_IDENTIFIER)
+      {
+         //float rotation = entity->rotation.z / 360.0;
+         std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::Door::construct(
+            model_bin,
+            bitmap_bin,
+            event_emitter,
+            position
+            //rotation
+         );
+         results[0]->name = results[0]->name;
+         return results;
       }
 
       //AllegroFlare::Vec3D position;
@@ -274,10 +287,11 @@ methods:
          result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
       }
 
-      return result;
+      return { result };
     body_dependency_symbols:
       - Krampus24::Gameplay::Entities::Hen
       - Krampus24::Gameplay::Entities::Turret
+      - Krampus24::Gameplay::Entities::Door
 
 
   - name: load_or_reload_meshes
@@ -360,13 +374,11 @@ methods:
          }
          else
          {
-            Krampus24::Gameplay::Entities::Base* result_entity = build_entity(entity);
-            //entity->name, AllegroFlare::Vec3D(x, y, z));
-
-            //std::string entity_root_name = entity->get_name_unversioned();
-            //if (entity_root_name == "elevator")
-
-            entities.push_back(result_entity);
+            std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = build_entity(entity);
+            for (auto &result_entity : result_entities)
+            {
+               entities.push_back(result_entity);
+            }
          }
       });
       
@@ -1171,5 +1183,7 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Turret.hpp ]
   - symbol: al_color_html
     headers: [ allegro5/allegro_color.h ]
+  - symbol: Krampus24::Gameplay::Entities::Door
+    headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
 
 

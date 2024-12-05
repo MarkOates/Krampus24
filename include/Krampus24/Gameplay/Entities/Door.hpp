@@ -35,6 +35,7 @@ namespace Krampus24
                STATE_CLOSED,
             };
             AllegroFlare::EventEmitter* event_emitter;
+            AllegroFlare::Vec3D initial_position;
             Krampus24::Gameplay::Entities::Base* left_door;
             Krampus24::Gameplay::Entities::Base* right_door;
             float open_position;

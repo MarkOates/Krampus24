@@ -787,6 +787,10 @@ table td
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
 <tr>
+  <td class="property">initial_position</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
   <td class="property">left_door</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
@@ -1405,7 +1409,7 @@ table td
   <td class="method"><b>initialize</b>()</td>
 </tr>
 <tr>
-  <td class="method">Krampus24::Gameplay::Entities::Base*</td>
+  <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
   <td class="method"><b>build_entity</b>(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr)</td>
 </tr>
 <tr>
@@ -1625,6 +1629,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_color_html&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_color.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2094,7 +2101,8 @@ table td
     "Krampus24/Gameplay/Entities/Base"
   ],
   "Krampus24/Gameplay/Entities/Door": [
-    "Krampus24/Gameplay/Entities/Door"
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Door",

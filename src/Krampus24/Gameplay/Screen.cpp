@@ -11,6 +11,7 @@
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
+#include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
 #include <Krampus24/Gameplay/PlayerInputControllers/Player.hpp>
@@ -394,7 +395,7 @@ void Screen::initialize()
    return;
 }
 
-Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBlockingLoaderEntity* entity)
+std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24::BlenderBlockingLoaderEntity* entity)
 {
    if (!(entity))
    {
@@ -416,14 +417,27 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
       //std::cout << "HEN made" << std::endl;
       auto *result = Krampus24::Gameplay::Entities::Hen::construct(model_bin, bitmap_bin, position, 6.0);
       result->name = entity->name;
-      return result;
+      return { result };
    }
    else if (entity_root_name == Krampus24::Gameplay::Entities::Turret::BLENDER_IDENTIFIER)
    {
       float rotation = entity->rotation.z / 360.0;
       auto *result = Krampus24::Gameplay::Entities::Turret::construct(model_bin, bitmap_bin, position, rotation);
       result->name = entity->name;
-      return result;
+      return { result };
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::Door::BLENDER_IDENTIFIER)
+   {
+      //float rotation = entity->rotation.z / 360.0;
+      std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::Door::construct(
+         model_bin,
+         bitmap_bin,
+         event_emitter,
+         position
+         //rotation
+      );
+      results[0]->name = results[0]->name;
+      return results;
    }
 
    //AllegroFlare::Vec3D position;
@@ -452,7 +466,7 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
       result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
    }
 
-   return result;
+   return { result };
 }
 
 void Screen::load_or_reload_meshes()
@@ -535,13 +549,11 @@ void Screen::load_or_reload_meshes()
       }
       else
       {
-         Krampus24::Gameplay::Entities::Base* result_entity = build_entity(entity);
-         //entity->name, AllegroFlare::Vec3D(x, y, z));
-
-         //std::string entity_root_name = entity->get_name_unversioned();
-         //if (entity_root_name == "elevator")
-
-         entities.push_back(result_entity);
+         std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = build_entity(entity);
+         for (auto &result_entity : result_entities)
+         {
+            entities.push_back(result_entity);
+         }
       }
    });
 
