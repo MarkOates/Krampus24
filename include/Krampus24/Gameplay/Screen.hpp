@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include <AllegroFlare/AudioController.hpp>
 #include <AllegroFlare/BitmapBin.hpp>
 #include <AllegroFlare/Camera2D.hpp>
 #include <AllegroFlare/Camera3D.hpp>
@@ -36,6 +37,7 @@ namespace Krampus24
       {
       private:
          std::string data_folder_path;
+         AllegroFlare::AudioController* audio_controller;
          AllegroFlare::EventEmitter* event_emitter;
          AllegroFlare::BitmapBin* bitmap_bin;
          AllegroFlare::FontBin* font_bin;
@@ -70,6 +72,7 @@ namespace Krampus24
          virtual ~Screen();
 
          void set_data_folder_path(std::string data_folder_path);
+         void set_audio_controller(AllegroFlare::AudioController* audio_controller);
          void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
          void set_bitmap_bin(AllegroFlare::BitmapBin* bitmap_bin);
          void set_font_bin(AllegroFlare::FontBin* font_bin);
@@ -88,6 +91,7 @@ namespace Krampus24
          void set_blocking_filename(std::string blocking_filename);
          void set_build_scripting_instance_func(std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func);
          std::string get_data_folder_path() const;
+         AllegroFlare::AudioController* get_audio_controller() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
          AllegroFlare::FontBin* get_font_bin() const;
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;

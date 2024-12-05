@@ -33,6 +33,7 @@ namespace Gameplay
 Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*> entities, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string collision_mesh_identifier, std::string visual_mesh_identifier, std::string visual_mesh_texture_identifier, std::string blocking_filename)
    : AllegroFlare::Screens::Gameplay()
    , data_folder_path("[unset-data_folder_path]")
+   , audio_controller(nullptr)
    , event_emitter(event_emitter)
    , bitmap_bin(bitmap_bin)
    , font_bin(font_bin)
@@ -73,6 +74,12 @@ Screen::~Screen()
 void Screen::set_data_folder_path(std::string data_folder_path)
 {
    this->data_folder_path = data_folder_path;
+}
+
+
+void Screen::set_audio_controller(AllegroFlare::AudioController* audio_controller)
+{
+   this->audio_controller = audio_controller;
 }
 
 
@@ -189,6 +196,12 @@ void Screen::set_build_scripting_instance_func(std::function<Krampus24::Gameplay
 std::string Screen::get_data_folder_path() const
 {
    return data_folder_path;
+}
+
+
+AllegroFlare::AudioController* Screen::get_audio_controller() const
+{
+   return audio_controller;
 }
 
 
@@ -330,6 +343,13 @@ void Screen::initialize()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Screen::initialize]: error: guard \"al_is_font_addon_initialized()\" not met");
    }
+   if (!(audio_controller))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::initialize]: error: guard \"audio_controller\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::initialize]: error: guard \"audio_controller\" not met");
+   }
    if (!(event_emitter))
    {
       std::stringstream error_message;
@@ -428,13 +448,13 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
    }
    else if (entity_root_name == Krampus24::Gameplay::Entities::Door::BLENDER_IDENTIFIER)
    {
-      //float rotation = entity->rotation.z / 360.0;
+      float rotation = entity->rotation.z / 360.0;
       std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::Door::construct(
          model_bin,
          bitmap_bin,
          event_emitter,
-         position
-         //rotation
+         position,
+         rotation
       );
       results[0]->name = results[0]->name;
       return results;
@@ -556,6 +576,14 @@ void Screen::load_or_reload_meshes()
          }
       }
    });
+
+
+   // Load up the sound effects // DEVELOPMENT
+   // TODO: Move this to another more appropriate location
+   audio_controller->set_and_load_sound_effect_elements(
+      Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list()
+   );
+
 
    // Load up the scripting
    if (scripting)
@@ -855,17 +883,17 @@ void Screen::render()
    {
       for (auto &entity : entities)
       {
+         //entity->draw();
          if (!entity->active) continue;
          if (!entity->visible) continue;
-         if (!entity->model) continue;
 
-         if (entity->texture) entity->model->set_texture(entity->texture);
+         entity->draw();
 
-         entity->placement.start_transform();
-         entity->model->draw();
-         entity->placement.restore_transform();
-         
-         //visual_mesh->draw();
+         //if (!entity->model) continue;
+         //if (entity->texture) entity->model->set_texture(entity->texture);
+         //entity->placement.start_transform();
+         //entity->model->draw();
+         //entity->placement.restore_transform();
       }
    }
 

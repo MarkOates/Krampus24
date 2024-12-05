@@ -68,6 +68,16 @@ void Base::destroy()
    return;
 }
 
+void Base::draw()
+{
+   if (!model) return;
+   if (texture) model->set_texture(texture);
+   placement.start_transform();
+   model->draw();
+   placement.restore_transform();
+   return;
+}
+
 void Base::on_time_step(double time_step, double time_now)
 {
    // TODO: Override in the derived class

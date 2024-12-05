@@ -15,6 +15,12 @@ properties:
     getter: true
     setter: true
 
+  - name: audio_controller
+    type: AllegroFlare::AudioController*
+    init_with: nullptr
+    getter: true
+    setter: true
+
   - name: event_emitter
     type: AllegroFlare::EventEmitter*
     init_with: nullptr
@@ -171,6 +177,7 @@ methods:
       - al_is_system_installed()
       - al_is_primitives_addon_initialized()
       - al_is_font_addon_initialized()
+      - audio_controller
       - event_emitter
       - bitmap_bin
       - font_bin
@@ -249,13 +256,13 @@ methods:
       }
       else if (entity_root_name == Krampus24::Gameplay::Entities::Door::BLENDER_IDENTIFIER)
       {
-         //float rotation = entity->rotation.z / 360.0;
+         float rotation = entity->rotation.z / 360.0;
          std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::Door::construct(
             model_bin,
             bitmap_bin,
             event_emitter,
-            position
-            //rotation
+            position,
+            rotation
          );
          results[0]->name = results[0]->name;
          return results;
@@ -381,7 +388,15 @@ methods:
             }
          }
       });
+
+
+      // Load up the sound effects // DEVELOPMENT
+      // TODO: Move this to another more appropriate location
+      audio_controller->set_and_load_sound_effect_elements(
+         Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list()
+      );
       
+
       // Load up the scripting
       if (scripting)
       {
@@ -685,17 +700,17 @@ methods:
       {
          for (auto &entity : entities)
          {
+            //entity->draw();
             if (!entity->active) continue;
             if (!entity->visible) continue;
-            if (!entity->model) continue;
 
-            if (entity->texture) entity->model->set_texture(entity->texture);
+            entity->draw();
 
-            entity->placement.start_transform();
-            entity->model->draw();
-            entity->placement.restore_transform();
-            
-            //visual_mesh->draw();
+            //if (!entity->model) continue;
+            //if (entity->texture) entity->model->set_texture(entity->texture);
+            //entity->placement.start_transform();
+            //entity->model->draw();
+            //entity->placement.restore_transform();
          }
       }
 
@@ -1092,6 +1107,8 @@ methods:
 dependencies:
 
 
+  - symbol: AllegroFlare::AudioController
+    headers: [ AllegroFlare/AudioController.hpp ]
   - symbol: ALLEGRO_EVENT
     headers: [ allegro5/allegro.h ]
   - symbol: AllegroFlare::Screens::Base

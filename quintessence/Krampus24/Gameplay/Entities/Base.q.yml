@@ -135,6 +135,17 @@ methods:
       return;
 
 
+  - name: draw
+    virtual: true
+    body: |
+      if (!model) return;
+      if (texture) model->set_texture(texture);
+      placement.start_transform();
+      model->draw();
+      placement.restore_transform();
+      return;
+
+
   - name: on_time_step
     virtual: true
     parameters:

@@ -46,7 +46,7 @@ uint32_t Door::get_state() const
 }
 
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position)
+std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
    {
@@ -80,6 +80,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->placement.size = { 4.0, 4.0, 4.0 };
    result->initial_position = initial_position;
+   result->placement.rotation.y = rotation;
 
    // Left door
    result->left_door = new Krampus24::Gameplay::Entities::Base;
@@ -87,10 +88,12 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->left_door->affected_by_environmental_forces = false;
    result->left_door->collides_with_player = false;
-   result->left_door->placement.position = initial_position;
+   result->left_door->placement.position = { 0.0, 0.0, 0.0 };
    result->left_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->left_door->placement.size = { 0, 0, 0 };
-   //result->left_door->initial_position = initial_position;
+   //result->left_door->placement.rotation.y = rotation;
+   result->left_door->visible = false;
+   //result->left_door->active = false;
 
    // Right door
    result->right_door = new Krampus24::Gameplay::Entities::Base;
@@ -98,10 +101,12 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->right_door->affected_by_environmental_forces = false;
    result->right_door->collides_with_player = false;
-   result->right_door->placement.position = initial_position;
+   result->right_door->placement.position = { 0.0, 0.0, 0.0 };
    result->right_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->right_door->placement.size = { 0, 0, 0 };
-   //result->right_door->initial_position = initial_position;
+   //result->right_door->placement.rotation.y = rotation;
+   result->right_door->visible = false;
+   //result->right_door->active = false;
 
    // Preload the samples
    //result->sample_bin = sample_bin;
@@ -115,12 +120,30 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    return { result, result->left_door, result->right_door };
 }
 
+void Door::draw()
+{
+   placement.start_transform();
+
+   right_door->placement.start_transform();
+   right_door->model->set_texture(right_door->texture);
+   right_door->model->draw();
+   right_door->placement.restore_transform();
+
+   left_door->placement.start_transform();
+   left_door->model->set_texture(left_door->texture);
+   left_door->model->draw();
+   left_door->placement.restore_transform();
+
+   placement.restore_transform();
+   return;
+}
+
 void Door::set_open_position(float open_position)
 {
    open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
-   left_door->placement.position.z = initial_position.z + open_position * 2;
-   right_door->placement.position.z = initial_position.z + -open_position * 2;
+   left_door->placement.position.z = open_position * 2;
+   right_door->placement.position.z = -open_position * 2;
    return;
 }
 

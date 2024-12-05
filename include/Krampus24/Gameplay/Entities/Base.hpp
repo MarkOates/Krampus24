@@ -58,6 +58,7 @@ namespace Krampus24
             std::string get_type() const;
             bool has_player_input_controller();
             virtual void destroy();
+            virtual void draw();
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f);
             virtual void on_tile_map_collision_stepper_step(AllegroFlare::Physics::TileMapCollisionStepperStepResult* collision_step_result=nullptr);
             virtual void on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr);

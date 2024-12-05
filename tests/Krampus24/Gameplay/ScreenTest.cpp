@@ -95,6 +95,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    TestGameConfiguration game_configuration;
    Krampus24::Gameplay::Screen screen;
    screen.set_data_folder_path(get_framework_data_folder_path());
+   screen.set_audio_controller(get_framework_audio_controller());
    screen.set_event_emitter(get_framework_event_emitter());
    screen.set_bitmap_bin(get_framework_bitmap_bin());
    screen.set_font_bin(get_framework_font_bin());
