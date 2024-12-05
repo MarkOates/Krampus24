@@ -619,7 +619,7 @@ methods:
       collision_observer.set_collidables(collidables);
       collision_observer.set_on_test_collide([](void* subject, void* collidable) -> bool {
         return static_cast<Krampus24::Gameplay::Entities::Base*>(subject)->
-        collides(static_cast<Krampus24::Gameplay::Entities::Base*>(collidable));
+        collides_aabb3d(static_cast<Krampus24::Gameplay::Entities::Base*>(collidable));
       });
       collision_observer.process();
 
@@ -731,11 +731,12 @@ methods:
             if (entity == player_entity) continue;
 
 
-            // TODO: Remove these lines and have them replaced by entity->draw_aabb3d()
-            std::vector<ALLEGRO_VERTEX> box_line_vertices = entity->build_line_list_vertices();
-            std::vector<ALLEGRO_VERTEX> box_triangle_vertices = entity->build_triangle_list_vertices_for_faces();
-            al_draw_prim(&box_line_vertices[0], nullptr, nullptr, 0, box_line_vertices.size(), ALLEGRO_PRIM_LINE_LIST);
-            al_draw_prim(&box_triangle_vertices[0], nullptr, nullptr, 0, box_triangle_vertices.size(), ALLEGRO_PRIM_TRIANGLE_LIST);
+            // TODO: Consider that you may wish to draw a box for the model placement(?)
+            //// TODO: Remove these lines and have them replaced by entity->draw_aabb3d()
+            //std::vector<ALLEGRO_VERTEX> box_line_vertices = entity->build_line_list_vertices();
+            //std::vector<ALLEGRO_VERTEX> box_triangle_vertices = entity->build_triangle_list_vertices_for_faces();
+            //al_draw_prim(&box_line_vertices[0], nullptr, nullptr, 0, box_line_vertices.size(), ALLEGRO_PRIM_LINE_LIST);
+            //al_draw_prim(&box_triangle_vertices[0], nullptr, nullptr, 0, box_triangle_vertices.size(), ALLEGRO_PRIM_TRIANGLE_LIST);
 
 
             entity->draw_aabb3d(); // TODO: Have this replace the above legacy code
