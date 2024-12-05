@@ -68,7 +68,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->placement.position = initial_position;
    result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 2.0, 0.5, 2.0 };
+   result->placement.size = { 4.0, 0.5, 4.0 };
    //result->initial_position = initial_position;
 
    // Left door
@@ -100,19 +100,23 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    return { result, result->left_door, result->right_door };
 }
 
+void Door::set_open_position(float open_position)
+{
+   this->open_position = open_position;
+   left_door->placement.position.z = open_position;
+   right_door->placement.position.z = -open_position;
+   return;
+}
+
 void Door::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   std::cout << "Entered door!" << std::endl;
-   // To use, tag the entity with "AllegroFlare::Prototypes::MeshFPS::EntityFlags::COLLIDES_WITH_PLAYER", then
-   // override this method in the derived class
+   set_state(STATE_OPENING);
    return;
 }
 
 void Door::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   std::cout << "Exited door!" << std::endl;
-   // To use, tag the entity with "AllegroFlare::Prototypes::MeshFPS::EntityFlags::COLLIDES_WITH_PLAYER", then
-   // override this method in the derived class
+   set_state(STATE_CLOSING);
    return;
 }
 
@@ -155,15 +159,19 @@ void Door::set_state(uint32_t state, bool override_if_busy)
    switch (state)
    {
       case STATE_OPENING: {
+         set_state(STATE_OPEN);
       } break;
 
       case STATE_OPEN: {
+         set_open_position(1.0f);
       } break;
 
       case STATE_CLOSING: {
+         set_state(STATE_CLOSED);
       } break;
 
       case STATE_CLOSED: {
+         set_open_position(0.0f);
       } break;
 
       default:

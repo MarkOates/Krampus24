@@ -46,6 +46,7 @@ namespace Krampus24
 
             uint32_t get_state() const;
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0));
+            void set_open_position(float open_position=1.0f);
             virtual void on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
             virtual void on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f) override;
