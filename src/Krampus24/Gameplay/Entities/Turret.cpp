@@ -77,7 +77,7 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
    manager->placement.rotation.y = rotation;
 
    //manager->get_placement_ref().scale = { 0.05, 0.05, 0.05 };
-   manager->placement.scale = { 0.75, 0.75, 0.75 };
+   manager->placement.scale = { 1.0, 1.0, 1.0 };
    //manager->get_placement_ref().position.y = 0.25;
    //manager->get_velocity_ref().rotation.y = 0.0075;
    //manager->event_emitter = event_emitter;

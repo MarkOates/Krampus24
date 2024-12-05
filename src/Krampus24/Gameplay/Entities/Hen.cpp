@@ -82,6 +82,7 @@ Krampus24::Gameplay::Entities::Hen* Hen::construct(AllegroFlare::ModelBin* model
    result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->placement.size = { 0.5, 0.5, 0.5 };
+   result->aabb3d.set_max(result->placement.size);
    result->collides_with_player = true;
    //result->affected_by_environmental_forces = affected_by_environmental_forces;
 

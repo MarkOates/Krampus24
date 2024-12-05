@@ -79,6 +79,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->placement.size = { 4.0, 4.0, 4.0 };
+   result->aabb3d.set_max(result->placement.size);
    result->initial_position = initial_position;
    result->placement.rotation.y = rotation;
 

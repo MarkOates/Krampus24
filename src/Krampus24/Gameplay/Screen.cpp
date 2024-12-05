@@ -474,6 +474,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
 
    result->placement.position = position;
    result->placement.size = { 0.5, 0.5, 0.5 };
+   result->aabb3d.set_max(result->placement.size);
    result->collides_with_player = true;
    result->affected_by_environmental_forces = affected_by_environmental_forces;
 
@@ -483,6 +484,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
    {
       // Do elevator stuff
       result->placement.size = { 1.0, 2.0, 1.0 };
+      result->aabb3d.set_max(result->placement.size);
       result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
    }
 
@@ -536,6 +538,7 @@ void Screen::load_or_reload_meshes()
       Krampus24::Gameplay::Entities::Base* player_entity =
          new Krampus24::Gameplay::Entities::Base();
       player_entity->placement.size = {0.5, 0.5, 0.5};
+      player_entity->aabb3d.set_max(player_entity->placement.size);
       player_entity->placement.position = player_spawn_position;
       player_entity->player__spin = player_initial_spin;
       entities.push_back(player_entity);
@@ -732,6 +735,7 @@ void Screen::update()
    float time_now = al_get_time();
    float step_duration = 1.0f;
 
+
    // Step each entity via its update function
    for (auto &entity : entities)
    {
@@ -909,10 +913,15 @@ void Screen::render()
          if (!entity->active || !entity->visible) continue;
          if (entity == player_entity) continue;
 
+
+         // TODO: Remove these lines and have them replaced by entity->draw_aabb3d()
          std::vector<ALLEGRO_VERTEX> box_line_vertices = entity->build_line_list_vertices();
          std::vector<ALLEGRO_VERTEX> box_triangle_vertices = entity->build_triangle_list_vertices_for_faces();
          al_draw_prim(&box_line_vertices[0], nullptr, nullptr, 0, box_line_vertices.size(), ALLEGRO_PRIM_LINE_LIST);
          al_draw_prim(&box_triangle_vertices[0], nullptr, nullptr, 0, box_triangle_vertices.size(), ALLEGRO_PRIM_TRIANGLE_LIST);
+
+
+         entity->draw_aabb3d(); // TODO: Have this replace the above legacy code
       }
       al_set_render_state(ALLEGRO_DEPTH_TEST, 1);
    }
