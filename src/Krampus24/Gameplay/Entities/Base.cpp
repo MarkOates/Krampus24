@@ -15,13 +15,14 @@ namespace Entities
 {
 
 
-Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* texture, AllegroFlare::Placement3D placement, AllegroFlare::Placement3D velocity, AllegroFlare::Physics::AABB2D hit_box_2d, AllegroFlare::PlayerInputControllers::Base* player_input_controller)
+Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* texture, AllegroFlare::Placement3D placement, AllegroFlare::Placement3D velocity, AllegroFlare::Physics::AABB3D aabb3d, AllegroFlare::Physics::AABB2D hit_box_2d, AllegroFlare::PlayerInputControllers::Base* player_input_controller)
    : AllegroFlare::SceneGraph::Entities::Base(Krampus24::Gameplay::Entities::Base::TYPE)
    , type(type)
    , model(model)
    , texture(texture)
    , placement(placement)
    , velocity(velocity)
+   , aabb3d(aabb3d)
    , hit_box_2d(hit_box_2d)
    , player_input_controller(player_input_controller)
    , box_corners({})
@@ -142,6 +143,24 @@ bool Base::collides(Krampus24::Gameplay::Entities::Base* other)
    return !(pos1.x >= pos2.x + size2.x || pos1.x + size1.x <= pos2.x ||
             pos1.y >= pos2.y + size2.y || pos1.y + size1.y <= pos2.y ||
             pos1.z >= pos2.z + size2.z || pos1.z + size1.z <= pos2.z);
+}
+
+bool Base::collides_aabb3d(Krampus24::Gameplay::Entities::Base* other)
+{
+   if (!(other))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Base::collides_aabb3d]: error: guard \"other\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Base::collides_aabb3d]: error: guard \"other\" not met");
+   }
+   return aabb3d.collides(&other->aabb3d);
+}
+
+void Base::draw_aabb3d()
+{
+   aabb3d.draw(box_color, placement.position);
+   return;
 }
 
 void Base::calculate_box_corners()

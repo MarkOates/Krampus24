@@ -3,6 +3,7 @@
 
 #include <AllegroFlare/Model3D.hpp>
 #include <AllegroFlare/Physics/AABB2D.hpp>
+#include <AllegroFlare/Physics/AABB3D.hpp>
 #include <AllegroFlare/Physics/TileMapCollisionStepperStepResult.hpp>
 #include <AllegroFlare/Placement3D.hpp>
 #include <AllegroFlare/PlayerInputControllers/Base.hpp>
@@ -37,6 +38,7 @@ namespace Krampus24
             ALLEGRO_BITMAP* texture;
             AllegroFlare::Placement3D placement;
             AllegroFlare::Placement3D velocity;
+            AllegroFlare::Physics::AABB3D aabb3d;
             AllegroFlare::Physics::AABB2D hit_box_2d;
             AllegroFlare::PlayerInputControllers::Base* player_input_controller;
             std::vector<AllegroFlare::Vec3D> box_corners;
@@ -51,7 +53,7 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Base* elevator__target;
             float player__spin;
             float player__tilt;
-            Base(std::string type=Krampus24::Gameplay::Entities::Base::TYPE, AllegroFlare::Model3D* model=nullptr, ALLEGRO_BITMAP* texture=nullptr, AllegroFlare::Placement3D placement={}, AllegroFlare::Placement3D velocity={}, AllegroFlare::Physics::AABB2D hit_box_2d={}, AllegroFlare::PlayerInputControllers::Base* player_input_controller=nullptr);
+            Base(std::string type=Krampus24::Gameplay::Entities::Base::TYPE, AllegroFlare::Model3D* model=nullptr, ALLEGRO_BITMAP* texture=nullptr, AllegroFlare::Placement3D placement={}, AllegroFlare::Placement3D velocity={}, AllegroFlare::Physics::AABB3D aabb3d={}, AllegroFlare::Physics::AABB2D hit_box_2d={}, AllegroFlare::PlayerInputControllers::Base* player_input_controller=nullptr);
             virtual ~Base();
 
             void set_type(std::string type);
@@ -67,6 +69,8 @@ namespace Krampus24
             virtual void on_exit_player_position_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr);
             virtual void on_player_inspect_or_use();
             bool collides(Krampus24::Gameplay::Entities::Base* other=nullptr);
+            bool collides_aabb3d(Krampus24::Gameplay::Entities::Base* other=nullptr);
+            void draw_aabb3d();
             void calculate_box_corners();
             ALLEGRO_COLOR build_color(float opacity=1.0f);
             std::vector<ALLEGRO_VERTEX> build_line_list_vertices();

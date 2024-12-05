@@ -40,6 +40,12 @@ properties:
     constructor_arg: true
     exposed: true
 
+  - name: aabb3d
+    type: AllegroFlare::Physics::AABB3D
+    init_with: '{}'
+    constructor_arg: true
+    exposed: true
+
   - name: hit_box_2d
     type: AllegroFlare::Physics::AABB2D
     init_with: '{}'
@@ -244,6 +250,22 @@ methods:
                pos1.y >= pos2.y + size2.y || pos1.y + size1.y <= pos2.y ||
                pos1.z >= pos2.z + size2.z || pos1.z + size1.z <= pos2.z);
 
+
+  - name: collides_aabb3d
+    type: bool
+    parameters:
+      - name: other
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    guards: [ other ]
+    body: |
+      return aabb3d.collides(&other->aabb3d);
+
+
+  - name: draw_aabb3d
+    body: |
+      aabb3d.draw(box_color, placement.position);
+      return;
 
 
   - name: calculate_box_corners
@@ -528,5 +550,7 @@ dependencies:
     headers: [ allegro5/allegro_primitives.h ]
   - symbol: AllegroFlare::Vec3D
     headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: AllegroFlare::Physics::AABB3D
+    headers: [ AllegroFlare/Physics/AABB3D.hpp ]
 
 

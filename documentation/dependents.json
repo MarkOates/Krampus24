@@ -189,6 +189,9 @@
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"
   ],
+  "AllegroFlare/Physics/AABB3D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
   "Krampus24/Gameplay/Entities/Door": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Screen"

@@ -10,3 +10,18 @@ TEST(Krampus24_Gameplay_Entities_BaseTest, can_be_created_without_blowing_up)
 }
 
 
+/*
+  - name: aabb3d
+    type: AllegroFlare::Physics::AABB3D
+    init_with: '{}'
+    constructor_arg: true
+    exposed: true
+
+  - name: aabb3d_alignmet
+    type: AllegroFlare::Vec3D
+    init_with: '{}'
+    constructor_arg: true
+    exposed: true
+*/
+
+
