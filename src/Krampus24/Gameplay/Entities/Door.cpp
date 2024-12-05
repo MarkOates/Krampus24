@@ -21,10 +21,11 @@ namespace Entities
 
 Door::Door()
    : Krampus24::Gameplay::Entities::Base()
+   , event_emitter(nullptr)
    , left_door(nullptr)
    , right_door(nullptr)
    , open_position(0.0f)
-   , speed(0.025f)
+   , speed(0.015f)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
@@ -44,7 +45,7 @@ uint32_t Door::get_state() const
 }
 
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::Vec3D initial_position)
+std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position)
 {
    if (!(model_bin))
    {
@@ -59,6 +60,13 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
       error_message << "[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"bitmap_bin\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"bitmap_bin\" not met");
+   }
+   if (!(event_emitter))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"event_emitter\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"event_emitter\" not met");
    }
    // Main entity
    Krampus24::Gameplay::Entities::Door* result = new Krampus24::Gameplay::Entities::Door;
@@ -93,6 +101,11 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->right_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->right_door->placement.size = { 0, 0, 0 };
    //result->right_door->initial_position = initial_position;
+
+   // Preload the samples
+   //result->sample_bin = sample_bin;
+   //sample_bin->preload(DOOR_OPEN_SAMPLE_IDENTIFIER);
+   result->event_emitter = event_emitter;
 
 
    result->initialized = true;
@@ -135,6 +148,21 @@ void Door::on_time_step(double time_step, double time_now)
    return;
 }
 
+void Door::play_open_door_sound_effect()
+{
+   //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+   event_emitter->emit_play_sound_effect_event("open_metal_door");
+   return;
+}
+
+std::map<std::string, AllegroFlare::AudioRepositoryElement> Door::build_audio_controller_sound_effect_list()
+{
+   std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+      { "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+   };
+   return sound_effect_elements;
+}
+
 void Door::set_state(uint32_t state, bool override_if_busy)
 {
    if (!(initialized))
@@ -161,14 +189,19 @@ void Door::set_state(uint32_t state, bool override_if_busy)
    switch (state)
    {
       case STATE_OPENING: {
+         play_open_door_sound_effect();
+         //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_OPEN);
       } break;
 
       case STATE_OPEN: {
          set_open_position(1.0f);
+         //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
       } break;
 
       case STATE_CLOSING: {
+         play_open_door_sound_effect();
+         //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_CLOSED);
       } break;
 

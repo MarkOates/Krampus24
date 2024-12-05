@@ -783,6 +783,10 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">event_emitter</td>
+  <td class="property">AllegroFlare::EventEmitter*</td>
+</tr>
+<tr>
   <td class="property">left_door</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
@@ -818,12 +822,16 @@ table td
   <td class="property">BLENDER_IDENTIFIER</td>
   <td class="property">char*</td>
 </tr>
+<tr>
+  <td class="property">DOOR_OPEN_SAMPLE_IDENTIFIER</td>
+  <td class="property">char*</td>
+</tr>
     </table>
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
 <tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0))</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0))</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -840,6 +848,14 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>on_time_step</b>(double time_step=0.0f, double time_now=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>play_open_door_sound_effect</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::map&lt;std::string, AllegroFlare::AudioRepositoryElement&gt;</td>
+  <td class="method"><b>build_audio_controller_sound_effect_list</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -893,6 +909,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Random&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Random.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::SampleBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/SampleBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AudioRepositoryElement&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AudioRepositoryElement.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventEmitter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventEmitter.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2102,14 +2127,22 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen"
   ],
-  "Krampus24/Gameplay/Entities/Hen": [
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
+  "AllegroFlare/SampleBin": [
+    "Krampus24/Gameplay/Entities/Door"
+  ],
+  "AllegroFlare/AudioRepositoryElement": [
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/EventEmitter": [
+    "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
+  ],
+  "Krampus24/Gameplay/Entities/Hen": [
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/Turret": [
     "Krampus24/Gameplay/Entities/Turret",
@@ -2204,9 +2237,6 @@ table td
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture": [
-    "Krampus24/Testing/WithConstructFixture"
-  ],
-  "AllegroFlare/AudioRepositoryElement": [
     "Krampus24/Testing/WithConstructFixture"
   ]
 }

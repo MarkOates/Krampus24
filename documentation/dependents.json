@@ -222,14 +222,22 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen"
   ],
-  "Krampus24/Gameplay/Entities/Hen": [
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
+  "AllegroFlare/SampleBin": [
+    "Krampus24/Gameplay/Entities/Door"
+  ],
+  "AllegroFlare/AudioRepositoryElement": [
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/EventEmitter": [
+    "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
+  ],
+  "Krampus24/Gameplay/Entities/Hen": [
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/Turret": [
     "Krampus24/Gameplay/Entities/Turret",
@@ -324,9 +332,6 @@
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Testing/WithAllegroFlareFrameworksFullFixture": [
-    "Krampus24/Testing/WithConstructFixture"
-  ],
-  "AllegroFlare/AudioRepositoryElement": [
     "Krampus24/Testing/WithConstructFixture"
   ]
 }

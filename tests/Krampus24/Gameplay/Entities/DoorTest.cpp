@@ -17,10 +17,18 @@ TEST_F(Krampus24_Gameplay_Entities_DoorWithConstructFixtureTest, can_be_created_
    //Krampus24::Gameplay::Entities::Door::construct(
       get_framework_model_bin(),
       get_framework_bitmap_bin(),
+      get_framework_event_emitter(),
       AllegroFlare::Vec3D(0, 0, 0)
       //3.0
    );
    for (auto &entity : entities) add_entity_to_pool(entity);
+
+   // Add the sound effects
+   AllegroFlare::AudioController *audio_controller = get_framework_audio_controller();
+   audio_controller->set_and_load_sound_effect_elements(
+      Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list()
+   );
+
    run_test_construct_loop();
 }
 

@@ -9,6 +9,10 @@ parent_classes:
 properties:
 
 
+  - name: event_emitter
+    type: AllegroFlare::EventEmitter*
+    init_with: nullptr
+
   - name: left_door
     type: Krampus24::Gameplay::Entities::Base*
     init_with: nullptr
@@ -24,7 +28,7 @@ properties:
 
   - name: speed
     type: float
-    init_with: 0.025f
+    init_with: 0.015f
 
   - name: state
     type: uint32_t
@@ -47,6 +51,12 @@ properties:
   - name: BLENDER_IDENTIFIER
     type: char*
     init_with: '(char*)"door"'
+    static: true
+    constexpr: true
+
+  - name: DOOR_OPEN_SAMPLE_IDENTIFIER
+    type: char*
+    init_with: '(char*)"door-01-opening.ogg"'
     static: true
     constexpr: true
 
@@ -76,10 +86,13 @@ methods:
       - name: bitmap_bin
         type: AllegroFlare::BitmapBin*
         default_argument: nullptr
+      - name: event_emitter
+        type: AllegroFlare::EventEmitter*
+        default_argument: nullptr
       - name: initial_position
         type: AllegroFlare::Vec3D
         default_argument: AllegroFlare::Vec3D(0, 0, 0)
-    guards: [ model_bin, bitmap_bin ]
+    guards: [ model_bin, bitmap_bin, event_emitter ]
     body: |
       // Main entity
       Krampus24::Gameplay::Entities::Door* result = new Krampus24::Gameplay::Entities::Door;
@@ -115,6 +128,11 @@ methods:
       result->right_door->placement.size = { 0, 0, 0 };
       //result->right_door->initial_position = initial_position;
 
+      // Preload the samples
+      //result->sample_bin = sample_bin;
+      //sample_bin->preload(DOOR_OPEN_SAMPLE_IDENTIFIER);
+      result->event_emitter = event_emitter;
+      
 
       result->initialized = true;
       result->set_state(STATE_CLOSED);
@@ -177,6 +195,23 @@ methods:
       - std::sin
 
 
+  - name: play_open_door_sound_effect
+    body: |
+      //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+      event_emitter->emit_play_sound_effect_event("open_metal_door");
+      return;
+
+
+  - name: build_audio_controller_sound_effect_list
+    static: true
+    type: std::map<std::string, AllegroFlare::AudioRepositoryElement>
+    body: |
+      std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+         { "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+      };
+      return sound_effect_elements;
+
+
   - name: set_state
     parameters:
       - name: state
@@ -197,14 +232,19 @@ methods:
       switch (state)
       {
          case STATE_OPENING: {
+            play_open_door_sound_effect();
+            //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
             //set_state(STATE_OPEN);
          } break;
 
          case STATE_OPEN: {
             set_open_position(1.0f);
+            //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          } break;
 
          case STATE_CLOSING: {
+            play_open_door_sound_effect();
+            //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
             //set_state(STATE_CLOSED);
          } break;
 
@@ -333,5 +373,11 @@ dependencies:
     headers: [ AllegroFlare/Logger.hpp ]
   - symbol: AllegroFlare::Random
     headers: [ AllegroFlare/Random.hpp ]
+  - symbol: AllegroFlare::SampleBin
+    headers: [ AllegroFlare/SampleBin.hpp ]
+  - symbol: AllegroFlare::AudioRepositoryElement
+    headers: [ AllegroFlare/AudioRepositoryElement.hpp ]
+  - symbol: AllegroFlare::EventEmitter
+    headers: [ AllegroFlare/EventEmitter.hpp ]
 
 
