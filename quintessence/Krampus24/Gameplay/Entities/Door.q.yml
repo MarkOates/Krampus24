@@ -19,9 +19,12 @@ properties:
 
   - name: open_position
     type: float
-# 0.0 is closed 1.0 is open
     init_with: 0.0f
     setter: explicit
+
+  - name: speed
+    type: float
+    init_with: 0.025f
 
   - name: state
     type: uint32_t
@@ -125,9 +128,10 @@ methods:
         type: float
         default_argument: 1.0f
     body: |
+      open_position = std::max(std::min(1.0f, open_position), 0.0f);
       this->open_position = open_position;
-      left_door->placement.position.z = open_position;
-      right_door->placement.position.z = -open_position;
+      left_door->placement.position.z = open_position * 2;
+      right_door->placement.position.z = -open_position * 2;
       return;
 
 
@@ -193,7 +197,7 @@ methods:
       switch (state)
       {
          case STATE_OPENING: {
-            set_state(STATE_OPEN);
+            //set_state(STATE_OPEN);
          } break;
 
          case STATE_OPEN: {
@@ -201,7 +205,7 @@ methods:
          } break;
 
          case STATE_CLOSING: {
-            set_state(STATE_CLOSED);
+            //set_state(STATE_CLOSED);
          } break;
 
          case STATE_CLOSED: {
@@ -236,12 +240,16 @@ methods:
       switch (state)
       {
          case STATE_OPENING: {
+            set_open_position(open_position + speed);
+            if (open_position >= 1.0) set_state(STATE_OPEN);
          } break;
 
          case STATE_OPEN: {
          } break;
 
          case STATE_CLOSING: {
+            set_open_position(open_position - speed);
+            if (open_position <= 0.0) set_state(STATE_CLOSED);
          } break;
 
          case STATE_CLOSED: {

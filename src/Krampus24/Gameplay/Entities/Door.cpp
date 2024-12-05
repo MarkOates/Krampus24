@@ -24,6 +24,7 @@ Door::Door()
    , left_door(nullptr)
    , right_door(nullptr)
    , open_position(0.0f)
+   , speed(0.025f)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
@@ -102,9 +103,10 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
 
 void Door::set_open_position(float open_position)
 {
+   open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
-   left_door->placement.position.z = open_position;
-   right_door->placement.position.z = -open_position;
+   left_door->placement.position.z = open_position * 2;
+   right_door->placement.position.z = -open_position * 2;
    return;
 }
 
@@ -159,7 +161,7 @@ void Door::set_state(uint32_t state, bool override_if_busy)
    switch (state)
    {
       case STATE_OPENING: {
-         set_state(STATE_OPEN);
+         //set_state(STATE_OPEN);
       } break;
 
       case STATE_OPEN: {
@@ -167,7 +169,7 @@ void Door::set_state(uint32_t state, bool override_if_busy)
       } break;
 
       case STATE_CLOSING: {
-         set_state(STATE_CLOSED);
+         //set_state(STATE_CLOSED);
       } break;
 
       case STATE_CLOSED: {
@@ -206,12 +208,16 @@ void Door::update_state(double time_step, double time_now)
    switch (state)
    {
       case STATE_OPENING: {
+         set_open_position(open_position + speed);
+         if (open_position >= 1.0) set_state(STATE_OPEN);
       } break;
 
       case STATE_OPEN: {
       } break;
 
       case STATE_CLOSING: {
+         set_open_position(open_position - speed);
+         if (open_position <= 0.0) set_state(STATE_CLOSED);
       } break;
 
       case STATE_CLOSED: {

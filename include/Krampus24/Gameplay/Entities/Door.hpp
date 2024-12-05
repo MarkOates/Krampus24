@@ -32,6 +32,7 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Base* left_door;
             Krampus24::Gameplay::Entities::Base* right_door;
             float open_position;
+            float speed;
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
