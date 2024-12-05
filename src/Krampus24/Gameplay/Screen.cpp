@@ -359,7 +359,8 @@ void Screen::initialize()
    }
    set_update_strategy(AllegroFlare::Screens::Base::UpdateStrategy::SEPARATE_UPDATE_AND_RENDER_FUNCS);
 
-   live_camera.stepout = AllegroFlare::Vec3D(0, 1.25, 0); // FPS camera
+   //live_camera.stepout = AllegroFlare::Vec3D(0, 1.25, 0); // FPS camera
+   live_camera.stepout = AllegroFlare::Vec3D(0, 2.25, 0); // FPS camera
    live_camera.tilt = 0.0;
    live_camera.near_plane = 0.1;
    live_camera.far_plane = 500.0;
