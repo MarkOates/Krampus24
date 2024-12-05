@@ -56,7 +56,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , rendering_visual_mesh(true)
    , rendering_collision_wiremesh(false)
    , rendering_entity_models(true)
-   , rendering_entity_bounding_boxes(true)
+   , rendering_entity_bounding_boxes(false)
    , collision_observer({})
    , initialized(false)
 {

@@ -155,7 +155,7 @@ properties:
 
   - name: rendering_entity_bounding_boxes
     type: bool
-    init_with: true
+    init_with: false
 
   - name: collision_observer
     type: AllegroFlare::CollisionObservers::Simple
