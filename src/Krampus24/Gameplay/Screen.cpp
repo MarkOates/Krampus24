@@ -483,8 +483,9 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
    if (entity_root_name == "elevator")
    {
       // Do elevator stuff
-      result->placement.size = { 1.0, 2.0, 1.0 };
+      result->placement.size = { 4.0, 4.0, 4.0 };
       result->aabb3d.set_max(result->placement.size);
+      result->aabb3d_alignment = { 0.5, 0.005, 0.5 };
       result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
    }
 
