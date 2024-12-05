@@ -28,7 +28,7 @@ properties:
 
   - name: speed
     type: float
-    init_with: 0.015f
+    init_with: 0.0165f
 
   - name: state
     type: uint32_t
