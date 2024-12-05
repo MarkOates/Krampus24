@@ -21,14 +21,12 @@ namespace Entities
 
 Door::Door()
    : Krampus24::Gameplay::Entities::Base()
-   , initial_position(AllegroFlare::Vec3D(0, 0, 0))
-   , range(3.0f)
-   , movement_direction({})
-   , movement_velocity(0.01f)
+   , left_door(nullptr)
+   , right_door(nullptr)
+   , open_position(0.0f)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
-   , random({})
    , initialized(false)
 {
 }
@@ -45,7 +43,7 @@ uint32_t Door::get_state() const
 }
 
 
-Krampus24::Gameplay::Entities::Door* Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::Vec3D initial_position, float range)
+std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::Vec3D initial_position)
 {
    if (!(model_bin))
    {
@@ -61,51 +59,45 @@ Krampus24::Gameplay::Entities::Door* Door::construct(AllegroFlare::ModelBin* mod
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"bitmap_bin\" not met");
    }
+   // Main entity
    Krampus24::Gameplay::Entities::Door* result = new Krampus24::Gameplay::Entities::Door;
-   result->model = model_bin->auto_get("hen-02.obj");
-   result->texture = bitmap_bin->auto_get("entities_texture-01.png");
-
-
-   result->affected_by_environmental_forces = true;
-
-
-   //Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
-
-   //float x = 0; //entity->location.x;
-   //float y = 0.5; //entity->location.z; // Swapping z<->y
-   //float z = 0; //entity->location.y; // Swapping z<->y
-
-   //AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
-   //initial_position
-
+   //result->model = model_bin->auto_get("door-01.obj");
+   //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   result->affected_by_environmental_forces = false;
+   result->collides_with_player = true;
    result->placement.position = initial_position;
    result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->placement.size = { 0.5, 0.5, 0.5 };
-   result->collides_with_player = true;
-   //result->affected_by_environmental_forces = affected_by_environmental_forces;
+   //result->initial_position = initial_position;
 
-   //result->name = entity->name;
-   //std::string entity_root_name = entity->get_name_unversioned();
-   //if (entity_root_name == "elevator")
-   //{
-      // Do elevator stuff
-      //result->placement.size = { 1.0, 2.0, 1.0 };
-      //result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
-   //}
+   // Left door
+   result->left_door = new Krampus24::Gameplay::Entities::Base;
+   result->left_door->model = model_bin->auto_get("door-01-left_door.obj");
+   result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   result->left_door->affected_by_environmental_forces = false;
+   result->left_door->collides_with_player = false;
+   result->left_door->placement.position = initial_position;
+   result->left_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   result->left_door->placement.size = { 0, 0, 0 };
+   //result->left_door->initial_position = initial_position;
 
-   result->initial_position = initial_position;
-   result->range = range;
-   result->movement_direction = AllegroFlare::Vec3D(0, 0, 1);
-   //result->movement_velocity = 0.01;
-   result->movement_velocity = 0.01;
+   // Right door
+   result->right_door = new Krampus24::Gameplay::Entities::Base;
+   result->right_door->model = model_bin->auto_get("door-01-right_door.obj");
+   result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   result->right_door->affected_by_environmental_forces = false;
+   result->right_door->collides_with_player = false;
+   result->right_door->placement.position = initial_position;
+   result->right_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   result->right_door->placement.size = { 0, 0, 0 };
+   //result->right_door->initial_position = initial_position;
+
 
    result->initialized = true;
-   result->random.set_seed(4371);
+   result->set_state(STATE_CLOSED);
 
-   result->set_state(STATE_ROAMING);
-
-   return result;
+   return { result, result->left_door, result->right_door };
 }
 
 void Door::on_time_step(double time_step, double time_now)
@@ -146,16 +138,16 @@ void Door::set_state(uint32_t state, bool override_if_busy)
 
    switch (state)
    {
-      case STATE_STANDING: {
+      case STATE_OPENING: {
       } break;
 
-      case STATE_ROAMING: {
+      case STATE_OPEN: {
       } break;
 
-      case STATE_RETURNING: {
+      case STATE_CLOSING: {
       } break;
 
-      case STATE_TURNING: {
+      case STATE_CLOSED: {
       } break;
 
       default:
@@ -189,62 +181,16 @@ void Door::update_state(double time_step, double time_now)
 
    switch (state)
    {
-      case STATE_STANDING: {
-         //velocity.position = movement_direction * movement_velocity;
-         //float anchor_x = 0.0;
-         //float anchor_y = std::sin(time_now*12) * 0.05;
-         //float anchor_z = 0.0;
-         //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+      case STATE_OPENING: {
       } break;
 
-      case STATE_RETURNING: {
-         if (infer_distance_from_initial_position() <= 0.25)
-         {
-            //float angle_in_radians = random.get_random_float(0, ALLEGRO_PI*2);
-            //movement_direction = -movement_direction;
-            float angle_in_radians = random.get_random_float(0, ALLEGRO_PI*2);
-            //float new_direction_unit = new_direction_radians / ALLEGRO_PI*2;
-            float angle_in_degrees = angle_in_radians * (180.0 / ALLEGRO_PI);
-            //float angle_in_units = angle_in_degrees / 360.0f;
-            float angle_in_units = angle_in_radians / (2 * ALLEGRO_PI); 
-
-            auto new_dir_2d = AllegroFlare::Vec2D::polar_coords(angle_in_radians, 1.0f).normalized();
-            movement_direction = AllegroFlare::Vec3D(new_dir_2d.x, 0, new_dir_2d.y);
-            placement.rotation.y = -angle_in_units + 0.25;
-            set_state(STATE_ROAMING);
-            //velocity.position = movement_direction * movement_velocity;
-            //movement_direction = (initial_position - placement.position).normalized();
-         }
-         else
-         {
-            velocity.position = movement_direction * movement_velocity * 2;
-            float anchor_x = 0.0;
-            float anchor_y = std::sin(time_now*22) * 0.05;
-            float anchor_z = 0.0;
-            placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
-         }
+      case STATE_OPEN: {
       } break;
 
-      case STATE_ROAMING: {
-         if (infer_distance_from_initial_position() >= range)
-         {
-            movement_direction = -movement_direction;
-            placement.rotation.y += 0.5f;
-            //movement_direction = -movement_direction;
-            set_state(STATE_RETURNING);
-            //movement_direction = (initial_position - placement.position).normalized();
-         }
-         else
-         {
-            velocity.position = movement_direction * movement_velocity;
-            float anchor_x = 0.0;
-            float anchor_y = std::sin(time_now*12) * 0.05;
-            float anchor_z = 0.0;
-            placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
-         }
+      case STATE_CLOSING: {
       } break;
 
-      case STATE_TURNING: {
+      case STATE_CLOSED: {
       } break;
 
       default:
@@ -262,10 +208,10 @@ bool Door::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
-      STATE_STANDING,
-      STATE_RETURNING,
-      STATE_ROAMING,
-      STATE_TURNING,
+      STATE_OPENING,
+      STATE_OPEN,
+      STATE_CLOSING,
+      STATE_CLOSED
    };
    return (valid_states.count(state) > 0);
 }
@@ -285,16 +231,6 @@ float Door::infer_current_state_age(float time_now)
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::infer_current_state_age]: error: guard \"initialized\" not met");
    }
    return (time_now - state_changed_at);
-}
-
-float Door::infer_distance_from_initial_position()
-{
-   return manhattan_distance(&initial_position, &placement.position);
-}
-
-float Door::manhattan_distance(AllegroFlare::Vec3D* point1, AllegroFlare::Vec3D* point2)
-{
-   return std::abs(point2->x - point1->x) + std::abs(point2->y - point1->y) + std::abs(point2->z - point1->z);
 }
 
 

@@ -783,19 +783,15 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
-  <td class="property">initial_position</td>
-  <td class="property">AllegroFlare::Vec3D</td>
+  <td class="property">left_door</td>
+  <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
 <tr>
-  <td class="property">range</td>
-  <td class="property">float</td>
+  <td class="property">right_door</td>
+  <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
 <tr>
-  <td class="property">movement_direction</td>
-  <td class="property">AllegroFlare::Vec3D</td>
-</tr>
-<tr>
-  <td class="property">movement_velocity</td>
+  <td class="property">open_position</td>
   <td class="property">float</td>
 </tr>
 <tr>
@@ -811,10 +807,6 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
-  <td class="property">random</td>
-  <td class="property">AllegroFlare::Random</td>
-</tr>
-<tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
 </tr>
@@ -826,8 +818,8 @@ table td
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
 <tr>
-  <td class="method">Krampus24::Gameplay::Entities::Door*</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float range=3.0f)</td>
+  <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0))</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -852,14 +844,6 @@ table td
 <tr>
   <td class="method">float</td>
   <td class="method"><b>infer_current_state_age</b>(float time_now=al_get_time())</td>
-</tr>
-<tr>
-  <td class="method">float</td>
-  <td class="method"><b>infer_distance_from_initial_position</b>()</td>
-</tr>
-<tr>
-  <td class="method">float</td>
-  <td class="method"><b>manhattan_distance</b>(AllegroFlare::Vec3D* point1=nullptr, AllegroFlare::Vec3D* point2=nullptr)</td>
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>

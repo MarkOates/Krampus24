@@ -457,7 +457,7 @@ Krampus24::Gameplay::Entities::Base* Screen::build_entity(Krampus24::BlenderBloc
 
 void Screen::load_or_reload_meshes()
 {
-   player_spawn_position = {3.5, 0.001, 3.5}; // DEVELOPMENT
+   player_spawn_position = {4.0, 0.001, 3.5}; // DEVELOPMENT
    float player_initial_spin = ALLEGRO_PI * -0.25;
    //AllegroFlare::Vec3D restored_player_position = player_spawn_position;
    Krampus24::Gameplay::Entities::Base* existing_player_entity = nullptr;
