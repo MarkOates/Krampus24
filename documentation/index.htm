@@ -621,6 +621,10 @@ table td
   <td class="property">AllegroFlare::Physics::AABB3D</td>
 </tr>
 <tr>
+  <td class="property">aabb3d_alignment</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
   <td class="property">hit_box_2d</td>
   <td class="property">AllegroFlare::Physics::AABB2D</td>
 </tr>
@@ -732,8 +736,16 @@ table td
   <td class="method"><b>collides_aabb3d</b>(Krampus24::Gameplay::Entities::Base* other=nullptr)</td>
 </tr>
 <tr>
+  <td class="method">AllegroFlare::Vec3D</td>
+  <td class="method"><b>calculate_aabb3d_offset_from_alignment</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>draw_aabb3d</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw_origin</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -789,6 +801,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::AABB3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/AABB3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Useful&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Useful.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2132,6 +2147,9 @@ table td
     "Krampus24/Gameplay/Entities/Base"
   ],
   "AllegroFlare/Physics/AABB3D": [
+    "Krampus24/Gameplay/Entities/Base"
+  ],
+  "AllegroFlare/Useful": [
     "Krampus24/Gameplay/Entities/Base"
   ],
   "Krampus24/Gameplay/Entities/Door": [

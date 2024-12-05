@@ -46,6 +46,12 @@ properties:
     constructor_arg: true
     exposed: true
 
+  - name: aabb3d_alignment
+    type: AllegroFlare::Vec3D
+    init_with: '{}'
+    constructor_arg: true
+    exposed: true
+
   - name: hit_box_2d
     type: AllegroFlare::Physics::AABB2D
     init_with: '{}'
@@ -259,13 +265,37 @@ methods:
         default_argument: nullptr
     guards: [ other ]
     body: |
-      return aabb3d.collides(&other->aabb3d);
+      return aabb3d.collides(
+         &other->aabb3d,
+         placement.position - calculate_aabb3d_offset_from_alignment(),
+         other->placement.position - other->calculate_aabb3d_offset_from_alignment()
+      );
+
+
+  - name: calculate_aabb3d_offset_from_alignment
+    type: AllegroFlare::Vec3D
+    body: |
+      AllegroFlare::Vec3D size = aabb3d.calculate_size();
+      return AllegroFlare::Vec3D( // Have to do this manually, using (Vec3D * Vec3D) will return a dot product otherwise
+         size.x * aabb3d_alignment.x,
+         size.y * aabb3d_alignment.y,
+         size.z * aabb3d_alignment.z
+      );
 
 
   - name: draw_aabb3d
     body: |
-      aabb3d.draw(box_color, placement.position);
+      aabb3d.draw(placement.position - calculate_aabb3d_offset_from_alignment(), box_color);
+      draw_origin();
       return;
+
+
+  - name: draw_origin
+    body: |
+      AllegroFlare::draw_crosshair(placement.position, box_color, 0.65);
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Useful
 
 
   - name: calculate_box_corners
@@ -552,5 +582,7 @@ dependencies:
     headers: [ AllegroFlare/Vec3D.hpp ]
   - symbol: AllegroFlare::Physics::AABB3D
     headers: [ AllegroFlare/Physics/AABB3D.hpp ]
+  - symbol: AllegroFlare::Useful
+    headers: [ AllegroFlare/Useful.hpp ]
 
 

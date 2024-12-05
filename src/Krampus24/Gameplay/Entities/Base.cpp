@@ -2,6 +2,7 @@
 
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 
+#include <AllegroFlare/Useful.hpp>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -15,7 +16,7 @@ namespace Entities
 {
 
 
-Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* texture, AllegroFlare::Placement3D placement, AllegroFlare::Placement3D velocity, AllegroFlare::Physics::AABB3D aabb3d, AllegroFlare::Physics::AABB2D hit_box_2d, AllegroFlare::PlayerInputControllers::Base* player_input_controller)
+Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* texture, AllegroFlare::Placement3D placement, AllegroFlare::Placement3D velocity, AllegroFlare::Physics::AABB3D aabb3d, AllegroFlare::Vec3D aabb3d_alignment, AllegroFlare::Physics::AABB2D hit_box_2d, AllegroFlare::PlayerInputControllers::Base* player_input_controller)
    : AllegroFlare::SceneGraph::Entities::Base(Krampus24::Gameplay::Entities::Base::TYPE)
    , type(type)
    , model(model)
@@ -23,6 +24,7 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , placement(placement)
    , velocity(velocity)
    , aabb3d(aabb3d)
+   , aabb3d_alignment(aabb3d_alignment)
    , hit_box_2d(hit_box_2d)
    , player_input_controller(player_input_controller)
    , box_corners({})
@@ -154,12 +156,33 @@ bool Base::collides_aabb3d(Krampus24::Gameplay::Entities::Base* other)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Base::collides_aabb3d]: error: guard \"other\" not met");
    }
-   return aabb3d.collides(&other->aabb3d);
+   return aabb3d.collides(
+      &other->aabb3d,
+      placement.position - calculate_aabb3d_offset_from_alignment(),
+      other->placement.position - other->calculate_aabb3d_offset_from_alignment()
+   );
+}
+
+AllegroFlare::Vec3D Base::calculate_aabb3d_offset_from_alignment()
+{
+   AllegroFlare::Vec3D size = aabb3d.calculate_size();
+   return AllegroFlare::Vec3D( // Have to do this manually, using (Vec3D * Vec3D) will return a dot product otherwise
+      size.x * aabb3d_alignment.x,
+      size.y * aabb3d_alignment.y,
+      size.z * aabb3d_alignment.z
+   );
 }
 
 void Base::draw_aabb3d()
 {
-   aabb3d.draw(box_color, placement.position);
+   aabb3d.draw(placement.position - calculate_aabb3d_offset_from_alignment(), box_color);
+   draw_origin();
+   return;
+}
+
+void Base::draw_origin()
+{
+   AllegroFlare::draw_crosshair(placement.position, box_color, 0.65);
    return;
 }
 
