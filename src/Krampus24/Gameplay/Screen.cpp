@@ -777,6 +777,9 @@ void Screen::update()
       //entity->active = false;
       //entity->visible = false;
       //gems_collected++;
+      //entity>on_enter_player_bbox_collision();
+      entity->on_enter_player_bbox_collision(player_entity);
+
 
       if (scripting && scripting->has_on_collision_callback(entity))
       {
@@ -784,6 +787,13 @@ void Screen::update()
       }
    }
 
+   for (auto &exited : collision_observer.get_exited())
+   {
+      Krampus24::Gameplay::Entities::Base* entity =
+         static_cast<Krampus24::Gameplay::Entities::Base*>(exited);
+      // HERE
+      entity->on_exit_player_bbox_collision();
+   }
 
    //
    // Update the position of the camera

@@ -68,7 +68,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->placement.position = initial_position;
    result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 0.5, 0.5, 0.5 };
+   result->placement.size = { 2.0, 0.5, 2.0 };
    //result->initial_position = initial_position;
 
    // Left door
@@ -98,6 +98,22 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->set_state(STATE_CLOSED);
 
    return { result, result->left_door, result->right_door };
+}
+
+void Door::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
+{
+   std::cout << "Entered door!" << std::endl;
+   // To use, tag the entity with "AllegroFlare::Prototypes::MeshFPS::EntityFlags::COLLIDES_WITH_PLAYER", then
+   // override this method in the derived class
+   return;
+}
+
+void Door::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
+{
+   std::cout << "Exited door!" << std::endl;
+   // To use, tag the entity with "AllegroFlare::Prototypes::MeshFPS::EntityFlags::COLLIDES_WITH_PLAYER", then
+   // override this method in the derived class
+   return;
 }
 
 void Door::on_time_step(double time_step, double time_now)
