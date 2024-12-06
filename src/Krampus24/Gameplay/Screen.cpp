@@ -868,7 +868,8 @@ void Screen::render()
    live_camera.setup_projection_on(target_bitmap); // TODO: Check if clear color and remove;
 
 
-   al_clear_to_color(ALLEGRO_COLOR{0, 0, 0, 1}); // TODO: Check clear to color here
+   al_clear_to_color(principled_shader.get_fog_color());
+   //al_clear_to_color(ALLEGRO_COLOR{0, 0, 0, 1}); // TODO: Check clear to color here
 
 
 
