@@ -528,7 +528,11 @@ void Screen::load_or_reload_meshes()
       if (entity == existing_player_entity) continue; // Skip the player entity if it already exists
       delete entity; // Hmm, good luck here
    }
+
+   // Clear the entities (Will re-add the player if it had previously existed)
    entities.clear();
+   collision_observer.clear(); // Clear any current collisions, and the subject
+
    // Create the 0th entity (the player)
    if (existing_player_entity)
    {
@@ -548,7 +552,7 @@ void Screen::load_or_reload_meshes()
    std::string blocking_file_full_path = data_folder_path + "maps/" + blocking_filename;
    Krampus24::BlenderBlockingLoader blender_blocking_loader(blocking_file_full_path);
    blender_blocking_loader.load();
-   blender_blocking_loader.for_each_entity([this](Krampus24::BlenderBlockingLoaderEntity* entity){
+   blender_blocking_loader.for_each_entity([this, existing_player_entity](Krampus24::BlenderBlockingLoaderEntity* entity){
       //float x = entity->location.x;
       //float y = entity->location.z; // Swapping z<->y
       //float z = entity->location.y; // Swapping z<->y
@@ -563,13 +567,18 @@ void Screen::load_or_reload_meshes()
 
          AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
 
-         Krampus24::Gameplay::Entities::Base* player_entity = find_0th_entity();
+         //Krampus24::Gameplay::Entities::Base* player_entity = find_0th_entity();
          player_spawn_position = position;
-         player_entity->placement.position = player_spawn_position; // + AllegroFlare::Vec3D(0, 0.01, 0);
+         //player_entity->placement.position = player_spawn_position; // + AllegroFlare::Vec3D(0, 0.01, 0);
          //float rotation = entity->rotation.z / 360.0;
          //auto *result = Krampus24::Gameplay::Entities::Turret::construct(model_bin, bitmap_bin, position, rotation);
          //result->name = entity->name;
          //return result;
+         if (!existing_player_entity)
+         {
+            Krampus24::Gameplay::Entities::Base* player_entity = find_0th_entity();
+            player_entity->placement.position = player_spawn_position;
+         }
       }
       else
       {
