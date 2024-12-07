@@ -46,7 +46,7 @@ methods:
       if (!file)
       {
           AllegroFlare::Logger::throw_error(
-            "TileFPS::Game::BlenderLevelLoaderV2",
+            "Krampus24::Blender::ObjectCustomPropertiesLoader",
             "Unable to open file \"" + filename + "\"."
           );
       }
@@ -74,9 +74,9 @@ methods:
          if (tokens.size() != 4)
          {
             AllegroFlare::Logger::throw_error(
-              "Krampus24::BlenderCustomPropertiesLoader",
-              "Error parsing line " + std::to_string(line_number) + ": \"" + line + "\". There was an unexpected "
-                 "number of tokens (expecting 4)."
+               "Krampus24::Blender::ObjectCustomPropertiesLoader",
+               "Error parsing line " + std::to_string(line_number) + ": \"" + line + "\". There was an unexpected "
+                  "number of tokens (expecting 4)."
             );
          }
          else
@@ -100,9 +100,9 @@ methods:
             else // An unspported type
             {
                AllegroFlare::Logger::throw_error(
-                 "Krampus24::BlenderCustomPropertiesLoader",
-                 "Error parsing line " + std::to_string(line_number) + ": \"" + line + "\". The type "
-                    " \"" + type + "\" is not supported."
+                  "Krampus24::Blender::ObjectCustomPropertiesLoader",
+                  "Error parsing line " + std::to_string(line_number) + ": \"" + line + "\". The type "
+                     " \"" + type + "\" is not supported."
                );
             }
          }
@@ -124,10 +124,6 @@ dependencies:
     headers: [ AllegroFlare/Logger.hpp ]
   - symbol: AllegroFlare::Vec3D
     headers: [ AllegroFlare/Vec3D.hpp ]
-  - symbol: Krampus24::BlenderBlockingLoaderBlock
-    headers: [ Krampus24/BlenderBlockingLoaderBlock.hpp ]
-  - symbol: Krampus24::BlenderBlockingLoaderEntity
-    headers: [ Krampus24/BlenderBlockingLoaderEntity.hpp ]
   - symbol: AllegroFlare::TileMaps::TileMap
     headers: [ AllegroFlare/TileMaps/TileMap.hpp ]
   - symbol: AllegroFlare::Int2D

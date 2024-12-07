@@ -1,28 +1,28 @@
 
 #include <gtest/gtest.h>
 
-#include <Krampus24/BlenderCustomPropertiesLoader.hpp>
+#include <Krampus24/Blender/ObjectCustomPropertiesLoader.hpp>
 
 
-TEST(Krampus24_Blender_CustomPropertiesLoaderTest, can_be_created_without_blowing_up)
+TEST(Krampus24_Blender_ObjectCustomPropertiesLoaderTest, can_be_created_without_blowing_up)
 {
-   Krampus24::BlenderCustomPropertiesLoader loader;
+   Krampus24::Blender::ObjectCustomPropertiesLoader loader;
 }
 
 
-TEST(Krampus24_Blender_CustomPropertiesLoaderTest, load__will_mark_loaded_as_true)
+TEST(Krampus24_Blender_ObjectCustomPropertiesLoaderTest, load__will_mark_loaded_as_true)
 {
    std::string filename = "tests/fixtures/maps/output_file-02.custom_properties";
-   Krampus24::BlenderCustomPropertiesLoader loader(filename);
+   Krampus24::Blender::ObjectCustomPropertiesLoader loader(filename);
    loader.load();
    EXPECT_EQ(true, loader.get_loaded());
 }
 
 
-TEST(Krampus24_Blender_CustomPropertiesLoaderTest, load__will_load_the_expected_custom_properties)
+TEST(Krampus24_Blender_ObjectCustomPropertiesLoaderTest, load__will_load_the_expected_custom_properties)
 {
    std::string filename = "tests/fixtures/maps/output_file-02.custom_properties";
-   Krampus24::BlenderCustomPropertiesLoader loader(filename);
+   Krampus24::Blender::ObjectCustomPropertiesLoader loader(filename);
    loader.load();
 
    auto objects = loader.get_objects();
