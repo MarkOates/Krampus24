@@ -3,6 +3,7 @@
     "Krampus24/Blender/ObjectCustomProperties",
     "Krampus24/Blender/ObjectCustomPropertiesLoader",
     "Krampus24/BlenderBlockingLoader",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Turret",
@@ -170,6 +171,10 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/Door/Style": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Door"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -260,9 +265,6 @@
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
-  ],
-  "Krampus24/Gameplay/Entities/Door/Style": [
-    "Krampus24/Gameplay/Entities/Door"
   ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",

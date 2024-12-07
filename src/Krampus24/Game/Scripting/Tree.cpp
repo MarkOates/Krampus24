@@ -2,7 +2,9 @@
 
 #include <Krampus24/Game/Scripting/Tree.hpp>
 
+#include <AllegroFlare/Logger.hpp>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -170,6 +172,23 @@ void Tree::initialize()
    return;
 }
 
+std::pair<int, std::string> Tree::get_entities_names_in_list()
+{
+   // TODO: Test this method
+   std::set<std::string> result;
+   for (auto entity : *entities) result.insert(entity->name);
+
+   std::stringstream result_str;
+   result_str << "[";
+   for (auto& res : result)
+   {
+      result_str << res << ", ";
+   }
+   result_str << "]";
+
+   return { result.size(), result_str.str() };
+}
+
 bool Tree::entity_with_name_exists(std::string name)
 {
    if (!(entities))
@@ -188,14 +207,29 @@ bool Tree::entity_with_name_exists(std::string name)
 
 Krampus24::Gameplay::Entities::Base* Tree::find_entity_by_name_or_throw(std::string name)
 {
-   if (!(entity_with_name_exists(name)))
+   if (!(entities))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Game::Scripting::Tree::find_entity_by_name_or_throw]: error: guard \"entity_with_name_exists(name)\" not met.";
+      error_message << "[Krampus24::Game::Scripting::Tree::find_entity_by_name_or_throw]: error: guard \"entities\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::find_entity_by_name_or_throw]: error: guard \"entity_with_name_exists(name)\" not met");
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::find_entity_by_name_or_throw]: error: guard \"entities\" not met");
    }
    // TODO: Improve error message on entity_with_name_exists(name)
+   if (!entity_with_name_exists(name))
+   {
+      int num_entities = entities->size();
+      int num_unique_entity_names = 0;
+      std::string unique_entity_names = "";
+      std::tie(num_unique_entity_names, unique_entity_names) = get_entities_names_in_list();
+
+      AllegroFlare::Logger::throw_error(
+         "Krampus24::Game::Scripting::Tree::find_entity_by_name_or_throw",
+         "An entity with the name \"" + name + "\" does not exist. There are " + std::to_string(num_entities)
+            + " entities, and the following " + std::to_string(num_unique_entity_names) + " unique entity "
+            "names are present: " + unique_entity_names
+      );
+   }
+
    for (auto entity : *entities)
    {
       if (entity->name == name) return entity;
@@ -214,6 +248,17 @@ void Tree::link_elevators(std::string elevator_a_name, std::string elevator_b_na
    return;
 }
 
+void Tree::customize_door_style(std::string door_object_name, Krampus24::Gameplay::Entities::Door::Style door_style)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
+   as->set_style(door_style);
+   return;
+}
+
 void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
 {
    auto *player_entity = find_0th_entity();
@@ -227,6 +272,10 @@ void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
 
 void Tree::build_on_collision_callbacks()
 {
+   // Customize some door styles
+   customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
+
+   // Link the elevators
    link_elevators("elevator-01", "elevator-02");
    link_elevators("elevator-03", "elevator-04");
    link_elevators("elevator-05", "elevator-06");

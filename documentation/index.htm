@@ -686,6 +686,10 @@ table td
   <td class="method"><b>initialize</b>()</td>
 </tr>
 <tr>
+  <td class="method">std::pair&lt;int, std::string&gt;</td>
+  <td class="method"><b>get_entities_names_in_list</b>()</td>
+</tr>
+<tr>
   <td class="method">bool</td>
   <td class="method"><b>entity_with_name_exists</b>(std::string name=&quot;[unset-name]&quot;)</td>
 </tr>
@@ -696,6 +700,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>link_elevators</b>(std::string elevator_a_name=&quot;[unset-elevator_a_name]&quot;, std::string elevator_b_name=&quot;[unset-elevator_b_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>customize_door_style</b>(std::string door_object_name=&quot;[unset-door_object_name]&quot;, Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -729,6 +737,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_font.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door::Style&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1041,6 +1055,10 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
+  <td class="property">style</td>
+  <td class="property">Krampus24::Gameplay::Entities::Door::Style</td>
+</tr>
+<tr>
   <td class="property">uv_offset_x</td>
   <td class="property">float</td>
 </tr>
@@ -1070,6 +1088,18 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>~destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_style</b>(Krampus24::Gameplay::Entities::Door::Style style=STYLE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_uv_offset_x</b>(float uv_offset_x=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_uv_offset_y</b>(float uv_offset_y=0.0f)</td>
 </tr>
 <tr>
   <td class="method">std::pair&lt;float, float&gt;</td>
@@ -2178,6 +2208,7 @@ table td
     "Krampus24/Blender/ObjectCustomProperties",
     "Krampus24/Blender/ObjectCustomPropertiesLoader",
     "Krampus24/BlenderBlockingLoader",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Turret",
@@ -2345,6 +2376,10 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/Door/Style": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Door"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -2435,9 +2470,6 @@ table td
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
-  ],
-  "Krampus24/Gameplay/Entities/Door/Style": [
-    "Krampus24/Gameplay/Entities/Door"
   ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",

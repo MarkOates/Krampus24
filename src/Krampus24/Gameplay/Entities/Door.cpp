@@ -31,6 +31,7 @@ Door::Door()
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
+   , style(Krampus24::Gameplay::Entities::Door::STYLE_NORMAL)
    , uv_offset_x(0.0f)
    , uv_offset_y(0.0f)
    , initialized(false)
@@ -51,21 +52,15 @@ Door::~Door()
 }
 
 
-void Door::set_uv_offset_x(float uv_offset_x)
-{
-   this->uv_offset_x = uv_offset_x;
-}
-
-
-void Door::set_uv_offset_y(float uv_offset_y)
-{
-   this->uv_offset_y = uv_offset_y;
-}
-
-
 uint32_t Door::get_state() const
 {
    return state;
+}
+
+
+Krampus24::Gameplay::Entities::Door::Style Door::get_style() const
+{
+   return style;
 }
 
 
@@ -157,6 +152,27 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    return { result, result->left_door, result->right_door };
 }
 
+void Door::set_style(Krampus24::Gameplay::Entities::Door::Style style)
+{
+   this->style = style;
+   std::tie(uv_offset_x, uv_offset_y) = get_uv_offset_from_style(style);
+   return;
+}
+
+void Door::set_uv_offset_x(float uv_offset_x)
+{
+   this->style = STYLE_USER_CUSTOM_DEFINED_UV;
+   this->uv_offset_x = uv_offset_x;
+   return;
+}
+
+void Door::set_uv_offset_y(float uv_offset_y)
+{
+   this->style = STYLE_USER_CUSTOM_DEFINED_UV;
+   this->uv_offset_y = uv_offset_y;
+   return;
+}
+
 std::pair<float, float> Door::get_uv_offset_from_style(Krampus24::Gameplay::Entities::Door::Style style)
 {
    if (!((style != STYLE_UNDEF)))
@@ -195,9 +211,11 @@ void Door::draw()
 {
    placement.start_transform();
 
-   std::pair<float, float> uv_offset = get_uv_offset_from_style(STYLE_NORMAL_DISRUPTED);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
+   //std::pair<float, float> uv_offset = get_uv_offset_from_style(style);//STYLE_NORMAL_DISRUPTED);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
    right_door->placement.start_transform();
    right_door->model->set_texture(right_door->texture);

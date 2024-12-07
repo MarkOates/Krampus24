@@ -27,6 +27,17 @@ namespace Krampus24
             static constexpr char* BLENDER_IDENTIFIER = (char*)"door";
             static constexpr char* DOOR_OPEN_SAMPLE_IDENTIFIER = (char*)"door-01-opening.ogg";
 
+         public:
+
+            enum Style
+            {
+               STYLE_UNDEF = 0,
+               STYLE_NORMAL,
+               STYLE_NORMAL_DISRUPTED,
+               STYLE_BARN,
+               STYLE_FIRE,
+               STYLE_USER_CUSTOM_DEFINED_UV,
+            };
          private:
             enum State
             {
@@ -35,14 +46,6 @@ namespace Krampus24
                STATE_OPEN,
                STATE_CLOSING,
                STATE_CLOSED,
-            };
-            enum Style
-            {
-               STYLE_UNDEF = 0,
-               STYLE_NORMAL,
-               STYLE_NORMAL_DISRUPTED,
-               STYLE_BARN,
-               STYLE_FIRE,
             };
             AllegroFlare::EventEmitter* event_emitter;
             AllegroFlare::Vec3D initial_position;
@@ -53,6 +56,7 @@ namespace Krampus24
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
+            Krampus24::Gameplay::Entities::Door::Style style;
             float uv_offset_x;
             float uv_offset_y;
             bool initialized;
@@ -64,12 +68,14 @@ namespace Krampus24
             Door();
             virtual ~Door();
 
-            void set_uv_offset_x(float uv_offset_x);
-            void set_uv_offset_y(float uv_offset_y);
             uint32_t get_state() const;
+            Krampus24::Gameplay::Entities::Door::Style get_style() const;
             float get_uv_offset_x() const;
             float get_uv_offset_y() const;
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
+            void set_style(Krampus24::Gameplay::Entities::Door::Style style=STYLE_UNDEF);
+            void set_uv_offset_x(float uv_offset_x=0.0f);
+            void set_uv_offset_y(float uv_offset_y=0.0f);
             static std::pair<float, float> get_uv_offset_from_style(Krampus24::Gameplay::Entities::Door::Style style=STYLE_UNDEF);
             virtual void draw() override;
             void set_open_position(float open_position=1.0f);

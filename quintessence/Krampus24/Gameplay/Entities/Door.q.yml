@@ -48,17 +48,23 @@ properties:
     type: float
     init_with: 0.0f
 
+  - name: style
+    type: Krampus24::Gameplay::Entities::Door::Style
+    init_with: Krampus24::Gameplay::Entities::Door::STYLE_NORMAL
+    getter: true
+    setter: explicit
+
   - name: uv_offset_x
     type: float
     init_with: 0.0f
     getter: true
-    setter: true
+    setter: explicit
 
   - name: uv_offset_y
     type: float
     init_with: 0.0f
     getter: true
-    setter: true
+    setter: explicit
 
   - name: initialized
     type: bool
@@ -90,12 +96,14 @@ enums:
 
 
   - name: Style
+    scope: public
     enumerators:
       - STYLE_UNDEF
       - STYLE_NORMAL
       - STYLE_NORMAL_DISRUPTED
       - STYLE_BARN
       - STYLE_FIRE  # NOTE: This one is not really practical, just for debugging
+      - STYLE_USER_CUSTOM_DEFINED_UV
 
 
 methods:
@@ -187,6 +195,39 @@ methods:
       return;
 
 
+  - name: set_style
+    parameters:
+      - name: style
+        type: Krampus24::Gameplay::Entities::Door::Style
+        default_argument: STYLE_UNDEF
+    body: |
+      this->style = style;
+      std::tie(uv_offset_x, uv_offset_y) = get_uv_offset_from_style(style);
+      return;
+
+
+  - name: set_uv_offset_x
+    parameters:
+      - name: uv_offset_x
+        type: float
+        default_argument: 0.0f
+    body: |
+      this->style = STYLE_USER_CUSTOM_DEFINED_UV;
+      this->uv_offset_x = uv_offset_x;
+      return;
+
+
+  - name: set_uv_offset_y
+    parameters:
+      - name: uv_offset_y
+        type: float
+        default_argument: 0.0f
+    body: |
+      this->style = STYLE_USER_CUSTOM_DEFINED_UV;
+      this->uv_offset_y = uv_offset_y;
+      return;
+
+
   - name: get_uv_offset_from_style
     static: true
     type: std::pair<float, float>
@@ -227,9 +268,11 @@ methods:
     body: |
       placement.start_transform();
 
-      std::pair<float, float> uv_offset = get_uv_offset_from_style(STYLE_NORMAL_DISRUPTED);
-      AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
-      AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
+      //std::pair<float, float> uv_offset = get_uv_offset_from_style(style);//STYLE_NORMAL_DISRUPTED);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
+      AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
+      AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
       right_door->placement.start_transform();
       right_door->model->set_texture(right_door->texture);

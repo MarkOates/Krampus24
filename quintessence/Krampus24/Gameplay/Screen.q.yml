@@ -264,7 +264,7 @@ methods:
             position,
             rotation
          );
-         results[0]->name = results[0]->name;
+         results[0]->name = entity->name;
          return results;
       }
 

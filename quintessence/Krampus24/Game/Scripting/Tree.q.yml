@@ -97,6 +97,27 @@ methods:
       return;
 
 
+  - name: get_entities_names_in_list
+    type: std::pair<int, std::string>
+    body: |
+      // TODO: Test this method
+      std::set<std::string> result;
+      for (auto entity : *entities) result.insert(entity->name);
+
+      std::stringstream result_str;
+      result_str << "[";
+      for (auto& res : result)
+      {
+         result_str << res << ", ";
+      }
+      result_str << "]";
+
+      return { result.size(), result_str.str() };
+    body_dependency_symbols:
+      - std::stringstream
+      - std::set
+
+
   - name: entity_with_name_exists
     type: bool
     parameters:
@@ -118,9 +139,24 @@ methods:
       - name: name
         type: std::string
         default_argument: '"[unset-name]"'
-    guards: [ entity_with_name_exists(name) ]
+    guards: [ entities ]
     body: |
       // TODO: Improve error message on entity_with_name_exists(name)
+      if (!entity_with_name_exists(name))
+      {
+         int num_entities = entities->size();
+         int num_unique_entity_names = 0;
+         std::string unique_entity_names = "";
+         std::tie(num_unique_entity_names, unique_entity_names) = get_entities_names_in_list();
+
+         AllegroFlare::Logger::throw_error(
+            "Krampus24::Game::Scripting::Tree::find_entity_by_name_or_throw",
+            "An entity with the name \"" + name + "\" does not exist. There are " + std::to_string(num_entities)
+               + " entities, and the following " + std::to_string(num_unique_entity_names) + " unique entity "
+               "names are present: " + unique_entity_names
+         );
+      }
+
       for (auto entity : *entities)
       {
          if (entity->name == name) return entity;
@@ -128,6 +164,8 @@ methods:
       // TODO: Improve throw
       throw std::runtime_error("asdfasdfasdfasdfasdfasdf");
       return nullptr;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
 
 
   - name: link_elevators
@@ -143,6 +181,24 @@ methods:
       Krampus24::Gameplay::Entities::Base* elevator_b = find_entity_by_name_or_throw(elevator_b_name);
       elevator_a->elevator__target = elevator_b;
       elevator_b->elevator__target = elevator_a;
+      return;
+
+
+  - name: customize_door_style
+    parameters:
+      - name: door_object_name
+        type: std::string
+        default_argument: '"[unset-door_object_name]"'
+      - name: door_style
+        type: Krampus24::Gameplay::Entities::Door::Style
+        default_argument: Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN
+    body: |
+      Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
+      as->set_style(door_style);
       return;
 
 
@@ -164,6 +220,10 @@ methods:
   - name: build_on_collision_callbacks
     private: true
     body: |
+      // Customize some door styles
+      customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
+
+      // Link the elevators
       link_elevators("elevator-01", "elevator-02");
       link_elevators("elevator-03", "elevator-04");
       link_elevators("elevator-05", "elevator-06");
@@ -244,5 +304,9 @@ dependencies:
     headers: [ AllegroFlare/FontBin.hpp ]
   - symbol: ALLEGRO_FONT
     headers: [ allegro5/allegro_font.h ]
+  - symbol: Krampus24::Gameplay::Entities::Door::Style
+    headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
 
 

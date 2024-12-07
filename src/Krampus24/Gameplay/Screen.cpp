@@ -456,7 +456,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
          position,
          rotation
       );
-      results[0]->name = results[0]->name;
+      results[0]->name = entity->name;
       return results;
    }
 
