@@ -1,0 +1,140 @@
+properties:
+
+
+  - name: filename
+    type: std::string
+    init_with: '"tests/fixtures/maps/blender_export_with_entities.blocking2"'
+    constructor_arg: true
+    setter: true
+
+  - name: objects
+    type: std::map<std::string, Krampus24::Blender::ObjectCustomProperties>
+    init_with: '{}'
+    getter: true
+
+  - name: loaded
+    type: bool
+    init_with: false
+    getter: true
+
+
+documentation:
+
+
+  - notes:
+      - Will need to export the custom properties using a Blender Python script.
+
+
+methods:
+
+
+  - name: for_each_object
+    parameters:
+      - name: function
+        type: std::function<void(std::string, Krampus24::Blender::ObjectCustomProperties*)>
+        default_argument: '{}'
+    guards: [ loaded ]
+    body: |
+      for (auto &object : objects) function(object.first, &object.second);
+      return;
+
+
+  - name: load
+    guards: [ (!loaded) ]
+    body: |
+      std::ifstream file(filename);
+      if (!file)
+      {
+          AllegroFlare::Logger::throw_error(
+            "TileFPS::Game::BlenderLevelLoaderV2",
+            "Unable to open file \"" + filename + "\"."
+          );
+      }
+
+      objects.clear();
+
+      std::string line;
+      int line_number = 0;
+
+      while (std::getline(file, line))
+      {
+         line_number++;
+
+         // Skip empty lines
+         // TODO: Add trim
+         if (line.empty()) continue;
+
+         // Skip comment lines (lines that start with #)
+         // TODO: Trim leading whitespace
+         if (line[0] == '#') continue;
+
+         // Capture the tokens
+         std::vector<std::string> tokens = AllegroFlare::CSVParser::parse_row(line);
+
+         if (tokens.size() != 4)
+         {
+            AllegroFlare::Logger::throw_error(
+              "Krampus24::BlenderCustomPropertiesLoader",
+              "Error parsing line " + std::to_string(line_number) + ": \"" + line + "\". There was an unexpected "
+                 "number of tokens (expecting 4)."
+            );
+         }
+         else
+         {
+            std::string object_name = tokens[0];
+            std::string key = tokens[1];
+            std::string type = tokens[2];
+            std::string value_str = tokens[3];
+
+            // Create a set of custom properties for this object name if it does not already exist
+            if (objects.find(object_name) == objects.end())
+            {
+               objects[object_name] = Krampus24::Blender::ObjectCustomProperties();
+            }
+
+            // TODO: Improve parsing and type validation
+            if (type == "int")
+            {
+               objects[object_name].add_int(key, std::stoi(value_str));
+            }
+            else // An unspported type
+            {
+               AllegroFlare::Logger::throw_error(
+                 "Krampus24::BlenderCustomPropertiesLoader",
+                 "Error parsing line " + std::to_string(line_number) + ": \"" + line + "\". The type "
+                    " \"" + type + "\" is not supported."
+               );
+            }
+         }
+      }
+
+      file.close();
+
+      loaded = true;
+    body_dependency_symbols:
+      - std::ifstream
+      - AllegroFlare::Logger
+      - AllegroFlare::CSVParser
+
+
+dependencies:
+
+
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: Krampus24::BlenderBlockingLoaderBlock
+    headers: [ Krampus24/BlenderBlockingLoaderBlock.hpp ]
+  - symbol: Krampus24::BlenderBlockingLoaderEntity
+    headers: [ Krampus24/BlenderBlockingLoaderEntity.hpp ]
+  - symbol: AllegroFlare::TileMaps::TileMap
+    headers: [ AllegroFlare/TileMaps/TileMap.hpp ]
+  - symbol: AllegroFlare::Int2D
+    headers: [ AllegroFlare/Int2D.hpp ]
+  - symbol: Krampus24::Blender::ObjectCustomProperties
+    headers: [ Krampus24/Blender/ObjectCustomProperties.hpp ]
+  - symbol: AllegroFlare::CSVParser
+    headers: [ AllegroFlare/CSVParser.hpp ]
+
+

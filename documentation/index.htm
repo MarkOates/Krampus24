@@ -54,9 +54,11 @@ table td
 <body>
 <h1>Table of Contents</h1>
 <ul>
+  <li><a href="#quintessence/Krampus24/Blender/ObjectCustomProperties.q.yml">quintessence/Krampus24/Blender/ObjectCustomProperties.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoader.q.yml">quintessence/Krampus24/BlenderBlockingLoader.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml">quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml">quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/BlenderCustomPropertiesLoader.q.yml">quintessence/Krampus24/BlenderCustomPropertiesLoader.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Configurations/Main.q.yml">quintessence/Krampus24/Game/Configurations/Main.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Scripting/Tree.q.yml">quintessence/Krampus24/Game/Scripting/Tree.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
@@ -74,6 +76,134 @@ table td
   <li><a href="#quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</a></li>
 </ul>
 <h1>Components</h1>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/Blender/ObjectCustomProperties.q.yml">quintessence/Krampus24/Blender/ObjectCustomProperties.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">string_properties</td>
+  <td class="property">std::map&lt;std::string, std::string&gt;</td>
+</tr>
+<tr>
+  <td class="property">bool_properties</td>
+  <td class="property">std::map&lt;std::string, bool&gt;</td>
+</tr>
+<tr>
+  <td class="property">int_properties</td>
+  <td class="property">std::map&lt;std::string, int&gt;</td>
+</tr>
+<tr>
+  <td class="property">float_properties</td>
+  <td class="property">std::map&lt;std::string, float&gt;</td>
+</tr>
+<tr>
+  <td class="property">color_properties</td>
+  <td class="property">std::map&lt;std::string, std::string&gt;</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>get_keys_in_list</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>empty</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>clear</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>add_string</b>(std::string name=&quot;[unset-name]&quot;, std::string value=&quot;[unset-value]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>add_bool</b>(std::string name=&quot;[unset-name]&quot;, bool value=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>add_float</b>(std::string name=&quot;[unset-name]&quot;, float value=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>add_int</b>(std::string name=&quot;[unset-name]&quot;, int value=0)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>add_color</b>(std::string name=&quot;[unset-name]&quot;, std::string value=&quot;[unset-value]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>get_string</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>get_bool</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>get_float</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">int</td>
+  <td class="method"><b>get_int</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>get_color</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>get_type</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>exists</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_float</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_bool</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_int</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_string</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_color</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>throw_if_key_already_exists</b>(std::string key=&quot;[unset-key]&quot;, std::string while_in_method_name=&quot;[unset-location]&quot;)</td>
+</tr>
+<tr>
+  <td class="private_method">void</td>
+  <td class="private_method"><b>throw_if_key_does_not_exist</b>(std::string key=&quot;[unset-key]&quot;, std::string while_in_method_name=&quot;[unset-location]&quot;)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
 <br><br><br>
 <br><br><br>
 <ul>
@@ -238,6 +368,67 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::isdigit&quot;, &quot;headers&quot;=&gt;[&quot;cctype&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/BlenderCustomPropertiesLoader.q.yml">quintessence/Krampus24/BlenderCustomPropertiesLoader.q.yml</h3>
+    <h3>Overview</h3>
+    <p>{"notes"=>["Will need to export the custom properties using a Blender Python script."]}</p>    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">filename</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">objects</td>
+  <td class="property">std::map&lt;std::string, Krampus24::Blender::ObjectCustomProperties&gt;</td>
+</tr>
+<tr>
+  <td class="property">loaded</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>for_each_object</b>(std::function&lt;void(std::string, Krampus24::Blender::ObjectCustomProperties*)&gt; function={})</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>load</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderBlock&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderBlock.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::TileMaps::TileMap&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/TileMaps/TileMap.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Int2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Int2D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Blender::ObjectCustomProperties&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Blender/ObjectCustomProperties.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::CSVParser&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/CSVParser.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1959,20 +2150,23 @@ table td
 <h1>Dependents</h1>
 <pre>
 {
-  "std/istringstream": [
-    "Krampus24/BlenderBlockingLoader"
-  ],
   "AllegroFlare/Logger": [
+    "Krampus24/Blender/ObjectCustomProperties",
     "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
+  "std/istringstream": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
   "AllegroFlare/Vec3D": [
     "Krampus24/BlenderBlockingLoader",
     "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity",
+    "Krampus24/BlenderCustomPropertiesLoader",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
@@ -1981,23 +2175,33 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/BlenderBlockingLoaderBlock": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "Krampus24/BlenderBlockingLoaderEntity": [
     "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/TileMaps/TileMap": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "AllegroFlare/Int2D": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "std/all_of": [
     "Krampus24/BlenderBlockingLoaderEntity"
   ],
   "std/isdigit": [
     "Krampus24/BlenderBlockingLoaderEntity"
+  ],
+  "Krampus24/Blender/ObjectCustomProperties": [
+    "Krampus24/BlenderCustomPropertiesLoader"
+  ],
+  "AllegroFlare/CSVParser": [
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "Krampus24/Game/Configurations/Main"

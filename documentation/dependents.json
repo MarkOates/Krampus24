@@ -1,18 +1,21 @@
 {
-  "std/istringstream": [
-    "Krampus24/BlenderBlockingLoader"
-  ],
   "AllegroFlare/Logger": [
+    "Krampus24/Blender/ObjectCustomProperties",
     "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
+  "std/istringstream": [
+    "Krampus24/BlenderBlockingLoader"
+  ],
   "AllegroFlare/Vec3D": [
     "Krampus24/BlenderBlockingLoader",
     "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity",
+    "Krampus24/BlenderCustomPropertiesLoader",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
@@ -21,23 +24,33 @@
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/BlenderBlockingLoaderBlock": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "Krampus24/BlenderBlockingLoaderEntity": [
     "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/TileMaps/TileMap": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "AllegroFlare/Int2D": [
-    "Krampus24/BlenderBlockingLoader"
+    "Krampus24/BlenderBlockingLoader",
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "std/all_of": [
     "Krampus24/BlenderBlockingLoaderEntity"
   ],
   "std/isdigit": [
     "Krampus24/BlenderBlockingLoaderEntity"
+  ],
+  "Krampus24/Blender/ObjectCustomProperties": [
+    "Krampus24/BlenderCustomPropertiesLoader"
+  ],
+  "AllegroFlare/CSVParser": [
+    "Krampus24/BlenderCustomPropertiesLoader"
   ],
   "AllegroFlare/GameConfigurations/Complete": [
     "Krampus24/Game/Configurations/Main"
