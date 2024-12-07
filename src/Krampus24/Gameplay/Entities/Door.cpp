@@ -3,6 +3,7 @@
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 
 #include <AllegroFlare/Logger.hpp>
+#include <AllegroFlare/Shaders/Base.hpp>
 #include <AllegroFlare/Vec2D.hpp>
 #include <cmath>
 #include <iostream>
@@ -30,6 +31,8 @@ Door::Door()
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
+   , uv_offset_x(0.0f)
+   , uv_offset_y(0.0f)
    , initialized(false)
 {
 }
@@ -37,12 +40,44 @@ Door::Door()
 
 Door::~Door()
 {
+   //if (initialized)
+   //{
+      //AllegroFlare::Logger::info_from(
+         //"Krampus24::Gameplay::Entities::Door",
+         //"This class will need to destroy its local copies of 
+      //);
+   //}
+   return;
+}
+
+
+void Door::set_uv_offset_x(float uv_offset_x)
+{
+   this->uv_offset_x = uv_offset_x;
+}
+
+
+void Door::set_uv_offset_y(float uv_offset_y)
+{
+   this->uv_offset_y = uv_offset_y;
 }
 
 
 uint32_t Door::get_state() const
 {
    return state;
+}
+
+
+float Door::get_uv_offset_x() const
+{
+   return uv_offset_x;
+}
+
+
+float Door::get_uv_offset_y() const
+{
+   return uv_offset_y;
 }
 
 
@@ -122,9 +157,47 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    return { result, result->left_door, result->right_door };
 }
 
+std::pair<float, float> Door::get_uv_offset_from_style(Krampus24::Gameplay::Entities::Door::Style style)
+{
+   if (!((style != STYLE_UNDEF)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Door::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met");
+   }
+   switch (style)
+   {
+      case STYLE_NORMAL: return { 0, 0 }; break;
+
+      case STYLE_NORMAL_DISRUPTED: return { 0.05, 0.0 }; break;
+
+      case STYLE_BARN: return { 0.2, 0.2 }; break;
+
+      case STYLE_FIRE: return { 0.25, 0.20 }; break; // NOTE: This one is not really practical, just for debugging
+
+      default:
+         AllegroFlare::Logger::throw_error(
+            "ClassName::get_uv_offset_from_style",
+            "Unable to handle case for style \"" + std::to_string(style) + "\""
+         );
+      break;
+   }
+
+   AllegroFlare::Logger::throw_error(
+      "ClassName::get_uv_offset_from_style",
+      "Unexpected code path to here (code: 678sdf678sdf678sdf)"
+   );
+   return { 0, 0 };
+}
+
 void Door::draw()
 {
    placement.start_transform();
+
+   std::pair<float, float> uv_offset = get_uv_offset_from_style(STYLE_NORMAL_DISRUPTED);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
 
    right_door->placement.start_transform();
    right_door->model->set_texture(right_door->texture);
@@ -135,6 +208,9 @@ void Door::draw()
    left_door->model->set_texture(left_door->texture);
    left_door->model->draw();
    left_door->placement.restore_transform();
+
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
 
    placement.restore_transform();
    return;

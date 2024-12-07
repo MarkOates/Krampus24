@@ -20,6 +20,8 @@ namespace Krampus24
          ALLEGRO_COLOR fog_color;
          float fog_intensity;
          float fog_distance;
+         float uv_offset_x;
+         float uv_offset_y;
          float camera_far_plane;
          bool initialized;
          void set_values_to_activated_shader();
@@ -37,11 +39,15 @@ namespace Krampus24
          void set_fog_color(ALLEGRO_COLOR fog_color);
          void set_fog_intensity(float fog_intensity);
          void set_fog_distance(float fog_distance);
+         void set_uv_offset_x(float uv_offset_x);
+         void set_uv_offset_y(float uv_offset_y);
          void set_camera_far_plane(float camera_far_plane);
          ALLEGRO_COLOR get_world_tint() const;
          ALLEGRO_COLOR get_fog_color() const;
          float get_fog_intensity() const;
          float get_fog_distance() const;
+         float get_uv_offset_x() const;
+         float get_uv_offset_y() const;
          float get_camera_far_plane() const;
          void initialize();
          void activate();

@@ -19,6 +19,8 @@ Principled::Principled()
    , fog_color(ALLEGRO_COLOR{1, 1, 1, 1})
    , fog_intensity(0.4f)
    , fog_distance(20.0f)
+   , uv_offset_x(0.4f)
+   , uv_offset_y(20.0f)
    , camera_far_plane(100.0f)
    , initialized(false)
 {
@@ -54,6 +56,18 @@ void Principled::set_fog_distance(float fog_distance)
 }
 
 
+void Principled::set_uv_offset_x(float uv_offset_x)
+{
+   this->uv_offset_x = uv_offset_x;
+}
+
+
+void Principled::set_uv_offset_y(float uv_offset_y)
+{
+   this->uv_offset_y = uv_offset_y;
+}
+
+
 void Principled::set_camera_far_plane(float camera_far_plane)
 {
    this->camera_far_plane = camera_far_plane;
@@ -81,6 +95,18 @@ float Principled::get_fog_intensity() const
 float Principled::get_fog_distance() const
 {
    return fog_distance;
+}
+
+
+float Principled::get_uv_offset_x() const
+{
+   return uv_offset_x;
+}
+
+
+float Principled::get_uv_offset_y() const
+{
+   return uv_offset_y;
 }
 
 
@@ -112,6 +138,8 @@ void Principled::activate()
 
 void Principled::set_values_to_activated_shader()
 {
+   set_float("uv_offset_x", 0.0);
+   set_float("uv_offset_y", 0.0);
    set_vec3("fog_color", fog_color.r, fog_color.g, fog_color.b);
    set_float("fog_intensity", fog_intensity);
    set_float("fog_distance", fog_distance);
@@ -131,10 +159,15 @@ std::string Principled::obtain_vertex_source()
      uniform mat4 al_tex_matrix;
      varying vec4 varying_color;
      varying vec2 varying_texcoord;
-     //varying float depth;
+
+     // UV offset features
+     // TODO: Test the UV offset features
+     uniform float uv_offset_x;
+     uniform float uv_offset_y;
+
+     // Fog features
      uniform float fog_distance;
      varying float fog_depth;
-     //varying float fog_distance;
      uniform float camera_far_plane;
 
      void main()
@@ -142,7 +175,7 @@ std::string Principled::obtain_vertex_source()
        varying_color = al_color;
        if (al_use_tex_matrix) {
          vec4 uv = al_tex_matrix * vec4(al_texcoord, 0, 1);
-         varying_texcoord = vec2(uv.x, uv.y);
+         varying_texcoord = vec2(uv.x + uv_offset_x, uv.y + uv_offset_y);
        }
        else
          varying_texcoord = al_texcoord;

@@ -48,6 +48,18 @@ properties:
     type: float
     init_with: 0.0f
 
+  - name: uv_offset_x
+    type: float
+    init_with: 0.0f
+    getter: true
+    setter: true
+
+  - name: uv_offset_y
+    type: float
+    init_with: 0.0f
+    getter: true
+    setter: true
+
   - name: initialized
     type: bool
     init_with: false
@@ -75,6 +87,15 @@ enums:
       - STATE_OPEN
       - STATE_CLOSING
       - STATE_CLOSED
+
+
+  - name: Style
+    enumerators:
+      - STYLE_UNDEF
+      - STYLE_NORMAL
+      - STYLE_NORMAL_DISRUPTED
+      - STYLE_BARN
+      - STYLE_FIRE  # NOTE: This one is not really practical, just for debugging
 
 
 methods:
@@ -154,12 +175,62 @@ methods:
       return { result, result->left_door, result->right_door };
 
 
+  - name: ~destroy
+    body: |
+      //if (initialized)
+      //{
+         //AllegroFlare::Logger::info_from(
+            //"Krampus24::Gameplay::Entities::Door",
+            //"This class will need to destroy its local copies of 
+         //);
+      //}
+      return;
+
+
+  - name: get_uv_offset_from_style
+    static: true
+    type: std::pair<float, float>
+    parameters:
+      - name: style
+        type: Krampus24::Gameplay::Entities::Door::Style
+        default_argument: STYLE_UNDEF
+    guards: [ (style != STYLE_UNDEF) ]
+    body: |
+      switch (style)
+      {
+         case STYLE_NORMAL: return { 0, 0 }; break;
+
+         case STYLE_NORMAL_DISRUPTED: return { 0.05, 0.0 }; break;
+
+         case STYLE_BARN: return { 0.2, 0.2 }; break;
+
+         case STYLE_FIRE: return { 0.25, 0.20 }; break; // NOTE: This one is not really practical, just for debugging
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::get_uv_offset_from_style",
+               "Unable to handle case for style \"" + std::to_string(style) + "\""
+            );
+         break;
+      }
+      
+      AllegroFlare::Logger::throw_error(
+         "ClassName::get_uv_offset_from_style",
+         "Unexpected code path to here (code: 678sdf678sdf678sdf)"
+      );
+      return { 0, 0 };
+
+
   - name: draw
     virtual: true
     override: true
     body: |
       placement.start_transform();
-      
+
+      std::pair<float, float> uv_offset = get_uv_offset_from_style(STYLE_NORMAL_DISRUPTED);
+      AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
+      AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
+
       right_door->placement.start_transform();
       right_door->model->set_texture(right_door->texture);
       right_door->model->draw();
@@ -170,8 +241,13 @@ methods:
       left_door->model->draw();
       left_door->placement.restore_transform();
 
+      AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
+      AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
+
       placement.restore_transform();
       return;
+    body_dependency_symbols:
+      - AllegroFlare::Shaders::Base
 
 
   - name: set_open_position
@@ -413,5 +489,9 @@ dependencies:
     headers: [ AllegroFlare/AudioRepositoryElement.hpp ]
   - symbol: AllegroFlare::EventEmitter
     headers: [ AllegroFlare/EventEmitter.hpp ]
+  - symbol: AllegroFlare::Shaders::Base
+    headers: [ AllegroFlare/Shaders/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Door::Style
+    headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
 
 

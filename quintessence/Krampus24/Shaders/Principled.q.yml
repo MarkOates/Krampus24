@@ -39,6 +39,18 @@ properties:
     getter: true
     setter: true
 
+  - name: uv_offset_x
+    type: float
+    init_with: 0.4f
+    getter: true
+    setter: true
+
+  - name: uv_offset_y
+    type: float
+    init_with: 20.0f
+    getter: true
+    setter: true
+
   - name: camera_far_plane
     type: float
     init_with: 100.0f
@@ -72,6 +84,8 @@ methods:
   - name: set_values_to_activated_shader
     private: true
     body: |
+      set_float("uv_offset_x", 0.0);
+      set_float("uv_offset_y", 0.0);
       set_vec3("fog_color", fog_color.r, fog_color.g, fog_color.b);
       set_float("fog_intensity", fog_intensity);
       set_float("fog_distance", fog_distance);
@@ -96,10 +110,15 @@ methods:
         uniform mat4 al_tex_matrix;
         varying vec4 varying_color;
         varying vec2 varying_texcoord;
-        //varying float depth;
+
+        // UV offset features
+        // TODO: Test the UV offset features
+        uniform float uv_offset_x;
+        uniform float uv_offset_y;
+
+        // Fog features
         uniform float fog_distance;
         varying float fog_depth;
-        //varying float fog_distance;
         uniform float camera_far_plane;
 
         void main()
@@ -107,7 +126,7 @@ methods:
           varying_color = al_color;
           if (al_use_tex_matrix) {
             vec4 uv = al_tex_matrix * vec4(al_texcoord, 0, 1);
-            varying_texcoord = vec2(uv.x, uv.y);
+            varying_texcoord = vec2(uv.x + uv_offset_x, uv.y + uv_offset_y);
           }
           else
             varying_texcoord = al_texcoord;

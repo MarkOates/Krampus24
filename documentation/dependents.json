@@ -255,6 +255,15 @@
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
   ],
+  "AllegroFlare/Shaders/Base": [
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Shaders/AllegroDefault",
+    "Krampus24/Shaders/Fog",
+    "Krampus24/Shaders/Principled"
+  ],
+  "Krampus24/Gameplay/Entities/Door/Style": [
+    "Krampus24/Gameplay/Entities/Door"
+  ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
@@ -342,11 +351,6 @@
   ],
   "al_color_html": [
     "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Shaders/Base": [
-    "Krampus24/Shaders/AllegroDefault",
-    "Krampus24/Shaders/Fog",
-    "Krampus24/Shaders/Principled"
   ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"
