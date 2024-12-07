@@ -109,6 +109,11 @@ properties:
     init_with: false
     exposed: true
 
+  - name: player_can_inspect_or_use
+    type: bool
+    init_with: false
+    exposed: true
+
   - name: elevator__target
     type: Krampus24::Gameplay::Entities::Base*
     init_with: nullptr

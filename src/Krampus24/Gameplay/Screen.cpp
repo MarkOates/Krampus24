@@ -57,7 +57,9 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , rendering_collision_wiremesh(false)
    , rendering_entity_models(true)
    , rendering_entity_bounding_boxes(false)
+   , showing_inspect_hint(false)
    , collision_observer({})
+   , inspectable_entity_that_player_is_currently_colliding_with(nullptr)
    , initialized(false)
 {
 }
@@ -193,6 +195,12 @@ void Screen::set_build_scripting_instance_func(std::function<Krampus24::Gameplay
 }
 
 
+void Screen::set_inspectable_entity_that_player_is_currently_colliding_with(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
+{
+   this->inspectable_entity_that_player_is_currently_colliding_with = inspectable_entity_that_player_is_currently_colliding_with;
+}
+
+
 std::string Screen::get_data_folder_path() const
 {
    return data_folder_path;
@@ -292,6 +300,12 @@ std::string Screen::get_blocking_filename() const
 std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> Screen::get_build_scripting_instance_func() const
 {
    return build_scripting_instance_func;
+}
+
+
+Krampus24::Gameplay::Entities::Base* Screen::get_inspectable_entity_that_player_is_currently_colliding_with() const
+{
+   return inspectable_entity_that_player_is_currently_colliding_with;
 }
 
 
@@ -532,6 +546,9 @@ void Screen::load_or_reload_meshes()
    // Clear the entities (Will re-add the player if it had previously existed)
    entities.clear();
    collision_observer.clear(); // Clear any current collisions, and the subject
+   inspectable_entity_that_player_is_currently_colliding_with = nullptr; // TODO: Consider side effects of releasing
+                                                                         // the current colliding entity here
+   if (showing_inspect_hint) hide_inspect_hint();
 
    // Create the 0th entity (the player)
    if (existing_player_entity)
@@ -544,6 +561,7 @@ void Screen::load_or_reload_meshes()
          new Krampus24::Gameplay::Entities::Base();
       player_entity->placement.size = {0.5, 0.5, 0.5};
       player_entity->aabb3d.set_max(player_entity->placement.size);
+      player_entity->aabb3d_alignment = { 0.5, 0.05, 0.5 };
       player_entity->placement.position = player_spawn_position;
       player_entity->player__spin = player_initial_spin;
       entities.push_back(player_entity);
@@ -740,6 +758,69 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
    return;
 }
 
+void Screen::interact_with_focused_inspectable_object()
+{
+   if (inspectable_entity_that_player_is_currently_colliding_with)
+   {
+      // Perform the entities local reaction to inspection
+      inspectable_entity_that_player_is_currently_colliding_with->on_player_inspect_or_use();
+
+      // TODO: Perform the scripting's inspection logic
+      //scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+   }
+   return;
+}
+
+void Screen::hide_inspect_hint()
+{
+   showing_inspect_hint = false;
+   return;
+}
+
+void Screen::show_inspect_hint()
+{
+   showing_inspect_hint = true;
+   return;
+}
+
+void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
+{
+   auto player_entity = find_0th_entity();
+   if (!player_entity) throw std::runtime_error("asjiodfasjdiofajsdiofasjdifoajsdiofjadsoi");
+
+   Krampus24::Gameplay::Entities::Base *found_colliding_entity = nullptr;
+   for (auto &entity : entities)
+   {
+      if (!entity->active) continue;
+      if (entity == player_entity) continue;
+      if (!entity->player_can_inspect_or_use) continue; // NOTE: In this case, the entity does not need a
+                                                        // collides with player flag in order for inspect feature
+                                                        // to work.
+      if (entity->collides_aabb3d(player_entity)) 
+      {
+         found_colliding_entity = entity;
+         break;
+      }
+   }
+
+   if (found_colliding_entity != inspectable_entity_that_player_is_currently_colliding_with)
+   {
+      // Assign the found entity to be the colliding one
+      inspectable_entity_that_player_is_currently_colliding_with = found_colliding_entity;
+
+      // TODO: Some feedback that a new collision occurred (a sound effect for example)
+      if (inspectable_entity_that_player_is_currently_colliding_with == nullptr)
+      {
+         hide_inspect_hint();
+      }
+      else
+      {
+         show_inspect_hint();
+      }
+   }
+   return;
+}
+
 void Screen::update()
 {
    float time_now = al_get_time();
@@ -860,6 +941,14 @@ void Screen::update()
 
 
    //
+   // Update player collision events against other object
+   //
+
+   update_inspectable_entity_that_player_is_currently_colliding_with();
+
+
+
+   //
    // Evaluate win condition
    //
 
@@ -953,6 +1042,23 @@ void Screen::render()
 
 
    hud_camera.setup_dimensional_projection(target_bitmap);
+
+   // TODO: Consider performance implications of clearing the depth buffer here
+   al_clear_depth_buffer(1.0);
+
+   if (showing_inspect_hint)
+   {
+      al_draw_textf(
+         obtain_hud_font(),
+         ALLEGRO_COLOR{1, 0.65, 0, 1.0},
+         1920-300,
+         1080/2,
+         ALLEGRO_ALIGN_CENTER,
+         "[E] Inspect"
+      );
+
+   }
+
 
    if (scripting) scripting->render_hud();
    /*
@@ -1109,7 +1215,11 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
       } break;
 
       case ALLEGRO_KEY_E: {
-         rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+         if (shift) rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+         else
+         {
+            interact_with_focused_inspectable_object();
+         }
       } break;
 
       case ALLEGRO_KEY_M: {

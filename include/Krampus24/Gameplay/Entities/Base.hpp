@@ -51,6 +51,7 @@ namespace Krampus24
             bool collides_with_environment;
             bool collides_with_player;
             bool collides_with_enemies;
+            bool player_can_inspect_or_use;
             Krampus24::Gameplay::Entities::Base* elevator__target;
             float player__spin;
             float player__tilt;

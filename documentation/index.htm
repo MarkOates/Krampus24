@@ -871,6 +871,10 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">player_can_inspect_or_use</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">elevator__target</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
@@ -1676,8 +1680,16 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">showing_inspect_hint</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">collision_observer</td>
   <td class="property">AllegroFlare::CollisionObservers::Simple</td>
+</tr>
+<tr>
+  <td class="property">inspectable_entity_that_player_is_currently_colliding_with</td>
+  <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
 <tr>
   <td class="property">initialized</td>
@@ -1725,6 +1737,22 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>create_and_set_player_input_controller_for_0th_entity</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>interact_with_focused_inspectable_object</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>hide_inspect_hint</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>show_inspect_hint</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_inspectable_entity_that_player_is_currently_colliding_with</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>

@@ -61,7 +61,9 @@ namespace Krampus24
          bool rendering_collision_wiremesh;
          bool rendering_entity_models;
          bool rendering_entity_bounding_boxes;
+         bool showing_inspect_hint;
          AllegroFlare::CollisionObservers::Simple collision_observer;
+         Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with;
          bool initialized;
 
       protected:
@@ -90,6 +92,7 @@ namespace Krampus24
          void set_visual_mesh_texture_identifier(std::string visual_mesh_texture_identifier);
          void set_blocking_filename(std::string blocking_filename);
          void set_build_scripting_instance_func(std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func);
+         void set_inspectable_entity_that_player_is_currently_colliding_with(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with);
          std::string get_data_folder_path() const;
          AllegroFlare::AudioController* get_audio_controller() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
@@ -107,6 +110,7 @@ namespace Krampus24
          std::string get_visual_mesh_texture_identifier() const;
          std::string get_blocking_filename() const;
          std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> get_build_scripting_instance_func() const;
+         Krampus24::Gameplay::Entities::Base* get_inspectable_entity_that_player_is_currently_colliding_with() const;
          bool get_initialized() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
          AllegroFlare::CollisionObservers::Simple &get_collision_observer_ref();
@@ -119,6 +123,10 @@ namespace Krampus24
          bool a_0th_entity_exists();
          Krampus24::Gameplay::Entities::Base* find_0th_entity();
          void create_and_set_player_input_controller_for_0th_entity();
+         void interact_with_focused_inspectable_object();
+         void hide_inspect_hint();
+         void show_inspect_hint();
+         void update_inspectable_entity_that_player_is_currently_colliding_with();
          void update();
          void render();
          void xxxcall_on_finished_callback_func();

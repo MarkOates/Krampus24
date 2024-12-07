@@ -157,10 +157,20 @@ properties:
     type: bool
     init_with: false
 
+  - name: showing_inspect_hint
+    type: bool
+    init_with: false
+
   - name: collision_observer
     type: AllegroFlare::CollisionObservers::Simple
     init_with: '{}'
     getter_ref: true
+
+  - name: inspectable_entity_that_player_is_currently_colliding_with
+    type: Krampus24::Gameplay::Entities::Base*
+    init_with: nullptr
+    getter: true
+    setter: true
 
   - name: initialized
     type: bool
@@ -344,6 +354,9 @@ methods:
       // Clear the entities (Will re-add the player if it had previously existed)
       entities.clear();
       collision_observer.clear(); // Clear any current collisions, and the subject
+      inspectable_entity_that_player_is_currently_colliding_with = nullptr; // TODO: Consider side effects of releasing
+                                                                            // the current colliding entity here
+      if (showing_inspect_hint) hide_inspect_hint();
 
       // Create the 0th entity (the player)
       if (existing_player_entity)
@@ -356,6 +369,7 @@ methods:
             new Krampus24::Gameplay::Entities::Base();
          player_entity->placement.size = {0.5, 0.5, 0.5};
          player_entity->aabb3d.set_max(player_entity->placement.size);
+         player_entity->aabb3d_alignment = { 0.5, 0.05, 0.5 };
          player_entity->placement.position = player_spawn_position;
          player_entity->player__spin = player_initial_spin;
          entities.push_back(player_entity);
@@ -554,6 +568,69 @@ methods:
        - Krampus24::Gameplay::PlayerInputControllers::Player
 
 
+  - name: interact_with_focused_inspectable_object
+    body: |
+      if (inspectable_entity_that_player_is_currently_colliding_with)
+      {
+         // Perform the entities local reaction to inspection
+         inspectable_entity_that_player_is_currently_colliding_with->on_player_inspect_or_use();
+
+         // TODO: Perform the scripting's inspection logic
+         //scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+      }
+      return;
+
+
+  - name: hide_inspect_hint
+    body: |
+      showing_inspect_hint = false;
+      return;
+
+
+  - name: show_inspect_hint
+    body: |
+      showing_inspect_hint = true;
+      return;
+
+
+  - name: update_inspectable_entity_that_player_is_currently_colliding_with
+    body: |
+      auto player_entity = find_0th_entity();
+      if (!player_entity) throw std::runtime_error("asjiodfasjdiofajsdiofasjdifoajsdiofjadsoi");
+
+      Krampus24::Gameplay::Entities::Base *found_colliding_entity = nullptr;
+      for (auto &entity : entities)
+      {
+         if (!entity->active) continue;
+         if (entity == player_entity) continue;
+         if (!entity->player_can_inspect_or_use) continue; // NOTE: In this case, the entity does not need a
+                                                           // collides with player flag in order for inspect feature
+                                                           // to work.
+         if (entity->collides_aabb3d(player_entity)) 
+         {
+            found_colliding_entity = entity;
+            break;
+         }
+      }
+
+      if (found_colliding_entity != inspectable_entity_that_player_is_currently_colliding_with)
+      {
+         // Assign the found entity to be the colliding one
+         inspectable_entity_that_player_is_currently_colliding_with = found_colliding_entity;
+
+         // TODO: Some feedback that a new collision occurred (a sound effect for example)
+         if (inspectable_entity_that_player_is_currently_colliding_with == nullptr)
+         {
+            hide_inspect_hint();
+         }
+         else
+         {
+            show_inspect_hint();
+         }
+      }
+      return;
+
+
   - name: update
     body: |
       float time_now = al_get_time();
@@ -674,6 +751,14 @@ methods:
 
 
       //
+      // Update player collision events against other object
+      //
+
+      update_inspectable_entity_that_player_is_currently_colliding_with();
+
+
+
+      //
       // Evaluate win condition
       //
 
@@ -770,6 +855,23 @@ methods:
 
 
       hud_camera.setup_dimensional_projection(target_bitmap);
+
+      // TODO: Consider performance implications of clearing the depth buffer here
+      al_clear_depth_buffer(1.0);
+
+      if (showing_inspect_hint)
+      {
+         al_draw_textf(
+            obtain_hud_font(),
+            ALLEGRO_COLOR{1, 0.65, 0, 1.0},
+            1920-300,
+            1080/2,
+            ALLEGRO_ALIGN_CENTER,
+            "[E] Inspect"
+         );
+
+      }
+
 
       if (scripting) scripting->render_hud();
       /*
@@ -920,7 +1022,11 @@ methods:
          } break;
 
          case ALLEGRO_KEY_E: {
-            rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+            if (shift) rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+            else
+            {
+               interact_with_focused_inspectable_object();
+            }
          } break;
 
          case ALLEGRO_KEY_M: {
