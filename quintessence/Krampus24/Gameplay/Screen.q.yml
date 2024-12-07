@@ -573,10 +573,21 @@ methods:
       if (inspectable_entity_that_player_is_currently_colliding_with)
       {
          // Perform the entities local reaction to inspection
-         inspectable_entity_that_player_is_currently_colliding_with->on_player_inspect_or_use();
+         bool entity_scoped_inspection_occurred =
+            inspectable_entity_that_player_is_currently_colliding_with->on_player_inspect_or_use();
 
          // TODO: Perform the scripting's inspection logic
-         //scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+         bool scripting_scoped_inspection_occurred = false;
+         if (!entity_scoped_inspection_occurred)
+         {
+            //scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+         }
+
+         // If no inspection happened, play a "no inspection sound"
+         if (!entity_scoped_inspection_occurred || scripting_scoped_inspection_occurred)
+         {
+            // TODO: Play "no inspection" sound
+         }
       }
       return;
 

@@ -27,11 +27,12 @@ namespace Krampus24
 
          public:
             Turret();
-            ~Turret();
+            virtual ~Turret();
 
             bool get_initialized() const;
             void initialize();
             static Krampus24::Gameplay::Entities::Turret* construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D position={}, float rotation=0.0f);
+            virtual bool on_player_inspect_or_use() override;
          };
       }
    }

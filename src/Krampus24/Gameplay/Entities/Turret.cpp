@@ -75,19 +75,16 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
    manager->texture = bitmap_bin->auto_get("turret-03.png");
    manager->placement.position = position;
    manager->placement.rotation.y = rotation;
-
-   //manager->get_placement_ref().scale = { 0.05, 0.05, 0.05 };
+   manager->placement.size = { 0.0, 0.0, 0.0 };
+   manager->placement.align = { 0.5, 0.0, 0.5 };
    manager->placement.scale = { 1.0, 1.0, 1.0 };
-   //manager->get_placement_ref().position.y = 0.25;
-   //manager->get_velocity_ref().rotation.y = 0.0075;
-   //manager->event_emitter = event_emitter;
-   //manager->left_door_entity = left_door;
-   //manager->right_door_entity = right_door;
-   //manager->box_start_position = box_start_position;
-   //manager->box_end_position = box_end_position;
-   //manager->set_collision_tile_map(collision_tile_map);
+
+   // Make inspectable
+   manager->player_can_inspect_or_use = true;
+   manager->aabb3d.set_max({ 5.0, 5.0, 5.0 });
+   manager->aabb3d_alignment = { 0.5, 0.0, 0.5 };
+
    manager->initialize();
-   //manager->set_solid_on_collision_map();
 
    // DEVELOPMENT: For now, just going to make an interactable zone to trigger the action on this entity
    //manager->set_hit_box_2d(AllegroFlare::Physics::AABB2D(0, 0, 20, 20));
@@ -95,6 +92,12 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
    //manager->set(AllegroFlare::Prototypes::TileFPS::EntityFlags::COLLIDES_WITH_PLAYER);
 
    return manager;
+}
+
+bool Turret::on_player_inspect_or_use()
+{
+   // TODO: Consider some interaction here
+   return true;
 }
 
 

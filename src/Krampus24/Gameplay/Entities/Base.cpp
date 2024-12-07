@@ -121,12 +121,13 @@ void Base::on_exit_player_position_collision(Krampus24::Gameplay::Entities::Base
    return;
 }
 
-void Base::on_player_inspect_or_use()
+bool Base::on_player_inspect_or_use()
 {
-   // Called on inspection if this entity has
-   // AllegroFlare::Prototypes::MeshFPS::EntityFlags::PLAYER_CAN_INSPECT_OR_USE
+   // Called on inspection if this entity has "player_can_inspect_or_use == true"
    // TODO: Override in the base class
-   return;
+
+   // Return "true" if an inspection response occurred (otherwise the UI will play a "no_inspect" sound)
+   return false;
 }
 
 bool Base::collides(Krampus24::Gameplay::Entities::Base* other)

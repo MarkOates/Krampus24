@@ -69,7 +69,7 @@ namespace Krampus24
             virtual void on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr);
             virtual void on_enter_player_position_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr);
             virtual void on_exit_player_position_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr);
-            virtual void on_player_inspect_or_use();
+            virtual bool on_player_inspect_or_use();
             bool collides(Krampus24::Gameplay::Entities::Base* other=nullptr);
             bool collides_aabb3d(Krampus24::Gameplay::Entities::Base* other=nullptr);
             AllegroFlare::Vec3D calculate_aabb3d_offset_from_alignment();
