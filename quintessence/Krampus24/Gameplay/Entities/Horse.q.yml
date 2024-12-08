@@ -1,0 +1,372 @@
+parent_classes:
+
+
+  - class: Krampus24::Gameplay::Entities::Base
+    scope: public
+    init_with: ''
+
+
+properties:
+
+
+  - name: initial_position
+    type: AllegroFlare::Vec3D
+    init_with: AllegroFlare::Vec3D(0, 0, 0)
+
+  - name: range
+    type: float
+    init_with: 3.0f
+
+  - name: movement_direction
+    type: AllegroFlare::Vec3D
+    init_with: '{}'
+
+  - name: movement_velocity
+    type: float
+    init_with: 0.01f
+
+  - name: state
+    type: uint32_t
+    init_with: STATE_UNDEF
+    getter: true
+    setter: explicit
+
+  - name: state_is_busy
+    type: bool
+    init_with: false
+
+  - name: state_changed_at
+    type: float
+    init_with: 0.0f
+
+  - name: random
+    type: AllegroFlare::Random
+    init_with: '{}'
+
+  - name: initialized
+    type: bool
+    init_with: false
+
+  - name: BLENDER_IDENTIFIER
+    type: char*
+    init_with: '(char*)"horse"'
+    static: true
+    constexpr: true
+
+
+enums:
+
+
+  - name: State
+    enumerators:
+      - STATE_UNDEF
+      - STATE_STANDING
+      - STATE_ROAMING
+      - STATE_RETURNING
+      - STATE_TURNING
+
+
+methods:
+
+
+  - name: construct
+    static: true
+    type: Krampus24::Gameplay::Entities::Horse*
+    parameters:
+      - name: model_bin
+        type: AllegroFlare::ModelBin*
+        default_argument: nullptr
+      - name: bitmap_bin
+        type: AllegroFlare::BitmapBin*
+        default_argument: nullptr
+      - name: initial_position
+        type: AllegroFlare::Vec3D
+        default_argument: AllegroFlare::Vec3D(0, 0, 0)
+      - name: range
+        type: float
+        default_argument: 3.0f
+    guards: [ model_bin, bitmap_bin ]
+    body: |
+      Krampus24::Gameplay::Entities::Horse* result = new Krampus24::Gameplay::Entities::Horse;
+      result->model = model_bin->auto_get("horse-02-body.obj");
+      result->texture = bitmap_bin->auto_get("entities_texture-01.png");
+
+
+      result->affected_by_environmental_forces = true;
+
+
+      //Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
+
+      //float x = 0; //entity->location.x;
+      //float y = 0.5; //entity->location.z; // Swapping z<->y
+      //float z = 0; //entity->location.y; // Swapping z<->y
+
+      //AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
+      //initial_position
+
+      result->placement.position = initial_position;
+      result->placement.position.y += 0.001f; // Move slightly up
+      result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+      result->placement.size = { 0.5, 0.5, 0.5 };
+      result->aabb3d.set_max(result->placement.size);
+      result->collides_with_player = true;
+      //result->affected_by_environmental_forces = affected_by_environmental_forces;
+
+      //result->name = entity->name;
+      //std::string entity_root_name = entity->get_name_unversioned();
+      //if (entity_root_name == "elevator")
+      //{
+         // Do elevator stuff
+         //result->placement.size = { 1.0, 2.0, 1.0 };
+         //result->box_color = ALLEGRO_COLOR{ 1.0, 1.0, 0.4, 1.0 };
+      //}
+
+      result->initial_position = initial_position;
+      result->range = range;
+      result->movement_direction = AllegroFlare::Vec3D(0, 0, 1);
+      //result->movement_velocity = 0.01;
+      result->movement_velocity = 0.01;
+
+      result->initialized = true;
+      result->random.set_seed(4371);
+
+      result->set_state(STATE_ROAMING);
+
+      return result;
+
+
+  - name: on_time_step
+    virtual: true
+    override: true
+    guards: [ initialized ]
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 0.0f
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+    body: |
+      update_state(time_step, time_now);
+      return;
+    body_dependency_symbols:
+      - std::sin
+
+
+  - name: set_state
+    parameters:
+      - name: state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+      - name: override_if_busy
+        type: bool
+        default_argument: false
+    guards: [ initialized, is_valid_state(state) ]
+    body: |
+      if (this->state == state) return;
+      if (!override_if_busy && state_is_busy) return;
+      uint32_t previous_state = this->state;
+
+      this->state = state;
+      state_changed_at = al_get_time();
+
+      switch (state)
+      {
+         case STATE_STANDING: {
+         } break;
+
+         case STATE_ROAMING: {
+         } break;
+
+         case STATE_RETURNING: {
+         } break;
+
+         case STATE_TURNING: {
+         } break;
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::set_state",
+               "Unable to handle case for state \"" + std::to_string(state) + "\""
+            );
+         break;
+      }
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+
+
+  - name: update_state
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 0.0f
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+    guards: [ initialized, is_valid_state(state) ]
+    body: |
+      float age = infer_current_state_age(time_now);
+
+      switch (state)
+      {
+         case STATE_STANDING: {
+            //velocity.position = movement_direction * movement_velocity;
+            //float anchor_x = 0.0;
+            //float anchor_y = std::sin(time_now*12) * 0.05;
+            //float anchor_z = 0.0;
+            //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+         } break;
+
+         case STATE_RETURNING: {
+            if (infer_distance_from_initial_position() <= 0.25)
+            {
+               //float angle_in_radians = random.get_random_float(0, ALLEGRO_PI*2);
+               //movement_direction = -movement_direction;
+               float angle_in_radians = random.get_random_float(0, ALLEGRO_PI*2);
+               //float new_direction_unit = new_direction_radians / ALLEGRO_PI*2;
+               float angle_in_degrees = angle_in_radians * (180.0 / ALLEGRO_PI);
+               //float angle_in_units = angle_in_degrees / 360.0f;
+               float angle_in_units = angle_in_radians / (2 * ALLEGRO_PI); 
+
+               auto new_dir_2d = AllegroFlare::Vec2D::polar_coords(angle_in_radians, 1.0f).normalized();
+               movement_direction = AllegroFlare::Vec3D(new_dir_2d.x, 0, new_dir_2d.y);
+               placement.rotation.y = -angle_in_units + 0.25;
+               set_state(STATE_ROAMING);
+               //velocity.position = movement_direction * movement_velocity;
+               //movement_direction = (initial_position - placement.position).normalized();
+            }
+            else
+            {
+               velocity.position = movement_direction * movement_velocity * 2;
+               float anchor_x = 0.0;
+               float anchor_y = std::sin(time_now*22) * 0.05;
+               float anchor_z = 0.0;
+               placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+            }
+         } break;
+
+         case STATE_ROAMING: {
+            if (infer_distance_from_initial_position() >= range)
+            {
+               movement_direction = -movement_direction;
+               placement.rotation.y += 0.5f;
+               //movement_direction = -movement_direction;
+               set_state(STATE_RETURNING);
+               //movement_direction = (initial_position - placement.position).normalized();
+            }
+            else
+            {
+               velocity.position = movement_direction * movement_velocity;
+               float anchor_x = 0.0;
+               float anchor_y = std::sin(time_now*12) * 0.05;
+               float anchor_z = 0.0;
+               placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+            }
+         } break;
+
+         case STATE_TURNING: {
+         } break;
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::update_state",
+               "Unable to handle case for state \"" + std::to_string(state) + "\""
+            );
+         break;
+      }
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+      - AllegroFlare::Vec2D
+
+
+  - name: is_valid_state
+    type: bool
+    static: true
+    parameters:
+      - name: state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+    body: |
+      std::set<uint32_t> valid_states =
+      {
+         STATE_STANDING,
+         STATE_RETURNING,
+         STATE_ROAMING,
+         STATE_TURNING,
+      };
+      return (valid_states.count(state) > 0);
+    body_dependency_symbols:
+      - std::set
+
+
+  - name: is_state
+    type: bool
+    parameters:
+      - name: possible_state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+    body: |
+     return (state == possible_state);
+
+
+  - name: infer_current_state_age
+    type: float
+    parameters:
+      - name: time_now
+        type: float
+        default_argument: al_get_time()
+    guards: [ initialized ]
+    body: |
+      return (time_now - state_changed_at);
+
+
+  - name: infer_distance_from_initial_position
+    type: float
+    body: |
+      return manhattan_distance(&initial_position, &placement.position);
+
+
+  - name: manhattan_distance
+    type: float
+    parameters:
+      - name: point1
+        type: AllegroFlare::Vec3D*
+        default_argument: nullptr
+      - name: point2
+        type: AllegroFlare::Vec3D*
+        default_argument: nullptr
+    body: |
+      return std::abs(point2->x - point1->x) + std::abs(point2->y - point1->y) + std::abs(point2->z - point1->z);
+    body_dependency_symbols:
+      - std::abs
+
+
+dependencies:
+
+
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Horse
+    headers: [ Krampus24/Gameplay/Entities/Horse.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: AllegroFlare::ModelBin
+    headers: [ AllegroFlare/ModelBin.hpp ]
+  - symbol: AllegroFlare::Vec2D
+    headers: [ AllegroFlare/Vec2D.hpp ]
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: std::sin
+    headers: [ cmath ]
+  - symbol: std::abs
+    headers: [ cmath ]
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: AllegroFlare::Random
+    headers: [ AllegroFlare/Random.hpp ]
+
+
