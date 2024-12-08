@@ -9,6 +9,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
@@ -23,6 +24,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
@@ -168,6 +170,7 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
@@ -184,6 +187,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
@@ -233,6 +237,7 @@
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_BITMAP": [
@@ -272,6 +277,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
@@ -282,6 +288,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
@@ -291,6 +298,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/sin": [
@@ -299,6 +307,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/abs": [
@@ -306,28 +315,33 @@
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/SlidingDoor"
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot"
   ],
   "AllegroFlare/Random": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/SlidingDoor"
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot"
   ],
   "AllegroFlare/SampleBin": [
     "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/SlidingDoor"
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot"
   ],
   "AllegroFlare/AudioRepositoryElement": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
@@ -349,6 +363,12 @@
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"
+  ],
+  "Krampus24/Gameplay/Entities/SnakeBot": [
+    "Krampus24/Gameplay/Entities/SnakeBot"
+  ],
+  "Krampus24/Gameplay/Entities/SnakeBot/Style": [
+    "Krampus24/Gameplay/Entities/SnakeBot"
   ],
   "Krampus24/Gameplay/Entities/Turret": [
     "Krampus24/Gameplay/Entities/Turret",
