@@ -66,6 +66,7 @@ table td
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Door.q.yml">quintessence/Krampus24/Gameplay/Entities/Door.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Hen.q.yml">quintessence/Krampus24/Gameplay/Entities/Hen.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Horse.q.yml">quintessence/Krampus24/Gameplay/Entities/Horse.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Gameplay/Entities/Pig.q.yml">quintessence/Krampus24/Gameplay/Entities/Pig.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Turret.q.yml">quintessence/Krampus24/Gameplay/Entities/Turret.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Level.q.yml">quintessence/Krampus24/Gameplay/Level.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml">quintessence/Krampus24/Gameplay/PlayerInputControllers/Player.q.yml</a></li>
@@ -1474,6 +1475,154 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Gameplay/Entities/Pig.q.yml">quintessence/Krampus24/Gameplay/Entities/Pig.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">initial_position</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
+  <td class="property">legs_model</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">head_model</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">range</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">movement_direction</td>
+  <td class="property">AllegroFlare::Vec3D</td>
+</tr>
+<tr>
+  <td class="property">movement_velocity</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">bobble_time</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">state</td>
+  <td class="property">uint32_t</td>
+</tr>
+<tr>
+  <td class="property">state_is_busy</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">state_changed_at</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">random</td>
+  <td class="property">AllegroFlare::Random</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">BLENDER_IDENTIFIER</td>
+  <td class="property">char*</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">Krampus24::Gameplay::Entities::Pig*</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float range=3.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_time_step</b>(double time_step=0.0f, double time_now=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_state</b>(uint32_t state=STATE_UNDEF, bool override_if_busy=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_state</b>(double time_step=0.0f, double time_now=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_valid_state</b>(uint32_t state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_state</b>(uint32_t possible_state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>infer_current_state_age</b>(float time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>infer_distance_from_initial_position</b>()</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>manhattan_distance</b>(AllegroFlare::Vec3D* point1=nullptr, AllegroFlare::Vec3D* point2=nullptr)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Pig&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Pig.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::ModelBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/ModelBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec2D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec2D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::sin&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::abs&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Random&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Random.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_color_name&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_color.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Shaders::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Shaders/Base.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/Gameplay/Entities/Turret.q.yml">quintessence/Krampus24/Gameplay/Entities/Turret.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -2078,6 +2227,9 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Horse&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Horse.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Pig&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Pig.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Shaders::Fog&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Shaders/Fog.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -2394,6 +2546,7 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
@@ -2406,6 +2559,7 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
@@ -2543,6 +2697,7 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
@@ -2574,6 +2729,7 @@ table td
   "AllegroFlare/Model3D": [
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_BITMAP": [
@@ -2611,6 +2767,7 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
@@ -2619,6 +2776,7 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
@@ -2626,23 +2784,27 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/sin": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/abs": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Entities/Horse"
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig"
   ],
   "AllegroFlare/Random": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Entities/Horse"
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/Pig"
   ],
   "AllegroFlare/SampleBin": [
     "Krampus24/Gameplay/Entities/Door"
@@ -2659,6 +2821,7 @@ table td
   ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
@@ -2670,6 +2833,13 @@ table td
   "Krampus24/Gameplay/Entities/Horse": [
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Pig": [
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "al_color_name": [
+    "Krampus24/Gameplay/Entities/Pig"
   ],
   "Krampus24/Gameplay/Entities/Turret": [
     "Krampus24/Gameplay/Entities/Turret",
