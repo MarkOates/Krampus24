@@ -329,7 +329,7 @@ void SlidingDoor::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::
 void SlidingDoor::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
    //attempt_to_close();
-   //set_state(STATE_CLOSING);
+   set_state(STATE_CLOSING);
    return;
 }
 

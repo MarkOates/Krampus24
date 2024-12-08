@@ -410,7 +410,7 @@ methods:
         default_argument: nullptr
     body: |
       //attempt_to_close();
-      //set_state(STATE_CLOSING);
+      set_state(STATE_CLOSING);
       return;
 
 
