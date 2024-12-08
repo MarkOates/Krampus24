@@ -60,6 +60,7 @@ table td
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml">quintessence/Krampus24/BlenderBlockingLoaderBlock.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml">quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Configurations/Main.q.yml">quintessence/Krampus24/Game/Configurations/Main.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Game/DialogBuilder.q.yml">quintessence/Krampus24/Game/DialogBuilder.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Scripting/Tree.q.yml">quintessence/Krampus24/Game/Scripting/Tree.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
@@ -629,6 +630,47 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus24/Game/DialogBuilder.q.yml">quintessence/Krampus24/Game/DialogBuilder.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<p>This class contains no properties</p>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">AllegroFlare::DialogTree::NodeBank</td>
+  <td class="method"><b>build_dialog_node_bank</b>(std::string identifier=&quot;[identifier-discarded]&quot;)</td>
+</tr>
+<tr>
+  <td class="private_method">AllegroFlare::DialogTree::NodeBank</td>
+  <td class="private_method"><b>build_a_dialog_node_bank</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Game::DialogTree&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Game/DialogTree.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBankFactory&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBankFactory.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Game::Entities::SpaceSuit&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Game/Entities/SpaceSuit.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::Nodes::MultipageWithOptions&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeOptions::ExitDialog&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBank&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBank.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2843,10 +2885,12 @@ table td
   ],
   "AllegroFlare/DialogTree/NodeBank": [
     "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/DialogBuilder",
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/DialogTree/NodeBankFactory": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/DialogBuilder"
   ],
   "AllegroFlare/DialogTree/Nodes/Wait": [
     "Krampus24/Game/Configurations/Main"
@@ -2855,13 +2899,15 @@ table td
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/DialogTree/Nodes/MultipageWithOptions": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/DialogBuilder"
   ],
   "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/DialogBuilder"
   ],
   "Krampus24/Gameplay/Level": [
     "Krampus24/Game/Configurations/Main"
@@ -2926,6 +2972,12 @@ table td
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Game/DialogTree": [
+    "Krampus24/Game/DialogBuilder"
+  ],
+  "Krampus24/Game/Entities/SpaceSuit": [
+    "Krampus24/Game/DialogBuilder"
   ],
   "Krampus24/Gameplay/ScriptingInterface": [
     "Krampus24/Game/Scripting/Tree",
