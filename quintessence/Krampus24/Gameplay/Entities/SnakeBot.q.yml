@@ -292,8 +292,8 @@ methods:
     body: |
       int num_segments = 3;
       //float segment_distance = 2;
-      float segment_distance = 1.5;
-      float segment_axis_rotation = ALLEGRO_PI * 2 * 0.125;
+      float segment_distance = 1.25;
+      float segment_axis_rotation = 25.0 * ALLEGRO_PI / 180; // * 2 * 0.125;
 
       placement.start_transform();
 
@@ -310,30 +310,113 @@ methods:
 
       ALLEGRO_TRANSFORM initial_transform = *al_get_current_transform();
       ALLEGRO_TRANSFORM change_transform;
-      ALLEGRO_TRANSFORM for_use_transform;
-      al_identity_transform(&change_transform);
-      al_identity_transform(&for_use_transform);
 
+      ALLEGRO_TRANSFORM transform;
+      ALLEGRO_TRANSFORM compound_transform;
+      al_identity_transform(&transform);
+      al_identity_transform(&compound_transform);
+      //ALLEGRO_TRANSFORM next_start_transform;
+      al_identity_transform(&change_transform);
+      //al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         //al_rotate_transform_3d(&change_transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+      al_rotate_transform_3d(&change_transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+      al_translate_transform_3d(&change_transform, 0.0, segment_distance, 0.0);
+      //al_rotate_transform_3d(&change_transform, 0.0, 0.0, 1.0, segment_axis_rotation);
+      //al_translate_transform_3d(&change_transform, 0.0, segment_distance, 0.0);
+      //al_rotate_transform_3d(&change_transform, 0.0, 0.0, 1.0, segment_axis_rotation);
+      //al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      //al_translate_transform_3d(&change_transform, 0.0, segment_distance, 0.0);
+      //al_identity_transform(&for_use_transform);
+
+
+
+      al_use_transform(&transform);
+      base->draw();
+      al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      al_use_transform(&transform);
+      rotator->draw();
+
+
+      // segment 2 base
+
+      {
+         al_identity_transform(&transform);
+         al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         //al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+         //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
+      }
+      al_use_transform(&transform);
+      //al_use_transform(&transform);
+      base->draw();
+      //al_rotate_transform_3d(&compound_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      //al_use_transform(&compound_transform);
+      //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      //al_use_transform(&transform);
+      //rotator->draw();
+
+
+
+      // segment 2 rotator
+
+      al_identity_transform(&transform);
+      al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+
+      {
+         //al_identity_transform(&transform);
+         al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         //al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+         //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
+      }
+      al_use_transform(&transform);
+      //al_use_transform(&transform);
+      //base->draw();
+      //al_rotate_transform_3d(&compound_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      //al_use_transform(&compound_transform);
+      //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      //al_use_transform(&transform);
+      rotator->draw();
+
+
+
+
+         //al_compose_transform(&compound_transform, &change_transform);
+
+
+
+      /*
       //for (int i=0; i<1; i++)
       for (int i=0; i<num_segments; i++)
+      //for (int i=0; i<num_segments; i++)
       {
          // Buid our offsetting/rotating transform
-         al_use_transform(&change_transform);
+         al_use_transform(&compound_transform);
          base->draw();
          //al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, 0 * 0.15);
-         al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         ////al_rotate_transform_3d(&compound_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
          //al_copy_transform(&for_use_transform, &change_transform);
          //al_compose_transform(&for_use_transform, &initial_transform);
-         al_use_transform(&change_transform);
+         al_use_transform(&compound_transform);
          rotator->draw();
+
+         al_compose_transform(&compound_transform, &change_transform);
+         //al_use_transform(&compound_transform);
+         //base->draw();
 
          //al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
          //al_identity_transform(&transform);
-         al_translate_transform_3d(&change_transform, 0.0, segment_distance, 0.0);
+         //al_rotate_transform_3d(&change_transform, 0.0, 0.0, 1.0, segment_axis_rotation);
+         //al_translate_transform_3d(&change_transform, 0.0, segment_distance, 0.0);
+         //al_rotate_transform_3d(&change_transform, 0.0, 0.0, 1.0, segment_axis_rotation);
+         //al_rotate_transform_3d(&change_transform, 1.0, 0.0, 0.0, segment_axis_rotation);
          //al_use_transform(&change_transform);
          //al_compose_transform(&transform, &initial_transform);
          //al_use_transform(&change_transform);
       }
+      */
 
       //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
       //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
