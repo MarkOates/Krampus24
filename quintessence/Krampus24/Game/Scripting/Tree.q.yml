@@ -283,6 +283,18 @@ methods:
       return;
 
 
+  - name: build_dialog_node_bank
+    type: AllegroFlare::DialogTree::NodeBank
+    virtual: true
+    override: true
+    body: |
+      // Override in the derived class
+      return Krampus24::Game::DialogBuilder::build_dialog_node_bank();
+      //return {};
+    body_dependency_symbols:
+      - Krampus24::Game::DialogBuilder
+
+
   - name: obtain_hud_font
     type: ALLEGRO_FONT*
     body: |
@@ -308,5 +320,9 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
   - symbol: AllegroFlare::Logger
     headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: Krampus24::Game::DialogBuilder
+    headers: [ Krampus24/Game/DialogBuilder.hpp ]
+  - symbol: AllegroFlare::DialogTree::NodeBank
+    headers: [ AllegroFlare/DialogTree/NodeBank.hpp ]
 
 

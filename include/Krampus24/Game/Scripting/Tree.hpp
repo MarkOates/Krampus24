@@ -2,6 +2,7 @@
 
 
 #include <AllegroFlare/CollisionObservers/Simple.hpp>
+#include <AllegroFlare/DialogTree/NodeBank.hpp>
 #include <AllegroFlare/FontBin.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
@@ -55,6 +56,7 @@ namespace Krampus24
             void link_elevators(std::string elevator_a_name="[unset-elevator_a_name]", std::string elevator_b_name="[unset-elevator_b_name]");
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
+            virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank() override;
             ALLEGRO_FONT* obtain_hud_font();
          };
       }

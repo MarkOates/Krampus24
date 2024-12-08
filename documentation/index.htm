@@ -759,6 +759,10 @@ table td
   <td class="private_method"><b>build_on_collision_callbacks</b>()</td>
 </tr>
 <tr>
+  <td class="method">AllegroFlare::DialogTree::NodeBank</td>
+  <td class="method"><b>build_dialog_node_bank</b>()</td>
+</tr>
+<tr>
   <td class="method">ALLEGRO_FONT*</td>
   <td class="method"><b>obtain_hud_font</b>()</td>
 </tr>
@@ -788,6 +792,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Game::DialogBuilder&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Game/DialogBuilder.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBank&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBank.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2542,6 +2552,10 @@ table td
   <td class="method"><b>end_state_achieved</b>()</td>
 </tr>
 <tr>
+  <td class="method">AllegroFlare::DialogTree::NodeBank</td>
+  <td class="method"><b>build_dialog_node_bank</b>()</td>
+</tr>
+<tr>
   <td class="method">bool</td>
   <td class="method"><b>interact_with_focused_object</b>(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr)</td>
 </tr>
@@ -2558,6 +2572,9 @@ table td
 <div class="property-box dependencies">     <table>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBank&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBank.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2886,6 +2903,8 @@ table td
   "AllegroFlare/DialogTree/NodeBank": [
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Game/DialogBuilder",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/DialogTree/NodeBankFactory": [
@@ -3014,6 +3033,9 @@ table td
   "Krampus24/Gameplay/Entities/Door/Style": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door"
+  ],
+  "Krampus24/Game/DialogBuilder": [
+    "Krampus24/Game/Scripting/Tree"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"

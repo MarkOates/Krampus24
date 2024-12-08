@@ -67,6 +67,8 @@
   "AllegroFlare/DialogTree/NodeBank": [
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Game/DialogBuilder",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/DialogTree/NodeBankFactory": [
@@ -195,6 +197,9 @@
   "Krampus24/Gameplay/Entities/Door/Style": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door"
+  ],
+  "Krampus24/Game/DialogBuilder": [
+    "Krampus24/Game/Scripting/Tree"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"

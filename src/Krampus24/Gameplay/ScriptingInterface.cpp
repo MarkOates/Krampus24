@@ -34,6 +34,12 @@ bool ScriptingInterface::end_state_achieved()
    return false;
 }
 
+AllegroFlare::DialogTree::NodeBank ScriptingInterface::build_dialog_node_bank()
+{
+   // Override in the derived class
+   return {};
+}
+
 bool ScriptingInterface::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
 {
    // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing

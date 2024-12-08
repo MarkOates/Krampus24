@@ -3,6 +3,7 @@
 #include <Krampus24/Game/Scripting/Tree.hpp>
 
 #include <AllegroFlare/Logger.hpp>
+#include <Krampus24/Game/DialogBuilder.hpp>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -333,6 +334,13 @@ void Tree::build_on_collision_callbacks()
       }},
    };
    return;
+}
+
+AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
+{
+   // Override in the derived class
+   return Krampus24::Game::DialogBuilder::build_dialog_node_bank();
+   //return {};
 }
 
 ALLEGRO_FONT* Tree::obtain_hud_font()

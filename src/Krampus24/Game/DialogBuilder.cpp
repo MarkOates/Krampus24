@@ -56,6 +56,15 @@ AllegroFlare::DialogTree::NodeBank DialogBuilder::build_a_dialog_node_bank()
    AllegroFlare::DialogTree::NodeBank result;
    result.set_nodes({
 
+      { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            { "This door is locked." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
       { "hydroflora", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "Hydroflora",
             { "Alien mushroom with a green cap and vibrant purple stem." },
