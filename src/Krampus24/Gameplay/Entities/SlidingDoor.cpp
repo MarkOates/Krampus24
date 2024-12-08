@@ -115,6 +115,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> SlidingDoor::construct(Allegro
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
    result->placement.rotation.y = rotation;
+   result->player_can_inspect_or_use = true;
+   result->locked = false;
 
    // Left door
    result->door = new Krampus24::Gameplay::Entities::Base;
@@ -177,6 +179,47 @@ void SlidingDoor::lock()
 {
    locked = true;
    return;
+}
+
+void SlidingDoor::attempt_to_open()
+{
+   if (locked)
+   {
+      // TODO: Show or indicate in some way that the door is locked
+   }
+   else
+   {
+      set_state(STATE_OPENING);
+   }
+   return;
+}
+
+void SlidingDoor::attempt_to_close()
+{
+   if (locked)
+   {
+      // TODO: Show or indicate in some way that the door is locked
+   }
+   else
+   {
+      set_state(STATE_CLOSING);
+   }
+   return;
+}
+
+bool SlidingDoor::on_player_inspect_or_use()
+{
+   if (is_state(STATE_OPEN) || is_state(STATE_OPENING))
+   {
+      attempt_to_close();
+      return true;
+   }
+   else if (is_state(STATE_CLOSED) || is_state(STATE_CLOSING))
+   {
+      attempt_to_open();
+      return true;
+   }
+   return false;
 }
 
 void SlidingDoor::set_style(Krampus24::Gameplay::Entities::SlidingDoor::Style style)
@@ -277,13 +320,16 @@ void SlidingDoor::set_open_position(float open_position)
 
 void SlidingDoor::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   set_state(STATE_OPENING);
+   //attempt_to_open();
+   //set_state(STATE_OPENING);
+   //attempt_to_open
    return;
 }
 
 void SlidingDoor::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   set_state(STATE_CLOSING);
+   //attempt_to_close();
+   //set_state(STATE_CLOSING);
    return;
 }
 

@@ -76,6 +76,9 @@ namespace Krampus24
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
             void unlock();
             void lock();
+            void attempt_to_open();
+            void attempt_to_close();
+            virtual bool on_player_inspect_or_use() override;
             void set_style(Krampus24::Gameplay::Entities::SlidingDoor::Style style=STYLE_UNDEF);
             void set_uv_offset_x(float uv_offset_x=0.0f);
             void set_uv_offset_y(float uv_offset_y=0.0f);

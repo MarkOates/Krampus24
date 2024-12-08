@@ -13,8 +13,6 @@ class Krampus24_Gameplay_Entities_SlidingDoorWithConstructFixtureTest : public K
 TEST_F(Krampus24_Gameplay_Entities_SlidingDoorWithConstructFixtureTest, can_be_created_without_blowing_up)
 {
    std::vector<Krampus24::Gameplay::Entities::Base*> entities = Krampus24::Gameplay::Entities::SlidingDoor::construct(
-   //Krampus24::Gameplay::Entities::SlidingDoor *door =
-   //Krampus24::Gameplay::Entities::SlidingDoor::construct(
       get_framework_model_bin(),
       get_framework_bitmap_bin(),
       get_framework_event_emitter(),
