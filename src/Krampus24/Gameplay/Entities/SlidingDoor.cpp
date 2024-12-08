@@ -24,10 +24,11 @@ SlidingDoor::SlidingDoor()
    : Krampus24::Gameplay::Entities::Base()
    , event_emitter(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
-   , left_door(nullptr)
-   , right_door(nullptr)
+   , door(nullptr)
+   , frame(nullptr)
    , open_position(0.0f)
-   , speed(0.0165f)
+   , speed(0.0195f)
+   , locked(true)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
@@ -108,6 +109,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> SlidingDoor::construct(Allegro
    result->placement.position = initial_position;
    result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+
    result->placement.size = { 10.0, 10.0, 10.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
@@ -115,21 +117,33 @@ std::vector<Krampus24::Gameplay::Entities::Base*> SlidingDoor::construct(Allegro
    result->placement.rotation.y = rotation;
 
    // Left door
-   result->left_door = new Krampus24::Gameplay::Entities::Base;
-   result->left_door->model = model_bin->auto_get("door-01-left_door.obj");
-   result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   result->left_door->affected_by_environmental_forces = false;
-   result->left_door->collides_with_player = false;
-   result->left_door->placement.position = { 0.0, 0.0, 0.0 };
-   result->left_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->left_door->placement.size = { 0, 0, 0 };
+   result->door = new Krampus24::Gameplay::Entities::Base;
+   result->door->model = model_bin->auto_get("sliding_door-01-door.obj");
+   result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   result->door->affected_by_environmental_forces = false;
+   result->door->collides_with_player = false;
+   result->door->placement.position = { 0.0, 0.0, 0.0 };
+   result->door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   result->door->placement.size = { 0, 0, 0 };
    //result->left_door->placement.rotation.y = rotation;
-   result->left_door->visible = false;
+   result->door->visible = false;
    //result->left_door->active = false;
 
+   result->frame = new Krampus24::Gameplay::Entities::Base;
+   result->frame->model = model_bin->auto_get("sliding_door-01-frame.obj");
+   result->frame->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   result->frame->affected_by_environmental_forces = false;
+   result->frame->collides_with_player = false;
+   result->frame->placement.position = { 0.0, 0.0, 0.0 };
+   result->frame->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   result->frame->placement.size = { 0, 0, 0 };
+   //result->left_door->placement.rotation.y = rotation;
+   result->frame->visible = false;
+
+   /*
    // Right door
    result->right_door = new Krampus24::Gameplay::Entities::Base;
-   result->right_door->model = model_bin->auto_get("door-01-right_door.obj");
+   result->right_door->model = model_bin->auto_get("sliding_door-01-door.obj");
    result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->right_door->affected_by_environmental_forces = false;
    result->right_door->collides_with_player = false;
@@ -139,6 +153,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> SlidingDoor::construct(Allegro
    //result->right_door->placement.rotation.y = rotation;
    result->right_door->visible = false;
    //result->right_door->active = false;
+   */
 
    // Preload the samples
    //result->sample_bin = sample_bin;
@@ -149,7 +164,19 @@ std::vector<Krampus24::Gameplay::Entities::Base*> SlidingDoor::construct(Allegro
    result->initialized = true;
    result->set_state(STATE_CLOSED);
 
-   return { result, result->left_door, result->right_door };
+   return { result, result->door, result->frame }; //, result->right_door };
+}
+
+void SlidingDoor::unlock()
+{
+   locked = false;
+   return;
+}
+
+void SlidingDoor::lock()
+{
+   locked = true;
+   return;
 }
 
 void SlidingDoor::set_style(Krampus24::Gameplay::Entities::SlidingDoor::Style style)
@@ -217,15 +244,20 @@ void SlidingDoor::draw()
    AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
    AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
-   right_door->placement.start_transform();
-   right_door->model->set_texture(right_door->texture);
-   right_door->model->draw();
-   right_door->placement.restore_transform();
+   //right_door->placement.start_transform();
+   //right_door->model->set_texture(right_door->texture);
+   //right_door->model->draw();
+   //right_door->placement.restore_transform();
 
-   left_door->placement.start_transform();
-   left_door->model->set_texture(left_door->texture);
-   left_door->model->draw();
-   left_door->placement.restore_transform();
+   door->placement.start_transform();
+   door->model->set_texture(door->texture);
+   door->model->draw();
+   door->placement.restore_transform();
+
+   frame->placement.start_transform();
+   frame->model->set_texture(frame->texture);
+   frame->model->draw();
+   frame->placement.restore_transform();
 
    AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
    AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
@@ -238,8 +270,8 @@ void SlidingDoor::set_open_position(float open_position)
 {
    open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
-   left_door->placement.position.z = open_position * 2;
-   right_door->placement.position.z = -open_position * 2;
+   door->placement.position.z = open_position * 2;
+   //right_door->placement.position.z = -open_position * 2;
    return;
 }
 

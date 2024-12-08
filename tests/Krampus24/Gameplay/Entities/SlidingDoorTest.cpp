@@ -19,7 +19,7 @@ TEST_F(Krampus24_Gameplay_Entities_SlidingDoorWithConstructFixtureTest, can_be_c
       get_framework_bitmap_bin(),
       get_framework_event_emitter(),
       AllegroFlare::Vec3D(0, 0, 0),
-      0.125
+      -0.125
    );
    for (auto &entity : entities) add_entity_to_pool(entity);
 

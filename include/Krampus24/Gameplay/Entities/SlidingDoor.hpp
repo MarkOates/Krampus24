@@ -24,7 +24,7 @@ namespace Krampus24
          class SlidingDoor : public Krampus24::Gameplay::Entities::Base
          {
          public:
-            static constexpr char* BLENDER_IDENTIFIER = (char*)"door";
+            static constexpr char* BLENDER_IDENTIFIER = (char*)"sliding_door";
             static constexpr char* DOOR_OPEN_SAMPLE_IDENTIFIER = (char*)"door-01-opening.ogg";
 
          public:
@@ -49,10 +49,11 @@ namespace Krampus24
             };
             AllegroFlare::EventEmitter* event_emitter;
             AllegroFlare::Vec3D initial_position;
-            Krampus24::Gameplay::Entities::Base* left_door;
-            Krampus24::Gameplay::Entities::Base* right_door;
+            Krampus24::Gameplay::Entities::Base* door;
+            Krampus24::Gameplay::Entities::Base* frame;
             float open_position;
             float speed;
+            bool locked;
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
@@ -73,6 +74,8 @@ namespace Krampus24
             float get_uv_offset_x() const;
             float get_uv_offset_y() const;
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
+            void unlock();
+            void lock();
             void set_style(Krampus24::Gameplay::Entities::SlidingDoor::Style style=STYLE_UNDEF);
             void set_uv_offset_x(float uv_offset_x=0.0f);
             void set_uv_offset_y(float uv_offset_y=0.0f);
