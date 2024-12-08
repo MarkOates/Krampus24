@@ -318,7 +318,8 @@
     "Krampus24/Gameplay/Entities/Pig"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor": [
-    "Krampus24/Gameplay/Entities/SlidingDoor"
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"
