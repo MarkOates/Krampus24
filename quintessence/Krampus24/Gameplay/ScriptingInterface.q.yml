@@ -23,6 +23,19 @@ methods:
       return false;
 
 
+  - name: interact_with_focused_object
+    type: bool
+    virtual: true
+    parameters:
+      - name: inspectable_entity_that_player_is_currently_colliding_with
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    body: |
+      // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
+      // happened, it may play a "no interaction" sound, for example)
+      return false;
+
+
   - name: has_on_collision_callback
     type: bool
     parameters:
@@ -42,5 +55,12 @@ methods:
     body: |
       on_entity_collision_callbacks[entity]();
       return;
+
+
+dependencies:
+
+
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
 
 

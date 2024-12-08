@@ -34,6 +34,13 @@ bool ScriptingInterface::end_state_achieved()
    return false;
 }
 
+bool ScriptingInterface::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
+{
+   // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
+   // happened, it may play a "no interaction" sound, for example)
+   return false;
+}
+
 bool ScriptingInterface::has_on_collision_callback(void* entity)
 {
    return on_entity_collision_callbacks.find(entity) != on_entity_collision_callbacks.end();

@@ -43,6 +43,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , game_configuration(game_configuration)
    , hud_camera({})
    , live_camera({})
+   , target_camera({})
    , player_spin(0.0f)
    , entities(entities)
    , collision_mesh(collision_mesh)
@@ -130,6 +131,12 @@ void Screen::set_hud_camera(AllegroFlare::Camera2D hud_camera)
 void Screen::set_live_camera(AllegroFlare::Camera3D live_camera)
 {
    this->live_camera = live_camera;
+}
+
+
+void Screen::set_target_camera(AllegroFlare::Camera3D target_camera)
+{
+   this->target_camera = target_camera;
 }
 
 
@@ -242,6 +249,12 @@ AllegroFlare::Camera2D Screen::get_hud_camera() const
 AllegroFlare::Camera3D Screen::get_live_camera() const
 {
    return live_camera;
+}
+
+
+AllegroFlare::Camera3D Screen::get_target_camera() const
+{
+   return target_camera;
 }
 
 
@@ -786,7 +799,7 @@ void Screen::interact_with_focused_inspectable_object()
       bool scripting_scoped_inspection_occurred = false;
       if (!entity_scoped_inspection_occurred)
       {
-         //scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+         scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
       }
 
       // If no inspection happened, play a "no inspection sound"

@@ -162,6 +162,8 @@
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/CollisionObservers/Simple": [

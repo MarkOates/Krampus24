@@ -1908,6 +1908,10 @@ table td
   <td class="property">AllegroFlare::Camera3D</td>
 </tr>
 <tr>
+  <td class="property">target_camera</td>
+  <td class="property">AllegroFlare::Camera3D</td>
+</tr>
+<tr>
   <td class="property">player_spin</td>
   <td class="property">float</td>
 </tr>
@@ -2244,6 +2248,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -2272,6 +2279,10 @@ table td
 </tr>
 <tr>
   <td class="method">bool</td>
+  <td class="method"><b>interact_with_focused_object</b>(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
   <td class="method"><b>has_on_collision_callback</b>(void* entity=nullptr)</td>
 </tr>
 <tr>
@@ -2280,7 +2291,12 @@ table td
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>
-<p>This class contains no dependencies</p>  </div>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
 </ul>
 <br><br><br>
 <br><br><br>
@@ -2701,6 +2717,8 @@ table td
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/CollisionObservers/Simple": [
