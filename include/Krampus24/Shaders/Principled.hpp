@@ -20,6 +20,8 @@ namespace Krampus24
          ALLEGRO_COLOR fog_color;
          float fog_intensity;
          float fog_distance;
+         ALLEGRO_COLOR color_lift;
+         float color_lift_intensity;
          float uv_offset_x;
          float uv_offset_y;
          float camera_far_plane;
@@ -39,6 +41,8 @@ namespace Krampus24
          void set_fog_color(ALLEGRO_COLOR fog_color);
          void set_fog_intensity(float fog_intensity);
          void set_fog_distance(float fog_distance);
+         void set_color_lift(ALLEGRO_COLOR color_lift);
+         void set_color_lift_intensity(float color_lift_intensity);
          void set_uv_offset_x(float uv_offset_x);
          void set_uv_offset_y(float uv_offset_y);
          void set_camera_far_plane(float camera_far_plane);
@@ -46,6 +50,8 @@ namespace Krampus24
          ALLEGRO_COLOR get_fog_color() const;
          float get_fog_intensity() const;
          float get_fog_distance() const;
+         ALLEGRO_COLOR get_color_lift() const;
+         float get_color_lift_intensity() const;
          float get_uv_offset_x() const;
          float get_uv_offset_y() const;
          float get_camera_far_plane() const;

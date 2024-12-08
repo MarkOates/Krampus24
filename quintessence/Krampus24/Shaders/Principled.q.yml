@@ -39,6 +39,18 @@ properties:
     getter: true
     setter: true
 
+  - name: color_lift
+    type: ALLEGRO_COLOR
+    init_with: ALLEGRO_COLOR{0, 0, 0, 1}
+    getter: true
+    setter: true
+
+  - name: color_lift_intensity
+    type: float
+    init_with: 0.0f
+    getter: true
+    setter: true
+
   - name: uv_offset_x
     type: float
     init_with: 0.4f
@@ -86,6 +98,8 @@ methods:
     body: |
       set_float("uv_offset_x", 0.0);
       set_float("uv_offset_y", 0.0);
+      set_vec3("color_lift", color_lift.r, color_lift.g, color_lift.b);
+      set_float("color_lift_intensity", color_lift_intensity);
       set_vec3("fog_color", fog_color.r, fog_color.g, fog_color.b);
       set_float("fog_intensity", fog_intensity);
       set_float("fog_distance", fog_distance);
@@ -165,6 +179,11 @@ methods:
         //varying float depth;
         varying float fog_depth;
 
+        // Color lift
+        uniform vec3 color_lift;
+        uniform float color_lift_intensity;
+
+        // Fog
         uniform vec3 fog_color;
         uniform float fog_intensity;
         uniform vec3 world_tint;
@@ -189,6 +208,12 @@ methods:
              //float intensity = 0.5;
 
              c = c * vec4(world_tint, 1.0);
+             c = c + vec4(
+                   color_lift*color_lift_intensity,
+                   //color_lift.g*color_lift_intensity,
+                   //color_lift.b*color_lift_intensity,
+                   1.0
+                );
              gl_FragColor = mix(c, mix(c, vec4(fog_color, 1.0), fog_depth), fog_intensity);
 
              //gl_FragColor = vec4(

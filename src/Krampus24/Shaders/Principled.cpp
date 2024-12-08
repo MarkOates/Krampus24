@@ -19,6 +19,8 @@ Principled::Principled()
    , fog_color(ALLEGRO_COLOR{1, 1, 1, 1})
    , fog_intensity(0.4f)
    , fog_distance(20.0f)
+   , color_lift(ALLEGRO_COLOR{0, 0, 0, 1})
+   , color_lift_intensity(0.0f)
    , uv_offset_x(0.4f)
    , uv_offset_y(20.0f)
    , camera_far_plane(100.0f)
@@ -53,6 +55,18 @@ void Principled::set_fog_intensity(float fog_intensity)
 void Principled::set_fog_distance(float fog_distance)
 {
    this->fog_distance = fog_distance;
+}
+
+
+void Principled::set_color_lift(ALLEGRO_COLOR color_lift)
+{
+   this->color_lift = color_lift;
+}
+
+
+void Principled::set_color_lift_intensity(float color_lift_intensity)
+{
+   this->color_lift_intensity = color_lift_intensity;
 }
 
 
@@ -98,6 +112,18 @@ float Principled::get_fog_distance() const
 }
 
 
+ALLEGRO_COLOR Principled::get_color_lift() const
+{
+   return color_lift;
+}
+
+
+float Principled::get_color_lift_intensity() const
+{
+   return color_lift_intensity;
+}
+
+
 float Principled::get_uv_offset_x() const
 {
    return uv_offset_x;
@@ -140,6 +166,8 @@ void Principled::set_values_to_activated_shader()
 {
    set_float("uv_offset_x", 0.0);
    set_float("uv_offset_y", 0.0);
+   set_vec3("color_lift", color_lift.r, color_lift.g, color_lift.b);
+   set_float("color_lift_intensity", color_lift_intensity);
    set_vec3("fog_color", fog_color.r, fog_color.g, fog_color.b);
    set_float("fog_intensity", fog_intensity);
    set_float("fog_distance", fog_distance);
@@ -211,6 +239,11 @@ std::string Principled::obtain_fragment_source()
      //varying float depth;
      varying float fog_depth;
 
+     // Color lift
+     uniform vec3 color_lift;
+     uniform float color_lift_intensity;
+
+     // Fog
      uniform vec3 fog_color;
      uniform float fog_intensity;
      uniform vec3 world_tint;
@@ -235,6 +268,12 @@ std::string Principled::obtain_fragment_source()
           //float intensity = 0.5;
 
           c = c * vec4(world_tint, 1.0);
+          c = c + vec4(
+                color_lift*color_lift_intensity,
+                //color_lift.g*color_lift_intensity,
+                //color_lift.b*color_lift_intensity,
+                1.0
+             );
           gl_FragColor = mix(c, mix(c, vec4(fog_color, 1.0), fog_depth), fog_intensity);
 
           //gl_FragColor = vec4(
