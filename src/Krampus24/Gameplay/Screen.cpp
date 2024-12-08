@@ -387,6 +387,13 @@ void Screen::initialize()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Screen::initialize]: error: guard \"al_is_font_addon_initialized()\" not met");
    }
+   if (!(dialog_system))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::initialize]: error: guard \"dialog_system\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::initialize]: error: guard \"dialog_system\" not met");
+   }
    if (!(audio_controller))
    {
       std::stringstream error_message;
@@ -441,9 +448,11 @@ void Screen::initialize()
    //tree_scripting.initialize();
    //scripting = tree_scripting;
 
+   // Setup dialog system styling
+   setup_dialog_system_styling();
+
    // Load level and entities
    load_or_reload_meshes();
-
 
    // Create a player input controller for the 0th entity
    create_and_set_player_input_controller_for_0th_entity();
@@ -456,6 +465,17 @@ void Screen::initialize()
    principled_shader.set_world_tint(ALLEGRO_COLOR{0.3, 0.3, 0.4, 1.0});
 
    initialized = true;
+   return;
+}
+
+void Screen::setup_dialog_system_styling()
+{
+   //dialog_system->set_standard_dialog_box_font_name("Orbitron-Medium.ttf");
+
+   dialog_system->set_standard_dialog_box_font_name("Exan-Regular.ttf");
+   dialog_system->set_standard_dialog_box_font_size(
+      AllegroFlare::DialogSystem::DialogSystem::DEFAULT_STANDARD_DIALOG_BOX_FONT_SIZE - 8
+   );
    return;
 }
 

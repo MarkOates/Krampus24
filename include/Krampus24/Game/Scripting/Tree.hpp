@@ -64,6 +64,7 @@ namespace Krampus24
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
             void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
+            std::string u(std::string string="[unset-string]");
             virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank() override;
             ALLEGRO_FONT* obtain_hud_font();
          };

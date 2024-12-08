@@ -339,6 +339,19 @@ methods:
       return;
 
 
+  - name: u
+    type: std::string
+    parameters:
+      - name: string
+        type: std::string
+        default_argument: '"[unset-string]"'
+    body: |
+      return AllegroFlare::StringTransformer(string).upcase().get_text();
+    body_dependency_symbols:
+      - AllegroFlare::StringTransformer
+ 
+
+
   - name: build_dialog_node_bank
     virtual: true
     override: true
@@ -349,7 +362,7 @@ methods:
 
          { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
                "",
-               { "This door is locked." },
+               { u("This door is locked.") },
                {
                   //{ "Advance", nullptr, 0 }, // Should be close dialog
                   { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
@@ -468,5 +481,7 @@ dependencies:
     headers: [ AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp ]
   - symbol: AllegroFlare::DialogSystem::DialogSystem
     headers: [ AllegroFlare/DialogSystem/DialogSystem.hpp ]
+  - symbol: AllegroFlare::StringTransformer
+    headers: [ AllegroFlare/StringTransformer.hpp ]
 
 

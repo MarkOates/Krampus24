@@ -122,6 +122,7 @@ namespace Krampus24
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
          AllegroFlare::CollisionObservers::Simple &get_collision_observer_ref();
          void initialize();
+         void setup_dialog_system_styling();
          std::vector<Krampus24::Gameplay::Entities::Base*> build_entity(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr);
          void load_or_reload_meshes();
          virtual void on_activate() override;

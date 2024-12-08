@@ -5,6 +5,7 @@
 #include <AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp>
 #include <AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp>
 #include <AllegroFlare/Logger.hpp>
+#include <AllegroFlare/StringTransformer.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <iostream>
 #include <set>
@@ -399,6 +400,11 @@ void Tree::build_on_collision_callbacks()
    return;
 }
 
+std::string Tree::u(std::string string)
+{
+   return AllegroFlare::StringTransformer(string).upcase().get_text();
+}
+
 AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
 {
    AllegroFlare::DialogTree::NodeBank result;
@@ -406,7 +412,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
 
       { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "",
-            { "This door is locked." },
+            { u("This door is locked.") },
             {
                //{ "Advance", nullptr, 0 }, // Should be close dialog
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },

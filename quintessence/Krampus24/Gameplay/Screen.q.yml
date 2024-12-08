@@ -199,6 +199,7 @@ methods:
       - al_is_system_installed()
       - al_is_primitives_addon_initialized()
       - al_is_font_addon_initialized()
+      - dialog_system
       - audio_controller
       - event_emitter
       - bitmap_bin
@@ -224,9 +225,11 @@ methods:
       //tree_scripting.initialize();
       //scripting = tree_scripting;
 
+      // Setup dialog system styling
+      setup_dialog_system_styling();
+
       // Load level and entities
       load_or_reload_meshes();
-
 
       // Create a player input controller for the 0th entity
       create_and_set_player_input_controller_for_0th_entity();
@@ -244,6 +247,17 @@ methods:
       - al_is_primitives_addon_initialized
       - Krampus24::Game::Scripting::Tree
       - al_color_html
+
+
+  - name: setup_dialog_system_styling
+    body: |
+      //dialog_system->set_standard_dialog_box_font_name("Orbitron-Medium.ttf");
+
+      dialog_system->set_standard_dialog_box_font_name("Exan-Regular.ttf");
+      dialog_system->set_standard_dialog_box_font_size(
+         AllegroFlare::DialogSystem::DialogSystem::DEFAULT_STANDARD_DIALOG_BOX_FONT_SIZE - 8
+      );
+      return;
 
 
   - name: build_entity

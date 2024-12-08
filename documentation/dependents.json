@@ -220,6 +220,9 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/StringTransformer": [
+    "Krampus24/Game/Scripting/Tree"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
