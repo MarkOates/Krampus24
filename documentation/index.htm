@@ -684,6 +684,14 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">event_emitter</td>
+  <td class="property">AllegroFlare::EventEmitter*</td>
+</tr>
+<tr>
+  <td class="property">dialog_system</td>
+  <td class="property">AllegroFlare::DialogSystem::DialogSystem*</td>
+</tr>
+<tr>
   <td class="property">font_bin</td>
   <td class="property">AllegroFlare::FontBin*</td>
 </tr>
@@ -743,12 +751,20 @@ table td
   <td class="method"><b>find_entity_by_name_or_throw</b>(std::string name=&quot;[unset-name]&quot;)</td>
 </tr>
 <tr>
+  <td class="method">bool</td>
+  <td class="method"><b>interact_with_focused_object</b>(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr)</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>link_elevators</b>(std::string elevator_a_name=&quot;[unset-elevator_a_name]&quot;, std::string elevator_b_name=&quot;[unset-elevator_b_name]&quot;)</td>
 </tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>customize_door_style</b>(std::string door_object_name=&quot;[unset-door_object_name]&quot;, Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>lock_sliding_door</b>(std::string sliding_door_object_name=&quot;[unset-sliding_door_object_name]&quot;)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -769,6 +785,9 @@ table td
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventEmitter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventEmitter.hpp&quot;]}</td>
+</tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::ScriptingInterface&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/ScriptingInterface.hpp&quot;]}</td>
 </tr>
@@ -791,6 +810,9 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door::Style&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::SlidingDoor&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/SlidingDoor.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -798,6 +820,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBank&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBank.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::Nodes::MultipageWithOptions&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeOptions::ExitDialog&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogSystem::DialogSystem&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogSystem/DialogSystem.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2155,6 +2186,10 @@ table td
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
 <tr>
+  <td class="property">dialog_system</td>
+  <td class="property">AllegroFlare::DialogSystem::DialogSystem*</td>
+</tr>
+<tr>
   <td class="property">bitmap_bin</td>
   <td class="property">AllegroFlare::BitmapBin*</td>
 </tr>
@@ -2288,6 +2323,14 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>on_deactivate</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>gameplay_suspend_func</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>gameplay_resume_func</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -2524,6 +2567,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogSystem::DialogSystem&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogSystem/DialogSystem.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2919,14 +2965,16 @@ table td
   ],
   "AllegroFlare/DialogTree/Nodes/MultipageWithOptions": [
     "Krampus24/Game/Configurations/Main",
-    "Krampus24/Game/DialogBuilder"
+    "Krampus24/Game/DialogBuilder",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
     "Krampus24/Game/Configurations/Main",
-    "Krampus24/Game/DialogBuilder"
+    "Krampus24/Game/DialogBuilder",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "Krampus24/Gameplay/Level": [
     "Krampus24/Game/Configurations/Main"
@@ -2998,6 +3046,14 @@ table td
   "Krampus24/Game/Entities/SpaceSuit": [
     "Krampus24/Game/DialogBuilder"
   ],
+  "AllegroFlare/EventEmitter": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
   "Krampus24/Gameplay/ScriptingInterface": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
@@ -3034,8 +3090,17 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door"
   ],
+  "Krampus24/Gameplay/Entities/SlidingDoor": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Game/DialogBuilder": [
     "Krampus24/Game/Scripting/Tree"
+  ],
+  "AllegroFlare/DialogSystem/DialogSystem": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -3138,13 +3203,6 @@ table td
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Testing/WithConstructFixture"
   ],
-  "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
-  ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Pig",
@@ -3167,10 +3225,6 @@ table td
   ],
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Pig"
-  ],
-  "Krampus24/Gameplay/Entities/SlidingDoor": [
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"

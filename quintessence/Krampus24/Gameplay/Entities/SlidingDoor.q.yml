@@ -36,7 +36,7 @@ properties:
 
   - name: locked
     type: bool
-    init_with: true
+    init_with: false
 
   - name: state
     type: uint32_t

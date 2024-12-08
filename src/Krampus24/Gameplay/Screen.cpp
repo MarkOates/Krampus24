@@ -38,6 +38,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , data_folder_path("[unset-data_folder_path]")
    , audio_controller(nullptr)
    , event_emitter(event_emitter)
+   , dialog_system(nullptr)
    , bitmap_bin(bitmap_bin)
    , font_bin(font_bin)
    , model_bin(model_bin)
@@ -93,6 +94,13 @@ void Screen::set_event_emitter(AllegroFlare::EventEmitter* event_emitter)
 {
    if (get_initialized()) throw std::runtime_error("[Screen::set_event_emitter]: error: guard \"get_initialized()\" not met.");
    this->event_emitter = event_emitter;
+}
+
+
+void Screen::set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system)
+{
+   if (get_initialized()) throw std::runtime_error("[Screen::set_dialog_system]: error: guard \"get_initialized()\" not met.");
+   this->dialog_system = dialog_system;
 }
 
 
@@ -226,6 +234,12 @@ AllegroFlare::AudioController* Screen::get_audio_controller() const
 AllegroFlare::EventEmitter* Screen::get_event_emitter() const
 {
    return event_emitter;
+}
+
+
+AllegroFlare::DialogSystem::DialogSystem* Screen::get_dialog_system() const
+{
+   return dialog_system;
 }
 
 
@@ -732,6 +746,93 @@ void Screen::on_deactivate()
    return;
 }
 
+void Screen::gameplay_suspend_func()
+{
+   //AllegroFlare::Screens::Gameplay::gameplay_suspend_func(); // Should this be here?
+   //if (player_input_controller_exists())
+   //{
+      //AllegroFlare::Logger::warn_from(
+            //"AllegroFlare::Prototypes::TileFPS::Screen::gameplay_suspend_func",
+            //"This method requires attention. Currently there is little to no support for player_input_controller "
+               //"handling gameplay_suspend_func()"
+         //);
+      //here__get_player_input_controller()->gameplay_suspend_func();
+   //}
+   //player_stop_moving();
+   // NOTE: This function is called immediately after the gameplay is suspended.
+   // TODO: Consider setting states on entities, checking their state timers, etc
+   return;
+}
+
+void Screen::gameplay_resume_func()
+{
+   //AllegroFlare::Screens::Gameplay::gameplay_resume_func();
+
+   //if (player_input_controller_exists())
+   //{
+      //AllegroFlare::Logger::warn_from(
+            //"AllegroFlare::Prototypes::TileFPS::Screen::gameplay_suspend_func",
+            //"This method requires attention. Currently there is little to no support for player_input_controller "
+               //"handling gameplay_resume_func()"
+         //);
+      //here__get_player_input_controller()->gameplay_resume_func();
+   //}
+   //player_stop_moving();
+   // NOTE: This function is called immediately after the gameplay is resumed.
+   // TODO: Consider reviewing states on entities, reviewing their state timers, etc.
+   return;
+
+   // Keyboard changes that occurred during the gameplay
+   AllegroFlare::SuspendedKeyboardState &suspended_keyboard_state = get_suspended_keyboard_state_ref();
+   std::vector<uint32_t> keys_pressed = suspended_keyboard_state.get_keys_pressed();
+   std::vector<uint32_t> keys_released = suspended_keyboard_state.get_keys_released();
+   float time_now = al_get_time(); // TODO: Inject time when the resume occurred
+
+   //auto entity_control_connector = get_entity_control_connector();
+   //if (entity_control_connector)
+   //{
+      //if (entity_control_connector->is_type(SomePlatformer::EntityControlConnectors::PlayerCharacter::TYPE))
+      //{
+         // In this techniqe, we'll build a fake ALLEGRO_EVENT and pass it into the entity_control_connector.
+         // There could potentially be unidentified side effects with this approach, some example:
+         //   1) This event does not pass through the normal global event queue.
+         //   2) The "source" and "display" fields are not used in this event, but may need to be present at
+         //      some point
+         //   3) The control connector may be expecting a full pass of the event through the system before
+         //      processing a second "event".
+         // Advantage of this approach is that the base class takes key_up_func and key_down_func, so this
+         // technique could be used on all EntityControlConnectors::Base classes.
+
+         // Process key releases (a.k.a. "key up")
+         //for (auto &key_released : keys_released)
+         //{
+            //ALLEGRO_EVENT event;
+            //event.type = ALLEGRO_EVENT_KEY_UP;
+            //event.any.source = nullptr; // TODO: Should I be using a SuspendedKeyboardState event source?
+            //event.any.timestamp = time_now;
+            //event.keyboard.keycode = key_released;
+            //event.keyboard.display = nullptr; // TODO: Consider if al_get_current_display() should be used here
+
+            //entity_control_connector->key_up_func(&event);
+         //}
+
+         // Process key presses (a.k.a. "key down")
+         //for (auto &key_pressed : keys_pressed)
+         //{
+            //ALLEGRO_EVENT event;
+            //event.type = ALLEGRO_EVENT_KEY_DOWN;
+            //event.any.source = nullptr; // TODO: Should I be using a SuspendedKeyboardState event source?
+            //event.any.timestamp = time_now;
+            //event.keyboard.keycode = key_pressed;
+            //event.keyboard.display = nullptr; // TODO: Consider if al_get_current_display() should be used here
+
+            //entity_control_connector->key_down_func(&event);
+         //}
+      //}
+   //}
+   return;
+}
+
 void Screen::load_or_reload_level_mesh()
 {
    return;
@@ -812,7 +913,7 @@ void Screen::interact_with_focused_inspectable_object()
 
       // TODO: Perform the scripting's inspection logic
       bool scripting_scoped_inspection_occurred = false;
-      if (!entity_scoped_inspection_occurred)
+      //if (!entity_scoped_inspection_occurred) // TODO: Consider if a guard here is desired or not
       {
          scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
       }

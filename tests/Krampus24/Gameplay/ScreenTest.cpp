@@ -100,6 +100,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_bitmap_bin(get_framework_bitmap_bin());
    screen.set_font_bin(get_framework_font_bin());
    screen.set_model_bin(get_framework_model_bin());
+   screen.set_dialog_system(get_framework_dialog_system());
    screen.set_game_configuration(&game_configuration);
    screen.set_build_scripting_instance_func(
       [](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
@@ -110,6 +111,8 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
       scripting->set_entities(&screen->get_entities_ref());
       scripting->set_collision_observer(&screen->get_collision_observer_ref());
       scripting->set_font_bin(screen->get_font_bin());
+      scripting->set_dialog_system(screen->get_dialog_system());
+      scripting->set_event_emitter(screen->get_event_emitter());
       scripting->initialize();
 
       return scripting;

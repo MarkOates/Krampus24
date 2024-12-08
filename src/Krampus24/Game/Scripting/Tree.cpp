@@ -2,8 +2,10 @@
 
 #include <Krampus24/Game/Scripting/Tree.hpp>
 
+#include <AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp>
+#include <AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp>
 #include <AllegroFlare/Logger.hpp>
-#include <Krampus24/Game/DialogBuilder.hpp>
+#include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -20,6 +22,8 @@ namespace Scripting
 
 Tree::Tree()
    : Krampus24::Gameplay::ScriptingInterface()
+   , event_emitter(nullptr)
+   , dialog_system(nullptr)
    , font_bin(nullptr)
    , entities(nullptr)
    , primary_power_coil_collected(false)
@@ -32,6 +36,20 @@ Tree::Tree()
 
 Tree::~Tree()
 {
+}
+
+
+void Tree::set_event_emitter(AllegroFlare::EventEmitter* event_emitter)
+{
+   if (get_initialized()) throw std::runtime_error("[Tree::set_event_emitter]: error: guard \"get_initialized()\" not met.");
+   this->event_emitter = event_emitter;
+}
+
+
+void Tree::set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system)
+{
+   if (get_initialized()) throw std::runtime_error("[Tree::set_dialog_system]: error: guard \"get_initialized()\" not met.");
+   this->dialog_system = dialog_system;
 }
 
 
@@ -147,6 +165,20 @@ void Tree::initialize()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"(!initialized)\" not met");
    }
+   if (!(event_emitter))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"event_emitter\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"event_emitter\" not met");
+   }
+   if (!(dialog_system))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"dialog_system\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"dialog_system\" not met");
+   }
    if (!(entities))
    {
       std::stringstream error_message;
@@ -240,6 +272,19 @@ Krampus24::Gameplay::Entities::Base* Tree::find_entity_by_name_or_throw(std::str
    return nullptr;
 }
 
+bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
+{
+   //throw std::runtime_error("-------------------------=-=-=-=--=======================");
+   if (inspectable_entity_that_player_is_currently_colliding_with->name == "sliding_door.001")
+   {
+      //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
+      event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
+   }
+   // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
+   // happened, it may play a "no interaction" sound, for example)
+   return false;
+}
+
 void Tree::link_elevators(std::string elevator_a_name, std::string elevator_b_name)
 {
    Krampus24::Gameplay::Entities::Base* elevator_a = find_entity_by_name_or_throw(elevator_a_name);
@@ -260,6 +305,17 @@ void Tree::customize_door_style(std::string door_object_name, Krampus24::Gamepla
    return;
 }
 
+void Tree::lock_sliding_door(std::string sliding_door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(sliding_door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::SlidingDoor*>(door);
+   as->lock();
+   return;
+}
+
 void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
 {
    auto *player_entity = find_0th_entity();
@@ -273,8 +329,15 @@ void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
 
 void Tree::build_on_collision_callbacks()
 {
+   // Build and load the dialog system
+   dialog_system->set_dialog_node_bank(build_dialog_node_bank());
+
+
    // Customize some door styles
    customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
+
+   lock_sliding_door("sliding_door.001");
+
 
    // Link the elevators
    link_elevators("elevator-01", "elevator-02");
@@ -338,9 +401,86 @@ void Tree::build_on_collision_callbacks()
 
 AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
 {
-   // Override in the derived class
-   return Krampus24::Game::DialogBuilder::build_dialog_node_bank();
-   //return {};
+   AllegroFlare::DialogTree::NodeBank result;
+   result.set_nodes({
+
+      { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            { "This door is locked." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "hydroflora", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "Hydroflora",
+            { "Alien mushroom with a green cap and vibrant purple stem." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "default_inspect_fallback", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            { "There doesn't seem to be anything of importance here." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "station_alarm_is_activated", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "Control System",
+            //{ "There doesn't seem to be anything of importance here." },
+            {
+               "IMPORTANT: An alarm was triggered from the outside deck.",
+               "This is an emergency sitation.",
+               "A system outside the ship has been damaged. You must be repair it.",
+               "The space suit cabinet has been unlocked. Collect the space suit "
+                  "and exit the airlock onto the deck to perform repairs.",
+            },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+
+
+      { "inspect_cryo_pod", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "Cryo Pod",
+            { "Used for suspending life forms for extended periods of time. Can also be used for general "
+               "surgeries, medical proceedures, or adminstration of chemicals." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "inspect_engine_core", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "Engine Core",
+            { "The primary power source for the ship. The Entinite core provides power for all "
+                 "systems on the ship, including thrust, stabilization, and life support." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "inspect_airlock_door_when_locked", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "Airlock Door",
+            { "This is the only exit to the space station's exterior.",
+              "You cannot go outside without wearing a space suit." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+   });
+   return result;
 }
 
 ALLEGRO_FONT* Tree::obtain_hud_font()

@@ -83,14 +83,16 @@
   ],
   "AllegroFlare/DialogTree/Nodes/MultipageWithOptions": [
     "Krampus24/Game/Configurations/Main",
-    "Krampus24/Game/DialogBuilder"
+    "Krampus24/Game/DialogBuilder",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
     "Krampus24/Game/Configurations/Main",
-    "Krampus24/Game/DialogBuilder"
+    "Krampus24/Game/DialogBuilder",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "Krampus24/Gameplay/Level": [
     "Krampus24/Game/Configurations/Main"
@@ -162,6 +164,14 @@
   "Krampus24/Game/Entities/SpaceSuit": [
     "Krampus24/Game/DialogBuilder"
   ],
+  "AllegroFlare/EventEmitter": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
   "Krampus24/Gameplay/ScriptingInterface": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
@@ -198,8 +208,17 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door"
   ],
+  "Krampus24/Gameplay/Entities/SlidingDoor": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Game/DialogBuilder": [
     "Krampus24/Game/Scripting/Tree"
+  ],
+  "AllegroFlare/DialogSystem/DialogSystem": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -302,13 +321,6 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Testing/WithConstructFixture"
   ],
-  "AllegroFlare/EventEmitter": [
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
-  ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Pig",
@@ -331,10 +343,6 @@
   ],
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Pig"
-  ],
-  "Krampus24/Gameplay/Entities/SlidingDoor": [
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"

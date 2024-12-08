@@ -9,6 +9,16 @@ parent_classes:
 properties:
 
 
+  - name: event_emitter
+    type: AllegroFlare::EventEmitter*
+    init_with: nullptr
+    setter: before_initialized
+
+  - name: dialog_system
+    type: AllegroFlare::DialogSystem::DialogSystem*
+    init_with: nullptr
+    setter: before_initialized
+
   - name: font_bin
     type: AllegroFlare::FontBin*
     init_with: nullptr
@@ -88,6 +98,8 @@ methods:
   - name: initialize
     guards:
       - (!initialized)
+      - event_emitter
+      - dialog_system
       - entities
       - collision_observer
       - font_bin
@@ -168,6 +180,26 @@ methods:
       - AllegroFlare::Logger
 
 
+  - name: interact_with_focused_object
+    type: bool
+    virtual: true
+    override: true
+    parameters:
+      - name: inspectable_entity_that_player_is_currently_colliding_with
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    body: |
+      //throw std::runtime_error("-------------------------=-=-=-=--=======================");
+      if (inspectable_entity_that_player_is_currently_colliding_with->name == "sliding_door.001")
+      {
+         //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
+         event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
+      }
+      // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
+      // happened, it may play a "no interaction" sound, for example)
+      return false;
+
+
   - name: link_elevators
     parameters:
       - name: elevator_a_name
@@ -202,6 +234,23 @@ methods:
       return;
 
 
+  - name: lock_sliding_door
+    parameters:
+      - name: sliding_door_object_name
+        type: std::string
+        default_argument: '"[unset-sliding_door_object_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(sliding_door_object_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::SlidingDoor*>(door);
+      as->lock();
+      return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::SlidingDoor
+
+
   - name: travel_player_to_elevators_target
     parameters:
       - name: entering_elevator_name
@@ -220,8 +269,15 @@ methods:
   - name: build_on_collision_callbacks
     private: true
     body: |
+      // Build and load the dialog system
+      dialog_system->set_dialog_node_bank(build_dialog_node_bank());
+
+
       // Customize some door styles
       customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
+
+      lock_sliding_door("sliding_door.001");
+
 
       // Link the elevators
       link_elevators("elevator-01", "elevator-02");
@@ -284,15 +340,93 @@ methods:
 
 
   - name: build_dialog_node_bank
-    type: AllegroFlare::DialogTree::NodeBank
     virtual: true
     override: true
+    type: AllegroFlare::DialogTree::NodeBank
     body: |
-      // Override in the derived class
-      return Krampus24::Game::DialogBuilder::build_dialog_node_bank();
-      //return {};
+      AllegroFlare::DialogTree::NodeBank result;
+      result.set_nodes({
+
+         { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "",
+               { "This door is locked." },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "hydroflora", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "Hydroflora",
+               { "Alien mushroom with a green cap and vibrant purple stem." },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "default_inspect_fallback", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "",
+               { "There doesn't seem to be anything of importance here." },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "station_alarm_is_activated", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "Control System",
+               //{ "There doesn't seem to be anything of importance here." },
+               {
+                  "IMPORTANT: An alarm was triggered from the outside deck.",
+                  "This is an emergency sitation.",
+                  "A system outside the ship has been damaged. You must be repair it.",
+                  "The space suit cabinet has been unlocked. Collect the space suit "
+                     "and exit the airlock onto the deck to perform repairs.",
+               },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+
+
+         { "inspect_cryo_pod", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "Cryo Pod",
+               { "Used for suspending life forms for extended periods of time. Can also be used for general "
+                  "surgeries, medical proceedures, or adminstration of chemicals." },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "inspect_engine_core", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "Engine Core",
+               { "The primary power source for the ship. The Entinite core provides power for all "
+                    "systems on the ship, including thrust, stabilization, and life support." },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "inspect_airlock_door_when_locked", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "Airlock Door",
+               { "This is the only exit to the space station's exterior.",
+                 "You cannot go outside without wearing a space suit." },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+      });
+      return result;
     body_dependency_symbols:
-      - Krampus24::Game::DialogBuilder
+      - AllegroFlare::DialogTree::Nodes::MultipageWithOptions
+      - AllegroFlare::DialogTree::NodeOptions::ExitDialog
 
 
   - name: obtain_hud_font
@@ -304,6 +438,8 @@ methods:
 dependencies:
 
 
+  - symbol: AllegroFlare::EventEmitter
+    headers: [ AllegroFlare/EventEmitter.hpp ]
   - symbol: Krampus24::Gameplay::ScriptingInterface
     headers: [ Krampus24/Gameplay/ScriptingInterface.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Base
@@ -318,11 +454,19 @@ dependencies:
     headers: [ allegro5/allegro_font.h ]
   - symbol: Krampus24::Gameplay::Entities::Door::Style
     headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::SlidingDoor
+    headers: [ Krampus24/Gameplay/Entities/SlidingDoor.hpp ]
   - symbol: AllegroFlare::Logger
     headers: [ AllegroFlare/Logger.hpp ]
   - symbol: Krampus24::Game::DialogBuilder
     headers: [ Krampus24/Game/DialogBuilder.hpp ]
   - symbol: AllegroFlare::DialogTree::NodeBank
     headers: [ AllegroFlare/DialogTree/NodeBank.hpp ]
+  - symbol: AllegroFlare::DialogTree::Nodes::MultipageWithOptions
+    headers: [ AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp ]
+  - symbol: AllegroFlare::DialogTree::NodeOptions::ExitDialog
+    headers: [ AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp ]
+  - symbol: AllegroFlare::DialogSystem::DialogSystem
+    headers: [ AllegroFlare/DialogSystem/DialogSystem.hpp ]
 
 

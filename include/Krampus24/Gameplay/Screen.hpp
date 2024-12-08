@@ -6,6 +6,7 @@
 #include <AllegroFlare/Camera2D.hpp>
 #include <AllegroFlare/Camera3D.hpp>
 #include <AllegroFlare/CollisionObservers/Simple.hpp>
+#include <AllegroFlare/DialogSystem/DialogSystem.hpp>
 #include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/FontBin.hpp>
 #include <AllegroFlare/GameConfigurations/Base.hpp>
@@ -39,6 +40,7 @@ namespace Krampus24
          std::string data_folder_path;
          AllegroFlare::AudioController* audio_controller;
          AllegroFlare::EventEmitter* event_emitter;
+         AllegroFlare::DialogSystem::DialogSystem* dialog_system;
          AllegroFlare::BitmapBin* bitmap_bin;
          AllegroFlare::FontBin* font_bin;
          AllegroFlare::ModelBin* model_bin;
@@ -77,6 +79,7 @@ namespace Krampus24
          void set_data_folder_path(std::string data_folder_path);
          void set_audio_controller(AllegroFlare::AudioController* audio_controller);
          void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
+         void set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system);
          void set_bitmap_bin(AllegroFlare::BitmapBin* bitmap_bin);
          void set_font_bin(AllegroFlare::FontBin* font_bin);
          void set_model_bin(AllegroFlare::ModelBin* model_bin);
@@ -98,6 +101,7 @@ namespace Krampus24
          std::string get_data_folder_path() const;
          AllegroFlare::AudioController* get_audio_controller() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
+         AllegroFlare::DialogSystem::DialogSystem* get_dialog_system() const;
          AllegroFlare::FontBin* get_font_bin() const;
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
@@ -122,6 +126,8 @@ namespace Krampus24
          void load_or_reload_meshes();
          virtual void on_activate() override;
          virtual void on_deactivate() override;
+         virtual void gameplay_suspend_func() override;
+         virtual void gameplay_resume_func() override;
          void load_or_reload_level_mesh();
          bool a_0th_entity_exists();
          Krampus24::Gameplay::Entities::Base* find_0th_entity();

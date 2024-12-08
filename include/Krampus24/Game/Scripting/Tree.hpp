@@ -2,7 +2,9 @@
 
 
 #include <AllegroFlare/CollisionObservers/Simple.hpp>
+#include <AllegroFlare/DialogSystem/DialogSystem.hpp>
 #include <AllegroFlare/DialogTree/NodeBank.hpp>
+#include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/FontBin.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
@@ -22,6 +24,8 @@ namespace Krampus24
          class Tree : public Krampus24::Gameplay::ScriptingInterface
          {
          private:
+            AllegroFlare::EventEmitter* event_emitter;
+            AllegroFlare::DialogSystem::DialogSystem* dialog_system;
             AllegroFlare::FontBin* font_bin;
             std::vector<Krampus24::Gameplay::Entities::Base*>* entities;
             bool primary_power_coil_collected;
@@ -37,6 +41,8 @@ namespace Krampus24
             Tree();
             virtual ~Tree();
 
+            void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
+            void set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system);
             void set_font_bin(AllegroFlare::FontBin* font_bin);
             void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities);
             void set_primary_power_coil_collected(bool primary_power_coil_collected);
@@ -53,8 +59,10 @@ namespace Krampus24
             std::pair<int, std::string> get_entities_names_in_list();
             bool entity_with_name_exists(std::string name="[unset-name]");
             Krampus24::Gameplay::Entities::Base* find_entity_by_name_or_throw(std::string name="[unset-name]");
+            virtual bool interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr) override;
             void link_elevators(std::string elevator_a_name="[unset-elevator_a_name]", std::string elevator_b_name="[unset-elevator_b_name]");
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
+            void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
             virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank() override;
             ALLEGRO_FONT* obtain_hud_font();
