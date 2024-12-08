@@ -237,7 +237,8 @@ std::pair<float, float> SnakeBot::get_uv_offset_from_style(Krampus24::Gameplay::
 void SnakeBot::draw()
 {
    int num_segments = 3;
-   float segment_distance = 2;
+   //float segment_distance = 2;
+   float segment_distance = 1.5;
    float segment_axis_rotation = ALLEGRO_PI * 2 * 0.125;
 
    placement.start_transform();
@@ -251,42 +252,34 @@ void SnakeBot::draw()
    //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
    base->set_texture(texture);
-
-
-   base->draw();
-
-
-
-   // Buid our offsetting/rotating transform
-   ALLEGRO_TRANSFORM transform;
-   al_identity_transform(&transform);
-   al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.1); //segment_axis_rotation);
-
-   al_compose_transform(&transform, al_get_current_transform());
-   //al_compose_transform(&transform, al_get_current_transform());
-   al_use_transform(&transform);
-
    rotator->set_texture(texture);
 
+   ALLEGRO_TRANSFORM initial_transform = *al_get_current_transform();
+   ALLEGRO_TRANSFORM change_transform;
+   ALLEGRO_TRANSFORM for_use_transform;
+   al_identity_transform(&change_transform);
+   al_identity_transform(&for_use_transform);
 
-   //base->draw();
-   rotator->draw();
-   //placement.start_transform();
-   //->model->draw();
-   //placement.restore_transform();
-   //right_door->model->set_texture(right_door->texture);
-   //right_door->model->draw();
-   //right_door->placement.restore_transform();
+   //for (int i=0; i<1; i++)
+   for (int i=0; i<num_segments; i++)
+   {
+      // Buid our offsetting/rotating transform
+      al_use_transform(&change_transform);
+      base->draw();
+      //al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, 0 * 0.15);
+      al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      //al_copy_transform(&for_use_transform, &change_transform);
+      //al_compose_transform(&for_use_transform, &initial_transform);
+      al_use_transform(&change_transform);
+      rotator->draw();
 
-   //door->placement.start_transform();
-   //door->model->set_texture(door->texture);
-   //door->model->draw();
-   //door->placement.restore_transform();
-
-   //frame->placement.start_transform();
-   //frame->model->set_texture(frame->texture);
-   //frame->model->draw();
-   //frame->placement.restore_transform();
+      //al_rotate_transform_3d(&change_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      //al_identity_transform(&transform);
+      al_translate_transform_3d(&change_transform, 0.0, segment_distance, 0.0);
+      //al_use_transform(&change_transform);
+      //al_compose_transform(&transform, &initial_transform);
+      //al_use_transform(&change_transform);
+   }
 
    //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
    //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
