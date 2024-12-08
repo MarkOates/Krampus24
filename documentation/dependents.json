@@ -6,6 +6,7 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
@@ -17,6 +18,7 @@
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen"
@@ -153,6 +155,7 @@
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
     "Krampus24/Gameplay/Screen",
@@ -219,6 +222,7 @@
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
@@ -226,26 +230,31 @@
   "AllegroFlare/ModelBin": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/sin": [
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/abs": [
     "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/Hen"
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse"
   ],
   "AllegroFlare/Random": [
     "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/Hen"
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse"
   ],
   "AllegroFlare/SampleBin": [
     "Krampus24/Gameplay/Entities/Door"
@@ -268,6 +277,10 @@
   ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Horse": [
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/Turret": [

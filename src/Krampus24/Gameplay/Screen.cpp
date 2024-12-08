@@ -13,6 +13,7 @@
 #include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
+#include <Krampus24/Gameplay/Entities/Horse.hpp>
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
 #include <Krampus24/Gameplay/PlayerInputControllers/Player.hpp>
 #include <Krampus24/Gameplay/Scripting/Empty.hpp>
@@ -450,6 +451,13 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
    {
       //std::cout << "HEN made" << std::endl;
       auto *result = Krampus24::Gameplay::Entities::Hen::construct(model_bin, bitmap_bin, position, 6.0);
+      result->name = entity->name;
+      return { result };
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::Horse::BLENDER_IDENTIFIER)
+   {
+      //std::cout << "HEN made" << std::endl;
+      auto *result = Krampus24::Gameplay::Entities::Horse::construct(model_bin, bitmap_bin, position, 6.0);
       result->name = entity->name;
       return { result };
    }
