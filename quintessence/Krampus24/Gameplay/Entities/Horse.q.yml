@@ -13,6 +13,10 @@ properties:
     type: AllegroFlare::Vec3D
     init_with: AllegroFlare::Vec3D(0, 0, 0)
 
+  - name: legs_model
+    type: AllegroFlare::Model3D*
+    init_with: nullptr
+
   - name: range
     type: float
     init_with: 3.0f
@@ -22,6 +26,10 @@ properties:
     init_with: '{}'
 
   - name: movement_velocity
+    type: float
+    init_with: 0.01f
+
+  - name: bobble_ammount
     type: float
     init_with: 0.01f
 
@@ -92,7 +100,7 @@ methods:
       result->texture = bitmap_bin->auto_get("entities_texture-01.png");
 
 
-      result->affected_by_environmental_forces = true;
+      result->legs_model = model_bin->auto_get("horse-02-legs.obj");
 
 
       //Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();
@@ -133,10 +141,35 @@ methods:
       result->initialized = true;
       result->random.set_seed(4371);
 
-      result->set_state(STATE_STANDING);
-      //result->set_state(STATE_ROAMING);
+      //result->set_state(STATE_STANDING);
+      result->set_state(STATE_ROAMING);
 
       return result;
+
+
+  - name: draw
+    virtual: true
+    override: true
+    body: |
+      if (!model) return;
+      if (texture)
+      {
+         model->set_texture(texture);
+         legs_model->set_texture(texture);
+      }
+
+      placement.start_transform();
+      legs_model->draw();
+      //model->draw();
+      placement.restore_transform();
+
+      placement.anchor.y = bobble_ammount;
+      placement.start_transform();
+      //legs_model->draw();
+      model->draw();
+      placement.restore_transform();
+      placement.anchor.y = 0.0f;
+      return;
 
 
   - name: on_time_step
@@ -244,10 +277,13 @@ methods:
             else
             {
                velocity.position = movement_direction * movement_velocity * 2;
-               float anchor_x = 0.0;
-               float anchor_y = std::sin(time_now*22) * 0.05;
-               float anchor_z = 0.0;
-               placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+               //float anchor_x = 0.0;
+               //float anchor_y = std::sin(time_now*22) * 0.05;
+               //float anchor_z = 0.0;
+
+               bobble_ammount = std::sin(time_now*22) * 0.05;
+
+               //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
             }
          } break;
 
@@ -263,10 +299,13 @@ methods:
             else
             {
                velocity.position = movement_direction * movement_velocity;
-               float anchor_x = 0.0;
-               float anchor_y = std::sin(time_now*12) * 0.05;
-               float anchor_z = 0.0;
-               placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+               //float anchor_x = 0.0;
+               //float anchor_y = std::sin(time_now*12) * 0.05;
+               //float anchor_z = 0.0;
+
+               bobble_ammount = std::sin(time_now*12) * 0.05;
+
+               //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
             }
          } break;
 
@@ -372,5 +411,7 @@ dependencies:
     headers: [ AllegroFlare/Logger.hpp ]
   - symbol: AllegroFlare::Random
     headers: [ AllegroFlare/Random.hpp ]
+  - symbol: AllegroFlare::Model3D
+    headers: [ AllegroFlare/Model3D.hpp ]
 
 

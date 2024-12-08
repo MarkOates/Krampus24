@@ -2,6 +2,7 @@
 
 
 #include <AllegroFlare/BitmapBin.hpp>
+#include <AllegroFlare/Model3D.hpp>
 #include <AllegroFlare/ModelBin.hpp>
 #include <AllegroFlare/Random.hpp>
 #include <AllegroFlare/Vec3D.hpp>
@@ -31,9 +32,11 @@ namespace Krampus24
                STATE_TURNING,
             };
             AllegroFlare::Vec3D initial_position;
+            AllegroFlare::Model3D* legs_model;
             float range;
             AllegroFlare::Vec3D movement_direction;
             float movement_velocity;
+            float bobble_ammount;
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
@@ -49,6 +52,7 @@ namespace Krampus24
 
             uint32_t get_state() const;
             static Krampus24::Gameplay::Entities::Horse* construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float range=3.0f);
+            virtual void draw() override;
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f) override;
             void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
             void update_state(double time_step=0.0f, double time_now=0.0f);

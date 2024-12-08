@@ -186,6 +186,7 @@
   ],
   "AllegroFlare/Model3D": [
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_BITMAP": [

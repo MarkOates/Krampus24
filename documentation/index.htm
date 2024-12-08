@@ -1345,6 +1345,10 @@ table td
   <td class="property">AllegroFlare::Vec3D</td>
 </tr>
 <tr>
+  <td class="property">legs_model</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
   <td class="property">range</td>
   <td class="property">float</td>
 </tr>
@@ -1354,6 +1358,10 @@ table td
 </tr>
 <tr>
   <td class="property">movement_velocity</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">bobble_ammount</td>
   <td class="property">float</td>
 </tr>
 <tr>
@@ -1386,6 +1394,10 @@ table td
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Horse*</td>
   <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float range=3.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1451,6 +1463,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Random&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Random.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2550,6 +2565,7 @@ table td
   ],
   "AllegroFlare/Model3D": [
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_BITMAP": [
