@@ -276,55 +276,46 @@ void SnakeBot::draw()
 
 
 
-   al_use_transform(&transform);
-   base->draw();
-   al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-   al_use_transform(&transform);
-   rotator->draw();
-
-
-   // segment 2 base
-
-   {
+   { // Segment 1
       al_identity_transform(&transform);
-      al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+      {
+         // Previous
+      }
+      al_use_transform(&transform);
+      base->draw();
       al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-      //al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-      //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-      al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
+      al_use_transform(&transform);
+      rotator->draw();
    }
-   al_use_transform(&transform);
-   //al_use_transform(&transform);
-   base->draw();
-   //al_rotate_transform_3d(&compound_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-   //al_use_transform(&compound_transform);
-   //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-   //al_use_transform(&transform);
-   //rotator->draw();
 
 
 
-   // segment 2 rotator
+   { // Segment 2
+      // segment 2 base
 
-   al_identity_transform(&transform);
-   al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+      al_identity_transform(&transform);
+      {
+         al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
+      }
+      al_use_transform(&transform);
+      base->draw();
 
-   {
-      //al_identity_transform(&transform);
-      al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+
+      // segment 2 rotator
+
+      al_identity_transform(&transform);
       al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-      //al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-      //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-      al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
+
+      {
+         al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
+         al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
+      }
+      al_use_transform(&transform);
+      rotator->draw();
    }
-   al_use_transform(&transform);
-   //al_use_transform(&transform);
-   //base->draw();
-   //al_rotate_transform_3d(&compound_transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-   //al_use_transform(&compound_transform);
-   //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * 0.15);
-   //al_use_transform(&transform);
-   rotator->draw();
 
 
 
