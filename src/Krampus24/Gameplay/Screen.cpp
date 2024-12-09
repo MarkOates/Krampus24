@@ -768,6 +768,7 @@ void Screen::on_deactivate()
 
 void Screen::gameplay_suspend_func()
 {
+   //gameplay_suspended_at = al_get_time();
    //AllegroFlare::Screens::Gameplay::gameplay_suspend_func(); // Should this be here?
    //if (player_input_controller_exists())
    //{
@@ -1222,21 +1223,28 @@ void Screen::render()
    // TODO: Consider performance implications of clearing the depth buffer here
    al_clear_depth_buffer(1.0);
 
-   if (showing_inspect_hint)
-   {
-      al_draw_textf(
-         obtain_hud_font(),
-         ALLEGRO_COLOR{1, 0.65, 0, 1.0},
-         1920-300,
-         1080/2,
-         ALLEGRO_ALIGN_CENTER,
-         "[E] Inspect"
-      );
 
+   // TODO: Consider motion effects for showing/revealing
+   if (!get_gameplay_suspended())
+   {
+      if (showing_inspect_hint)
+      {
+         al_draw_textf(
+            obtain_hud_font(),
+            ALLEGRO_COLOR{1, 0.65, 0, 1.0},
+            1920-300,
+            1080/2,
+            ALLEGRO_ALIGN_CENTER,
+            "[E] Inspect"
+         );
+
+      }
+
+
+      if (scripting) scripting->render_hud();
    }
 
 
-   if (scripting) scripting->render_hud();
    /*
    if (power_cell_collected)
    {
