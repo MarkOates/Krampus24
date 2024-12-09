@@ -44,6 +44,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , model_bin(model_bin)
    , game_configuration(game_configuration)
    , hud_camera({})
+   , player_view_camera({})
    , live_camera({})
    , target_camera({})
    , player_spin(0.0f)
@@ -134,6 +135,12 @@ void Screen::set_game_configuration(AllegroFlare::GameConfigurations::Base* game
 void Screen::set_hud_camera(AllegroFlare::Camera2D hud_camera)
 {
    this->hud_camera = hud_camera;
+}
+
+
+void Screen::set_player_view_camera(AllegroFlare::Camera3D player_view_camera)
+{
+   this->player_view_camera = player_view_camera;
 }
 
 
@@ -258,6 +265,12 @@ AllegroFlare::GameConfigurations::Base* Screen::get_game_configuration() const
 AllegroFlare::Camera2D Screen::get_hud_camera() const
 {
    return hud_camera;
+}
+
+
+AllegroFlare::Camera3D Screen::get_player_view_camera() const
+{
+   return player_view_camera;
 }
 
 
@@ -436,6 +449,8 @@ void Screen::initialize()
    live_camera.tilt = 0.0;
    live_camera.near_plane = 0.1;
    live_camera.far_plane = 500.0;
+
+   player_view_camera = live_camera;
 
    //live_camera.stepout = AllegroFlare::Vec3D(0, 0.25, 10); // Third person
    //live_camera.tilt = 0.8;
@@ -1107,13 +1122,21 @@ void Screen::update()
       entity->on_exit_player_bbox_collision();
    }
 
+
    //
    // Update the position of the camera
    //
 
-   live_camera.position = find_0th_entity()->placement.position;
-   live_camera.spin = find_0th_entity()->player__spin;
-   live_camera.tilt = find_0th_entity()->player__tilt;
+   // player_view_camera
+   player_view_camera.position = find_0th_entity()->placement.position;
+   player_view_camera.position.y += 2.25;
+   player_view_camera.stepout = { 0, 0, 0 }; //AllegroFlare::Vec3D(0, 2.25, 0); // FPS camera
+   player_view_camera.spin = find_0th_entity()->player__spin;
+   player_view_camera.tilt = find_0th_entity()->player__tilt;
+
+
+   // Use the player_view_camera as the live_camera
+   live_camera = player_view_camera;
 
 
 

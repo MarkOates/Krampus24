@@ -46,6 +46,7 @@ namespace Krampus24
          AllegroFlare::ModelBin* model_bin;
          AllegroFlare::GameConfigurations::Base* game_configuration;
          AllegroFlare::Camera2D hud_camera;
+         AllegroFlare::Camera3D player_view_camera;
          AllegroFlare::Camera3D live_camera;
          AllegroFlare::Camera3D target_camera;
          float player_spin;
@@ -85,6 +86,7 @@ namespace Krampus24
          void set_model_bin(AllegroFlare::ModelBin* model_bin);
          void set_game_configuration(AllegroFlare::GameConfigurations::Base* game_configuration);
          void set_hud_camera(AllegroFlare::Camera2D hud_camera);
+         void set_player_view_camera(AllegroFlare::Camera3D player_view_camera);
          void set_live_camera(AllegroFlare::Camera3D live_camera);
          void set_target_camera(AllegroFlare::Camera3D target_camera);
          void set_player_spin(float player_spin);
@@ -105,6 +107,7 @@ namespace Krampus24
          AllegroFlare::FontBin* get_font_bin() const;
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
+         AllegroFlare::Camera3D get_player_view_camera() const;
          AllegroFlare::Camera3D get_live_camera() const;
          AllegroFlare::Camera3D get_target_camera() const;
          float get_player_spin() const;
