@@ -105,6 +105,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> SnakeBot::construct(AllegroFla
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::SnakeBot::construct]: error: guard \"event_emitter\" not met");
    }
+   // https://www.youtube.com/watch?v=fSMC4tfOqHM&ab_channel=AkiyukiBrickChannel
+
    // Main entity
    Krampus24::Gameplay::Entities::SnakeBot* result = new Krampus24::Gameplay::Entities::SnakeBot;
 

@@ -83,6 +83,13 @@ properties:
     constexpr: true
 
 
+documentation:
+
+
+  - notes:
+      - see "https://www.youtube.com/watch?v=fSMC4tfOqHM&ab_channel=AkiyukiBrickChannel"
+
+
 enums:
 
 
@@ -130,6 +137,8 @@ methods:
         default_argument: 0.0f
     guards: [ model_bin, bitmap_bin, event_emitter ]
     body: |
+      // https://www.youtube.com/watch?v=fSMC4tfOqHM&ab_channel=AkiyukiBrickChannel
+
       // Main entity
       Krampus24::Gameplay::Entities::SnakeBot* result = new Krampus24::Gameplay::Entities::SnakeBot;
 
