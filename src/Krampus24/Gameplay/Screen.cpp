@@ -447,7 +447,7 @@ void Screen::initialize()
    //live_camera.stepout = AllegroFlare::Vec3D(0, 1.25, 0); // FPS camera
    live_camera.stepout = AllegroFlare::Vec3D(0, 2.25, 0); // FPS camera
    live_camera.tilt = 0.0;
-   live_camera.near_plane = 0.1;
+   live_camera.near_plane = 0.25;   // Variables are: camera near_plane, collision_mesh face offset amount, extra collision stepout, 
    live_camera.far_plane = 500.0;
 
    player_view_camera = live_camera;
