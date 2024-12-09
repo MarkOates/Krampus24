@@ -281,6 +281,10 @@ void SnakeBot::draw()
 
 
 
+   float base_rotation = al_get_time() * 0.175 * 2;
+
+
+
    { // Segment 1
       al_identity_transform(&transform);
       {
@@ -288,7 +292,16 @@ void SnakeBot::draw()
       }
       al_use_transform(&transform);
       base->draw();
-      al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+   }
+
+
+
+   {
+      // segment 1 rotator
+      al_identity_transform(&transform);
+      al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
+      {
+      }
       al_use_transform(&transform);
       rotator->draw();
    }
@@ -302,13 +315,18 @@ void SnakeBot::draw()
       al_identity_transform(&transform);
       {
          al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
          al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
       }
       al_use_transform(&transform);
       base->draw();
+   }
 
 
+
+
+   {
       // segment 2 rotator
 
       al_identity_transform(&transform);
@@ -316,7 +334,8 @@ void SnakeBot::draw()
 
       {
          al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
          al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
       }
       al_use_transform(&transform);
@@ -336,11 +355,16 @@ void SnakeBot::draw()
       al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
       {
          al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
          al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
       }
       al_use_transform(&transform);
       base->draw();
+
+
+   }
+   {
 
 
       // segment 3 rotator
@@ -354,7 +378,8 @@ void SnakeBot::draw()
       al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
       {
          al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+         al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
          al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
       }
       al_use_transform(&transform);
@@ -379,14 +404,19 @@ void SnakeBot::draw()
          al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
          {
             al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-            al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+            //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+            al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
             al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
          }
       }
       al_use_transform(&transform);
       base->draw();
 
+   }
 
+
+
+   {
       // segment 4 rotator
 
       al_identity_transform(&transform);
@@ -402,7 +432,8 @@ void SnakeBot::draw()
          al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
          {
             al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-            al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+            //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+            al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
             al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
          }
       }
@@ -431,15 +462,19 @@ void SnakeBot::draw()
             al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
             {
                al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-               al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+               //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+               al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
                al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
             }
          }
       }
       al_use_transform(&transform);
       base->draw();
+   }
 
 
+
+   {
       // segment 4 rotator
 
       al_identity_transform(&transform);
@@ -459,7 +494,8 @@ void SnakeBot::draw()
             al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
             {
                al_rotate_transform_3d(&transform, 1.0, 0.0, 0.0, segment_axis_rotation);
-               al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+               //al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, al_get_time() * rate);
+               al_rotate_transform_3d(&transform, 0.0, 1.0, 0.0, base_rotation);
                al_translate_transform_3d(&transform, 0.0, segment_distance, 0.0);
             }
          }
