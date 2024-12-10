@@ -30,6 +30,7 @@ Door::Door()
    , dynamic_collision_mesh_face_names({})
    , open_position(0.0f)
    , speed(0.0165f)
+   , locked(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
@@ -78,6 +79,60 @@ float Door::get_uv_offset_y() const
 }
 
 
+bool Door::valid_rotation(float rotation)
+{
+   return true;
+   if (rotation == 0.0) return true;
+   if (rotation == -0.25) return true;
+   if (rotation == -0.5) return true;
+   if (rotation == -0.75) return true;
+   if (rotation == -1.0) return true;
+   if (rotation == 0.25) return true;
+   if (rotation == 0.5) return true;
+   if (rotation == 0.75) return true;
+   if (rotation == 1.0) return true;
+   return false;
+}
+
+void Door::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* transform)
+{
+   //validate_initialized_or_output_to_cerr("transform");
+   //validate_not_vertex_buffer("transform");
+   ALLEGRO_TRANSFORM normal_transform;
+   al_copy_transform(&normal_transform, transform);
+   normal_transform.m[3][0] = 0.0f;
+   normal_transform.m[3][1] = 0.0f;
+   normal_transform.m[3][2] = 0.0f;
+
+   // TODO: Test this
+   auto &vertices = model->vertices;
+   for (unsigned i=0; i<vertices.size(); i++)
+   {
+      al_transform_coordinates_3d(
+         transform,
+         &vertices[i].x,
+         &vertices[i].y,
+         &vertices[i].z
+      );
+
+      // Also transform the normal:
+      al_transform_coordinates_3d(
+         &normal_transform,
+         &vertices[i].nx,
+         &vertices[i].ny,
+         &vertices[i].nz
+     );
+
+      AllegroFlare::Vec3D to_be_normalized =
+         AllegroFlare::Vec3D(vertices[i].nx, vertices[i].ny, vertices[i].nz).normalized();
+
+      vertices[i].nx = to_be_normalized.x;
+      vertices[i].ny = to_be_normalized.y;
+      vertices[i].nz = to_be_normalized.z;
+   }
+   return;
+}
+
 std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Physics::CollisionMesh* collision_mesh, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
@@ -108,6 +163,13 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"collision_mesh\" not met");
    }
+   if (!(valid_rotation(rotation)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"valid_rotation(rotation)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"valid_rotation(rotation)\" not met");
+   }
 
    // Main entity
    Krampus24::Gameplay::Entities::Door* result = new Krampus24::Gameplay::Entities::Door;
@@ -116,7 +178,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->affected_by_environmental_forces = false;
    result->collides_with_player = true;
    result->placement.position = initial_position;
-   result->placement.position.y += 0.001f; // Move slightly up
+   //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->placement.size = { 10.0, 10.0, 10.0 };
    result->aabb3d.set_max(result->placement.size);
@@ -126,7 +188,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
 
    // Left door
    result->left_door = new Krampus24::Gameplay::Entities::Base;
-   result->left_door->model = model_bin->auto_get("door-02-left_door.obj");
+   result->left_door->model = model_bin->auto_get("door-03-left_door.obj");
    result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->left_door->affected_by_environmental_forces = false;
    result->left_door->collides_with_player = false;
@@ -139,7 +201,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
 
    // Right door
    result->right_door = new Krampus24::Gameplay::Entities::Base;
-   result->right_door->model = model_bin->auto_get("door-02-right_door.obj");
+   result->right_door->model = model_bin->auto_get("door-03-right_door.obj");
    result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->right_door->affected_by_environmental_forces = false;
    result->right_door->collides_with_player = false;
@@ -156,26 +218,21 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    //std::vector<std::string> dynamic_face_names; // This is simply discarded
    //std::vector<AllegroFlare::Physics::CollisionMeshFace*> dynamic_faces;
 
+
    result->collision_mesh = collision_mesh;
-   //result->dynamic_collision_mesh_face_names = collision_mesh->load_dynamic_faces(
-   std::string collision_mesh_name = "door-02-collision_mesh.obj";
+
+   std::string collision_mesh_name = "door-03-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
-   ALLEGRO_TRANSFORM t;
-   result->placement.build_transform(&t);
-   mesh->transform(&t);
-   result->dynamic_collision_mesh_face_names = //, dynamic_faces) =
+   //mesh->displace(result->placement.position);
+   ALLEGRO_TRANSFORM placement_transform;
+   result->placement.build_transform(&placement_transform);
+   transform_model(mesh, &placement_transform);
+   result->dynamic_collision_mesh_face_names =
       collision_mesh->load_dynamic_faces(
          "mydoor",
          mesh
       );
    model_bin->destroy(collision_mesh_name);
-   //std::tie(dynamic_face_names, result->dynamic_collision_mesh_face_names) = collision_mesh->load_dynamic_faces(
-      //"mydoor",
-      //model_bin->auto_get("door-02-collision_mesh.obj")
-   //);
-
-
-   //result->deactivate_collision_mesh();
 
 
 
@@ -183,6 +240,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    //result->sample_bin = sample_bin;
    //sample_bin->preload(DOOR_OPEN_SAMPLE_IDENTIFIER);
    result->event_emitter = event_emitter;
+
+   result->locked = true;
 
 
    result->initialized = true;
@@ -316,13 +375,15 @@ void Door::set_open_position(float open_position)
 
 void Door::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   set_state(STATE_OPENING);
+   if (!locked) set_state(STATE_OPENING);
+   //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;
 }
 
 void Door::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   set_state(STATE_CLOSING);
+   if (!locked) set_state(STATE_CLOSING);
+   //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;
 }
 

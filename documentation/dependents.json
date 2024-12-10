@@ -235,6 +235,7 @@
   ],
   "AllegroFlare/Model3D": [
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SnakeBot",
@@ -352,6 +353,9 @@
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Physics/CollisionMeshFace": [
+    "Krampus24/Gameplay/Entities/Door"
+  ],
+  "ALLEGRO_TRANSFORM": [
     "Krampus24/Gameplay/Entities/Door"
   ],
   "Krampus24/Gameplay/Entities/Hen": [

@@ -4,11 +4,13 @@
 #include <AllegroFlare/AudioRepositoryElement.hpp>
 #include <AllegroFlare/BitmapBin.hpp>
 #include <AllegroFlare/EventEmitter.hpp>
+#include <AllegroFlare/Model3D.hpp>
 #include <AllegroFlare/ModelBin.hpp>
 #include <AllegroFlare/Physics/CollisionMesh.hpp>
 #include <AllegroFlare/Vec3D.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
+#include <allegro5/allegro.h>
 #include <cstdint>
 #include <map>
 #include <string>
@@ -56,6 +58,7 @@ namespace Krampus24
             std::vector<std::string> dynamic_collision_mesh_face_names;
             float open_position;
             float speed;
+            bool locked;
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
@@ -75,6 +78,8 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Door::Style get_style() const;
             float get_uv_offset_x() const;
             float get_uv_offset_y() const;
+            static bool valid_rotation(float rotation=0.0f);
+            static void transform_model(AllegroFlare::Model3D* model=nullptr, ALLEGRO_TRANSFORM* transform=nullptr);
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
             void set_style(Krampus24::Gameplay::Entities::Door::Style style=STYLE_UNDEF);
             void set_uv_offset_x(float uv_offset_x=0.0f);

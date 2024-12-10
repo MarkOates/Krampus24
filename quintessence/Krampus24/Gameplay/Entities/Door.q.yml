@@ -42,6 +42,10 @@ properties:
     type: float
     init_with: 0.0165f
 
+  - name: locked
+    type: bool
+    init_with: false
+
   - name: state
     type: uint32_t
     init_with: STATE_UNDEF
@@ -117,6 +121,75 @@ enums:
 methods:
 
 
+  - name: valid_rotation
+    static: true
+    type: bool
+    parameters:
+      - name: rotation
+        type: float
+        default_argument: 0.0f
+    body: |
+      return true;
+      if (rotation == 0.0) return true;
+      if (rotation == -0.25) return true;
+      if (rotation == -0.5) return true;
+      if (rotation == -0.75) return true;
+      if (rotation == -1.0) return true;
+      if (rotation == 0.25) return true;
+      if (rotation == 0.5) return true;
+      if (rotation == 0.75) return true;
+      if (rotation == 1.0) return true;
+      return false;
+
+
+  - name: transform_model
+    static: true
+    type: void
+    parameters:
+      - name: model
+        type: AllegroFlare::Model3D*
+        default_argument: nullptr
+      - name: transform
+        type: ALLEGRO_TRANSFORM*
+        default_argument: nullptr
+    body: |
+      //validate_initialized_or_output_to_cerr("transform");
+      //validate_not_vertex_buffer("transform");
+      ALLEGRO_TRANSFORM normal_transform;
+      al_copy_transform(&normal_transform, transform);
+      normal_transform.m[3][0] = 0.0f;
+      normal_transform.m[3][1] = 0.0f;
+      normal_transform.m[3][2] = 0.0f;
+
+      // TODO: Test this
+      auto &vertices = model->vertices;
+      for (unsigned i=0; i<vertices.size(); i++)
+      {
+         al_transform_coordinates_3d(
+            transform,
+            &vertices[i].x,
+            &vertices[i].y,
+            &vertices[i].z
+         );
+
+         // Also transform the normal:
+         al_transform_coordinates_3d(
+            &normal_transform,
+            &vertices[i].nx,
+            &vertices[i].ny,
+            &vertices[i].nz
+        );
+
+         AllegroFlare::Vec3D to_be_normalized =
+            AllegroFlare::Vec3D(vertices[i].nx, vertices[i].ny, vertices[i].nz).normalized();
+
+         vertices[i].nx = to_be_normalized.x;
+         vertices[i].ny = to_be_normalized.y;
+         vertices[i].nz = to_be_normalized.z;
+      }
+      return;
+
+
   - name: construct
     static: true
     type: std::vector<Krampus24::Gameplay::Entities::Base*>
@@ -139,7 +212,7 @@ methods:
       - name: rotation
         type: float
         default_argument: 0.0f
-    guards: [ model_bin, bitmap_bin, event_emitter, collision_mesh ]
+    guards: [ model_bin, bitmap_bin, event_emitter, collision_mesh, valid_rotation(rotation) ]
     body: |
 
       // Main entity
@@ -149,7 +222,7 @@ methods:
       result->affected_by_environmental_forces = false;
       result->collides_with_player = true;
       result->placement.position = initial_position;
-      result->placement.position.y += 0.001f; // Move slightly up
+      //result->placement.position.y += 0.001f; // Move slightly up 
       result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
       result->placement.size = { 10.0, 10.0, 10.0 };
       result->aabb3d.set_max(result->placement.size);
@@ -159,7 +232,7 @@ methods:
 
       // Left door
       result->left_door = new Krampus24::Gameplay::Entities::Base;
-      result->left_door->model = model_bin->auto_get("door-02-left_door.obj");
+      result->left_door->model = model_bin->auto_get("door-03-left_door.obj");
       result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->left_door->affected_by_environmental_forces = false;
       result->left_door->collides_with_player = false;
@@ -172,7 +245,7 @@ methods:
 
       // Right door
       result->right_door = new Krampus24::Gameplay::Entities::Base;
-      result->right_door->model = model_bin->auto_get("door-02-right_door.obj");
+      result->right_door->model = model_bin->auto_get("door-03-right_door.obj");
       result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->right_door->affected_by_environmental_forces = false;
       result->right_door->collides_with_player = false;
@@ -189,26 +262,21 @@ methods:
       //std::vector<std::string> dynamic_face_names; // This is simply discarded
       //std::vector<AllegroFlare::Physics::CollisionMeshFace*> dynamic_faces;
 
+
       result->collision_mesh = collision_mesh;
-      //result->dynamic_collision_mesh_face_names = collision_mesh->load_dynamic_faces(
-      std::string collision_mesh_name = "door-02-collision_mesh.obj";
+
+      std::string collision_mesh_name = "door-03-collision_mesh.obj";
       AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
-      ALLEGRO_TRANSFORM t;
-      result->placement.build_transform(&t);
-      mesh->transform(&t);
-      result->dynamic_collision_mesh_face_names = //, dynamic_faces) =
+      //mesh->displace(result->placement.position);
+      ALLEGRO_TRANSFORM placement_transform;
+      result->placement.build_transform(&placement_transform);
+      transform_model(mesh, &placement_transform);
+      result->dynamic_collision_mesh_face_names =
          collision_mesh->load_dynamic_faces(
             "mydoor",
             mesh
          );
       model_bin->destroy(collision_mesh_name);
-      //std::tie(dynamic_face_names, result->dynamic_collision_mesh_face_names) = collision_mesh->load_dynamic_faces(
-         //"mydoor",
-         //model_bin->auto_get("door-02-collision_mesh.obj")
-      //);
-
-
-      //result->deactivate_collision_mesh();
      
       
 
@@ -216,6 +284,8 @@ methods:
       //result->sample_bin = sample_bin;
       //sample_bin->preload(DOOR_OPEN_SAMPLE_IDENTIFIER);
       result->event_emitter = event_emitter;
+
+      result->locked = true;
       
 
       result->initialized = true;
@@ -375,7 +445,8 @@ methods:
         type: Krampus24::Gameplay::Entities::Base*
         default_argument: nullptr
     body: |
-      set_state(STATE_OPENING);
+      if (!locked) set_state(STATE_OPENING);
+      //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       return;
 
 
@@ -387,7 +458,8 @@ methods:
         type: Krampus24::Gameplay::Entities::Base*
         default_argument: nullptr
     body: |
-      set_state(STATE_CLOSING);
+      if (!locked) set_state(STATE_CLOSING);
+      //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       return;
 
 
@@ -608,5 +680,9 @@ dependencies:
     headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
   - symbol: AllegroFlare::Physics::CollisionMeshFace
     headers: [ AllegroFlare/Physics/CollisionMeshFace.hpp ]
+  - symbol: ALLEGRO_TRANSFORM
+    headers: [ allegro5/allegro.h ]
+  - symbol: AllegroFlare::Model3D
+    headers: [ AllegroFlare/Model3D.hpp ]
 
 

@@ -1149,6 +1149,10 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
+  <td class="property">locked</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">state</td>
   <td class="property">uint32_t</td>
 </tr>
@@ -1187,6 +1191,14 @@ table td
     </table>
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>valid_rotation</b>(float rotation=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>transform_model</b>(AllegroFlare::Model3D* model=nullptr, ALLEGRO_TRANSFORM* transform=nullptr)</td>
+</tr>
 <tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
   <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
@@ -1320,6 +1332,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMeshFace&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMeshFace.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_TRANSFORM&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3359,6 +3377,7 @@ table td
   ],
   "AllegroFlare/Model3D": [
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/SnakeBot",
@@ -3476,6 +3495,9 @@ table td
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Physics/CollisionMeshFace": [
+    "Krampus24/Gameplay/Entities/Door"
+  ],
+  "ALLEGRO_TRANSFORM": [
     "Krampus24/Gameplay/Entities/Door"
   ],
   "Krampus24/Gameplay/Entities/Hen": [

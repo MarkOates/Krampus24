@@ -20,7 +20,8 @@ TEST_F(Krampus24_Gameplay_Entities_DoorWithConstructFixtureTest, can_be_created_
       get_framework_event_emitter(),
       get_screen_collision_mesh(),
       AllegroFlare::Vec3D(3, 0, 0),
-      -0.125
+      -0.125 / 2
+      //-0.25
    );
    for (auto &entity : entities) add_entity_to_pool(entity);
 
