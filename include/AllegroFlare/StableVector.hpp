@@ -31,6 +31,14 @@ public:
       return key;
    }
 
+   std::pair<key_type, value_type&> allocate()
+   {
+      key_type key = next_key++;
+      key_to_index[key] = data.size();
+      data.emplace_back(); // Default-construct the new value
+      return {key, data.back()};
+   }
+
    void remove(key_type key)
    {
       auto it = key_to_index.find(key);

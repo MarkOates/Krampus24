@@ -5,12 +5,6 @@
 
 
 
-//class MyContainedObject
-//{
-//private:
-//};
-
-
 TEST(AllegroFlare_StableVectorTest, can_be_created_without_blowing_up)
 {
    AllegroFlare::StableVector<int, std::string> stable_vector;
@@ -98,6 +92,59 @@ TEST(AllegroFlare_StableVectorTest, HandlesEmptyContainer)
    EXPECT_FALSE(stable_vector.contains(0));
 
    EXPECT_THROW(stable_vector.get(0), std::out_of_range);
+}
+
+
+TEST(AllegroFlare_StableVectorTest, RetainsContiguousNatureAfterModifications)
+{
+   AllegroFlare::StableVector<int, std::string> stable_vector;
+   auto key1 = stable_vector.add("First");
+   auto key2 = stable_vector.add("Second");
+   auto key3 = stable_vector.add("Third");
+
+   // Remove and add elements
+   stable_vector.remove(key2);
+   auto key4 = stable_vector.add("Fourth");
+
+   // Retrieve the data vector
+   const auto &data = stable_vector.get_data(key1);
+
+   // Verify the vector is contiguous
+   EXPECT_EQ(&data[1], &data[0] + 1); // Second element is directly after the first
+   EXPECT_EQ(&data[2], &data[1] + 1); // Third element is directly after the second
+
+   // Validate the contents
+   EXPECT_EQ(data.size(), 3); // Only 3 elements remain
+   EXPECT_EQ(data[0], "First");
+   EXPECT_EQ(data[1], "Third"); // "Third" was swapped to index 1 after removal of "Second"
+   EXPECT_EQ(data[2], "Fourth");
+}
+
+
+TEST(AllegroFlare_StableVectorTest, BuildMethodProvidesSlotAndAllowsModification)
+{
+   AllegroFlare::StableVector<int, std::string> stable_vector;
+
+   // Add an uninitialized slot and modify it
+   auto [key1, value1] = stable_vector.allocate();
+   value1 = "Hello";
+
+   // Verify the built value
+   EXPECT_EQ(stable_vector.size(), 1);
+   EXPECT_TRUE(stable_vector.contains(key1));
+   EXPECT_EQ(stable_vector.get(key1), "Hello");
+
+   // Add another slot and modify it
+   auto [key2, value2] = stable_vector.allocate();
+   value2 = "World";
+
+   // Verify the second value
+   EXPECT_EQ(stable_vector.size(), 2);
+   EXPECT_TRUE(stable_vector.contains(key2));
+   EXPECT_EQ(stable_vector.get(key2), "World");
+
+   // Ensure the first value is still intact
+   EXPECT_EQ(stable_vector.get(key1), "Hello");
 }
 
 
