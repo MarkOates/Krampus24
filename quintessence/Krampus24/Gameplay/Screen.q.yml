@@ -319,6 +319,7 @@ methods:
             model_bin,
             bitmap_bin,
             event_emitter,
+            collision_mesh,
             position,
             rotation
          );

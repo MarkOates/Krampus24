@@ -101,6 +101,12 @@ methods:
       AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture::TearDown();
 
 
+  - name: get_screen_collision_mesh
+    type: AllegroFlare::Physics::CollisionMesh*
+    body: |
+      return screen->get_collision_mesh();
+
+
 #  - name: setup_test_level
 #    body: |
 #      set_level(create_test_level());
@@ -404,5 +410,7 @@ dependencies:
     headers: [ Krampus24/Gameplay/Screen.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Base
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMesh
+    headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
 
 

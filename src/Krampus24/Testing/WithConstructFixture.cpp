@@ -97,6 +97,11 @@ void WithConstructFixture::TearDown()
    AllegroFlare::Testing::WithAllegroFlareFrameworksFullFixture::TearDown();
 }
 
+AllegroFlare::Physics::CollisionMesh* WithConstructFixture::get_screen_collision_mesh()
+{
+   return screen->get_collision_mesh();
+}
+
 void WithConstructFixture::run_test_construct_loop(float num_seconds_until_abort)
 {
    //if (level) level->on_start();

@@ -23,9 +23,11 @@ namespace Entities
 Door::Door()
    : Krampus24::Gameplay::Entities::Base()
    , event_emitter(nullptr)
+   , collision_mesh(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
    , left_door(nullptr)
    , right_door(nullptr)
+   , dynamic_collision_mesh_face_names({})
    , open_position(0.0f)
    , speed(0.0165f)
    , state(STATE_UNDEF)
@@ -76,7 +78,7 @@ float Door::get_uv_offset_y() const
 }
 
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position, float rotation)
+std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Physics::CollisionMesh* collision_mesh, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
    {
@@ -99,6 +101,14 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"event_emitter\" not met");
    }
+   if (!(collision_mesh))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"collision_mesh\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::construct]: error: guard \"collision_mesh\" not met");
+   }
+
    // Main entity
    Krampus24::Gameplay::Entities::Door* result = new Krampus24::Gameplay::Entities::Door;
    //result->model = model_bin->auto_get("door-01.obj");
@@ -116,7 +126,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
 
    // Left door
    result->left_door = new Krampus24::Gameplay::Entities::Base;
-   result->left_door->model = model_bin->auto_get("door-01-left_door.obj");
+   result->left_door->model = model_bin->auto_get("door-02-left_door.obj");
    result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->left_door->affected_by_environmental_forces = false;
    result->left_door->collides_with_player = false;
@@ -129,7 +139,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
 
    // Right door
    result->right_door = new Krampus24::Gameplay::Entities::Base;
-   result->right_door->model = model_bin->auto_get("door-01-right_door.obj");
+   result->right_door->model = model_bin->auto_get("door-02-right_door.obj");
    result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->right_door->affected_by_environmental_forces = false;
    result->right_door->collides_with_player = false;
@@ -139,6 +149,29 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    //result->right_door->placement.rotation.y = rotation;
    result->right_door->visible = false;
    //result->right_door->active = false;
+
+
+   //type: std::pair<std::vector<std::string>, std::vector<AllegroFlare::Physics::CollisionMeshFace*>>
+   // Load the collision mesh
+   //std::vector<std::string> dynamic_face_names; // This is simply discarded
+   //std::vector<AllegroFlare::Physics::CollisionMeshFace*> dynamic_faces;
+
+   result->collision_mesh = collision_mesh;
+   //result->dynamic_collision_mesh_face_names = collision_mesh->load_dynamic_faces(
+   result->dynamic_collision_mesh_face_names = //, dynamic_faces) =
+      collision_mesh->load_dynamic_faces(
+         "mydoor",
+         model_bin->auto_get("door-02-collision_mesh.obj")
+      );
+   //std::tie(dynamic_face_names, result->dynamic_collision_mesh_face_names) = collision_mesh->load_dynamic_faces(
+      //"mydoor",
+      //model_bin->auto_get("door-02-collision_mesh.obj")
+   //);
+
+
+   //result->deactivate_collision_mesh();
+
+
 
    // Preload the samples
    //result->sample_bin = sample_bin;
@@ -205,6 +238,38 @@ std::pair<float, float> Door::get_uv_offset_from_style(Krampus24::Gameplay::Enti
       "Unexpected code path to here (code: 678sdf678sdf678sdf)"
    );
    return { 0, 0 };
+}
+
+void Door::activate_collision_mesh()
+{
+   if (!(collision_mesh))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Door::activate_collision_mesh]: error: guard \"collision_mesh\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::activate_collision_mesh]: error: guard \"collision_mesh\" not met");
+   }
+   for (auto &face_name : dynamic_collision_mesh_face_names)
+   {
+      collision_mesh->activate_dynamic_face(face_name);
+   }
+   return;
+}
+
+void Door::deactivate_collision_mesh()
+{
+   if (!(collision_mesh))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Door::deactivate_collision_mesh]: error: guard \"collision_mesh\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::deactivate_collision_mesh]: error: guard \"collision_mesh\" not met");
+   }
+   for (auto &face_name : dynamic_collision_mesh_face_names)
+   {
+      collision_mesh->deactivate_dynamic_face(face_name);
+   }
+   return;
 }
 
 void Door::draw()
@@ -316,6 +381,7 @@ void Door::set_state(uint32_t state, bool override_if_busy)
 
       case STATE_OPEN: {
          set_open_position(1.0f);
+         deactivate_collision_mesh();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
       } break;
 
@@ -327,6 +393,7 @@ void Door::set_state(uint32_t state, bool override_if_busy)
 
       case STATE_CLOSED: {
          set_open_position(0.0f);
+         activate_collision_mesh();
       } break;
 
       default:
@@ -357,6 +424,11 @@ void Door::update_state(double time_step, double time_now)
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Door::update_state]: error: guard \"is_valid_state(state)\" not met");
    }
    float age = infer_current_state_age(time_now);
+
+   //float flip_speed = 4.0f;
+   //float flipper = fmod(al_get_time(), flip_speed);
+   //if (flipper < flip_speed/2) activate_collision_mesh();
+   //else deactivate_collision_mesh();
 
    switch (state)
    {

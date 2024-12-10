@@ -346,6 +346,14 @@
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
   ],
+  "AllegroFlare/Physics/CollisionMesh": [
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "AllegroFlare/Physics/CollisionMeshFace": [
+    "Krampus24/Gameplay/Entities/Door"
+  ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
@@ -417,9 +425,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "std/get": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Physics/CollisionMesh": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Routers/Standard": [

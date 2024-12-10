@@ -5,6 +5,7 @@
 #include <AllegroFlare/BitmapBin.hpp>
 #include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/ModelBin.hpp>
+#include <AllegroFlare/Physics/CollisionMesh.hpp>
 #include <AllegroFlare/Vec3D.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
@@ -48,9 +49,11 @@ namespace Krampus24
                STATE_CLOSED,
             };
             AllegroFlare::EventEmitter* event_emitter;
+            AllegroFlare::Physics::CollisionMesh* collision_mesh;
             AllegroFlare::Vec3D initial_position;
             Krampus24::Gameplay::Entities::Base* left_door;
             Krampus24::Gameplay::Entities::Base* right_door;
+            std::vector<std::string> dynamic_collision_mesh_face_names;
             float open_position;
             float speed;
             uint32_t state;
@@ -72,11 +75,13 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Door::Style get_style() const;
             float get_uv_offset_x() const;
             float get_uv_offset_y() const;
-            static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
+            static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
             void set_style(Krampus24::Gameplay::Entities::Door::Style style=STYLE_UNDEF);
             void set_uv_offset_x(float uv_offset_x=0.0f);
             void set_uv_offset_y(float uv_offset_y=0.0f);
             static std::pair<float, float> get_uv_offset_from_style(Krampus24::Gameplay::Entities::Door::Style style=STYLE_UNDEF);
+            void activate_collision_mesh();
+            void deactivate_collision_mesh();
             virtual void draw() override;
             void set_open_position(float open_position=1.0f);
             virtual void on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;

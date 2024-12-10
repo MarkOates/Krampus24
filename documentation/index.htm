@@ -1121,6 +1121,10 @@ table td
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
 <tr>
+  <td class="property">collision_mesh</td>
+  <td class="property">AllegroFlare::Physics::CollisionMesh*</td>
+</tr>
+<tr>
   <td class="property">initial_position</td>
   <td class="property">AllegroFlare::Vec3D</td>
 </tr>
@@ -1131,6 +1135,10 @@ table td
 <tr>
   <td class="property">right_door</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
+</tr>
+<tr>
+  <td class="property">dynamic_collision_mesh_face_names</td>
+  <td class="property">std::vector&lt;std::string&gt;</td>
 </tr>
 <tr>
   <td class="property">open_position</td>
@@ -1181,7 +1189,7 @@ table td
 <div class="property-box methods">     <table>
 <tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1202,6 +1210,14 @@ table td
 <tr>
   <td class="method">std::pair&lt;float, float&gt;</td>
   <td class="method"><b>get_uv_offset_from_style</b>(Krampus24::Gameplay::Entities::Door::Style style=STYLE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>activate_collision_mesh</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>deactivate_collision_mesh</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1298,6 +1314,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door::Style&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMeshFace&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMeshFace.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3060,6 +3082,10 @@ table td
   <td class="method"><b>TearDown</b>()</td>
 </tr>
 <tr>
+  <td class="method">AllegroFlare::Physics::CollisionMesh*</td>
+  <td class="method"><b>get_screen_collision_mesh</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>run_test_construct_loop</b>(float num_seconds_until_abort=60.0f)</td>
 </tr>
@@ -3087,6 +3113,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3441,6 +3470,14 @@ table td
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
   ],
+  "AllegroFlare/Physics/CollisionMesh": [
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "AllegroFlare/Physics/CollisionMeshFace": [
+    "Krampus24/Gameplay/Entities/Door"
+  ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Screen"
@@ -3512,9 +3549,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "std/get": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Physics/CollisionMesh": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Routers/Standard": [

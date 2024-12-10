@@ -13,6 +13,10 @@ properties:
     type: AllegroFlare::EventEmitter*
     init_with: nullptr
 
+  - name: collision_mesh
+    type: AllegroFlare::Physics::CollisionMesh*
+    init_with: nullptr
+
   - name: initial_position
     type: AllegroFlare::Vec3D
     init_with: AllegroFlare::Vec3D(0, 0, 0)
@@ -24,6 +28,10 @@ properties:
   - name: right_door
     type: Krampus24::Gameplay::Entities::Base*
     init_with: nullptr
+
+  - name: dynamic_collision_mesh_face_names
+    type: std::vector<std::string>
+    init_with: '{}'
 
   - name: open_position
     type: float
@@ -122,14 +130,18 @@ methods:
       - name: event_emitter
         type: AllegroFlare::EventEmitter*
         default_argument: nullptr
+      - name: collision_mesh
+        type: AllegroFlare::Physics::CollisionMesh*
+        default_argument: nullptr
       - name: initial_position
         type: AllegroFlare::Vec3D
         default_argument: AllegroFlare::Vec3D(0, 0, 0)
       - name: rotation
         type: float
         default_argument: 0.0f
-    guards: [ model_bin, bitmap_bin, event_emitter ]
+    guards: [ model_bin, bitmap_bin, event_emitter, collision_mesh ]
     body: |
+
       // Main entity
       Krampus24::Gameplay::Entities::Door* result = new Krampus24::Gameplay::Entities::Door;
       //result->model = model_bin->auto_get("door-01.obj");
@@ -147,7 +159,7 @@ methods:
 
       // Left door
       result->left_door = new Krampus24::Gameplay::Entities::Base;
-      result->left_door->model = model_bin->auto_get("door-01-left_door.obj");
+      result->left_door->model = model_bin->auto_get("door-02-left_door.obj");
       result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->left_door->affected_by_environmental_forces = false;
       result->left_door->collides_with_player = false;
@@ -160,7 +172,7 @@ methods:
 
       // Right door
       result->right_door = new Krampus24::Gameplay::Entities::Base;
-      result->right_door->model = model_bin->auto_get("door-01-right_door.obj");
+      result->right_door->model = model_bin->auto_get("door-02-right_door.obj");
       result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->right_door->affected_by_environmental_forces = false;
       result->right_door->collides_with_player = false;
@@ -170,6 +182,29 @@ methods:
       //result->right_door->placement.rotation.y = rotation;
       result->right_door->visible = false;
       //result->right_door->active = false;
+
+
+      //type: std::pair<std::vector<std::string>, std::vector<AllegroFlare::Physics::CollisionMeshFace*>>
+      // Load the collision mesh
+      //std::vector<std::string> dynamic_face_names; // This is simply discarded
+      //std::vector<AllegroFlare::Physics::CollisionMeshFace*> dynamic_faces;
+
+      result->collision_mesh = collision_mesh;
+      //result->dynamic_collision_mesh_face_names = collision_mesh->load_dynamic_faces(
+      result->dynamic_collision_mesh_face_names = //, dynamic_faces) =
+         collision_mesh->load_dynamic_faces(
+            "mydoor",
+            model_bin->auto_get("door-02-collision_mesh.obj")
+         );
+      //std::tie(dynamic_face_names, result->dynamic_collision_mesh_face_names) = collision_mesh->load_dynamic_faces(
+         //"mydoor",
+         //model_bin->auto_get("door-02-collision_mesh.obj")
+      //);
+
+
+      //result->deactivate_collision_mesh();
+     
+      
 
       // Preload the samples
       //result->sample_bin = sample_bin;
@@ -260,6 +295,26 @@ methods:
          "Unexpected code path to here (code: 678sdf678sdf678sdf)"
       );
       return { 0, 0 };
+
+
+  - name: activate_collision_mesh
+    guards: [ collision_mesh ]
+    body: |
+      for (auto &face_name : dynamic_collision_mesh_face_names)
+      {
+         collision_mesh->activate_dynamic_face(face_name);
+      }
+      return;
+
+
+  - name: deactivate_collision_mesh
+    guards: [ collision_mesh ]
+    body: |
+      for (auto &face_name : dynamic_collision_mesh_face_names)
+      {
+         collision_mesh->deactivate_dynamic_face(face_name);
+      }
+      return;
 
 
   - name: draw
@@ -392,6 +447,7 @@ methods:
 
          case STATE_OPEN: {
             set_open_position(1.0f);
+            deactivate_collision_mesh();
             //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          } break;
 
@@ -403,6 +459,7 @@ methods:
 
          case STATE_CLOSED: {
             set_open_position(0.0f);
+            activate_collision_mesh();
          } break;
 
          default:
@@ -429,6 +486,11 @@ methods:
     guards: [ initialized, is_valid_state(state) ]
     body: |
       float age = infer_current_state_age(time_now);
+
+      //float flip_speed = 4.0f;
+      //float flipper = fmod(al_get_time(), flip_speed);
+      //if (flipper < flip_speed/2) activate_collision_mesh();
+      //else deactivate_collision_mesh();
 
       switch (state)
       {
@@ -536,5 +598,9 @@ dependencies:
     headers: [ AllegroFlare/Shaders/Base.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Door::Style
     headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMesh
+    headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMeshFace
+    headers: [ AllegroFlare/Physics/CollisionMeshFace.hpp ]
 
 
