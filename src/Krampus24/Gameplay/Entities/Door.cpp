@@ -158,11 +158,17 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
 
    result->collision_mesh = collision_mesh;
    //result->dynamic_collision_mesh_face_names = collision_mesh->load_dynamic_faces(
+   std::string collision_mesh_name = "door-02-collision_mesh.obj";
+   AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
+   ALLEGRO_TRANSFORM t;
+   result->placement.build_transform(&t);
+   mesh->transform(&t);
    result->dynamic_collision_mesh_face_names = //, dynamic_faces) =
       collision_mesh->load_dynamic_faces(
          "mydoor",
-         model_bin->auto_get("door-02-collision_mesh.obj")
+         mesh
       );
+   model_bin->destroy(collision_mesh_name);
    //std::tie(dynamic_face_names, result->dynamic_collision_mesh_face_names) = collision_mesh->load_dynamic_faces(
       //"mydoor",
       //model_bin->auto_get("door-02-collision_mesh.obj")
