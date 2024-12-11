@@ -18,6 +18,7 @@
 #include <Krampus24/Gameplay/Entities/Pig.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
+#include <Krampus24/Gameplay/Entities/Zone.hpp>
 #include <Krampus24/Gameplay/PlayerInputControllers/Player.hpp>
 #include <Krampus24/Gameplay/Scripting/Empty.hpp>
 #include <allegro5/allegro_color.h>
@@ -540,6 +541,15 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
       result->name = entity->name;
       return { result };
    }
+   // TODO: Move this to ZONES:
+   //else if (entity_root_name == Krampus24::Gameplay::Entities::Zone::BLENDER_IDENTIFIER)
+   //{
+      ////float rotation = entity->rotation.z / 360.0;
+      //AllegroFlare::Vec3D size = entity->size;
+      //auto *result = Krampus24::Gameplay::Entities::Zone::construct(position, size);
+      //result->name = entity->name;
+      //return { result };
+   //}
    else if (entity_root_name == Krampus24::Gameplay::Entities::Door::BLENDER_IDENTIFIER)
    {
       float rotation = entity->rotation.z / 360.0;

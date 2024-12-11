@@ -18,6 +18,7 @@ BlenderBlockingLoader::BlenderBlockingLoader(std::string filename)
    : filename(filename)
    , blocks({})
    , entities({})
+   , zones({})
    , loaded(false)
 {
 }
@@ -46,6 +47,12 @@ std::vector<Krampus24::BlenderBlockingLoaderEntity> BlenderBlockingLoader::get_e
 }
 
 
+std::vector<Krampus24::BlenderBlockingLoaderBlock> BlenderBlockingLoader::get_zones() const
+{
+   return zones;
+}
+
+
 bool BlenderBlockingLoader::get_loaded() const
 {
    return loaded;
@@ -62,6 +69,19 @@ void BlenderBlockingLoader::for_each_entity(std::function<void(Krampus24::Blende
       throw std::runtime_error("[Krampus24::BlenderBlockingLoader::for_each_entity]: error: guard \"loaded\" not met");
    }
    for (auto &entity : entities) function(&entity);
+   return;
+}
+
+void BlenderBlockingLoader::for_each_zone(std::function<void(Krampus24::BlenderBlockingLoaderBlock*)> function)
+{
+   if (!(loaded))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::BlenderBlockingLoader::for_each_zone]: error: guard \"loaded\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::BlenderBlockingLoader::for_each_zone]: error: guard \"loaded\" not met");
+   }
+   for (auto &zone : zones) function(&zone);
    return;
 }
 
@@ -189,6 +209,23 @@ void BlenderBlockingLoader::load()
             block.max_coordinates = { std::max(x1, x2), std::max(y1, y2), std::max(z1, z2) };
             block.scale = { sx, sy, sz };
             block.height = block.max_coordinates.z;
+         }
+         else if (type == "zone")
+         {
+            zones.push_back({});
+            Krampus24::BlenderBlockingLoaderBlock &zone = zones.back();
+            //TileFPS::Game::BlenderLevelLoaderBlock &block = blocks.back();
+
+            // Flip the y coordinate (the coordinates in Blender have -y going into the viewer)
+            //y1 = -y1;
+            //y2 = -y2;
+
+            // Load in the min and max values for the coordinates in this block
+            zone.name = name.substr(0, std::max((int)name.length()-1, 0));
+            zone.min_coordinates = { std::min(x1, x2), std::min(y1, y2), std::min(z1, z2) };
+            zone.max_coordinates = { std::max(x1, x2), std::max(y1, y2), std::max(z1, z2) };
+            zone.scale = { sx, sy, sz };
+            zone.height = zone.max_coordinates.z;
          }
       }
       else

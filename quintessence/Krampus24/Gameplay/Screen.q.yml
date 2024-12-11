@@ -312,6 +312,15 @@ methods:
          result->name = entity->name;
          return { result };
       }
+      // TODO: Move this to ZONES:
+      //else if (entity_root_name == Krampus24::Gameplay::Entities::Zone::BLENDER_IDENTIFIER)
+      //{
+         ////float rotation = entity->rotation.z / 360.0;
+         //AllegroFlare::Vec3D size = entity->size;
+         //auto *result = Krampus24::Gameplay::Entities::Zone::construct(position, size);
+         //result->name = entity->name;
+         //return { result };
+      //}
       else if (entity_root_name == Krampus24::Gameplay::Entities::Door::BLENDER_IDENTIFIER)
       {
          float rotation = entity->rotation.z / 360.0;
@@ -394,6 +403,7 @@ methods:
       - Krampus24::Gameplay::Entities::Pig
       - Krampus24::Gameplay::Entities::Hen
       - Krampus24::Gameplay::Entities::Turret
+      - Krampus24::Gameplay::Entities::Zone
       - Krampus24::Gameplay::Entities::Door
       - Krampus24::Gameplay::Entities::MegaDoor
       - Krampus24::Gameplay::Entities::SlidingDoor
@@ -1536,6 +1546,8 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Turret.hpp ]
   - symbol: al_color_html
     headers: [ allegro5/allegro_color.h ]
+  - symbol: Krampus24::Gameplay::Entities::Zone
+    headers: [ Krampus24/Gameplay/Entities/Zone.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Door
     headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
   - symbol: Krampus24::Gameplay::Entities::MegaDoor

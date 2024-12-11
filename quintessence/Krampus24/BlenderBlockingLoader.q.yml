@@ -17,6 +17,12 @@ properties:
     init_with: '{}'
     getter: true
 
+  - name: zones
+# TODO: Make custom BlenderBlockingLoaderZone
+    type: std::vector<Krampus24::BlenderBlockingLoaderBlock>
+    init_with: '{}'
+    getter: true
+
   - name: loaded
     type: bool
     init_with: false
@@ -42,6 +48,17 @@ methods:
     guards: [ loaded ]
     body: |
       for (auto &entity : entities) function(&entity);
+      return;
+
+
+  - name: for_each_zone
+    parameters:
+      - name: function
+        type: std::function<void(Krampus24::BlenderBlockingLoaderBlock*)>
+        default_argument: '{}'
+    guards: [ loaded ]
+    body: |
+      for (auto &zone : zones) function(&zone);
       return;
 
 
@@ -164,6 +181,23 @@ methods:
                block.max_coordinates = { std::max(x1, x2), std::max(y1, y2), std::max(z1, z2) };
                block.scale = { sx, sy, sz };
                block.height = block.max_coordinates.z;
+            }
+            else if (type == "zone")
+            {
+               zones.push_back({});
+               Krampus24::BlenderBlockingLoaderBlock &zone = zones.back();
+               //TileFPS::Game::BlenderLevelLoaderBlock &block = blocks.back();
+
+               // Flip the y coordinate (the coordinates in Blender have -y going into the viewer)
+               //y1 = -y1;
+               //y2 = -y2;
+
+               // Load in the min and max values for the coordinates in this block
+               zone.name = name.substr(0, std::max((int)name.length()-1, 0));
+               zone.min_coordinates = { std::min(x1, x2), std::min(y1, y2), std::min(z1, z2) };
+               zone.max_coordinates = { std::max(x1, x2), std::max(y1, y2), std::max(z1, z2) };
+               zone.scale = { sx, sy, sz };
+               zone.height = zone.max_coordinates.z;
             }
          }
          else
