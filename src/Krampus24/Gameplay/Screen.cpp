@@ -62,6 +62,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , scripting(nullptr)
    , build_scripting_instance_func({})
    , current_location_name("UNKNOWN LOCATION")
+   , current_location_floor("UNKNOWN LOCATION")
    , current_location_reveal_counter(0.0f)
    , principled_shader({})
    , rendering_visual_mesh(true)
@@ -1080,9 +1081,12 @@ void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
    return;
 }
 
-void Screen::show_location_name(std::string location_name)
+void Screen::show_location_name(std::string location_name, std::string location_floor)
 {
+   if (this->current_location_name == location_name && this->current_location_floor == location_floor) return;
+
    this->current_location_name = location_name;
+   this->current_location_floor = location_floor;
    current_location_reveal_counter = 0.0f;
    return;
 }
@@ -1195,11 +1199,11 @@ void Screen::update()
 
       if (entity->zone__is_zone)
       {
-         if (entity->name == "central_column_f1") show_location_name("Central Column\nFloor 1");
-         else if (entity->name == "docking_bay") show_location_name("Docking Bay\nFloor 1");
-         else if (entity->name == "library") show_location_name("Library\nFloor 1");
-         else if (entity->name == "vr_room") show_location_name("VR Room\nFloor 1");
-         else if (entity->name == "zoo") show_location_name("Zoo\nFloor 1");
+         if (entity->name == "central_column_f1") show_location_name("Central Column", "Floor 1");
+         else if (entity->name == "docking_bay") show_location_name("Docking Bay", "Floor 1");
+         else if (entity->name == "library") show_location_name("Library", "Floor 1");
+         else if (entity->name == "vr_room") show_location_name("VR Room", "Floor 1");
+         else if (entity->name == "zoo") show_location_name("Zoo", "Floor 1");
          else
          {
             throw std::runtime_error("!!! Unhandled zone name \"" + entity->name + "\"");
@@ -1363,15 +1367,27 @@ void Screen::render()
          
          // HERE
          ALLEGRO_FONT *font = obtain_location_font();
-         al_draw_multiline_textf(
+         ALLEGRO_FONT *floor_font = obtain_location_floor_font();
+         float y = 1080/3 * 2;
+         al_draw_textf(
             font,
             ALLEGRO_COLOR{1.0, 1.0, 1.0, 1.0},
             200, //1920/2,
-            1080/2,
-            1920,
-            al_get_font_line_height(font),
+            y,
+            //1920,
+            //al_get_font_line_height(font),
             ALLEGRO_ALIGN_LEFT,
             u(current_location_name).c_str()
+         );
+         al_draw_textf(
+            floor_font,
+            ALLEGRO_COLOR{1.0, 1.0, 1.0, 1.0},
+            200, //1920/2,
+            y + al_get_font_line_height(font),
+            //1920,
+            //al_get_font_line_height(font),
+            ALLEGRO_ALIGN_LEFT,
+            u(current_location_floor).c_str()
          );
 
       }
@@ -1402,7 +1418,7 @@ void Screen::render()
 
 std::string Screen::u(std::string string)
 {
-   return AllegroFlare::StringTransformer(string).upcase().get_text();
+   return AllegroFlare::StringTransformer(string).expand(2).upcase().get_text();
    //return AllegroFlare::StringTransformer(string).expand(2).upcase().get_text();
 }
 
@@ -1731,6 +1747,11 @@ ALLEGRO_FONT* Screen::obtain_hud_font()
 }
 
 ALLEGRO_FONT* Screen::obtain_location_font()
+{
+   return font_bin->auto_get("Michroma-Regular.ttf -46");
+}
+
+ALLEGRO_FONT* Screen::obtain_location_floor_font()
 {
    return font_bin->auto_get("Michroma-Regular.ttf -32");
 }

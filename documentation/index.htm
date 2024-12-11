@@ -2939,6 +2939,10 @@ table td
   <td class="property">std::string</td>
 </tr>
 <tr>
+  <td class="property">current_location_floor</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
   <td class="property">current_location_reveal_counter</td>
   <td class="property">float</td>
 </tr>
@@ -3051,7 +3055,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>show_location_name</b>(std::string location_name=&quot;[unset-location_name]&quot;)</td>
+  <td class="method"><b>show_location_name</b>(std::string location_name=&quot;[unset-location_name]&quot;, std::string location_floor=&quot;[unset-location_floor]&quot;)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -3108,6 +3112,10 @@ table td
 <tr>
   <td class="method">ALLEGRO_FONT*</td>
   <td class="method"><b>obtain_location_font</b>()</td>
+</tr>
+<tr>
+  <td class="method">ALLEGRO_FONT*</td>
+  <td class="method"><b>obtain_location_floor_font</b>()</td>
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>
