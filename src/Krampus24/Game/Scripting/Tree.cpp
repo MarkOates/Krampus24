@@ -117,10 +117,12 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::game_event_func]: error: guard \"game_event\" not met");
    }
    // TODO: Handle different events
-   if (game_event->is_type("unlock_mega_door"))
-   {
-      unlock_mega_door("mega_door.001");
-   }
+   if (game_event->is_type("unlock_mega_door")) unlock_mega_door("mega_door.001");
+   if (game_event->is_type("unlock_elevator_1")) unlock_door("door.003");
+   if (game_event->is_type("unlock_elevator_2")) unlock_door("door.005");
+   if (game_event->is_type("unlock_vr_room")) unlock_sliding_door("sliding_door.001");
+   if (game_event->is_type("unlock_elevator_3")) unlock_door("door.006");
+   if (game_event->is_type("unlock_elevator_4")) unlock_sliding_door("sliding_door.002");
    return;
 }
 
@@ -307,13 +309,31 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
 
    if (name == "sliding_door.001")
    {
-      //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
       event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    }
    else if (name == "console-01")
    {
-      //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
       event_emitter->emit_activate_dialog_node_by_name_event("console-01-dialog");
+   }
+   else if (name == "console-02")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("console-02-dialog");
+   }
+   else if (name == "console-03")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("console-03-dialog");
+   }
+   else if (name == "console-04")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("console-04-dialog");
+   }
+   else if (name == "console-05")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("console-05-dialog");
+   }
+   else if (name == "console-06")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("console-06-dialog");
    }
       //{ find_entity_by_name_or_throw("console-01"), [this](){
          //travel_player_to_elevators_target("elevator-01");
@@ -356,6 +376,17 @@ void Tree::lock_sliding_door(std::string sliding_door_object_name)
    return;
 }
 
+void Tree::unlock_sliding_door(std::string sliding_door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(sliding_door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::SlidingDoor*>(door);
+   as->unlock();
+   return;
+}
+
 void Tree::lock_mega_door(std::string mega_door_object_name)
 {
    Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(mega_door_object_name);
@@ -386,6 +417,17 @@ void Tree::lock_door(std::string door_object_name)
    // TODO: Validate this is a door!
    auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
    as->lock();
+   return;
+}
+
+void Tree::unlock_door(std::string door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
+   as->unlock();
    return;
 }
 
@@ -497,6 +539,51 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             }
          )
       },
+      { "console-02-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "System",
+            { u("What would you like to do?") },
+            {
+               { "Unlock Elevator 1", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_1"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "console-03-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "System",
+            { u("What would you like to do?") },
+            {
+               { "Unlock Elevator 2", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_2"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "console-04-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "System",
+            { u("What would you like to do?") },
+            {
+               { "Unlock VR Room", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_vr_room"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "console-05-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "System",
+            { u("What would you like to do?") },
+            {
+               { "Unlock Elevator 3", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_3"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "console-06-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "System",
+            { u("What would you like to do?") },
+            {
+               { "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
       { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "",
             { u("This door is locked.") },
@@ -508,6 +595,17 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
       },
       { "unlock_mega_door", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_mega_door", "exit_dialog")
       },
+      { "unlock_elevator_1", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_elevator_1", "exit_dialog")
+      },
+      { "unlock_elevator_2", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_elevator_2", "exit_dialog")
+      },
+      { "unlock_elevator_3", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_elevator_3", "exit_dialog")
+      },
+      { "unlock_elevator_4", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_elevator_4", "exit_dialog")
+      },
+      { "unlock_vr_room", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_vr_room", "exit_dialog")
+      },
+
       { "exit_dialog", new AllegroFlare::DialogTree::Nodes::ExitDialog()
       },
 
