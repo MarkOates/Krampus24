@@ -188,7 +188,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> MegaDoor::construct(AllegroFla
 
    // Left door
    result->left_door = new Krampus24::Gameplay::Entities::Base;
-   result->left_door->model = model_bin->auto_get("door-03-left_door.obj");
+   result->left_door->model = model_bin->auto_get("mega_door-03-top_door.obj");
    result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->left_door->affected_by_environmental_forces = false;
    result->left_door->collides_with_player = false;
@@ -201,7 +201,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> MegaDoor::construct(AllegroFla
 
    // Right door
    result->right_door = new Krampus24::Gameplay::Entities::Base;
-   result->right_door->model = model_bin->auto_get("door-03-right_door.obj");
+   result->right_door->model = model_bin->auto_get("mega_door-03-bottom_door.obj");
    result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->right_door->affected_by_environmental_forces = false;
    result->right_door->collides_with_player = false;
@@ -221,7 +221,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> MegaDoor::construct(AllegroFla
 
    result->collision_mesh = collision_mesh;
 
-   std::string collision_mesh_name = "door-03-collision_mesh.obj";
+   std::string collision_mesh_name = "mega_door-03-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
    //mesh->displace(result->placement.position);
    ALLEGRO_TRANSFORM placement_transform;
@@ -378,8 +378,8 @@ void MegaDoor::set_open_position(float open_position)
 {
    open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
-   left_door->placement.position.z = open_position * 2;
-   right_door->placement.position.z = -open_position * 2;
+   left_door->placement.position.y = open_position * 2.9;
+   right_door->placement.position.y = -open_position * 2.9;
    return;
 }
 

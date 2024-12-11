@@ -6,6 +6,7 @@
 #include <AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp>
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
+#include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <iostream>
 #include <set>
@@ -317,6 +318,17 @@ void Tree::lock_sliding_door(std::string sliding_door_object_name)
    return;
 }
 
+void Tree::lock_mega_door(std::string mega_door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(mega_door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::MegaDoor*>(door);
+   as->lock();
+   return;
+}
+
 void Tree::lock_door(std::string door_object_name)
 {
    Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
@@ -353,6 +365,7 @@ void Tree::build_on_collision_callbacks()
    lock_door("door.006"); // Elevator on 3rd floor (armory) leading up to 4rd floor
    lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
    lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
+   lock_mega_door("mega_door.001"); // Major door on the first floor
 
 
    // Link the elevators

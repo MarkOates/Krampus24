@@ -27,7 +27,7 @@ namespace Krampus24
          class MegaDoor : public Krampus24::Gameplay::Entities::Base
          {
          public:
-            static constexpr char* BLENDER_IDENTIFIER = (char*)"door";
+            static constexpr char* BLENDER_IDENTIFIER = (char*)"mega_door";
             static constexpr char* DOOR_OPEN_SAMPLE_IDENTIFIER = (char*)"door-01-opening.ogg";
 
          public:

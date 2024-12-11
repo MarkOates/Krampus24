@@ -327,6 +327,21 @@ methods:
          results[0]->name = entity->name;
          return results;
       }
+      else if (entity_root_name == Krampus24::Gameplay::Entities::MegaDoor::BLENDER_IDENTIFIER)
+      {
+         float rotation = entity->rotation.z / 360.0;
+         std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::MegaDoor::construct(
+            model_bin,
+            bitmap_bin,
+            event_emitter,
+            collision_mesh,
+            entity->name,
+            position,
+            rotation
+         );
+         results[0]->name = entity->name;
+         return results;
+      }
       else if (entity_root_name == Krampus24::Gameplay::Entities::SlidingDoor::BLENDER_IDENTIFIER)
       {
          float rotation = entity->rotation.z / 360.0;
@@ -380,6 +395,7 @@ methods:
       - Krampus24::Gameplay::Entities::Hen
       - Krampus24::Gameplay::Entities::Turret
       - Krampus24::Gameplay::Entities::Door
+      - Krampus24::Gameplay::Entities::MegaDoor
       - Krampus24::Gameplay::Entities::SlidingDoor
 
 
@@ -1522,6 +1538,8 @@ dependencies:
     headers: [ allegro5/allegro_color.h ]
   - symbol: Krampus24::Gameplay::Entities::Door
     headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::MegaDoor
+    headers: [ Krampus24/Gameplay/Entities/MegaDoor.hpp ]
   - symbol: Krampus24::Gameplay::Entities::SlidingDoor
     headers: [ Krampus24/Gameplay/Entities/SlidingDoor.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Base
