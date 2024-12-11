@@ -1,0 +1,140 @@
+parent_classes:
+
+
+  - class: Krampus24::Gameplay::Entities::Base
+    scope: public
+    init_with: ''
+
+
+properties:
+
+
+  - name: initialized
+    type: bool
+    init_with: false
+
+  - name: BLENDER_IDENTIFIER
+    type: char*
+    init_with: '(char*)"zone"'
+    static: true
+    constexpr: true
+
+
+methods:
+
+
+  - name: construct
+    static: true
+    type: std::vector<Krampus24::Gameplay::Entities::Base*>
+    parameters:
+      - name: position
+        type: AllegroFlare::Vec3D
+        default_argument: AllegroFlare::Vec3D(0, 0, 0)
+      - name: size
+        type: AllegroFlare::Vec3D
+        default_argument: AllegroFlare::Vec3D(0, 0, 0)
+    body: |
+      Krampus24::Gameplay::Entities::Zone* result = new Krampus24::Gameplay::Entities::Zone;
+      result->affected_by_environmental_forces = false;
+      result->collides_with_player = true;
+      result->placement.position = position;
+      result->placement.size = size;
+      result->aabb3d.set_max(result->placement.size);
+
+      result->initialized = true;
+
+      return { result };
+
+
+  - name: draw
+    virtual: true
+    override: true
+    body: |
+      // Zones do not render
+      return;
+
+
+  - name: on_enter_player_bbox_collision
+    virtual: true
+    override: true
+    parameters:
+      - name: player_entity
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    body: |
+      return;
+
+
+  - name: on_exit_player_bbox_collision
+    virtual: true
+    override: true
+    parameters:
+      - name: player_entity
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    body: |
+      return;
+
+
+  - name: on_time_step
+    virtual: true
+    override: true
+    guards: [ initialized ]
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 0.0f
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+    body: |
+      return;
+    body_dependency_symbols:
+      - std::sin
+
+
+dependencies:
+
+
+  - symbol: Krampus24::Gameplay::Entities::Zone
+    headers: [ Krampus24/Gameplay/Entities/Zone.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Door
+    headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: AllegroFlare::ModelBin
+    headers: [ AllegroFlare/ModelBin.hpp ]
+  - symbol: AllegroFlare::Vec2D
+    headers: [ AllegroFlare/Vec2D.hpp ]
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: std::sin
+    headers: [ cmath ]
+  - symbol: std::abs
+    headers: [ cmath ]
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: AllegroFlare::Random
+    headers: [ AllegroFlare/Random.hpp ]
+  - symbol: AllegroFlare::SampleBin
+    headers: [ AllegroFlare/SampleBin.hpp ]
+  - symbol: AllegroFlare::AudioRepositoryElement
+    headers: [ AllegroFlare/AudioRepositoryElement.hpp ]
+  - symbol: AllegroFlare::EventEmitter
+    headers: [ AllegroFlare/EventEmitter.hpp ]
+  - symbol: AllegroFlare::Shaders::Base
+    headers: [ AllegroFlare/Shaders/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Door::Style
+    headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMesh
+    headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMeshFace
+    headers: [ AllegroFlare/Physics/CollisionMeshFace.hpp ]
+  - symbol: ALLEGRO_TRANSFORM
+    headers: [ allegro5/allegro.h ]
+  - symbol: AllegroFlare::Model3D
+    headers: [ AllegroFlare/Model3D.hpp ]
+
+
