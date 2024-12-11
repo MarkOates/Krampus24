@@ -769,6 +769,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>lock_door</b>(std::string door_object_name=&quot;[unset-door_object_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>travel_player_to_elevators_target</b>(std::string entering_elevator_name=&quot;[unset-entering_elevator_name]&quot;)</td>
 </tr>
 <tr>
@@ -1201,11 +1205,19 @@ table td
 </tr>
 <tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces=&quot;[unset-name_for_collision_faces]&quot;, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
 </tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>~destroy</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>lock</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>unlock</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>

@@ -206,6 +206,9 @@ methods:
       - name: collision_mesh
         type: AllegroFlare::Physics::CollisionMesh*
         default_argument: nullptr
+      - name: name_for_collision_faces
+        type: std::string
+        default_argument: '"[unset-name_for_collision_faces]"'
       - name: initial_position
         type: AllegroFlare::Vec3D
         default_argument: AllegroFlare::Vec3D(0, 0, 0)
@@ -273,7 +276,7 @@ methods:
       transform_model(mesh, &placement_transform);
       result->dynamic_collision_mesh_face_names =
          collision_mesh->load_dynamic_faces(
-            "mydoor",
+            name_for_collision_faces, //"mydoor",
             mesh
          );
       model_bin->destroy(collision_mesh_name);
@@ -285,8 +288,6 @@ methods:
       //sample_bin->preload(DOOR_OPEN_SAMPLE_IDENTIFIER);
       result->event_emitter = event_emitter;
 
-      result->locked = true;
-      
 
       result->initialized = true;
       result->set_state(STATE_CLOSED);
@@ -303,6 +304,18 @@ methods:
             //"This class will need to destroy its local copies of 
          //);
       //}
+      return;
+
+
+  - name: lock
+    body: |
+      locked = true;
+      return;
+
+
+  - name: unlock
+    body: |
+      locked = false;
       return;
 
 

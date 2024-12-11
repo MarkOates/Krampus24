@@ -317,6 +317,17 @@ void Tree::lock_sliding_door(std::string sliding_door_object_name)
    return;
 }
 
+void Tree::lock_door(std::string door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
+   as->lock();
+   return;
+}
+
 void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
 {
    auto *player_entity = find_0th_entity();
@@ -337,6 +348,7 @@ void Tree::build_on_collision_callbacks()
    // Customize some door styles
    customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
 
+   lock_door("door.003");
    lock_sliding_door("sliding_door.001");
 
 

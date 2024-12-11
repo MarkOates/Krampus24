@@ -133,7 +133,7 @@ void Door::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* tran
    return;
 }
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Physics::CollisionMesh* collision_mesh, AllegroFlare::Vec3D initial_position, float rotation)
+std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string name_for_collision_faces, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
    {
@@ -229,7 +229,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    transform_model(mesh, &placement_transform);
    result->dynamic_collision_mesh_face_names =
       collision_mesh->load_dynamic_faces(
-         "mydoor",
+         name_for_collision_faces, //"mydoor",
          mesh
       );
    model_bin->destroy(collision_mesh_name);
@@ -241,13 +241,23 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    //sample_bin->preload(DOOR_OPEN_SAMPLE_IDENTIFIER);
    result->event_emitter = event_emitter;
 
-   result->locked = true;
-
 
    result->initialized = true;
    result->set_state(STATE_CLOSED);
 
    return { result, result->left_door, result->right_door };
+}
+
+void Door::lock()
+{
+   locked = true;
+   return;
+}
+
+void Door::unlock()
+{
+   locked = false;
+   return;
 }
 
 void Door::set_style(Krampus24::Gameplay::Entities::Door::Style style)

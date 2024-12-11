@@ -12,6 +12,7 @@ class Krampus24_Gameplay_Entities_DoorWithConstructFixtureTest : public Krampus2
 
 TEST_F(Krampus24_Gameplay_Entities_DoorWithConstructFixtureTest, can_be_created_without_blowing_up)
 {
+   std::string name ="mydoor";
    std::vector<Krampus24::Gameplay::Entities::Base*> entities = Krampus24::Gameplay::Entities::Door::construct(
    //Krampus24::Gameplay::Entities::Door *door =
    //Krampus24::Gameplay::Entities::Door::construct(
@@ -19,6 +20,7 @@ TEST_F(Krampus24_Gameplay_Entities_DoorWithConstructFixtureTest, can_be_created_
       get_framework_bitmap_bin(),
       get_framework_event_emitter(),
       get_screen_collision_mesh(),
+      name,
       AllegroFlare::Vec3D(3, 0, 0),
       -0.125 / 2
       //-0.25

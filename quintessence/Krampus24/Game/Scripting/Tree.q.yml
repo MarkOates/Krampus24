@@ -251,6 +251,23 @@ methods:
       - Krampus24::Gameplay::Entities::SlidingDoor
 
 
+  - name: lock_door
+    parameters:
+      - name: door_object_name
+        type: std::string
+        default_argument: '"[unset-door_object_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
+      as->lock();
+      return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::SlidingDoor
+
+
   - name: travel_player_to_elevators_target
     parameters:
       - name: entering_elevator_name
@@ -276,6 +293,7 @@ methods:
       // Customize some door styles
       customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
 
+      lock_door("door.003");
       lock_sliding_door("sliding_door.001");
 
 
