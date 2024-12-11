@@ -1084,9 +1084,9 @@ void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
 void Screen::show_location_name(std::string location_name, std::string location_floor)
 {
    if (this->current_location_name == location_name && this->current_location_floor == location_floor) return;
-
    this->current_location_name = location_name;
    this->current_location_floor = location_floor;
+
    current_location_reveal_counter = 0.0f;
    return;
 }
@@ -1203,7 +1203,7 @@ void Screen::update()
          else if (entity->name == "docking_bay") show_location_name("Docking Bay", "Sub Level");
          else if (entity->name == "library") show_location_name("Library", "Floor 1");
          else if (entity->name == "vr_room") show_location_name("VR Room", "Floor 1");
-         else if (entity->name == "zoo") show_location_name("Zoo", "Floor 1");
+         else if (entity->name == "zoo") show_location_name("Zoo (Farm)", "Floor 1");
 
          else if (entity->name == "hydroponics_bay") show_location_name("Hydroponics Bay", "Floor 2");
          else if (entity->name == "medical_bay") show_location_name("Medical Bay", "Floor 2");
@@ -1389,7 +1389,7 @@ void Screen::render()
             //1920,
             //al_get_font_line_height(font),
             ALLEGRO_ALIGN_LEFT,
-            u(current_location_name).c_str()
+            u(current_location_floor).c_str()
          );
          al_draw_textf(
             floor_font,
@@ -1399,7 +1399,7 @@ void Screen::render()
             //1920,
             //al_get_font_line_height(font),
             ALLEGRO_ALIGN_LEFT,
-            u(current_location_floor).c_str()
+            u(current_location_name).c_str()
          );
 
       }
@@ -1760,7 +1760,7 @@ ALLEGRO_FONT* Screen::obtain_hud_font()
 
 ALLEGRO_FONT* Screen::obtain_location_font()
 {
-   return font_bin->auto_get("Michroma-Regular.ttf -46");
+   return font_bin->auto_get("Michroma-Regular.ttf -48");
 }
 
 ALLEGRO_FONT* Screen::obtain_location_floor_font()
