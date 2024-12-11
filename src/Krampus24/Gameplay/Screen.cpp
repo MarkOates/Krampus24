@@ -1231,7 +1231,7 @@ void Screen::update()
 
          else if (entity->name == "central_column_chryo_f4") show_location_name("Cryostasis", "Floor 4");
 
-         else if (entity->name == "central_column_f5") show_location_name("Power Cell Containment Area", "Top Floor");
+         else if (entity->name == "central_column_f5") show_location_name("Power Coil Room", "Top Floor");
 
          else
          {

@@ -87,6 +87,7 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    result->set_bitmap_bin(runner->get_bitmap_bin());
    result->set_model_bin(runner->get_model_bin());
    result->set_event_emitter(runner->get_event_emitter());
+   result->set_dialog_system(&runner->get_framework()->get_dialog_system_ref());
    result->set_build_scripting_instance_func(
       [](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
 
@@ -96,6 +97,8 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
       scripting->set_entities(&screen->get_entities_ref());
       scripting->set_collision_observer(&screen->get_collision_observer_ref());
       scripting->set_font_bin(screen->get_font_bin());
+      scripting->set_dialog_system(screen->get_dialog_system());
+      scripting->set_event_emitter(screen->get_event_emitter());
       scripting->initialize();
 
       return scripting;
@@ -543,9 +546,17 @@ AllegroFlare::DialogTree::NodeBank Main::build_dialog_bank_by_identifier(std::st
    AllegroFlare::DialogTree::NodeBank result_node_bank;
 
    // TODO: Consider joining the system nodes outside of the LevelFactory
-   AllegroFlare::DialogTree::NodeBank system_node_bank =
-      AllegroFlare::DialogTree::NodeBankFactory::build_common_system_dialogs_node_bank();
-   result_node_bank.merge(&system_node_bank);
+   //AllegroFlare::DialogTree::NodeBank system_node_bank =
+      //AllegroFlare::DialogTree::NodeBankFactory::build_common_system_dialogs_node_bank();
+   //result_node_bank.merge(&system_node_bank);
+
+
+   // HACK!! For production, we're building a dialog tree here, as well as in the game system.  It leaves
+   // dangling pointers and all these things, it's unsure what the side effects could be from double-building
+   // this dialog node bank
+   Krampus24::Game::Scripting::Tree tree;
+   result_node_bank = tree.build_dialog_node_bank();
+
 
    return result_node_bank;
 }
