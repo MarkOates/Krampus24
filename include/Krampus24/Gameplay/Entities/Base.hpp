@@ -55,6 +55,7 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Base* elevator__target;
             float player__spin;
             float player__tilt;
+            bool zone__is_zone;
             Base(std::string type=Krampus24::Gameplay::Entities::Base::TYPE, AllegroFlare::Model3D* model=nullptr, ALLEGRO_BITMAP* texture=nullptr, AllegroFlare::Placement3D placement={}, AllegroFlare::Placement3D velocity={}, AllegroFlare::Physics::AABB3D aabb3d={}, AllegroFlare::Vec3D aabb3d_alignment={}, AllegroFlare::Physics::AABB2D hit_box_2d={}, AllegroFlare::PlayerInputControllers::Base* player_input_controller=nullptr);
             virtual ~Base();
 

@@ -40,6 +40,7 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , elevator__target(nullptr)
    , player__spin(0.0f)
    , player__tilt(0.0f)
+   , zone__is_zone(false)
 {
 }
 

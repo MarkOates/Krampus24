@@ -1020,6 +1020,10 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
+  <td class="property">zone__is_zone</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">TYPE</td>
   <td class="property">char*</td>
 </tr>
@@ -2931,6 +2935,14 @@ table td
   <td class="property">std::function&lt;Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)&gt;</td>
 </tr>
 <tr>
+  <td class="property">current_location_name</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">current_location_reveal_counter</td>
+  <td class="property">float</td>
+</tr>
+<tr>
   <td class="property">principled_shader</td>
   <td class="property">Krampus24::Shaders::Principled</td>
 </tr>
@@ -3039,11 +3051,19 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>show_location_name</b>(std::string location_name=&quot;[unset-location_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>update</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>render</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>u</b>(std::string string=&quot;[unset-string]&quot;)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -3084,6 +3104,10 @@ table td
 <tr>
   <td class="method">ALLEGRO_FONT*</td>
   <td class="method"><b>obtain_hud_font</b>()</td>
+</tr>
+<tr>
+  <td class="method">ALLEGRO_FONT*</td>
+  <td class="method"><b>obtain_location_font</b>()</td>
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>
@@ -3249,6 +3273,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogSystem::DialogSystem&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogSystem/DialogSystem.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::StringTransformer&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/StringTransformer.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3809,7 +3836,8 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/StringTransformer": [
-    "Krampus24/Game/Scripting/Tree"
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"

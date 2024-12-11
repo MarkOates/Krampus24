@@ -129,6 +129,11 @@ properties:
     init_with: 0.0f
     exposed: true
 
+  - name: zone__is_zone
+    type: bool
+    init_with: false
+    exposed: true
+
   - name: TYPE
     type: char*
     init_with: '(char*)"Krampus24/Gameplay/Entities/Base"'

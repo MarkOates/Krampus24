@@ -9,6 +9,7 @@
 #include <AllegroFlare/PlayerInputControllers/Generic.hpp>
 #include <AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier.hpp>
 #include <AllegroFlare/Routers/Standard.hpp>
+#include <AllegroFlare/StringTransformer.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
@@ -60,6 +61,8 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , blocking_filename(blocking_filename)
    , scripting(nullptr)
    , build_scripting_instance_func({})
+   , current_location_name("UNKNOWN LOCATION")
+   , current_location_reveal_counter(0.0f)
    , principled_shader({})
    , rendering_visual_mesh(true)
    , rendering_collision_wiremesh(false)
@@ -1077,10 +1080,22 @@ void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
    return;
 }
 
+void Screen::show_location_name(std::string location_name)
+{
+   this->current_location_name = location_name;
+   current_location_reveal_counter = 0.0f;
+   return;
+}
+
 void Screen::update()
 {
    float time_now = al_get_time();
    float step_duration = 1.0f;
+
+
+   current_location_reveal_counter += (1.0 / 60.0);
+   if (current_location_reveal_counter > 10.0) current_location_reveal_counter = 10.0;
+
 
 
    // Step each entity via its update function
@@ -1175,6 +1190,20 @@ void Screen::update()
       if (scripting && scripting->has_on_collision_callback(entity))
       {
          scripting->call_on_collision_callback(entity);
+      }
+
+
+      if (entity->zone__is_zone)
+      {
+         if (entity->name == "central_column_f1") show_location_name("Central Column\nFloor 1");
+         else if (entity->name == "docking_bay") show_location_name("Docking Bay\nFloor 1");
+         else if (entity->name == "library") show_location_name("Library\nFloor 1");
+         else if (entity->name == "vr_room") show_location_name("VR Room\nFloor 1");
+         else if (entity->name == "zoo") show_location_name("Zoo\nFloor 1");
+         else
+         {
+            throw std::runtime_error("!!! Unhandled zone name \"" + entity->name + "\"");
+         }
       }
    }
 
@@ -1328,6 +1357,26 @@ void Screen::render()
       }
 
 
+      if (current_location_reveal_counter < 5.0)
+      {
+         //float reveal_opacity = std::max(current_location_reveal_counter
+         
+         // HERE
+         ALLEGRO_FONT *font = obtain_location_font();
+         al_draw_multiline_textf(
+            font,
+            ALLEGRO_COLOR{1.0, 1.0, 1.0, 1.0},
+            200, //1920/2,
+            1080/2,
+            1920,
+            al_get_font_line_height(font),
+            ALLEGRO_ALIGN_LEFT,
+            u(current_location_name).c_str()
+         );
+
+      }
+
+
       if (scripting) scripting->render_hud();
    }
 
@@ -1349,6 +1398,12 @@ void Screen::render()
 
    //ALLEGRO_COLOR col=AllegroFlare::color::azure);
    return;
+}
+
+std::string Screen::u(std::string string)
+{
+   return AllegroFlare::StringTransformer(string).upcase().get_text();
+   //return AllegroFlare::StringTransformer(string).expand(2).upcase().get_text();
 }
 
 void Screen::xxxcall_on_finished_callback_func()
@@ -1673,6 +1728,11 @@ void Screen::virtual_control_axis_change_func(ALLEGRO_EVENT* ev)
 ALLEGRO_FONT* Screen::obtain_hud_font()
 {
    return font_bin->auto_get("Oswald-Medium.ttf -52");
+}
+
+ALLEGRO_FONT* Screen::obtain_location_font()
+{
+   return font_bin->auto_get("Michroma-Regular.ttf -32");
 }
 
 

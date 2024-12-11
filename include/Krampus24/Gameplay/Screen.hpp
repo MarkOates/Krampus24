@@ -60,6 +60,8 @@ namespace Krampus24
          std::string blocking_filename;
          Krampus24::Gameplay::ScriptingInterface* scripting;
          std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func;
+         std::string current_location_name;
+         float current_location_reveal_counter;
          Krampus24::Shaders::Principled principled_shader;
          bool rendering_visual_mesh;
          bool rendering_collision_wiremesh;
@@ -140,8 +142,10 @@ namespace Krampus24
          void hide_inspect_hint();
          void show_inspect_hint();
          void update_inspectable_entity_that_player_is_currently_colliding_with();
+         void show_location_name(std::string location_name="[unset-location_name]");
          void update();
          void render();
+         std::string u(std::string string="[unset-string]");
          void xxxcall_on_finished_callback_func();
          virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
          virtual void primary_update_func(double time_now=0.0f, double delta_time=1.0f) override;
@@ -152,6 +156,7 @@ namespace Krampus24
          virtual void virtual_control_button_down_func(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false) override;
          virtual void virtual_control_axis_change_func(ALLEGRO_EVENT* ev=nullptr) override;
          ALLEGRO_FONT* obtain_hud_font();
+         ALLEGRO_FONT* obtain_location_font();
       };
    }
 }

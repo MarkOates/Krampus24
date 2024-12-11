@@ -36,6 +36,7 @@ Krampus24::Gameplay::Entities::Base* Zone::construct(AllegroFlare::Vec3D positio
    result->placement.position = position;
    result->placement.size = size;
    result->aabb3d.set_max(result->placement.size);
+   result->zone__is_zone = true;
 
    result->initialized = true;
 
