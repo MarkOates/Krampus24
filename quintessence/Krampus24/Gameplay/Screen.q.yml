@@ -335,6 +335,8 @@ methods:
                model_bin,
                bitmap_bin,
                event_emitter,
+               collision_mesh,
+               entity->name,
                position,
                rotation
             );

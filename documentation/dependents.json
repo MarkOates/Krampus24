@@ -238,6 +238,7 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Screen"
   ],
@@ -349,6 +350,7 @@
   ],
   "AllegroFlare/Physics/CollisionMesh": [
     "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
   ],
@@ -356,7 +358,8 @@
     "Krampus24/Gameplay/Entities/Door"
   ],
   "ALLEGRO_TRANSFORM": [
-    "Krampus24/Gameplay/Entities/Door"
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/SlidingDoor"
   ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",

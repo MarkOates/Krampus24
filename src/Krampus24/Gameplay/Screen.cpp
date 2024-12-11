@@ -562,6 +562,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
             model_bin,
             bitmap_bin,
             event_emitter,
+            collision_mesh,
+            entity->name,
             position,
             rotation
          );

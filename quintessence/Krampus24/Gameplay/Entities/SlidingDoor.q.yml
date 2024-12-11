@@ -13,6 +13,10 @@ properties:
     type: AllegroFlare::EventEmitter*
     init_with: nullptr
 
+  - name: collision_mesh
+    type: AllegroFlare::Physics::CollisionMesh*
+    init_with: nullptr
+
   - name: initial_position
     type: AllegroFlare::Vec3D
     init_with: AllegroFlare::Vec3D(0, 0, 0)
@@ -37,6 +41,10 @@ properties:
   - name: locked
     type: bool
     init_with: false
+
+  - name: dynamic_collision_mesh_face_names
+    type: std::vector<std::string>
+    init_with: '{}'
 
   - name: state
     type: uint32_t
@@ -113,6 +121,54 @@ enums:
 methods:
 
 
+  - name: transform_model
+    static: true
+    type: void
+    parameters:
+      - name: model
+        type: AllegroFlare::Model3D*
+        default_argument: nullptr
+      - name: transform
+        type: ALLEGRO_TRANSFORM*
+        default_argument: nullptr
+    body: |
+      //validate_initialized_or_output_to_cerr("transform");
+      //validate_not_vertex_buffer("transform");
+      ALLEGRO_TRANSFORM normal_transform;
+      al_copy_transform(&normal_transform, transform);
+      normal_transform.m[3][0] = 0.0f;
+      normal_transform.m[3][1] = 0.0f;
+      normal_transform.m[3][2] = 0.0f;
+
+      // TODO: Test this
+      auto &vertices = model->vertices;
+      for (unsigned i=0; i<vertices.size(); i++)
+      {
+         al_transform_coordinates_3d(
+            transform,
+            &vertices[i].x,
+            &vertices[i].y,
+            &vertices[i].z
+         );
+
+         // Also transform the normal:
+         al_transform_coordinates_3d(
+            &normal_transform,
+            &vertices[i].nx,
+            &vertices[i].ny,
+            &vertices[i].nz
+        );
+
+         AllegroFlare::Vec3D to_be_normalized =
+            AllegroFlare::Vec3D(vertices[i].nx, vertices[i].ny, vertices[i].nz).normalized();
+
+         vertices[i].nx = to_be_normalized.x;
+         vertices[i].ny = to_be_normalized.y;
+         vertices[i].nz = to_be_normalized.z;
+      }
+      return;
+
+
   - name: construct
     static: true
     type: std::vector<Krampus24::Gameplay::Entities::Base*>
@@ -126,13 +182,19 @@ methods:
       - name: event_emitter
         type: AllegroFlare::EventEmitter*
         default_argument: nullptr
+      - name: collision_mesh
+        type: AllegroFlare::Physics::CollisionMesh*
+        default_argument: nullptr
+      - name: name_for_collision_faces
+        type: std::string
+        default_argument: '"[unset-name_for_collision_faces]"'
       - name: initial_position
         type: AllegroFlare::Vec3D
         default_argument: AllegroFlare::Vec3D(0, 0, 0)
       - name: rotation
         type: float
         default_argument: 0.0f
-    guards: [ model_bin, bitmap_bin, event_emitter ]
+    guards: [ model_bin, bitmap_bin, event_emitter, collision_mesh ]
     body: |
       // Main entity
       Krampus24::Gameplay::Entities::SlidingDoor* result = new Krampus24::Gameplay::Entities::SlidingDoor;
@@ -154,7 +216,7 @@ methods:
 
       // Left door
       result->door = new Krampus24::Gameplay::Entities::Base;
-      result->door->model = model_bin->auto_get("sliding_door-01-door.obj");
+      result->door->model = model_bin->auto_get("sliding_door-02-door.obj");
       result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->door->affected_by_environmental_forces = false;
       result->door->collides_with_player = false;
@@ -166,7 +228,7 @@ methods:
       //result->left_door->active = false;
 
       result->frame = new Krampus24::Gameplay::Entities::Base;
-      result->frame->model = model_bin->auto_get("sliding_door-01-frame.obj");
+      result->frame->model = model_bin->auto_get("sliding_door-02-frame.obj");
       result->frame->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->frame->affected_by_environmental_forces = false;
       result->frame->collides_with_player = false;
@@ -175,6 +237,24 @@ methods:
       result->frame->placement.size = { 0, 0, 0 };
       //result->left_door->placement.rotation.y = rotation;
       result->frame->visible = false;
+
+      // Load our collision mesh for a dynamically blocking door when locked
+      result->collision_mesh = collision_mesh;
+      std::string collision_mesh_name = "sliding_door-02-collision_mesh.obj";
+      AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
+      ALLEGRO_TRANSFORM placement_transform;
+      result->placement.build_transform(&placement_transform);
+      transform_model(mesh, &placement_transform);
+      result->dynamic_collision_mesh_face_names =
+         collision_mesh->load_dynamic_faces(
+            name_for_collision_faces, //"mydoor",
+            mesh
+         );
+      model_bin->destroy(collision_mesh_name);
+     
+      
+
+
 
       /*
       // Right door
@@ -449,6 +529,26 @@ methods:
       return sound_effect_elements;
 
 
+  - name: activate_collision_mesh
+    guards: [ collision_mesh ]
+    body: |
+      for (auto &face_name : dynamic_collision_mesh_face_names)
+      {
+         collision_mesh->activate_dynamic_face(face_name);
+      }
+      return;
+
+
+  - name: deactivate_collision_mesh
+    guards: [ collision_mesh ]
+    body: |
+      for (auto &face_name : dynamic_collision_mesh_face_names)
+      {
+         collision_mesh->deactivate_dynamic_face(face_name);
+      }
+      return;
+
+
   - name: set_state
     parameters:
       - name: state
@@ -476,6 +576,7 @@ methods:
 
          case STATE_OPEN: {
             set_open_position(1.0f);
+            deactivate_collision_mesh();
             //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          } break;
 
@@ -487,6 +588,7 @@ methods:
 
          case STATE_CLOSED: {
             set_open_position(0.0f);
+            activate_collision_mesh();
          } break;
 
          default:
@@ -620,5 +722,11 @@ dependencies:
     headers: [ AllegroFlare/Shaders/Base.hpp ]
   - symbol: Krampus24::Gameplay::Entities::SlidingDoor::Style
     headers: [ Krampus24/Gameplay/Entities/SlidingDoor.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMesh
+    headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
+  - symbol: ALLEGRO_TRANSFORM
+    headers: [ allegro5/allegro.h ]
+  - symbol: AllegroFlare::Model3D
+    headers: [ AllegroFlare/Model3D.hpp ]
 
 

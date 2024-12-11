@@ -16,6 +16,8 @@ TEST_F(Krampus24_Gameplay_Entities_SlidingDoorWithConstructFixtureTest, can_be_c
       get_framework_model_bin(),
       get_framework_bitmap_bin(),
       get_framework_event_emitter(),
+      get_screen_collision_mesh(),
+      "my_sliding_door",
       AllegroFlare::Vec3D(0, 0, 0),
       -0.125
    );

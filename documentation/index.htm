@@ -1776,6 +1776,10 @@ table td
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
 <tr>
+  <td class="property">collision_mesh</td>
+  <td class="property">AllegroFlare::Physics::CollisionMesh*</td>
+</tr>
+<tr>
   <td class="property">initial_position</td>
   <td class="property">AllegroFlare::Vec3D</td>
 </tr>
@@ -1798,6 +1802,10 @@ table td
 <tr>
   <td class="property">locked</td>
   <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">dynamic_collision_mesh_face_names</td>
+  <td class="property">std::vector&lt;std::string&gt;</td>
 </tr>
 <tr>
   <td class="property">state</td>
@@ -1839,8 +1847,12 @@ table td
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
 <tr>
+  <td class="method">void</td>
+  <td class="method"><b>transform_model</b>(AllegroFlare::Model3D* model=nullptr, ALLEGRO_TRANSFORM* transform=nullptr)</td>
+</tr>
+<tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces=&quot;[unset-name_for_collision_faces]&quot;, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1912,6 +1924,14 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>activate_collision_mesh</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>deactivate_collision_mesh</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>set_state</b>(uint32_t state=STATE_UNDEF, bool override_if_busy=false)</td>
 </tr>
 <tr>
@@ -1977,6 +1997,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::SlidingDoor::Style&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/SlidingDoor.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_TRANSFORM&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3392,6 +3421,7 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Screen"
   ],
@@ -3503,6 +3533,7 @@ table td
   ],
   "AllegroFlare/Physics/CollisionMesh": [
     "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
   ],
@@ -3510,7 +3541,8 @@ table td
     "Krampus24/Gameplay/Entities/Door"
   ],
   "ALLEGRO_TRANSFORM": [
-    "Krampus24/Gameplay/Entities/Door"
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/SlidingDoor"
   ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Gameplay/Entities/Hen",

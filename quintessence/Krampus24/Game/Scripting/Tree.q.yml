@@ -293,8 +293,11 @@ methods:
       // Customize some door styles
       customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
 
-      lock_door("door.003");
-      lock_sliding_door("sliding_door.001");
+      lock_door("door.003"); // Elevator on 1st floor leading up to 2nd
+      lock_door("door.005"); // Elevator on 2nd floor leading up to 3rd floor
+      lock_door("door.006"); // Elevator on 3rd floor (armory) leading up to 4rd floor
+      lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
+      lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
 
 
       // Link the elevators
