@@ -3,6 +3,7 @@
 #include <Krampus24/Game/Scripting/Tree.hpp>
 
 #include <AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp>
+#include <AllegroFlare/DialogTree/NodeOptions/GoToNode.hpp>
 #include <AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp>
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
@@ -105,6 +106,23 @@ bool Tree::get_initialized() const
    return initialized;
 }
 
+
+void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
+{
+   if (!(game_event))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::game_event_func]: error: guard \"game_event\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::game_event_func]: error: guard \"game_event\" not met");
+   }
+   // TODO: Handle different events
+   if (game_event->is_type("unlock_mega_door"))
+   {
+      unlock_mega_door("mega_door.001");
+   }
+   return;
+}
 
 void Tree::render_hud()
 {
@@ -276,12 +294,32 @@ Krampus24::Gameplay::Entities::Base* Tree::find_entity_by_name_or_throw(std::str
 
 bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
 {
+   if (!(inspectable_entity_that_player_is_currently_colliding_with))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::interact_with_focused_object]: error: guard \"inspectable_entity_that_player_is_currently_colliding_with\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::interact_with_focused_object]: error: guard \"inspectable_entity_that_player_is_currently_colliding_with\" not met");
+   }
    //throw std::runtime_error("-------------------------=-=-=-=--=======================");
-   if (inspectable_entity_that_player_is_currently_colliding_with->name == "sliding_door.001")
+
+   auto &name = inspectable_entity_that_player_is_currently_colliding_with->name;
+
+   if (name == "sliding_door.001")
    {
       //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
       event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    }
+   else if (name == "console-01")
+   {
+      //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
+      event_emitter->emit_activate_dialog_node_by_name_event("console-01-dialog");
+   }
+      //{ find_entity_by_name_or_throw("console-01"), [this](){
+         //travel_player_to_elevators_target("elevator-01");
+      //}},
+
+
    // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
    // happened, it may play a "no interaction" sound, for example)
    return false;
@@ -326,6 +364,17 @@ void Tree::lock_mega_door(std::string mega_door_object_name)
    // TODO: Validate this is a door!
    auto as = static_cast<Krampus24::Gameplay::Entities::MegaDoor*>(door);
    as->lock();
+   return;
+}
+
+void Tree::unlock_mega_door(std::string mega_door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(mega_door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::MegaDoor*>(door);
+   as->unlock();
    return;
 }
 
@@ -376,7 +425,6 @@ void Tree::build_on_collision_callbacks()
    link_elevators("elevator-09", "elevator-10");
 
    on_entity_collision_callbacks = {
-
       //{ find_entity_by_name_or_throw("hen-01"), [this](){
          //travel_player_to_elevators_target("elevator-01");
       //}},
@@ -438,6 +486,17 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
    AllegroFlare::DialogTree::NodeBank result;
    result.set_nodes({
 
+      //console-01-dialog
+
+      { "console-01-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "System",
+            { u("What would you like to do?") },
+            {
+               { "Disable lock on F1 MegaDoor", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_mega_door"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
       { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "",
             { u("This door is locked.") },
@@ -447,6 +506,19 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             }
          )
       },
+      { "unlock_mega_door", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_mega_door", "exit_dialog")
+      },
+      { "exit_dialog", new AllegroFlare::DialogTree::Nodes::ExitDialog()
+      },
+
+
+
+
+
+
+
+
+
       { "hydroflora", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "Hydroflora",
             { "Alien mushroom with a green cap and vibrant purple stem." },

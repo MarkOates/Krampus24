@@ -24,6 +24,19 @@ ScriptingInterface::~ScriptingInterface()
 }
 
 
+void ScriptingInterface::game_event_func(AllegroFlare::GameEvent* game_event)
+{
+   if (!(game_event))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::ScriptingInterface::game_event_func]: error: guard \"game_event\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::ScriptingInterface::game_event_func]: error: guard \"game_event\" not met");
+   }
+   // Override in the derived class
+   return;
+}
+
 void ScriptingInterface::render_hud()
 {
    return;

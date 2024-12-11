@@ -97,7 +97,8 @@
     "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
     "Krampus24/Game/Configurations/Main",
@@ -151,7 +152,9 @@
   ],
   "AllegroFlare/GameEvent": [
     "Krampus24/Game/Configurations/Main",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface"
   ],
   "AllegroFlare/Screens/PauseScreen": [
     "Krampus24/Game/Configurations/Main"
@@ -298,7 +301,8 @@
     "Krampus24/Gameplay/Entities/Base"
   ],
   "Krampus24/Gameplay/Entities/Console": [
-    "Krampus24/Gameplay/Entities/Console"
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Console",

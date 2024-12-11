@@ -2,6 +2,7 @@
 
 
 #include <AllegroFlare/DialogTree/NodeBank.hpp>
+#include <AllegroFlare/GameEvent.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <functional>
 #include <map>
@@ -23,6 +24,7 @@ namespace Krampus24
          ScriptingInterface();
          virtual ~ScriptingInterface();
 
+         virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr);
          virtual void render_hud();
          virtual bool end_state_achieved();
          virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank();

@@ -10,6 +10,18 @@ properties:
 methods:
 
 
+  - name: game_event_func
+    virtual: true
+    parameters:
+      - name: game_event
+        type: AllegroFlare::GameEvent*
+        default_argument: nullptr
+    guards: [ game_event ]
+    body: |
+      // Override in the derived class
+      return;
+
+
   - name: render_hud
     virtual: true
     body: |
@@ -72,5 +84,7 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
   - symbol: AllegroFlare::DialogTree::NodeBank
     headers: [ AllegroFlare/DialogTree/NodeBank.hpp ]
+  - symbol: AllegroFlare::GameEvent
+    headers: [ AllegroFlare/GameEvent.hpp ]
 
 

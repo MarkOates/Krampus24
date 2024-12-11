@@ -55,6 +55,23 @@ properties:
 methods:
 
 
+  - name: game_event_func
+    virtual: true
+    override: true
+    parameters:
+      - name: game_event
+        type: AllegroFlare::GameEvent*
+        default_argument: nullptr
+    guards: [ game_event ]
+    body: |
+      // TODO: Handle different events
+      if (game_event->is_type("unlock_mega_door"))
+      {
+         unlock_mega_door("mega_door.001");
+      }
+      return;
+
+
   - name: render_hud
     virtual: true
     override: true
@@ -188,13 +205,27 @@ methods:
       - name: inspectable_entity_that_player_is_currently_colliding_with
         type: Krampus24::Gameplay::Entities::Base*
         default_argument: nullptr
+    guards: [ inspectable_entity_that_player_is_currently_colliding_with ]
     body: |
       //throw std::runtime_error("-------------------------=-=-=-=--=======================");
-      if (inspectable_entity_that_player_is_currently_colliding_with->name == "sliding_door.001")
+
+      auto &name = inspectable_entity_that_player_is_currently_colliding_with->name;
+
+      if (name == "sliding_door.001")
       {
          //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
          event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       }
+      else if (name == "console-01")
+      {
+         //throw std::runtime_error("AJSIOAFJIOASJDIOASJDIOAJIOSDJAIODJAIOSJDIAOSJDIOASAAAAAAAAAAAAAA");
+         event_emitter->emit_activate_dialog_node_by_name_event("console-01-dialog");
+      }
+         //{ find_entity_by_name_or_throw("console-01"), [this](){
+            //travel_player_to_elevators_target("elevator-01");
+         //}},
+
+
       // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
       // happened, it may play a "no interaction" sound, for example)
       return false;
@@ -268,6 +299,23 @@ methods:
       - Krampus24::Gameplay::Entities::MegaDoor
 
 
+  - name: unlock_mega_door
+    parameters:
+      - name: mega_door_object_name
+        type: std::string
+        default_argument: '"[unset-mega_door_object_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(mega_door_object_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::MegaDoor*>(door);
+      as->unlock();
+      return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::MegaDoor
+
+
   - name: lock_door
     parameters:
       - name: door_object_name
@@ -326,7 +374,6 @@ methods:
       link_elevators("elevator-09", "elevator-10");
 
       on_entity_collision_callbacks = {
-
          //{ find_entity_by_name_or_throw("hen-01"), [this](){
             //travel_player_to_elevators_target("elevator-01");
          //}},
@@ -399,6 +446,17 @@ methods:
       AllegroFlare::DialogTree::NodeBank result;
       result.set_nodes({
 
+         //console-01-dialog
+
+         { "console-01-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "System",
+               { u("What would you like to do?") },
+               {
+                  { "Disable lock on F1 MegaDoor", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_mega_door"), 0 },
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
          { "locked_door", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
                "",
                { u("This door is locked.") },
@@ -408,6 +466,19 @@ methods:
                }
             )
          },
+         { "unlock_mega_door", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_mega_door", "exit_dialog")
+         },
+         { "exit_dialog", new AllegroFlare::DialogTree::Nodes::ExitDialog()
+         },
+
+
+
+
+
+
+
+
+
          { "hydroflora", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
                "Hydroflora",
                { "Alien mushroom with a green cap and vibrant purple stem." },
@@ -479,6 +550,7 @@ methods:
     body_dependency_symbols:
       - AllegroFlare::DialogTree::Nodes::MultipageWithOptions
       - AllegroFlare::DialogTree::NodeOptions::ExitDialog
+      - AllegroFlare::DialogTree::NodeOptions::GoToNode
 
 
   - name: obtain_hud_font
@@ -520,9 +592,13 @@ dependencies:
     headers: [ AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp ]
   - symbol: AllegroFlare::DialogTree::NodeOptions::ExitDialog
     headers: [ AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp ]
+  - symbol: AllegroFlare::DialogTree::NodeOptions::GoToNode
+    headers: [ AllegroFlare/DialogTree/NodeOptions/GoToNode.hpp ]
   - symbol: AllegroFlare::DialogSystem::DialogSystem
     headers: [ AllegroFlare/DialogSystem/DialogSystem.hpp ]
   - symbol: AllegroFlare::StringTransformer
     headers: [ AllegroFlare/StringTransformer.hpp ]
+  - symbol: AllegroFlare::GameEvent
+    headers: [ AllegroFlare/GameEvent.hpp ]
 
 

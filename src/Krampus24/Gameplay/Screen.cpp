@@ -12,6 +12,7 @@
 #include <AllegroFlare/StringTransformer.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
+#include <Krampus24/Gameplay/Entities/Console.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/Horse.hpp>
@@ -589,6 +590,22 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
       float rotation = entity->rotation.z / 360.0;
       std::vector<Krampus24::Gameplay::Entities::Base*> results =
          Krampus24::Gameplay::Entities::SlidingDoor::construct(
+            model_bin,
+            bitmap_bin,
+            event_emitter,
+            collision_mesh,
+            entity->name,
+            position,
+            rotation
+         );
+      results[0]->name = entity->name;
+      return results;
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::Console::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      std::vector<Krampus24::Gameplay::Entities::Base*> results =
+         Krampus24::Gameplay::Entities::Console::construct(
             model_bin,
             bitmap_bin,
             event_emitter,
@@ -1449,6 +1466,7 @@ void Screen::game_event_func(AllegroFlare::GameEvent* game_event)
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Screen::game_event_func]: error: guard \"game_event\" not met");
    }
+   if (scripting) scripting->game_event_func(game_event);
    // game_configuration->handle_game_event(game_event);
    return;
 }

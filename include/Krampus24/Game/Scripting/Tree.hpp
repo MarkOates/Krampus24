@@ -6,6 +6,7 @@
 #include <AllegroFlare/DialogTree/NodeBank.hpp>
 #include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/FontBin.hpp>
+#include <AllegroFlare/GameEvent.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
@@ -51,6 +52,7 @@ namespace Krampus24
             bool get_primary_power_coil_collected() const;
             bool get_primary_power_coil_returned_to_ship() const;
             bool get_initialized() const;
+            virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
             virtual void render_hud() override;
             virtual bool end_state_achieved() override;
             bool a_0th_entity_exists();
@@ -64,6 +66,7 @@ namespace Krampus24
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
             void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void lock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");
+            void unlock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");
             void lock_door(std::string door_object_name="[unset-door_object_name]");
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
             std::string u(std::string string="[unset-string]");

@@ -750,6 +750,10 @@ table td
 <div class="property-box methods">     <table>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>game_event_func</b>(AllegroFlare::GameEvent* game_event=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>render_hud</b>()</td>
 </tr>
 <tr>
@@ -799,6 +803,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>lock_mega_door</b>(std::string mega_door_object_name=&quot;[unset-mega_door_object_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>unlock_mega_door</b>(std::string mega_door_object_name=&quot;[unset-mega_door_object_name]&quot;)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -873,10 +881,16 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeOptions::ExitDialog&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeOptions::GoToNode&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeOptions/GoToNode.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogSystem::DialogSystem&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogSystem/DialogSystem.hpp&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::StringTransformer&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/StringTransformer.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEvent&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEvent.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3525,6 +3539,9 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::SlidingDoor&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/SlidingDoor.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Console&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Console.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -3551,6 +3568,10 @@ table td
     </table>
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>game_event_func</b>(AllegroFlare::GameEvent* game_event=nullptr)</td>
+</tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>render_hud</b>()</td>
@@ -3583,6 +3604,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DialogTree::NodeBank&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DialogTree/NodeBank.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEvent&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEvent.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3948,7 +3972,8 @@ table td
     "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogTree/NodeOptions/GoToNode": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogTree/NodeOptions/ExitDialog": [
     "Krampus24/Game/Configurations/Main",
@@ -4002,7 +4027,9 @@ table td
   ],
   "AllegroFlare/GameEvent": [
     "Krampus24/Game/Configurations/Main",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface"
   ],
   "AllegroFlare/Screens/PauseScreen": [
     "Krampus24/Game/Configurations/Main"
@@ -4149,7 +4176,8 @@ table td
     "Krampus24/Gameplay/Entities/Base"
   ],
   "Krampus24/Gameplay/Entities/Console": [
-    "Krampus24/Gameplay/Entities/Console"
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/BitmapBin": [
     "Krampus24/Gameplay/Entities/Console",
