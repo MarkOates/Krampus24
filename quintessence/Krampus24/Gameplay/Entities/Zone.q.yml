@@ -25,7 +25,7 @@ methods:
 
   - name: construct
     static: true
-    type: std::vector<Krampus24::Gameplay::Entities::Base*>
+    type: Krampus24::Gameplay::Entities::Base*
     parameters:
       - name: position
         type: AllegroFlare::Vec3D
@@ -43,7 +43,7 @@ methods:
 
       result->initialized = true;
 
-      return { result };
+      return result;
 
 
   - name: draw

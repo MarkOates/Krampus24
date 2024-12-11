@@ -3,7 +3,6 @@
 
 #include <AllegroFlare/Vec3D.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
-#include <vector>
 
 
 namespace Krampus24
@@ -27,7 +26,7 @@ namespace Krampus24
             Zone();
             virtual ~Zone();
 
-            static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::Vec3D position=AllegroFlare::Vec3D(0, 0, 0), AllegroFlare::Vec3D size=AllegroFlare::Vec3D(0, 0, 0));
+            static Krampus24::Gameplay::Entities::Base* construct(AllegroFlare::Vec3D position=AllegroFlare::Vec3D(0, 0, 0), AllegroFlare::Vec3D size=AllegroFlare::Vec3D(0, 0, 0));
             virtual void draw() override;
             virtual void on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
             virtual void on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;

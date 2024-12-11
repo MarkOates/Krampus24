@@ -58,9 +58,11 @@
     "Krampus24/Gameplay/Screen"
   ],
   "std/all_of": [
+    "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity"
   ],
   "std/isdigit": [
+    "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity"
   ],
   "AllegroFlare/GameConfigurations/Complete": [

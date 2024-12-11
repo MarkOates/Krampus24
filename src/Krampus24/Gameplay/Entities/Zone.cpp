@@ -28,7 +28,7 @@ Zone::~Zone()
 }
 
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Zone::construct(AllegroFlare::Vec3D position, AllegroFlare::Vec3D size)
+Krampus24::Gameplay::Entities::Base* Zone::construct(AllegroFlare::Vec3D position, AllegroFlare::Vec3D size)
 {
    Krampus24::Gameplay::Entities::Zone* result = new Krampus24::Gameplay::Entities::Zone;
    result->affected_by_environmental_forces = false;
@@ -39,7 +39,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Zone::construct(AllegroFlare::
 
    result->initialized = true;
 
-   return { result };
+   return result;
 }
 
 void Zone::draw()

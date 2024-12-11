@@ -26,6 +26,9 @@ namespace Krampus24
       BlenderBlockingLoaderBlock();
       ~BlenderBlockingLoaderBlock();
 
+      AllegroFlare::Vec3D calculate_size();
+      std::string get_name_unversioned();
+      static std::string remove_dot_instance(std::string string="[unset-string]");
    };
 }
 

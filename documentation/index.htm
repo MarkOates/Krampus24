@@ -383,11 +383,29 @@ table td
     </table>
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
+<tr>
+  <td class="method">AllegroFlare::Vec3D</td>
+  <td class="method"><b>calculate_size</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>get_name_unversioned</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>remove_dot_instance</b>(std::string string=&quot;[unset-string]&quot;)</td>
+</tr>
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Vec3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Vec3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::all_of&quot;, &quot;headers&quot;=&gt;[&quot;algorithm&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::isdigit&quot;, &quot;headers&quot;=&gt;[&quot;cctype&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2541,7 +2559,7 @@ table td
 </div>    <h3>Methods</h3>
 <div class="property-box methods">     <table>
 <tr>
-  <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
+  <td class="method">Krampus24::Gameplay::Entities::Base*</td>
   <td class="method"><b>construct</b>(AllegroFlare::Vec3D position=AllegroFlare::Vec3D(0, 0, 0), AllegroFlare::Vec3D size=AllegroFlare::Vec3D(0, 0, 0))</td>
 </tr>
 <tr>
@@ -3608,9 +3626,11 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "std/all_of": [
+    "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity"
   ],
   "std/isdigit": [
+    "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity"
   ],
   "AllegroFlare/GameConfigurations/Complete": [

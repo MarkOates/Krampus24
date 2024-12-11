@@ -698,7 +698,6 @@ void Screen::load_or_reload_meshes()
       //float y = entity->location.z; // Swapping z<->y
       //float z = entity->location.y; // Swapping z<->y
 
-      // HERE
       std::string entity_root_name = entity->get_name_unversioned();
       if (entity_root_name == "player_spawn")
       {
@@ -730,6 +729,41 @@ void Screen::load_or_reload_meshes()
          }
       }
    });
+   blender_blocking_loader.for_each_zone([this](Krampus24::BlenderBlockingLoaderBlock* zone){
+      //std::string zone_root_name = zone->get_name_unversioned();
+
+      //if (zone_root_name == Krampus24::Gameplay::Entities::Zone::BLENDER_IDENTIFIER)
+      //{
+         //float x = entity->location.x;
+         //float y = entity->location.z; // Swapping z<->y
+         //float z = entity->location.y; // Swapping z<->y
+         AllegroFlare::Vec3D position = AllegroFlare::Vec3D(
+            zone->min_coordinates.x,
+            zone->min_coordinates.z,
+            zone->min_coordinates.y
+         );
+
+         AllegroFlare::Vec3D natural_size = zone->calculate_size();
+         AllegroFlare::Vec3D size = AllegroFlare::Vec3D(
+            natural_size.x,
+            natural_size.z,
+            natural_size.y
+         );
+
+         //float x = entity->location.x;
+         //float y = entity->location.z; // Swapping z<->y
+         //float z = entity->location.y; // Swapping z<->y
+         //AllegroFlare::Vec3D position = AllegroFlare::Vec3D(x, y, z);
+
+         //float rotation = entity->rotation.z / 360.0;
+         //AllegroFlare::Vec3D size = entity->size;
+         auto *result = Krampus24::Gameplay::Entities::Zone::construct(position, size);
+         result->name = zone->name;
+         //return { result };
+         entities.push_back(result);
+      //}
+   });
+
 
 
    // Load up the sound effects // DEVELOPMENT
