@@ -27,7 +27,7 @@ namespace Krampus24
          class Console : public Krampus24::Gameplay::Entities::Base
          {
          public:
-            static constexpr char* BLENDER_IDENTIFIER = (char*)"sliding_door";
+            static constexpr char* BLENDER_IDENTIFIER = (char*)"console";
             static constexpr char* DOOR_OPEN_SAMPLE_IDENTIFIER = (char*)"door-01-opening.ogg";
 
          public:

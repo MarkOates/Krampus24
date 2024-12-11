@@ -158,7 +158,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
    //result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
 
-   result->placement.size = { 8.0, 8.0, 8.0 };
+   result->placement.size = { 3.0, 3.0, 3.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
@@ -168,7 +168,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
 
    // Left door
    result->door = new Krampus24::Gameplay::Entities::Base;
-   result->door->model = model_bin->auto_get("sliding_door-02-door.obj");
+   result->door->model = model_bin->auto_get("console-01-body.obj");
    result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->door->affected_by_environmental_forces = false;
    result->door->collides_with_player = false;
@@ -179,20 +179,20 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
    result->door->visible = false;
    //result->left_door->active = false;
 
-   result->frame = new Krampus24::Gameplay::Entities::Base;
-   result->frame->model = model_bin->auto_get("sliding_door-02-frame.obj");
-   result->frame->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   result->frame->affected_by_environmental_forces = false;
-   result->frame->collides_with_player = false;
-   result->frame->placement.position = { 0.0, 0.0, 0.0 };
-   result->frame->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->frame->placement.size = { 0, 0, 0 };
+   //result->frame = new Krampus24::Gameplay::Entities::Base;
+   //result->frame->model = model_bin->auto_get("console-01-frame.obj");
+   //result->frame->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   //result->frame->affected_by_environmental_forces = false;
+   //result->frame->collides_with_player = false;
+   //result->frame->placement.position = { 0.0, 0.0, 0.0 };
+   //result->frame->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   //result->frame->placement.size = { 0, 0, 0 };
    //result->left_door->placement.rotation.y = rotation;
-   result->frame->visible = false;
+   //result->frame->visible = false;
 
    // Load our collision mesh for a dynamically blocking door when locked
    result->collision_mesh = collision_mesh;
-   std::string collision_mesh_name = "sliding_door-02-collision_mesh.obj";
+   std::string collision_mesh_name = "console-01-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
    ALLEGRO_TRANSFORM placement_transform;
    result->placement.build_transform(&placement_transform);
@@ -232,7 +232,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
    result->initialized = true;
    result->set_state(STATE_CLOSED);
 
-   return { result, result->door, result->frame }; //, result->right_door };
+   return { result, result->door }; //, result->frame }; //, result->right_door };
 }
 
 void Console::unlock()
@@ -275,16 +275,17 @@ void Console::attempt_to_close()
 
 bool Console::on_player_inspect_or_use()
 {
-   if (is_state(STATE_OPEN) || is_state(STATE_OPENING))
-   {
-      attempt_to_close();
-      return true;
-   }
-   else if (is_state(STATE_CLOSED) || is_state(STATE_CLOSING))
-   {
-      attempt_to_open();
-      return true;
-   }
+   // This will spawn a dialog, but the dialog depends on what was assigned to it
+   //if (is_state(STATE_OPEN) || is_state(STATE_OPENING))
+   //{
+      //attempt_to_close();
+      //return true;
+   //}
+   //else if (is_state(STATE_CLOSED) || is_state(STATE_CLOSING))
+   //{
+      //attempt_to_open();
+      //return true;
+   //}
    return false;
 }
 
@@ -363,10 +364,10 @@ void Console::draw()
    door->model->draw();
    door->placement.restore_transform();
 
-   frame->placement.start_transform();
-   frame->model->set_texture(frame->texture);
-   frame->model->draw();
-   frame->placement.restore_transform();
+   //frame->placement.start_transform();
+   //frame->model->set_texture(frame->texture);
+   //frame->model->draw();
+   //frame->placement.restore_transform();
 
    AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
    AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);

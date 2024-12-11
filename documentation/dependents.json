@@ -4,6 +4,7 @@
     "Krampus24/Blender/ObjectCustomPropertiesLoader",
     "Krampus24/BlenderBlockingLoader",
     "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -21,6 +22,7 @@
     "Krampus24/BlenderBlockingLoaderBlock",
     "Krampus24/BlenderBlockingLoaderEntity",
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -175,6 +177,7 @@
   ],
   "AllegroFlare/EventEmitter": [
     "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/SlidingDoor",
@@ -191,6 +194,7 @@
   "Krampus24/Gameplay/Entities/Base": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -252,6 +256,7 @@
   ],
   "AllegroFlare/Model3D": [
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
@@ -292,7 +297,11 @@
   "AllegroFlare/Useful": [
     "Krampus24/Gameplay/Entities/Base"
   ],
+  "Krampus24/Gameplay/Entities/Console": [
+    "Krampus24/Gameplay/Entities/Console"
+  ],
   "AllegroFlare/BitmapBin": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -306,6 +315,7 @@
     "Krampus24/Shaders/Fog"
   ],
   "AllegroFlare/ModelBin": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -318,6 +328,7 @@
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec2D": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -329,6 +340,7 @@
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/sin": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -340,6 +352,7 @@
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
   "std/abs": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -350,6 +363,7 @@
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "AllegroFlare/Random": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Hen",
     "Krampus24/Gameplay/Entities/Horse",
@@ -360,6 +374,7 @@
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "AllegroFlare/SampleBin": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/SlidingDoor",
@@ -367,6 +382,7 @@
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "AllegroFlare/AudioRepositoryElement": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/SlidingDoor",
@@ -375,6 +391,7 @@
     "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Shaders/Base": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
@@ -385,7 +402,11 @@
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
   ],
+  "Krampus24/Gameplay/Entities/Console/Style": [
+    "Krampus24/Gameplay/Entities/Console"
+  ],
   "AllegroFlare/Physics/CollisionMesh": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/SlidingDoor",
@@ -393,15 +414,16 @@
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
   ],
-  "AllegroFlare/Physics/CollisionMeshFace": [
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/Zone"
-  ],
   "ALLEGRO_TRANSFORM": [
+    "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/Zone"
+  ],
+  "AllegroFlare/Physics/CollisionMeshFace": [
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "Krampus24/Gameplay/Entities/Hen": [

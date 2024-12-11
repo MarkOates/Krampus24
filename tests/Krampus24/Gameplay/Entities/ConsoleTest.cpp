@@ -17,9 +17,9 @@ TEST_F(Krampus24_Gameplay_Entities_ConsoleWithConstructFixtureTest, can_be_creat
       get_framework_bitmap_bin(),
       get_framework_event_emitter(),
       get_screen_collision_mesh(),
-      "my_sliding_door",
+      "my_console",
       AllegroFlare::Vec3D(0, 0, 0),
-      -0.125
+      0.0 //-0.125
    );
    for (auto &entity : entities) add_entity_to_pool(entity);
 
