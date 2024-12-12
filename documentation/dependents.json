@@ -255,6 +255,10 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/ElevatorShaft": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -560,9 +564,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "al_color_html": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/ElevatorShaft": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

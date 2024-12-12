@@ -63,6 +63,7 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Base* find_entity_by_name_or_throw(std::string name="[unset-name]");
             virtual bool interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr) override;
             void link_elevators(std::string elevator_a_name="[unset-elevator_a_name]", std::string elevator_b_name="[unset-elevator_b_name]");
+            void set_elevator_shaft_num_tiers(std::string elevator_shaft_name="[unset-elevator_shaft_name]", float num_tiers=4.0f);
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
             void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void unlock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");

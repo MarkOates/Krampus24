@@ -25,13 +25,14 @@ ElevatorShaft::ElevatorShaft()
    , event_emitter(nullptr)
    , collision_mesh(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
-   , shaft(nullptr)
+   , shaft_bottom_cap(nullptr)
+   , shaft_column(nullptr)
    , car(nullptr)
    , car_body_dynamic_collision_mesh_face_names({})
    , car_door_dynamic_collision_mesh_face_names({})
    , elevation_position(0.0f)
-   , elevation_change_size(3.0f)
-   , speed(0.00165f)
+   , num_tiers(4.0f)
+   , speed((0.00165f * 3))
    , locked(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
@@ -160,7 +161,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 4.0, 4.0*4.0, 4.0 };
+   result->placement.size = { 4.0, 4.0, 4.0 };
+   result->set_num_tiers(4.0); // Needed to set the placement size
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
@@ -170,32 +172,10 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
 
 
    // Shaft
-   result->shaft = model_bin->auto_get("elevator_shaft-02-shaft.obj");
-   //result->shaft = new Krampus24::Gameplay::Entities::Base;
-   //result->shaft->model = model_bin->auto_get("mega_door-03-top_door.obj");
-   //result->shaft->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   //result->shaft->affected_by_environmental_forces = false;
-   //result->shaft->collides_with_player = false;
-   //result->shaft->placement.position = { 0.0, 0.0, 0.0 };
-   //result->shaft->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   //result->shaft->placement.size = { 0, 0, 0 };
-   //result->left_door->placement.rotation.y = rotation;
-   //result->left_door->visible = false;
-   //result->left_door->active = false;
+   result->shaft_bottom_cap = model_bin->auto_get("elevator_shaft-03-shaft_bottom_cap.obj");
+   result->shaft_column = model_bin->auto_get("elevator_shaft-03-shaft_column.obj");
+   result->car = model_bin->auto_get("elevator_shaft-03-car.obj");
 
-   // Car
-   result->car = model_bin->auto_get("elevator_shaft-02-car.obj");
-   //result->car = new Krampus24::Gameplay::Entities::Base;
-   //result->right_door->model = model_bin->auto_get("mega_door-03-bottom_door.obj");
-   //result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   //result->right_door->affected_by_environmental_forces = false;
-   //result->right_door->collides_with_player = false;
-   //result->right_door->placement.position = { 0.0, 0.0, 0.0 };
-   //result->right_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   //result->right_door->placement.size = { 0, 0, 0 };
-   //result->right_door->placement.rotation.y = rotation;
-   //result->right_door->visible = false;
-   //result->right_door->active = false;
 
    result->player_can_inspect_or_use = true;
 
@@ -211,7 +191,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
 
 
    {
-      std::string collision_mesh_name = "elevator_shaft-02-collision_mesh-car.obj";
+      std::string collision_mesh_name = "elevator_shaft-03-collision_mesh-car.obj";
       AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
       //mesh->displace(result->placement.position);
       ALLEGRO_TRANSFORM placement_transform;
@@ -230,7 +210,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    //result->collision_mesh = collision_mesh;
 
    {
-      std::string collision_mesh_name = "elevator_shaft-02-collision_mesh-car_door.obj";
+      std::string collision_mesh_name = "elevator_shaft-03-collision_mesh-car_door.obj";
       AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
       //mesh->displace(result->placement.position);
       ALLEGRO_TRANSFORM placement_transform;
@@ -256,6 +236,28 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    result->set_state(STATE_AT_BOTTOM);
 
    return { result }; //, result->right_door };
+}
+
+void ElevatorShaft::set_num_tiers(float num_tiers)
+{
+   if (!((num_tiers >= 2)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::ElevatorShaft::set_num_tiers]: error: guard \"(num_tiers >= 2)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::ElevatorShaft::set_num_tiers]: error: guard \"(num_tiers >= 2)\" not met");
+   }
+   if (!((num_tiers <= 6)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::ElevatorShaft::set_num_tiers]: error: guard \"(num_tiers <= 6)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::ElevatorShaft::set_num_tiers]: error: guard \"(num_tiers <= 6)\" not met");
+   }
+   this->num_tiers = num_tiers;
+   placement.size.y = 4.0f*num_tiers;
+   aabb3d.set_max(placement.size);
+   return;
 }
 
 bool ElevatorShaft::attempt_to_move_elevator_up()
@@ -391,50 +393,80 @@ void ElevatorShaft::deactivate_collision_mesh()
 
 void ElevatorShaft::draw()
 {
-   placement.start_transform();
+   ALLEGRO_TRANSFORM initial_transform;
 
-   //std::pair<float, float> uv_offset = get_uv_offset_from_style(style);//STYLE_NORMAL_DISRUPTED);
-   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
-   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
+   shaft_bottom_cap->set_texture(texture);
+   shaft_column->set_texture(texture);
+
+   al_copy_transform(&initial_transform, al_get_current_transform());
+
+   //placement.start_transform();
+   ALLEGRO_TRANSFORM base_transform;
+   placement.build_transform(&base_transform);
+
    AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
    AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
-   //right_door->placement.start_transform();
-   //right_door->model->set_texture(right_door->texture);
-   //right_door->model->draw();
-   //right_door->placement.restore_transform();
-   shaft->set_texture(texture);
-   shaft->draw();
 
-   //shaft->placement.start_tra
-   ALLEGRO_TRANSFORM shaft_transform;
-   al_identity_transform(&shaft_transform);
-   al_translate_transform_3d(&shaft_transform, 0, calculate_local_elevator_car_y_position(), 0);
-   al_compose_transform(&shaft_transform, al_get_current_transform());
-   al_use_transform(&shaft_transform);
+   al_use_transform(&base_transform);
+   //shaft_bottom_cap->set_texture(texture);
+   shaft_bottom_cap->draw();
+   //shaft_column->set_texture(texture);
+
+
+   // TODO: Assemble this into a single mesh
+   ///*
+   const float shaft_column_height = 4;
+   ALLEGRO_TRANSFORM composite_shaft_column_transform;
+   ALLEGRO_TRANSFORM shaft_column_transform;
+   al_identity_transform(&shaft_column_transform);
+   int num_reps = (int)num_tiers;
+   //shaft_column->set_texture(texture);
+
+   // Draw the columns
+   shaft_column->draw();
+   for (int i=0; i<(num_reps-1); i++)
+   {
+      al_translate_transform_3d(&shaft_column_transform, 0, shaft_column_height, 0);
+      al_copy_transform(&composite_shaft_column_transform, &shaft_column_transform);
+      al_compose_transform(&composite_shaft_column_transform, &base_transform);
+
+      al_use_transform(&composite_shaft_column_transform);
+
+      //al_use_transform(&base_transform);
+      shaft_column->draw();
+      //al_translate_transform_3d(&shaft_column_transform, 0, shaft_column_height, 0);
+   }
+   //*/
+
+
+   ALLEGRO_TRANSFORM car_transform;
+   al_identity_transform(&car_transform);
+   al_translate_transform_3d(&car_transform, 0, calculate_local_elevator_car_y_position(), 0);
+   al_compose_transform(&car_transform, &base_transform);
+   al_use_transform(&car_transform);
 
    car->set_texture(texture);
    car->draw();
-   //left_door->placement.start_transform();
-   //left_door->model->set_texture(left_door->texture);
-   //left_door->model->draw();
-   //left_door->placement.restore_transform();
+
 
    AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
    AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
 
-   placement.restore_transform();
+   al_use_transform(&initial_transform);
+
+   //placement.restore_transform();
    return;
 }
 
 float ElevatorShaft::calculate_local_elevator_car_y_position()
 {
-   return elevation_position * 4 * elevation_change_size;
+   return elevation_position * 4 * (num_tiers-1);
 }
 
 float ElevatorShaft::calculate_global_elevator_car_y_position()
 {
-   return placement.position.y + elevation_position * 4.0f * elevation_change_size;
+   return placement.position.y + elevation_position * 4.0f * (num_tiers-1);
 }
 
 void ElevatorShaft::set_elevation_position(float elevation_position)
@@ -575,6 +607,7 @@ void ElevatorShaft::update_state(double time_step, double time_now)
    //float flipper = fmod(al_get_time(), flip_speed);
    //if (flipper < flip_speed/2) activate_collision_mesh();
    //else deactivate_collision_mesh();
+
 
    switch (state)
    {

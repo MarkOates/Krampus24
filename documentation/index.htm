@@ -795,6 +795,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>set_elevator_shaft_num_tiers</b>(std::string elevator_shaft_name=&quot;[unset-elevator_shaft_name]&quot;, float num_tiers=4.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>customize_door_style</b>(std::string door_object_name=&quot;[unset-door_object_name]&quot;, Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN)</td>
 </tr>
 <tr>
@@ -900,6 +904,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEvent&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEvent.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::ElevatorShaft&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/ElevatorShaft.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -1705,7 +1712,11 @@ table td
   <td class="property">AllegroFlare::Vec3D</td>
 </tr>
 <tr>
-  <td class="property">shaft</td>
+  <td class="property">shaft_bottom_cap</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">shaft_column</td>
   <td class="property">AllegroFlare::Model3D*</td>
 </tr>
 <tr>
@@ -1725,7 +1736,7 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
-  <td class="property">elevation_change_size</td>
+  <td class="property">num_tiers</td>
   <td class="property">float</td>
 </tr>
 <tr>
@@ -1782,6 +1793,10 @@ table td
 <tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
   <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces=&quot;[unset-name_for_collision_faces]&quot;, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_num_tiers</b>(float num_tiers=4.0f)</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -4425,6 +4440,10 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/ElevatorShaft": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -4730,9 +4749,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "al_color_html": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/ElevatorShaft": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

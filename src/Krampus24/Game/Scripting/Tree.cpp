@@ -7,6 +7,7 @@
 #include <AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp>
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
+#include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <iostream>
@@ -354,6 +355,17 @@ void Tree::link_elevators(std::string elevator_a_name, std::string elevator_b_na
    return;
 }
 
+void Tree::set_elevator_shaft_num_tiers(std::string elevator_shaft_name, float num_tiers)
+{
+   Krampus24::Gameplay::Entities::Base* e = find_entity_by_name_or_throw(elevator_shaft_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::ElevatorShaft*>(e);
+   as->set_num_tiers(num_tiers);
+   return;
+}
+
 void Tree::customize_door_style(std::string door_object_name, Krampus24::Gameplay::Entities::Door::Style door_style)
 {
    Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
@@ -451,7 +463,7 @@ void Tree::build_on_collision_callbacks()
    // Customize some door styles
    customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
 
-   lock_door("door.003"); // Elevator on 1st floor leading up to 2nd
+   //lock_door("door.003"); // Elevator on 1st floor leading up to 2nd
    lock_door("door.005"); // Elevator on 2nd floor leading up to 3rd floor
    lock_door("door.006"); // Elevator on 3rd floor (armory) leading up to 4rd floor
    lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
@@ -459,9 +471,11 @@ void Tree::build_on_collision_callbacks()
    lock_mega_door("mega_door.001"); // Major door on the first floor
 
 
+   set_elevator_shaft_num_tiers("elevator_shaft-01", 6);
+
    // Link the elevators
    //link_elevators("elevator-01", "elevator-02");
-   link_elevators("elevator-03", "elevator-04");
+   //link_elevators("elevator-03", "elevator-04");
    link_elevators("elevator-05", "elevator-06");
    link_elevators("elevator-07", "elevator-08");
    link_elevators("elevator-09", "elevator-10");
@@ -477,12 +491,12 @@ void Tree::build_on_collision_callbacks()
       //{ find_entity_by_name_or_throw("elevator-02"), [this](){
          //travel_player_to_elevators_target("elevator-02");
       //}},
-      { find_entity_by_name_or_throw("elevator-03"), [this](){
-         travel_player_to_elevators_target("elevator-03");
-      }},
-      { find_entity_by_name_or_throw("elevator-04"), [this](){
-         travel_player_to_elevators_target("elevator-04");
-      }},
+      //{ find_entity_by_name_or_throw("elevator-03"), [this](){
+         //travel_player_to_elevators_target("elevator-03");
+      //}},
+      //{ find_entity_by_name_or_throw("elevator-04"), [this](){
+         //travel_player_to_elevators_target("elevator-04");
+      //}},
       { find_entity_by_name_or_throw("elevator-05"), [this](){
          travel_player_to_elevators_target("elevator-05");
       }},
