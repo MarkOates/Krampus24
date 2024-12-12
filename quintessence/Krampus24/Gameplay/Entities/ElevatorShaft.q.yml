@@ -121,27 +121,6 @@ enums:
 methods:
 
 
-  - name: valid_rotation
-    static: true
-    type: bool
-    parameters:
-      - name: rotation
-        type: float
-        default_argument: 0.0f
-    body: |
-      return true;
-      if (rotation == 0.0) return true;
-      if (rotation == -0.25) return true;
-      if (rotation == -0.5) return true;
-      if (rotation == -0.75) return true;
-      if (rotation == -1.0) return true;
-      if (rotation == 0.25) return true;
-      if (rotation == 0.5) return true;
-      if (rotation == 0.75) return true;
-      if (rotation == 1.0) return true;
-      return false;
-
-
   - name: transform_model
     static: true
     type: void
@@ -215,7 +194,7 @@ methods:
       - name: rotation
         type: float
         default_argument: 0.0f
-    guards: [ model_bin, bitmap_bin, event_emitter, collision_mesh, valid_rotation(rotation) ]
+    guards: [ model_bin, bitmap_bin, event_emitter, collision_mesh, ]
     body: |
 
       // Main entity

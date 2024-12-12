@@ -79,21 +79,6 @@ float ElevatorShaft::get_uv_offset_y() const
 }
 
 
-bool ElevatorShaft::valid_rotation(float rotation)
-{
-   return true;
-   if (rotation == 0.0) return true;
-   if (rotation == -0.25) return true;
-   if (rotation == -0.5) return true;
-   if (rotation == -0.75) return true;
-   if (rotation == -1.0) return true;
-   if (rotation == 0.25) return true;
-   if (rotation == 0.5) return true;
-   if (rotation == 0.75) return true;
-   if (rotation == 1.0) return true;
-   return false;
-}
-
 void ElevatorShaft::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* transform)
 {
    //validate_initialized_or_output_to_cerr("transform");
@@ -162,13 +147,6 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
       error_message << "[Krampus24::Gameplay::Entities::ElevatorShaft::construct]: error: guard \"collision_mesh\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::ElevatorShaft::construct]: error: guard \"collision_mesh\" not met");
-   }
-   if (!(valid_rotation(rotation)))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::ElevatorShaft::construct]: error: guard \"valid_rotation(rotation)\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::ElevatorShaft::construct]: error: guard \"valid_rotation(rotation)\" not met");
    }
 
    // Main entity
