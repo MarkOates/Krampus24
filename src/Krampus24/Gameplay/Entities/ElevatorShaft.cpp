@@ -29,7 +29,7 @@ ElevatorShaft::ElevatorShaft()
    , car(nullptr)
    , dynamic_collision_mesh_face_names({})
    , elevation_position(0.0f)
-   , speed(0.0165f)
+   , speed(0.00165f)
    , locked(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
@@ -176,7 +176,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    //result->model = model_bin->auto_get("door-01.obj");
    //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->affected_by_environmental_forces = false;
-   result->collides_with_player = false;
+   result->collides_with_player = true; // DEVELOPMENT
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
@@ -364,12 +364,18 @@ void ElevatorShaft::draw()
    //right_door->model->set_texture(right_door->texture);
    //right_door->model->draw();
    //right_door->placement.restore_transform();
-   car->set_texture(texture);
-   car->draw();
-
-   //shaft->placement.start_tra
    shaft->set_texture(texture);
    shaft->draw();
+
+   //shaft->placement.start_tra
+   ALLEGRO_TRANSFORM shaft_transform;
+   al_identity_transform(&shaft_transform);
+   al_translate_transform_3d(&shaft_transform, 0, elevation_position * 4 * 3, 0);
+   al_compose_transform(&shaft_transform, al_get_current_transform());
+   al_use_transform(&shaft_transform);
+
+   car->set_texture(texture);
+   car->draw();
    //left_door->placement.start_transform();
    //left_door->model->set_texture(left_door->texture);
    //left_door->model->draw();
@@ -386,6 +392,10 @@ void ElevatorShaft::set_elevation_position(float elevation_position)
 {
    elevation_position = std::max(std::min(1.0f, elevation_position), 0.0f);
    this->elevation_position = elevation_position;
+
+   //elevation_position 
+   //left_door->placement.position.y = open_position * 2.9;
+
    //left_door->placement.position.y = open_position * 2.9;
    //right_door->placement.position.y = -open_position * 2.9;
    return;
