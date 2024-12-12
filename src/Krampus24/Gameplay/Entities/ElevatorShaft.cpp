@@ -25,8 +25,8 @@ ElevatorShaft::ElevatorShaft()
    , event_emitter(nullptr)
    , collision_mesh(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
-   , left_door(nullptr)
-   , right_door(nullptr)
+   , shaft(nullptr)
+   , car(nullptr)
    , dynamic_collision_mesh_face_names({})
    , open_position(0.0f)
    , speed(0.0165f)
@@ -176,7 +176,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    //result->model = model_bin->auto_get("door-01.obj");
    //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->affected_by_environmental_forces = false;
-   result->collides_with_player = true;
+   result->collides_with_player = false;
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
@@ -185,31 +185,34 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
    result->placement.rotation.y = rotation;
+   result->texture = bitmap_bin->auto_get("entities_texture-01.png");
 
-   // Left door
-   result->left_door = new Krampus24::Gameplay::Entities::Base;
-   result->left_door->model = model_bin->auto_get("mega_door-03-top_door.obj");
-   result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   result->left_door->affected_by_environmental_forces = false;
-   result->left_door->collides_with_player = false;
-   result->left_door->placement.position = { 0.0, 0.0, 0.0 };
-   result->left_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->left_door->placement.size = { 0, 0, 0 };
+   // Shaft
+   result->shaft = model_bin->auto_get("elevator_shaft-01-shaft.obj");
+   //result->shaft = new Krampus24::Gameplay::Entities::Base;
+   //result->shaft->model = model_bin->auto_get("mega_door-03-top_door.obj");
+   //result->shaft->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   //result->shaft->affected_by_environmental_forces = false;
+   //result->shaft->collides_with_player = false;
+   //result->shaft->placement.position = { 0.0, 0.0, 0.0 };
+   //result->shaft->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   //result->shaft->placement.size = { 0, 0, 0 };
    //result->left_door->placement.rotation.y = rotation;
-   result->left_door->visible = false;
+   //result->left_door->visible = false;
    //result->left_door->active = false;
 
-   // Right door
-   result->right_door = new Krampus24::Gameplay::Entities::Base;
-   result->right_door->model = model_bin->auto_get("mega_door-03-bottom_door.obj");
-   result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   result->right_door->affected_by_environmental_forces = false;
-   result->right_door->collides_with_player = false;
-   result->right_door->placement.position = { 0.0, 0.0, 0.0 };
-   result->right_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->right_door->placement.size = { 0, 0, 0 };
+   // Car
+   result->car = model_bin->auto_get("elevator_shaft-01-car.obj");
+   //result->car = new Krampus24::Gameplay::Entities::Base;
+   //result->right_door->model = model_bin->auto_get("mega_door-03-bottom_door.obj");
+   //result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   //result->right_door->affected_by_environmental_forces = false;
+   //result->right_door->collides_with_player = false;
+   //result->right_door->placement.position = { 0.0, 0.0, 0.0 };
+   //result->right_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   //result->right_door->placement.size = { 0, 0, 0 };
    //result->right_door->placement.rotation.y = rotation;
-   result->right_door->visible = false;
+   //result->right_door->visible = false;
    //result->right_door->active = false;
 
 
@@ -245,7 +248,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    result->initialized = true;
    result->set_state(STATE_CLOSED);
 
-   return { result, result->left_door, result->right_door };
+   return { result }; //, result->right_door };
 }
 
 void ElevatorShaft::lock()
@@ -357,15 +360,20 @@ void ElevatorShaft::draw()
    AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
    AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
-   right_door->placement.start_transform();
-   right_door->model->set_texture(right_door->texture);
-   right_door->model->draw();
-   right_door->placement.restore_transform();
+   //right_door->placement.start_transform();
+   //right_door->model->set_texture(right_door->texture);
+   //right_door->model->draw();
+   //right_door->placement.restore_transform();
+   car->set_texture(texture);
+   car->draw();
 
-   left_door->placement.start_transform();
-   left_door->model->set_texture(left_door->texture);
-   left_door->model->draw();
-   left_door->placement.restore_transform();
+   //shaft->placement.start_tra
+   shaft->set_texture(texture);
+   shaft->draw();
+   //left_door->placement.start_transform();
+   //left_door->model->set_texture(left_door->texture);
+   //left_door->model->draw();
+   //left_door->placement.restore_transform();
 
    AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
    AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
@@ -378,8 +386,8 @@ void ElevatorShaft::set_open_position(float open_position)
 {
    open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
-   left_door->placement.position.y = open_position * 2.9;
-   right_door->placement.position.y = -open_position * 2.9;
+   //left_door->placement.position.y = open_position * 2.9;
+   //right_door->placement.position.y = -open_position * 2.9;
    return;
 }
 
@@ -413,7 +421,7 @@ void ElevatorShaft::on_time_step(double time_step, double time_now)
 void ElevatorShaft::play_open_door_sound_effect()
 {
    //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
-   event_emitter->emit_play_sound_effect_event("open_metal_door");
+   //event_emitter->emit_play_sound_effect_event("open_metal_door");
    return;
 }
 
@@ -451,7 +459,7 @@ void ElevatorShaft::set_state(uint32_t state, bool override_if_busy)
    switch (state)
    {
       case STATE_OPENING: {
-         play_open_door_sound_effect();
+         //play_open_door_sound_effect();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_OPEN);
       } break;
@@ -463,7 +471,7 @@ void ElevatorShaft::set_state(uint32_t state, bool override_if_busy)
       } break;
 
       case STATE_CLOSING: {
-         play_open_door_sound_effect();
+         //play_open_door_sound_effect();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_CLOSED);
       } break;

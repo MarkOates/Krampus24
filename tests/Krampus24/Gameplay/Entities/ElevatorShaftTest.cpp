@@ -21,8 +21,9 @@ TEST_F(Krampus24_Gameplay_Entities_ElevatorShaftWithConstructFixtureTest, can_be
       get_framework_event_emitter(),
       get_screen_collision_mesh(),
       name,
-      AllegroFlare::Vec3D(3, 0, 0),
-      -0.125 / 2
+      AllegroFlare::Vec3D(0, 0, 0),
+      0.0
+      //-0.125 / 2
       //-0.25
    );
    for (auto &entity : entities) add_entity_to_pool(entity);
