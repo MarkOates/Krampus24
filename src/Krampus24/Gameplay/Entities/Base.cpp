@@ -41,6 +41,8 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , player__spin(0.0f)
    , player__tilt(0.0f)
    , zone__is_zone(false)
+   , elevator_shaft__is_elevator_shaft(false)
+   , elevator_entity_attached_to(nullptr)
 {
 }
 
@@ -65,6 +67,23 @@ std::string Base::get_type() const
 bool Base::has_player_input_controller()
 {
    return (player_input_controller != nullptr);
+}
+
+void Base::attach_to_elevator(Krampus24::Gameplay::Entities::Base* elevator_entity_attached_to)
+{
+   this->elevator_entity_attached_to = elevator_entity_attached_to;
+   return;
+}
+
+void Base::detach_from_elevator()
+{
+   this->elevator_entity_attached_to = nullptr;
+   return;
+}
+
+bool Base::is_attached_to_elevator()
+{
+   return (elevator_entity_attached_to != nullptr);
 }
 
 void Base::destroy()

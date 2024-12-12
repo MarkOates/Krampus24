@@ -1048,6 +1048,14 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">elevator_shaft__is_elevator_shaft</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">elevator_entity_attached_to</td>
+  <td class="property">Krampus24::Gameplay::Entities::Base*</td>
+</tr>
+<tr>
   <td class="property">TYPE</td>
   <td class="property">char*</td>
 </tr>
@@ -1057,6 +1065,18 @@ table td
 <tr>
   <td class="method">bool</td>
   <td class="method"><b>has_player_input_controller</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>attach_to_elevator</b>(Krampus24::Gameplay::Entities::Base* elevator_entity_attached_to=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>detach_from_elevator</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_attached_to_elevator</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1693,11 +1713,19 @@ table td
   <td class="property">AllegroFlare::Model3D*</td>
 </tr>
 <tr>
-  <td class="property">dynamic_collision_mesh_face_names</td>
+  <td class="property">car_body_dynamic_collision_mesh_face_names</td>
+  <td class="property">std::vector&lt;std::string&gt;</td>
+</tr>
+<tr>
+  <td class="property">car_door_dynamic_collision_mesh_face_names</td>
   <td class="property">std::vector&lt;std::string&gt;</td>
 </tr>
 <tr>
   <td class="property">elevation_position</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">elevation_change_size</td>
   <td class="property">float</td>
 </tr>
 <tr>
@@ -1756,6 +1784,18 @@ table td
   <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces=&quot;[unset-name_for_collision_faces]&quot;, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
 </tr>
 <tr>
+  <td class="method">bool</td>
+  <td class="method"><b>attempt_to_move_elevator_up</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>attempt_to_move_elevator_down</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>on_player_inspect_or_use</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>~destroy</b>()</td>
 </tr>
@@ -1794,6 +1834,14 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>draw</b>()</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>calculate_local_elevator_car_y_position</b>()</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>calculate_global_elevator_car_y_position</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>

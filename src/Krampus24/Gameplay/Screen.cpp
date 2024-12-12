@@ -1190,79 +1190,108 @@ void Screen::update()
 
 
    //
+   // Reposition the player vertically if they are attached to an elevator
+   //
+   {
+      // HERE
+      auto player_entity = find_0th_entity();
+      if (player_entity->is_attached_to_elevator())
+      {
+         Krampus24::Gameplay::Entities::Base* elevator = player_entity->elevator_entity_attached_to;
+         Krampus24::Gameplay::Entities::ElevatorShaft* as =
+            static_cast<Krampus24::Gameplay::Entities::ElevatorShaft*>(elevator);
+         player_entity->placement.position.y = as->calculate_global_elevator_car_y_position();
+         player_entity->velocity.position.y = 0.0;
+      }
+   }
+
+
+   //
    // Observe change in entity<->entity collisions
    //
-
-   std::set<void*> collidables;
-   auto player_entity = find_0th_entity();
-   for (auto &entity : entities)
    {
-      if (entity == player_entity) continue;
-      if (!entity->active || !entity->collides_with_player) continue;
-      collidables.insert(entity);
-   }
-   collision_observer.set_subject(find_0th_entity());
-   collision_observer.set_collidables(collidables);
-   collision_observer.set_on_test_collide([](void* subject, void* collidable) -> bool {
-     return static_cast<Krampus24::Gameplay::Entities::Base*>(subject)->
-     collides_aabb3d(static_cast<Krampus24::Gameplay::Entities::Base*>(collidable));
-   });
-   collision_observer.process();
-
-   // Process "entered" collisions
-   for (auto &entered : collision_observer.get_entered())
-   {
-      // TODO: Consider extracting this to a method
-      Krampus24::Gameplay::Entities::Base* entity =
-         static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
-      // TODO: Add scripting for collecting gems
-
-      // TODO: Incorporate this gem collection logic
-      //entity->active = false;
-      //entity->visible = false;
-      //gems_collected++;
-      //entity>on_enter_player_bbox_collision();
-      entity->on_enter_player_bbox_collision(player_entity);
-
-
-      if (scripting && scripting->has_on_collision_callback(entity))
+      std::set<void*> collidables;
+      auto player_entity = find_0th_entity();
+      for (auto &entity : entities)
       {
-         scripting->call_on_collision_callback(entity);
+         if (entity == player_entity) continue;
+         if (!entity->active || !entity->collides_with_player) continue;
+         collidables.insert(entity);
       }
+      collision_observer.set_subject(find_0th_entity());
+      collision_observer.set_collidables(collidables);
+      collision_observer.set_on_test_collide([](void* subject, void* collidable) -> bool {
+        return static_cast<Krampus24::Gameplay::Entities::Base*>(subject)->
+        collides_aabb3d(static_cast<Krampus24::Gameplay::Entities::Base*>(collidable));
+      });
+      collision_observer.process();
 
-
-      if (entity->zone__is_zone)
+      // Process "entered" collisions
+      for (auto &entered : collision_observer.get_entered())
       {
-         if (entity->name == "central_column_f1") show_location_name("Central Column", "Floor 1");
-         else if (entity->name == "docking_bay") show_location_name("Docking Bay", "Sub Level");
-         else if (entity->name == "library") show_location_name("Library", "Floor 1");
-         else if (entity->name == "vr_room") show_location_name("VR Room", "Floor 1");
-         else if (entity->name == "zoo") show_location_name("Zoo (Farm)", "Floor 1");
+         // TODO: Consider extracting this to a method
+         Krampus24::Gameplay::Entities::Base* entity =
+            static_cast<Krampus24::Gameplay::Entities::Base*>(entered);
+         // TODO: Add scripting for collecting gems
 
-         else if (entity->name == "hydroponics_bay") show_location_name("Hydroponics Bay", "Floor 2");
-         else if (entity->name == "medical_bay") show_location_name("Medical Bay", "Floor 2");
-         else if (entity->name == "mess_hall") show_location_name("Mess Hall", "Floor 2");
-         else if (entity->name == "central_column_f2") show_location_name("Central Column", "Floor 2");
+         // TODO: Incorporate this gem collection logic
+         //entity->active = false;
+         //entity->visible = false;
+         //gems_collected++;
+         //entity>on_enter_player_bbox_collision();
+         entity->on_enter_player_bbox_collision(player_entity);
 
-         else if (entity->name == "central_column_armory_f3") show_location_name("Armory", "Floor 3");
 
-         else if (entity->name == "central_column_chryo_f4") show_location_name("Cryostasis", "Floor 4");
-
-         else if (entity->name == "central_column_f5") show_location_name("Power Coil Room", "Top Floor");
-
-         else
+         if (scripting && scripting->has_on_collision_callback(entity))
          {
-            throw std::runtime_error("!!! Unhandled zone name \"" + entity->name + "\"");
+            scripting->call_on_collision_callback(entity);
+         }
+
+
+         if (entity->elevator_shaft__is_elevator_shaft)
+         {
+            player_entity->attach_to_elevator(entity);
+         }
+
+
+         if (entity->zone__is_zone)
+         {
+            if (entity->name == "central_column_f1") show_location_name("Central Column", "Floor 1");
+            else if (entity->name == "docking_bay") show_location_name("Docking Bay", "Sub Level");
+            else if (entity->name == "library") show_location_name("Library", "Floor 1");
+            else if (entity->name == "vr_room") show_location_name("VR Room", "Floor 1");
+            else if (entity->name == "zoo") show_location_name("Zoo (Farm)", "Floor 1");
+
+            else if (entity->name == "hydroponics_bay") show_location_name("Hydroponics Bay", "Floor 2");
+            else if (entity->name == "medical_bay") show_location_name("Medical Bay", "Floor 2");
+            else if (entity->name == "mess_hall") show_location_name("Mess Hall", "Floor 2");
+            else if (entity->name == "central_column_f2") show_location_name("Central Column", "Floor 2");
+
+            else if (entity->name == "central_column_armory_f3") show_location_name("Armory", "Floor 3");
+
+            else if (entity->name == "central_column_chryo_f4") show_location_name("Cryostasis", "Floor 4");
+
+            else if (entity->name == "central_column_f5") show_location_name("Power Coil Room", "Top Floor");
+
+            else
+            {
+               throw std::runtime_error("!!! Unhandled zone name \"" + entity->name + "\"");
+            }
          }
       }
-   }
 
-   for (auto &exited : collision_observer.get_exited())
-   {
-      Krampus24::Gameplay::Entities::Base* entity =
-         static_cast<Krampus24::Gameplay::Entities::Base*>(exited);
-      // HERE
-      entity->on_exit_player_bbox_collision();
+      for (auto &exited : collision_observer.get_exited())
+      {
+         Krampus24::Gameplay::Entities::Base* entity =
+            static_cast<Krampus24::Gameplay::Entities::Base*>(exited);
+         // HERE
+         entity->on_exit_player_bbox_collision();
+
+         if (entity->elevator_shaft__is_elevator_shaft)
+         {
+            player_entity->detach_from_elevator();
+         }
+      }
    }
 
 

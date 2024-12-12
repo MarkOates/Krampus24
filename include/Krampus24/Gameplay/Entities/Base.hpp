@@ -56,12 +56,17 @@ namespace Krampus24
             float player__spin;
             float player__tilt;
             bool zone__is_zone;
+            bool elevator_shaft__is_elevator_shaft;
+            Krampus24::Gameplay::Entities::Base* elevator_entity_attached_to;
             Base(std::string type=Krampus24::Gameplay::Entities::Base::TYPE, AllegroFlare::Model3D* model=nullptr, ALLEGRO_BITMAP* texture=nullptr, AllegroFlare::Placement3D placement={}, AllegroFlare::Placement3D velocity={}, AllegroFlare::Physics::AABB3D aabb3d={}, AllegroFlare::Vec3D aabb3d_alignment={}, AllegroFlare::Physics::AABB2D hit_box_2d={}, AllegroFlare::PlayerInputControllers::Base* player_input_controller=nullptr);
             virtual ~Base();
 
             void set_type(std::string type);
             std::string get_type() const;
             bool has_player_input_controller();
+            void attach_to_elevator(Krampus24::Gameplay::Entities::Base* elevator_entity_attached_to=nullptr);
+            void detach_from_elevator();
+            bool is_attached_to_elevator();
             virtual void destroy();
             virtual void draw();
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f);

@@ -134,6 +134,16 @@ properties:
     init_with: false
     exposed: true
 
+  - name: elevator_shaft__is_elevator_shaft
+    type: bool
+    init_with: false
+    exposed: true
+
+  - name: elevator_entity_attached_to
+    type: Krampus24::Gameplay::Entities::Base*
+    init_with: nullptr
+    exposed: true
+
   - name: TYPE
     type: char*
     init_with: '(char*)"Krampus24/Gameplay/Entities/Base"'
@@ -148,6 +158,28 @@ methods:
     type: bool
     body: |
       return (player_input_controller != nullptr);
+
+
+  - name: attach_to_elevator
+    parameters:
+      - name: elevator_entity_attached_to
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    body: |
+      this->elevator_entity_attached_to = elevator_entity_attached_to;
+      return;
+
+
+  - name: detach_from_elevator
+    body: |
+      this->elevator_entity_attached_to = nullptr;
+      return;
+
+
+  - name: is_attached_to_elevator
+    type: bool
+    body: |
+      return (elevator_entity_attached_to != nullptr);
 
 
   - name: destroy

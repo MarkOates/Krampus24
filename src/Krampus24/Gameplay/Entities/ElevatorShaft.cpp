@@ -27,8 +27,10 @@ ElevatorShaft::ElevatorShaft()
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
    , shaft(nullptr)
    , car(nullptr)
-   , dynamic_collision_mesh_face_names({})
+   , car_body_dynamic_collision_mesh_face_names({})
+   , car_door_dynamic_collision_mesh_face_names({})
    , elevation_position(0.0f)
+   , elevation_change_size(3.0f)
    , speed(0.00165f)
    , locked(false)
    , state(STATE_UNDEF)
@@ -158,15 +160,17 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 10.0, 10.0, 10.0 };
+   result->placement.size = { 4.0, 4.0*4.0, 4.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
    result->placement.rotation.y = rotation;
    result->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   result->elevator_shaft__is_elevator_shaft = true;
+
 
    // Shaft
-   result->shaft = model_bin->auto_get("elevator_shaft-01-shaft.obj");
+   result->shaft = model_bin->auto_get("elevator_shaft-02-shaft.obj");
    //result->shaft = new Krampus24::Gameplay::Entities::Base;
    //result->shaft->model = model_bin->auto_get("mega_door-03-top_door.obj");
    //result->shaft->texture = bitmap_bin->auto_get("entities_texture-01.png");
@@ -180,7 +184,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    //result->left_door->active = false;
 
    // Car
-   result->car = model_bin->auto_get("elevator_shaft-01-car.obj");
+   result->car = model_bin->auto_get("elevator_shaft-02-car.obj");
    //result->car = new Krampus24::Gameplay::Entities::Base;
    //result->right_door->model = model_bin->auto_get("mega_door-03-bottom_door.obj");
    //result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
@@ -193,6 +197,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    //result->right_door->visible = false;
    //result->right_door->active = false;
 
+   result->player_can_inspect_or_use = true;
+
 
    //type: std::pair<std::vector<std::string>, std::vector<AllegroFlare::Physics::CollisionMeshFace*>>
    // Load the collision mesh
@@ -200,20 +206,43 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    //std::vector<AllegroFlare::Physics::CollisionMeshFace*> dynamic_faces;
 
 
+   // Car collision mesh
    result->collision_mesh = collision_mesh;
 
-   std::string collision_mesh_name = "elevator_shaft-01-collision_mesh.obj";
-   AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
-   //mesh->displace(result->placement.position);
-   ALLEGRO_TRANSFORM placement_transform;
-   result->placement.build_transform(&placement_transform);
-   transform_model(mesh, &placement_transform);
-   result->dynamic_collision_mesh_face_names =
-      collision_mesh->load_dynamic_faces(
-         name_for_collision_faces, //"mydoor",
-         mesh
-      );
-   model_bin->destroy(collision_mesh_name);
+
+   {
+      std::string collision_mesh_name = "elevator_shaft-02-collision_mesh-car.obj";
+      AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
+      //mesh->displace(result->placement.position);
+      ALLEGRO_TRANSFORM placement_transform;
+      result->placement.build_transform(&placement_transform);
+      transform_model(mesh, &placement_transform);
+      result->car_body_dynamic_collision_mesh_face_names =
+         collision_mesh->load_dynamic_faces(
+            name_for_collision_faces, //"mydoor",
+            mesh
+         );
+      model_bin->destroy(collision_mesh_name);
+   }
+
+
+
+   //result->collision_mesh = collision_mesh;
+
+   {
+      std::string collision_mesh_name = "elevator_shaft-02-collision_mesh-car_door.obj";
+      AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
+      //mesh->displace(result->placement.position);
+      ALLEGRO_TRANSFORM placement_transform;
+      result->placement.build_transform(&placement_transform);
+      transform_model(mesh, &placement_transform);
+      result->car_door_dynamic_collision_mesh_face_names =
+         collision_mesh->load_dynamic_faces(
+            name_for_collision_faces + std::string("-door-"), //"mydoor",
+            mesh
+         );
+      model_bin->destroy(collision_mesh_name);
+   }
 
 
 
@@ -227,6 +256,38 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
    result->set_state(STATE_AT_BOTTOM);
 
    return { result }; //, result->right_door };
+}
+
+bool ElevatorShaft::attempt_to_move_elevator_up()
+{
+   if (locked) return false;
+   if (!is_state(STATE_AT_BOTTOM)) return false;
+   set_state(STATE_GOING_UP);
+   return true;
+}
+
+bool ElevatorShaft::attempt_to_move_elevator_down()
+{
+   if (locked) return false;
+   if (!is_state(STATE_AT_TOP)) return false;
+   set_state(STATE_GOING_DOWN);
+   return true;
+}
+
+bool ElevatorShaft::on_player_inspect_or_use()
+{
+   if (is_state(STATE_AT_TOP))
+   {
+      attempt_to_move_elevator_down();
+      //return true;
+   }
+   else if (is_state(STATE_AT_BOTTOM))
+   {
+      attempt_to_move_elevator_up();
+      //attempt_to_open();
+      //return true;
+   }
+   return false;
 }
 
 void ElevatorShaft::lock()
@@ -305,7 +366,7 @@ void ElevatorShaft::activate_collision_mesh()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::ElevatorShaft::activate_collision_mesh]: error: guard \"collision_mesh\" not met");
    }
-   for (auto &face_name : dynamic_collision_mesh_face_names)
+   for (auto &face_name : car_door_dynamic_collision_mesh_face_names)
    {
       collision_mesh->activate_dynamic_face(face_name);
    }
@@ -321,7 +382,7 @@ void ElevatorShaft::deactivate_collision_mesh()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::ElevatorShaft::deactivate_collision_mesh]: error: guard \"collision_mesh\" not met");
    }
-   for (auto &face_name : dynamic_collision_mesh_face_names)
+   for (auto &face_name : car_door_dynamic_collision_mesh_face_names)
    {
       collision_mesh->deactivate_dynamic_face(face_name);
    }
@@ -348,7 +409,7 @@ void ElevatorShaft::draw()
    //shaft->placement.start_tra
    ALLEGRO_TRANSFORM shaft_transform;
    al_identity_transform(&shaft_transform);
-   al_translate_transform_3d(&shaft_transform, 0, elevation_position * 4 * 3, 0);
+   al_translate_transform_3d(&shaft_transform, 0, calculate_local_elevator_car_y_position(), 0);
    al_compose_transform(&shaft_transform, al_get_current_transform());
    al_use_transform(&shaft_transform);
 
@@ -366,6 +427,16 @@ void ElevatorShaft::draw()
    return;
 }
 
+float ElevatorShaft::calculate_local_elevator_car_y_position()
+{
+   return elevation_position * 4 * elevation_change_size;
+}
+
+float ElevatorShaft::calculate_global_elevator_car_y_position()
+{
+   return placement.position.y + elevation_position * 4.0f * elevation_change_size;
+}
+
 void ElevatorShaft::set_elevation_position(float elevation_position)
 {
    elevation_position = std::max(std::min(1.0f, elevation_position), 0.0f);
@@ -381,14 +452,14 @@ void ElevatorShaft::set_elevation_position(float elevation_position)
 
 void ElevatorShaft::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   if (!locked) set_state(STATE_GOING_UP);
+   //if (!locked) set_state(STATE_GOING_UP);
    //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;
 }
 
 void ElevatorShaft::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   if (!locked) set_state(STATE_GOING_DOWN);
+   //if (!locked) set_state(STATE_GOING_DOWN);
    //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;
 }
@@ -447,6 +518,7 @@ void ElevatorShaft::set_state(uint32_t state, bool override_if_busy)
    switch (state)
    {
       case STATE_GOING_UP: {
+         activate_collision_mesh();
          //play_open_door_sound_effect();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_OPEN);
@@ -459,6 +531,7 @@ void ElevatorShaft::set_state(uint32_t state, bool override_if_busy)
       } break;
 
       case STATE_GOING_DOWN: {
+         activate_collision_mesh();
          //play_open_door_sound_effect();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_AT_BOTTOM):
@@ -466,7 +539,7 @@ void ElevatorShaft::set_state(uint32_t state, bool override_if_busy)
 
       case STATE_AT_BOTTOM: {
          set_elevation_position(0.0f);
-         activate_collision_mesh();
+         deactivate_collision_mesh();
       } break;
 
       default:

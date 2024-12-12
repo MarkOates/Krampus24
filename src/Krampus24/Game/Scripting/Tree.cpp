@@ -460,7 +460,7 @@ void Tree::build_on_collision_callbacks()
 
 
    // Link the elevators
-   link_elevators("elevator-01", "elevator-02");
+   //link_elevators("elevator-01", "elevator-02");
    link_elevators("elevator-03", "elevator-04");
    link_elevators("elevator-05", "elevator-06");
    link_elevators("elevator-07", "elevator-08");
@@ -471,12 +471,12 @@ void Tree::build_on_collision_callbacks()
          //travel_player_to_elevators_target("elevator-01");
       //}},
 
-      { find_entity_by_name_or_throw("elevator-01"), [this](){
-         travel_player_to_elevators_target("elevator-01");
-      }},
-      { find_entity_by_name_or_throw("elevator-02"), [this](){
-         travel_player_to_elevators_target("elevator-02");
-      }},
+      //{ find_entity_by_name_or_throw("elevator-01"), [this](){
+         //travel_player_to_elevators_target("elevator-01");
+      //}},
+      //{ find_entity_by_name_or_throw("elevator-02"), [this](){
+         //travel_player_to_elevators_target("elevator-02");
+      //}},
       { find_entity_by_name_or_throw("elevator-03"), [this](){
          travel_player_to_elevators_target("elevator-03");
       }},
