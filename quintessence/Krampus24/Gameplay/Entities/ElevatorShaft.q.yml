@@ -33,7 +33,7 @@ properties:
     type: std::vector<std::string>
     init_with: '{}'
 
-  - name: open_position
+  - name: elevation_position
     type: float
     init_with: 0.0f
     setter: explicit
@@ -101,10 +101,10 @@ enums:
   - name: State
     enumerators:
       - STATE_UNDEF
-      - STATE_OPENING
-      - STATE_OPEN
-      - STATE_CLOSING
-      - STATE_CLOSED
+      - STATE_GOING_UP
+      - STATE_AT_TOP
+      - STATE_GOING_DOWN
+      - STATE_AT_BOTTOM
 
 
   - name: Style
@@ -293,7 +293,7 @@ methods:
 
 
       result->initialized = true;
-      result->set_state(STATE_CLOSED);
+      result->set_state(STATE_AT_BOTTOM);
 
       return { result }; //, result->right_door };
 
@@ -445,14 +445,14 @@ methods:
       - AllegroFlare::Shaders::Base
 
 
-  - name: set_open_position
+  - name: set_elevation_position
     parameters:
-      - name: open_position
+      - name: elevation_position
         type: float
         default_argument: 1.0f
     body: |
-      open_position = std::max(std::min(1.0f, open_position), 0.0f);
-      this->open_position = open_position;
+      elevation_position = std::max(std::min(1.0f, elevation_position), 0.0f);
+      this->elevation_position = elevation_position;
       //left_door->placement.position.y = open_position * 2.9;
       //right_door->placement.position.y = -open_position * 2.9;
       return;
@@ -466,7 +466,7 @@ methods:
         type: Krampus24::Gameplay::Entities::Base*
         default_argument: nullptr
     body: |
-      if (!locked) set_state(STATE_OPENING);
+      if (!locked) set_state(STATE_GOING_UP);
       //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       return;
 
@@ -479,7 +479,7 @@ methods:
         type: Krampus24::Gameplay::Entities::Base*
         default_argument: nullptr
     body: |
-      if (!locked) set_state(STATE_CLOSING);
+      if (!locked) set_state(STATE_GOING_DOWN);
       //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       return;
 
@@ -538,26 +538,26 @@ methods:
 
       switch (state)
       {
-         case STATE_OPENING: {
+         case STATE_GOING_UP: {
             //play_open_door_sound_effect();
             //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
             //set_state(STATE_OPEN);
          } break;
 
-         case STATE_OPEN: {
-            set_open_position(1.0f);
+         case STATE_AT_TOP: {
+            set_elevation_position(1.0f);
             deactivate_collision_mesh();
             //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          } break;
 
-         case STATE_CLOSING: {
+         case STATE_GOING_DOWN: {
             //play_open_door_sound_effect();
             //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
-            //set_state(STATE_CLOSED);
+            //set_state(STATE_AT_BOTTOM):
          } break;
 
-         case STATE_CLOSED: {
-            set_open_position(0.0f);
+         case STATE_AT_BOTTOM: {
+            set_elevation_position(0.0f);
             activate_collision_mesh();
          } break;
 
@@ -593,20 +593,20 @@ methods:
 
       switch (state)
       {
-         case STATE_OPENING: {
-            set_open_position(open_position + speed);
-            if (open_position >= 1.0) set_state(STATE_OPEN);
+         case STATE_GOING_UP: {
+            set_elevation_position(elevation_position + speed);
+            if (elevation_position >= 1.0) set_state(STATE_AT_TOP);
          } break;
 
-         case STATE_OPEN: {
+         case STATE_AT_TOP: {
          } break;
 
-         case STATE_CLOSING: {
-            set_open_position(open_position - speed);
-            if (open_position <= 0.0) set_state(STATE_CLOSED);
+         case STATE_GOING_DOWN: {
+            set_elevation_position(elevation_position - speed);
+            if (elevation_position <= 0.0) set_state(STATE_AT_BOTTOM);
          } break;
 
-         case STATE_CLOSED: {
+         case STATE_AT_BOTTOM: {
          } break;
 
          default:
@@ -633,10 +633,10 @@ methods:
     body: |
       std::set<uint32_t> valid_states =
       {
-         STATE_OPENING,
-         STATE_OPEN,
-         STATE_CLOSING,
-         STATE_CLOSED
+         STATE_GOING_UP,
+         STATE_AT_TOP,
+         STATE_GOING_DOWN,
+         STATE_AT_BOTTOM
       };
       return (valid_states.count(state) > 0);
     body_dependency_symbols:

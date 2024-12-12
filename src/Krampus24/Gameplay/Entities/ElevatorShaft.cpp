@@ -28,7 +28,7 @@ ElevatorShaft::ElevatorShaft()
    , shaft(nullptr)
    , car(nullptr)
    , dynamic_collision_mesh_face_names({})
-   , open_position(0.0f)
+   , elevation_position(0.0f)
    , speed(0.0165f)
    , locked(false)
    , state(STATE_UNDEF)
@@ -246,7 +246,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
 
 
    result->initialized = true;
-   result->set_state(STATE_CLOSED);
+   result->set_state(STATE_AT_BOTTOM);
 
    return { result }; //, result->right_door };
 }
@@ -382,10 +382,10 @@ void ElevatorShaft::draw()
    return;
 }
 
-void ElevatorShaft::set_open_position(float open_position)
+void ElevatorShaft::set_elevation_position(float elevation_position)
 {
-   open_position = std::max(std::min(1.0f, open_position), 0.0f);
-   this->open_position = open_position;
+   elevation_position = std::max(std::min(1.0f, elevation_position), 0.0f);
+   this->elevation_position = elevation_position;
    //left_door->placement.position.y = open_position * 2.9;
    //right_door->placement.position.y = -open_position * 2.9;
    return;
@@ -393,14 +393,14 @@ void ElevatorShaft::set_open_position(float open_position)
 
 void ElevatorShaft::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   if (!locked) set_state(STATE_OPENING);
+   if (!locked) set_state(STATE_GOING_UP);
    //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;
 }
 
 void ElevatorShaft::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
-   if (!locked) set_state(STATE_CLOSING);
+   if (!locked) set_state(STATE_GOING_DOWN);
    //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;
 }
@@ -458,26 +458,26 @@ void ElevatorShaft::set_state(uint32_t state, bool override_if_busy)
 
    switch (state)
    {
-      case STATE_OPENING: {
+      case STATE_GOING_UP: {
          //play_open_door_sound_effect();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_OPEN);
       } break;
 
-      case STATE_OPEN: {
-         set_open_position(1.0f);
+      case STATE_AT_TOP: {
+         set_elevation_position(1.0f);
          deactivate_collision_mesh();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
       } break;
 
-      case STATE_CLOSING: {
+      case STATE_GOING_DOWN: {
          //play_open_door_sound_effect();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
-         //set_state(STATE_CLOSED);
+         //set_state(STATE_AT_BOTTOM):
       } break;
 
-      case STATE_CLOSED: {
-         set_open_position(0.0f);
+      case STATE_AT_BOTTOM: {
+         set_elevation_position(0.0f);
          activate_collision_mesh();
       } break;
 
@@ -517,20 +517,20 @@ void ElevatorShaft::update_state(double time_step, double time_now)
 
    switch (state)
    {
-      case STATE_OPENING: {
-         set_open_position(open_position + speed);
-         if (open_position >= 1.0) set_state(STATE_OPEN);
+      case STATE_GOING_UP: {
+         set_elevation_position(elevation_position + speed);
+         if (elevation_position >= 1.0) set_state(STATE_AT_TOP);
       } break;
 
-      case STATE_OPEN: {
+      case STATE_AT_TOP: {
       } break;
 
-      case STATE_CLOSING: {
-         set_open_position(open_position - speed);
-         if (open_position <= 0.0) set_state(STATE_CLOSED);
+      case STATE_GOING_DOWN: {
+         set_elevation_position(elevation_position - speed);
+         if (elevation_position <= 0.0) set_state(STATE_AT_BOTTOM);
       } break;
 
-      case STATE_CLOSED: {
+      case STATE_AT_BOTTOM: {
       } break;
 
       default:
@@ -548,10 +548,10 @@ bool ElevatorShaft::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
-      STATE_OPENING,
-      STATE_OPEN,
-      STATE_CLOSING,
-      STATE_CLOSED
+      STATE_GOING_UP,
+      STATE_AT_TOP,
+      STATE_GOING_DOWN,
+      STATE_AT_BOTTOM
    };
    return (valid_states.count(state) > 0);
 }

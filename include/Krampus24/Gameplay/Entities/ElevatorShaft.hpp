@@ -45,10 +45,10 @@ namespace Krampus24
             enum State
             {
                STATE_UNDEF = 0,
-               STATE_OPENING,
-               STATE_OPEN,
-               STATE_CLOSING,
-               STATE_CLOSED,
+               STATE_GOING_UP,
+               STATE_AT_TOP,
+               STATE_GOING_DOWN,
+               STATE_AT_BOTTOM,
             };
             AllegroFlare::EventEmitter* event_emitter;
             AllegroFlare::Physics::CollisionMesh* collision_mesh;
@@ -56,7 +56,7 @@ namespace Krampus24
             AllegroFlare::Model3D* shaft;
             AllegroFlare::Model3D* car;
             std::vector<std::string> dynamic_collision_mesh_face_names;
-            float open_position;
+            float elevation_position;
             float speed;
             bool locked;
             uint32_t state;
@@ -90,7 +90,7 @@ namespace Krampus24
             void activate_collision_mesh();
             void deactivate_collision_mesh();
             virtual void draw() override;
-            void set_open_position(float open_position=1.0f);
+            void set_elevation_position(float elevation_position=1.0f);
             virtual void on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
             virtual void on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f) override;
