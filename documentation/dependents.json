@@ -562,6 +562,9 @@
   "al_color_html": [
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/ElevatorShaft": [
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"
   ],

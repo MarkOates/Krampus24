@@ -14,6 +14,7 @@
 #include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Console.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
+#include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/Horse.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
@@ -582,6 +583,22 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
          position,
          rotation
       );
+      results[0]->name = entity->name;
+      return results;
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::ElevatorShaft::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      std::vector<Krampus24::Gameplay::Entities::Base*> results =
+         Krampus24::Gameplay::Entities::ElevatorShaft::construct(
+            model_bin,
+            bitmap_bin,
+            event_emitter,
+            collision_mesh,
+            entity->name,
+            position,
+            rotation
+         );
       results[0]->name = entity->name;
       return results;
    }

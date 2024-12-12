@@ -224,7 +224,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
 
    result->collision_mesh = collision_mesh;
 
-   std::string collision_mesh_name = "mega_door-03-collision_mesh.obj";
+   std::string collision_mesh_name = "elevator_shaft-01-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
    //mesh->displace(result->placement.position);
    ALLEGRO_TRANSFORM placement_transform;

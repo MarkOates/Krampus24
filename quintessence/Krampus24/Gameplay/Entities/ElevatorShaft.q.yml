@@ -84,7 +84,7 @@ properties:
 
   - name: BLENDER_IDENTIFIER
     type: char*
-    init_with: '(char*)"mega_door"'
+    init_with: '(char*)"elevator_shaft"'
     static: true
     constexpr: true
 
@@ -271,7 +271,7 @@ methods:
 
       result->collision_mesh = collision_mesh;
 
-      std::string collision_mesh_name = "mega_door-03-collision_mesh.obj";
+      std::string collision_mesh_name = "elevator_shaft-01-collision_mesh.obj";
       AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
       //mesh->displace(result->placement.position);
       ALLEGRO_TRANSFORM placement_transform;
