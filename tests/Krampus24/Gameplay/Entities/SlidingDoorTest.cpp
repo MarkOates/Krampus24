@@ -19,7 +19,7 @@ TEST_F(Krampus24_Gameplay_Entities_SlidingDoorWithConstructFixtureTest, can_be_c
       get_screen_collision_mesh(),
       "my_sliding_door",
       AllegroFlare::Vec3D(0, 0, 0),
-      -0.125
+      0.0 //-0.125
    );
    for (auto &entity : entities) add_entity_to_pool(entity);
 

@@ -433,11 +433,11 @@ methods:
       customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
 
       //lock_door("door.003"); // Elevator on 1st floor leading up to 2nd
-      lock_door("door.005"); // Elevator on 2nd floor leading up to 3rd floor
-      lock_door("door.006"); // Elevator on 3rd floor (armory) leading up to 4rd floor
-      lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
-      lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
-      lock_mega_door("mega_door.001"); // Major door on the first floor
+      //lock_door("door.005"); // Elevator on 2nd floor leading up to 3rd floor
+      //lock_door("door.006"); // Elevator on 3rd floor (armory) leading up to 4rd floor
+      //lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
+      //lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
+      //lock_mega_door("mega_door.001"); // Major door on the first floor
 
 
       set_elevator_shaft_num_tiers("elevator_shaft-01", 6);
@@ -445,9 +445,9 @@ methods:
       // Link the elevators
       //link_elevators("elevator-01", "elevator-02");
       //link_elevators("elevator-03", "elevator-04");
-      link_elevators("elevator-05", "elevator-06");
-      link_elevators("elevator-07", "elevator-08");
-      link_elevators("elevator-09", "elevator-10");
+      //link_elevators("elevator-05", "elevator-06");
+      //link_elevators("elevator-07", "elevator-08");
+      //link_elevators("elevator-09", "elevator-10");
 
       on_entity_collision_callbacks = {
          //{ find_entity_by_name_or_throw("hen-01"), [this](){
@@ -466,24 +466,24 @@ methods:
          //{ find_entity_by_name_or_throw("elevator-04"), [this](){
             //travel_player_to_elevators_target("elevator-04");
          //}},
-         { find_entity_by_name_or_throw("elevator-05"), [this](){
-            travel_player_to_elevators_target("elevator-05");
-         }},
-         { find_entity_by_name_or_throw("elevator-06"), [this](){
-            travel_player_to_elevators_target("elevator-06");
-         }},
-         { find_entity_by_name_or_throw("elevator-07"), [this](){
-            travel_player_to_elevators_target("elevator-07");
-         }},
-         { find_entity_by_name_or_throw("elevator-08"), [this](){
-            travel_player_to_elevators_target("elevator-08");
-         }},
-         { find_entity_by_name_or_throw("elevator-09"), [this](){
-            travel_player_to_elevators_target("elevator-09");
-         }},
-         { find_entity_by_name_or_throw("elevator-10"), [this](){
-            travel_player_to_elevators_target("elevator-10");
-         }},
+         //{ find_entity_by_name_or_throw("elevator-05"), [this](){
+            //travel_player_to_elevators_target("elevator-05");
+         //}},
+         //{ find_entity_by_name_or_throw("elevator-06"), [this](){
+            //travel_player_to_elevators_target("elevator-06");
+         //}},
+         //{ find_entity_by_name_or_throw("elevator-07"), [this](){
+            //travel_player_to_elevators_target("elevator-07");
+         //}},
+         //{ find_entity_by_name_or_throw("elevator-08"), [this](){
+            //travel_player_to_elevators_target("elevator-08");
+         //}},
+         //{ find_entity_by_name_or_throw("elevator-09"), [this](){
+            //travel_player_to_elevators_target("elevator-09");
+         //}},
+         //{ find_entity_by_name_or_throw("elevator-10"), [this](){
+            //travel_player_to_elevators_target("elevator-10");
+         //}},
 
          { find_entity_by_name_or_throw("player_ship"), [this](){
             //travel_player_to_elevators_target("elevator-10");
