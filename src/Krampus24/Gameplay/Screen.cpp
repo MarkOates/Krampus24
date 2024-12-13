@@ -1783,6 +1783,7 @@ void Screen::virtual_control_button_up_func(AllegroFlare::Player* player, Allegr
    AllegroFlare::Screens::Gameplay::virtual_control_button_up_func(
       player, virtual_controller, virtual_controller_button_num, is_repeat
    );
+
    // TODO: this function
    return;
 }
@@ -1799,6 +1800,10 @@ void Screen::virtual_control_button_down_func(AllegroFlare::Player* player, Alle
    AllegroFlare::Screens::Gameplay::virtual_control_button_down_func(
       player, virtual_controller, virtual_controller_button_num, is_repeat
    );
+
+   // For now, any button will interact
+   //interact_with_focused_inspectable_object();
+
    // TODO: this function
    //call_on_finished_callback_func(); // Consider technique to exit
    return;
