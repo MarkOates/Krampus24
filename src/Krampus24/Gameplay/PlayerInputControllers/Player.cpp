@@ -27,6 +27,11 @@ Player::Player(void* camera_entity, Krampus24::Gameplay::Entities::Base* player_
    , player_left_pressed(false)
    , player_up_pressed(false)
    , player_down_pressed(false)
+   , move_multiplier(0.05f)
+   , spin_multiplier(0.05f)
+   , tilt_multiplier(0.05f)
+   , joystick_look_axis_deadzone_min_threshold(0.1f)
+   , joystick_move_axis_deadzone_min_threshold(0.2f)
    , initialized(false)
 {
 }
@@ -61,6 +66,12 @@ Krampus24::Gameplay::Entities::Base* Player::get_player_entity() const
 }
 
 
+float Player::get_move_multiplier() const
+{
+   return move_multiplier;
+}
+
+
 void Player::initialize()
 {
    if (!((!initialized)))
@@ -78,6 +89,19 @@ void Player::initialize()
       throw std::runtime_error("[Krampus24::Gameplay::PlayerInputControllers::Player::initialize]: error: guard \"player_entity\" not met");
    }
    initialized = true;
+   return;
+}
+
+void Player::set_move_multiplier(float move_multiplier)
+{
+   if (!((move_multiplier >= 0.0f)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::PlayerInputControllers::Player::set_move_multiplier]: error: guard \"(move_multiplier >= 0.0f)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::PlayerInputControllers::Player::set_move_multiplier]: error: guard \"(move_multiplier >= 0.0f)\" not met");
+   }
+   this->move_multiplier = move_multiplier;
    return;
 }
 
@@ -137,7 +161,7 @@ void Player::player_tilt_change(float delta)
 AllegroFlare::Vec2D Player::infer_player_control_move_velocity_from_keypress()
 {
    AllegroFlare::Vec2D result = { 0, 0 };
-   float speed = 0.05; // Running is like 0.1
+   float speed = move_multiplier; // Running is like 0.1
 
    if (player_left_pressed && player_right_pressed) result.x = 0.0f;
    else if (player_left_pressed) result.x = -speed;
@@ -162,8 +186,8 @@ void Player::update_time_step(double time_now, double delta_time)
    // TODO: Validate spin change
    //float spin_delta = ev->mouse.dx;
    //float tilt_delta = ev->mouse.dy;
-   float spin_multiplier = 0.05;
-   float tilt_multiplier = 0.05;
+   //float spin_multiplier = 0.05;
+   //float tilt_multiplier = 0.05;
    player_spin_change(player_control_look_velocity.x * spin_multiplier);
    player_tilt_change(player_control_look_velocity.y * tilt_multiplier);
 
@@ -370,9 +394,13 @@ void Player::key_up_func(ALLEGRO_EVENT* ev)
 
 void Player::joy_axis_func(ALLEGRO_EVENT* ev)
 {
-   float axis_min_movement_threshold = 0.1f; // 0.05 is not enough for red joystick
+   float look_axis_min_movement_threshold = joystick_look_axis_deadzone_min_threshold;
+   float move_axis_min_movement_threshold = joystick_move_axis_deadzone_min_threshold;
+         //0.1f; // 0.05 is not enough for red joystick
    //float spin_multiplier = 0.01;
    //float tilt_multiplier = 0.01;
+
+
    // The "look" stick
    switch(ev->joystick.stick)
    {
@@ -381,7 +409,7 @@ void Player::joy_axis_func(ALLEGRO_EVENT* ev)
          switch(ev->joystick.axis)
          {
             case 2:
-               if (std::fabs(ev->joystick.pos) < axis_min_movement_threshold)
+               if (std::fabs(ev->joystick.pos) < look_axis_min_movement_threshold)
                {
                   player_control_look_velocity.x = 0.0f;
                }
@@ -399,7 +427,7 @@ void Player::joy_axis_func(ALLEGRO_EVENT* ev)
          switch(ev->joystick.axis)
          {
             case 0:
-               if (std::fabs(ev->joystick.pos) < axis_min_movement_threshold)
+               if (std::fabs(ev->joystick.pos) < look_axis_min_movement_threshold)
                {
                   player_control_look_velocity.y = 0.0f;
                }
@@ -420,12 +448,12 @@ void Player::joy_axis_func(ALLEGRO_EVENT* ev)
          switch(ev->joystick.axis)
          {
             case 0:
-               if (ev->joystick.pos > 0.2)
+               if (ev->joystick.pos > move_axis_min_movement_threshold)
                {
                   player_right_pressed = true;
                   player_left_pressed = false;
                }
-               else if (ev->joystick.pos < -0.2)
+               else if (ev->joystick.pos < -move_axis_min_movement_threshold)
                {
                   player_left_pressed = true;
                   player_right_pressed = false;
@@ -437,12 +465,12 @@ void Player::joy_axis_func(ALLEGRO_EVENT* ev)
                }
             break;
             case 1:
-               if (ev->joystick.pos > 0.2)
+               if (ev->joystick.pos > move_axis_min_movement_threshold)
                {
                   player_down_pressed = true;
                   player_up_pressed = false;
                }
-               else if (ev->joystick.pos < -0.2)
+               else if (ev->joystick.pos < -move_axis_min_movement_threshold)
                {
                   player_up_pressed = true;
                   player_down_pressed = false;

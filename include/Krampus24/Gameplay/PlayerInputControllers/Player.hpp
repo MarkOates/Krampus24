@@ -30,6 +30,11 @@ namespace Krampus24
             bool player_left_pressed;
             bool player_up_pressed;
             bool player_down_pressed;
+            float move_multiplier;
+            float spin_multiplier;
+            float tilt_multiplier;
+            float joystick_look_axis_deadzone_min_threshold;
+            float joystick_move_axis_deadzone_min_threshold;
             bool initialized;
             void player_stop_moving();
             void player_spin_change(float delta=0.0f);
@@ -49,7 +54,9 @@ namespace Krampus24
             void set_player_entity(Krampus24::Gameplay::Entities::Base* player_entity);
             void* get_camera_entity() const;
             Krampus24::Gameplay::Entities::Base* get_player_entity() const;
+            float get_move_multiplier() const;
             void initialize();
+            void set_move_multiplier(float move_multiplier=0.05f);
             virtual void update_time_step(double time_now=0.0, double delta_time=1.0 / 60.0) override;
             virtual void gameplay_suspend_func() override;
             virtual void gameplay_resume_func() override;
