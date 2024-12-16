@@ -141,6 +141,7 @@ namespace Krampus24
          bool a_0th_entity_exists();
          Krampus24::Gameplay::Entities::Base* find_0th_entity();
          void create_and_set_player_input_controller_for_0th_entity();
+         void spawn_arbitrary_storyboard_screen();
          void interact_with_focused_inspectable_object();
          void hide_inspect_hint();
          void show_inspect_hint();

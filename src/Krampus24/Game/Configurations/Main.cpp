@@ -394,6 +394,33 @@ AllegroFlare::Elements::StoryboardPages::Base* Main::create_storyboard_page__tex
    return page;
 }
 
+void Main::handle_arbitrary_storyboard_screen_finished()
+{
+   // TODO: Consider destroying pages in storyboard. Otherwise leakage, k?
+
+   // Emit route event to return to game
+   primary_gameplay_screen->get_event_emitter()->emit_router_event(
+      AllegroFlare::Routers::Standard::EVENT_ACTIVATE_PRIMARY_GAMEPLAY_SCREEN,
+      nullptr,
+      al_get_time()
+   );
+   return;
+}
+
+std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_arbitrary_storyboard_pages_by_identifier(std::string identifier)
+{
+   AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
+
+   std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
+   {
+      create_storyboard_page__text(font_bin,
+        "This is text from an arbitrary storyboard screen."
+      ),
+   };
+
+   return result;
+}
+
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_new_game_intro_storyboard_pages()
 {
    if (!(primary_gameplay_screen))
@@ -404,6 +431,8 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_new_ga
       throw std::runtime_error("[Krampus24::Game::Configurations::Main::create_new_game_intro_storyboard_pages]: error: guard \"primary_gameplay_screen\" not met");
    }
    AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
+
+   return {};
 
    std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
    {

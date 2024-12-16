@@ -840,6 +840,15 @@ methods:
        - Krampus24::Gameplay::PlayerInputControllers::Player
 
 
+  - name: spawn_arbitrary_storyboard_screen
+    body: |
+      event_emitter->emit_router_event(
+         AllegroFlare::Routers::Standard::EVENT_ACTIVATE_ARBITRARY_STORYBOARD_SCREEN,
+         nullptr,
+         al_get_time()
+      );
+
+
   - name: interact_with_focused_inspectable_object
     body: |
       if (inspectable_entity_that_player_is_currently_colliding_with)
@@ -862,6 +871,8 @@ methods:
          }
       }
       return;
+    body_dependency_symbols:
+      - AllegroFlare::Routers::Standard
 
 
   - name: hide_inspect_hint

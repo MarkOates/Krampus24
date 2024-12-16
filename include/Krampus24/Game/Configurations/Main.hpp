@@ -60,6 +60,8 @@ namespace Krampus24
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_storyboard_pages() override;
             std::string u(std::string string="[unset-string]");
             AllegroFlare::Elements::StoryboardPages::Base* create_storyboard_page__text(AllegroFlare::FontBin* font_bin=nullptr, std::string page_text={});
+            virtual void handle_arbitrary_storyboard_screen_finished() override;
+            virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]") override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_new_game_intro_storyboard_pages() override;
             virtual std::vector<std::pair<std::string, std::string>> build_title_screen_menu_options() override;
             virtual void load_audio_controller(AllegroFlare::AudioController* audio_controller=nullptr) override;

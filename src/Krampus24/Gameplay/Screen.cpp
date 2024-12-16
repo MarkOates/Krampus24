@@ -1054,6 +1054,15 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
    return;
 }
 
+void Screen::spawn_arbitrary_storyboard_screen()
+{
+   event_emitter->emit_router_event(
+      AllegroFlare::Routers::Standard::EVENT_ACTIVATE_ARBITRARY_STORYBOARD_SCREEN,
+      nullptr,
+      al_get_time()
+   );
+}
+
 void Screen::interact_with_focused_inspectable_object()
 {
    if (inspectable_entity_that_player_is_currently_colliding_with)
