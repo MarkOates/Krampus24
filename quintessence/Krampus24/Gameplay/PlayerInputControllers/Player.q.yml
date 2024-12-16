@@ -24,6 +24,32 @@ properties:
     getter: true
     setter: true
 
+  - name: move_multiplier
+    type: float
+    init_with: 0.05f
+    getter: true
+    setter: explicit
+
+  - name: spin_multiplier
+    type: float
+    init_with: 0.05f
+    getter: true
+    setter: explicit
+
+  - name: tilt_multiplier
+    type: float
+    init_with: 0.05f
+    getter: true
+    setter: explicit
+
+  - name: joystick_look_axis_deadzone_min_threshold
+    type: float
+    init_with: 0.1f
+
+  - name: joystick_move_axis_deadzone_min_threshold
+    type: float
+    init_with: 0.2f
+
   - name: player_control_move_velocity
     type: AllegroFlare::Vec2D
     init_with: '{}'
@@ -47,28 +73,6 @@ properties:
   - name: player_down_pressed
     type: bool
     init_with: false
-
-  - name: move_multiplier
-    type: float
-    init_with: 0.05f
-    getter: true
-    setter: explicit
-
-  - name: spin_multiplier
-    type: float
-    init_with: 0.05f
-
-  - name: tilt_multiplier
-    type: float
-    init_with: 0.05f
-
-  - name: joystick_look_axis_deadzone_min_threshold
-    type: float
-    init_with: 0.1f
-
-  - name: joystick_move_axis_deadzone_min_threshold
-    type: float
-    init_with: 0.2f
 
   - name: initialized
     type: bool
@@ -105,9 +109,31 @@ methods:
       - name: move_multiplier
         type: float
         default_argument: 0.05f
-    guards: [ (move_multiplier >= 0.0f) ]
+    guards: [ (move_multiplier > 0.0f) ]
     body: |
       this->move_multiplier = move_multiplier;
+      return;
+
+
+  - name: set_spin_multiplier
+    parameters:
+      - name: spin_multiplier
+        type: float
+        default_argument: 0.05f
+    guards: [ (spin_multiplier > 0.0f) ]
+    body: |
+      this->spin_multiplier = spin_multiplier;
+      return;
+
+
+  - name: set_tilt_multiplier
+    parameters:
+      - name: tilt_multiplier
+        type: float
+        default_argument: 0.05f
+    guards: [ (tilt_multiplier >= 0.0f) ]
+    body: |
+      this->tilt_multiplier = tilt_multiplier;
       return;
 
 

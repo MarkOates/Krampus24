@@ -21,17 +21,17 @@ Player::Player(void* camera_entity, Krampus24::Gameplay::Entities::Base* player_
    : AllegroFlare::PlayerInputControllers::Base()
    , camera_entity(camera_entity)
    , player_entity(player_entity)
+   , move_multiplier(0.05f)
+   , spin_multiplier(0.05f)
+   , tilt_multiplier(0.05f)
+   , joystick_look_axis_deadzone_min_threshold(0.1f)
+   , joystick_move_axis_deadzone_min_threshold(0.2f)
    , player_control_move_velocity({})
    , player_control_look_velocity({})
    , player_right_pressed(false)
    , player_left_pressed(false)
    , player_up_pressed(false)
    , player_down_pressed(false)
-   , move_multiplier(0.05f)
-   , spin_multiplier(0.05f)
-   , tilt_multiplier(0.05f)
-   , joystick_look_axis_deadzone_min_threshold(0.1f)
-   , joystick_move_axis_deadzone_min_threshold(0.2f)
    , initialized(false)
 {
 }
@@ -72,6 +72,18 @@ float Player::get_move_multiplier() const
 }
 
 
+float Player::get_spin_multiplier() const
+{
+   return spin_multiplier;
+}
+
+
+float Player::get_tilt_multiplier() const
+{
+   return tilt_multiplier;
+}
+
+
 void Player::initialize()
 {
    if (!((!initialized)))
@@ -94,14 +106,40 @@ void Player::initialize()
 
 void Player::set_move_multiplier(float move_multiplier)
 {
-   if (!((move_multiplier >= 0.0f)))
+   if (!((move_multiplier > 0.0f)))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::PlayerInputControllers::Player::set_move_multiplier]: error: guard \"(move_multiplier >= 0.0f)\" not met.";
+      error_message << "[Krampus24::Gameplay::PlayerInputControllers::Player::set_move_multiplier]: error: guard \"(move_multiplier > 0.0f)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::PlayerInputControllers::Player::set_move_multiplier]: error: guard \"(move_multiplier >= 0.0f)\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::PlayerInputControllers::Player::set_move_multiplier]: error: guard \"(move_multiplier > 0.0f)\" not met");
    }
    this->move_multiplier = move_multiplier;
+   return;
+}
+
+void Player::set_spin_multiplier(float spin_multiplier)
+{
+   if (!((spin_multiplier > 0.0f)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::PlayerInputControllers::Player::set_spin_multiplier]: error: guard \"(spin_multiplier > 0.0f)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::PlayerInputControllers::Player::set_spin_multiplier]: error: guard \"(spin_multiplier > 0.0f)\" not met");
+   }
+   this->spin_multiplier = spin_multiplier;
+   return;
+}
+
+void Player::set_tilt_multiplier(float tilt_multiplier)
+{
+   if (!((tilt_multiplier >= 0.0f)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::PlayerInputControllers::Player::set_tilt_multiplier]: error: guard \"(tilt_multiplier >= 0.0f)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::PlayerInputControllers::Player::set_tilt_multiplier]: error: guard \"(tilt_multiplier >= 0.0f)\" not met");
+   }
+   this->tilt_multiplier = tilt_multiplier;
    return;
 }
 
