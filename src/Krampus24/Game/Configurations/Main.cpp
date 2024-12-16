@@ -91,6 +91,7 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    result->set_model_bin(runner->get_model_bin());
    result->set_event_emitter(runner->get_event_emitter());
    result->set_dialog_system(&runner->get_framework()->get_dialog_system_ref());
+   //result->set_game_configuration(this);
    result->set_build_scripting_instance_func(
       [](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
 
@@ -398,6 +399,9 @@ void Main::handle_arbitrary_storyboard_screen_finished()
 {
    // TODO: Consider destroying pages in storyboard. Otherwise leakage, k?
 
+   // Reset the name to blank
+   primary_gameplay_screen->set_arbitrary_storyboard_screen_identifier_to_start("currently-unset");
+
    // Emit route event to return to game
    primary_gameplay_screen->get_event_emitter()->emit_router_event(
       AllegroFlare::Routers::Standard::EVENT_ACTIVATE_PRIMARY_GAMEPLAY_SCREEN,
@@ -411,12 +415,26 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_arbitr
 {
    AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
 
-   std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
+   identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
+
+   std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
+
+   if (identifier == "pig_storyboard")
    {
-      create_storyboard_page__text(font_bin,
-        "This is text from an arbitrary storyboard screen."
-      ),
-   };
+      result =
+      {
+         create_storyboard_page__text(font_bin,
+           "This is text from an arbitrary \"pig_storyboard\" storyboard screen."
+         ),
+      };
+   }
+   else
+   {
+      AllegroFlare::Logger::throw_error(
+         "AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
+         "Foobar boobaz"
+      );
+   }
 
    return result;
 }

@@ -63,6 +63,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , blocking_filename(blocking_filename)
    , scripting(nullptr)
    , build_scripting_instance_func({})
+   , arbitrary_storyboard_screen_identifier_to_start("[unset-arbitrary_storyboard_screen_identifier_to_start]")
    , current_location_name("")
    , current_location_floor("")
    , current_location_reveal_counter(0.0f)
@@ -228,6 +229,12 @@ void Screen::set_build_scripting_instance_func(std::function<Krampus24::Gameplay
 }
 
 
+void Screen::set_arbitrary_storyboard_screen_identifier_to_start(std::string arbitrary_storyboard_screen_identifier_to_start)
+{
+   this->arbitrary_storyboard_screen_identifier_to_start = arbitrary_storyboard_screen_identifier_to_start;
+}
+
+
 void Screen::set_inspectable_entity_that_player_is_currently_colliding_with(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
 {
    this->inspectable_entity_that_player_is_currently_colliding_with = inspectable_entity_that_player_is_currently_colliding_with;
@@ -363,6 +370,12 @@ std::string Screen::get_blocking_filename() const
 std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> Screen::get_build_scripting_instance_func() const
 {
    return build_scripting_instance_func;
+}
+
+
+std::string Screen::get_arbitrary_storyboard_screen_identifier_to_start() const
+{
+   return arbitrary_storyboard_screen_identifier_to_start;
 }
 
 
@@ -1054,8 +1067,9 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
    return;
 }
 
-void Screen::spawn_arbitrary_storyboard_screen()
+void Screen::spawn_arbitrary_storyboard_screen(std::string storyboard_identifier)
 {
+   arbitrary_storyboard_screen_identifier_to_start = storyboard_identifier;
    event_emitter->emit_router_event(
       AllegroFlare::Routers::Standard::EVENT_ACTIVATE_ARBITRARY_STORYBOARD_SCREEN,
       nullptr,
@@ -1065,6 +1079,8 @@ void Screen::spawn_arbitrary_storyboard_screen()
 
 void Screen::interact_with_focused_inspectable_object()
 {
+   //spawn_arbitrary_storyboard_screen("pig_storyboard");
+
    if (inspectable_entity_that_player_is_currently_colliding_with)
    {
       // Perform the entities local reaction to inspection
