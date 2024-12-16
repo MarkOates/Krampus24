@@ -1067,7 +1067,7 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
    return;
 }
 
-void Screen::spawn_arbitrary_storyboard_screen(std::string storyboard_identifier)
+void Screen::xxxspawn_arbitrary_storyboard_screen(std::string storyboard_identifier)
 {
    arbitrary_storyboard_screen_identifier_to_start = storyboard_identifier;
    event_emitter->emit_router_event(
@@ -1075,6 +1075,27 @@ void Screen::spawn_arbitrary_storyboard_screen(std::string storyboard_identifier
       nullptr,
       al_get_time()
    );
+}
+
+std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Screen::create_arbitrary_storyboard_pages_by_identifier()
+{
+   if (!(font_bin))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"font_bin\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"font_bin\" not met");
+   }
+   if (!(scripting))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"scripting\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"scripting\" not met");
+   }
+   return scripting->create_arbitrary_storyboard_pages_by_identifier(
+         arbitrary_storyboard_screen_identifier_to_start
+      );
 }
 
 void Screen::interact_with_focused_inspectable_object()

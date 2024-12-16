@@ -413,30 +413,40 @@ void Main::handle_arbitrary_storyboard_screen_finished()
 
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_arbitrary_storyboard_pages_by_identifier(std::string identifier)
 {
-   AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
-
-   identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
-
-   std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
-
-   if (identifier == "pig_storyboard")
+   if (!(primary_gameplay_screen))
    {
-      result =
-      {
-         create_storyboard_page__text(font_bin,
-           "This is text from an arbitrary \"pig_storyboard\" storyboard screen."
-         ),
-      };
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Configurations::Main::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"primary_gameplay_screen\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Configurations::Main::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"primary_gameplay_screen\" not met");
    }
-   else
-   {
-      AllegroFlare::Logger::throw_error(
-         "AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
-         "Foobar boobaz"
-      );
-   }
+   return primary_gameplay_screen->create_arbitrary_storyboard_pages_by_identifier(); // NOTE: Naming is weird
+                                                                                      // on this func
 
-   return result;
+   //AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
+
+   //identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
+
+   //std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
+
+   //if (identifier == "pig_storyboard")
+   //{
+      //result =
+      //{
+         //create_storyboard_page__text(font_bin,
+           //"This is text from an arbitrary \"pig_storyboard\" storyboard screen."
+         //),
+      //};
+   //}
+   //else
+   //{
+      //AllegroFlare::Logger::throw_error(
+         //"AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
+         //"Foobar boobaz"
+      //);
+   //}
+
+   //return result;
 }
 
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_new_game_intro_storyboard_pages()

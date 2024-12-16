@@ -78,6 +78,12 @@ void ScriptingInterface::call_on_collision_callback(void* entity)
    return;
 }
 
+std::vector<AllegroFlare::Elements::StoryboardPages::Base *> ScriptingInterface::create_arbitrary_storyboard_pages_by_identifier(std::string identifier)
+{
+   // Override in the derived class
+   return {};
+}
+
 
 } // namespace Gameplay
 } // namespace Krampus24

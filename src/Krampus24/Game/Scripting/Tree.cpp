@@ -5,7 +5,9 @@
 #include <AllegroFlare/DialogTree/NodeOptions/ExitDialog.hpp>
 #include <AllegroFlare/DialogTree/NodeOptions/GoToNode.hpp>
 #include <AllegroFlare/DialogTree/Nodes/MultipageWithOptions.hpp>
+#include <AllegroFlare/Elements/StoryboardPages/AdvancingText.hpp>
 #include <AllegroFlare/Logger.hpp>
+#include <AllegroFlare/Routers/Standard.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
@@ -30,6 +32,7 @@ Tree::Tree()
    , dialog_system(nullptr)
    , font_bin(nullptr)
    , entities(nullptr)
+   , arbitrary_storyboard_screen_identifier_to_start("[unset-arbitrary_storyboard_screen_identifier_to_start]")
    , primary_power_coil_collected(false)
    , primary_power_coil_returned_to_ship(false)
    , collision_observer(nullptr)
@@ -71,6 +74,12 @@ void Tree::set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entit
 }
 
 
+void Tree::set_arbitrary_storyboard_screen_identifier_to_start(std::string arbitrary_storyboard_screen_identifier_to_start)
+{
+   this->arbitrary_storyboard_screen_identifier_to_start = arbitrary_storyboard_screen_identifier_to_start;
+}
+
+
 void Tree::set_primary_power_coil_collected(bool primary_power_coil_collected)
 {
    this->primary_power_coil_collected = primary_power_coil_collected;
@@ -87,6 +96,12 @@ void Tree::set_collision_observer(AllegroFlare::CollisionObservers::Simple* coll
 {
    if (get_initialized()) throw std::runtime_error("[Tree::set_collision_observer]: error: guard \"get_initialized()\" not met.");
    this->collision_observer = collision_observer;
+}
+
+
+std::string Tree::get_arbitrary_storyboard_screen_identifier_to_start() const
+{
+   return arbitrary_storyboard_screen_identifier_to_start;
 }
 
 
@@ -295,6 +310,16 @@ Krampus24::Gameplay::Entities::Base* Tree::find_entity_by_name_or_throw(std::str
    return nullptr;
 }
 
+void Tree::spawn_arbitrary_storyboard_screen(std::string storyboard_identifier)
+{
+   arbitrary_storyboard_screen_identifier_to_start = storyboard_identifier;
+   event_emitter->emit_router_event(
+      AllegroFlare::Routers::Standard::EVENT_ACTIVATE_ARBITRARY_STORYBOARD_SCREEN,
+      nullptr,
+      al_get_time()
+   );
+}
+
 bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
 {
    if (!(inspectable_entity_that_player_is_currently_colliding_with))
@@ -311,6 +336,13 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    if (name == "sliding_door.001")
    {
       event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
+   }
+   else if (name == "pig.001")
+   {
+      //spawn_arbit pig_storyboard
+      spawn_arbitrary_storyboard_screen("pig_storyboard");
+      // HERE
+      //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    }
    else if (name == "console-01")
    {
@@ -698,6 +730,63 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
          )
       },
    });
+   return result;
+}
+
+AllegroFlare::Elements::StoryboardPages::Base* Tree::create_storyboard_page__text(AllegroFlare::FontBin* font_bin, std::string page_text)
+{
+   if (!(font_bin))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::create_storyboard_page__text]: error: guard \"font_bin\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::create_storyboard_page__text]: error: guard \"font_bin\" not met");
+   }
+   if (!((!page_text.empty())))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::create_storyboard_page__text]: error: guard \"(!page_text.empty())\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::create_storyboard_page__text]: error: guard \"(!page_text.empty())\" not met");
+   }
+   auto page = new AllegroFlare::Elements::StoryboardPages::AdvancingText(font_bin, page_text);
+   return page;
+}
+
+std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitrary_storyboard_pages_by_identifier(std::string identifier)
+{
+   if (!(font_bin))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"font_bin\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::create_arbitrary_storyboard_pages_by_identifier]: error: guard \"font_bin\" not met");
+   }
+   //AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
+
+   //identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
+   //spawn_arbitrary_storyboard_screen
+   identifier = arbitrary_storyboard_screen_identifier_to_start;
+
+   std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
+
+   if (identifier == "pig_storyboard")
+   {
+      result =
+      {
+         create_storyboard_page__text(font_bin,
+           "This is text from an arbitrary \"pig_storyboard\" storyboard screen."
+         ),
+      };
+   }
+   else
+   {
+      AllegroFlare::Logger::throw_error(
+         "AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
+         "Foobar boobaz"
+      );
+   }
+
    return result;
 }
 

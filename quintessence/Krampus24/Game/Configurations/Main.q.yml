@@ -436,31 +436,35 @@ methods:
       - name: identifier
         type: std::string
         default_argument: '"[unset-identifier-IS_DISCARDED]"'
+    guards: [ primary_gameplay_screen ]
     body: |
-      AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
+      return primary_gameplay_screen->create_arbitrary_storyboard_pages_by_identifier(); // NOTE: Naming is weird
+                                                                                         // on this func
+      
+      //AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
 
-      identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
+      //identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
 
-      std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
+      //std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
 
-      if (identifier == "pig_storyboard")
-      {
-         result =
-         {
-            create_storyboard_page__text(font_bin,
-              "This is text from an arbitrary \"pig_storyboard\" storyboard screen."
-            ),
-         };
-      }
-      else
-      {
-         AllegroFlare::Logger::throw_error(
-            "AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
-            "Foobar boobaz"
-         );
-      }
+      //if (identifier == "pig_storyboard")
+      //{
+         //result =
+         //{
+            //create_storyboard_page__text(font_bin,
+              //"This is text from an arbitrary \"pig_storyboard\" storyboard screen."
+            //),
+         //};
+      //}
+      //else
+      //{
+         //AllegroFlare::Logger::throw_error(
+            //"AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
+            //"Foobar boobaz"
+         //);
+      //}
 
-      return result;
+      //return result;
 
 
   - name: create_new_game_intro_storyboard_pages

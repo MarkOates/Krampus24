@@ -114,7 +114,10 @@
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/Elements/StoryboardPages/Base": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface"
   ],
   "AllegroFlare/StoryboardPageFactory": [
     "Krampus24/Game/Configurations/Main"
@@ -178,7 +181,8 @@
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Elements/StoryboardPages/AdvancingText": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/FontBin": [
     "Krampus24/Game/Configurations/Main",
@@ -265,6 +269,11 @@
   ],
   "Krampus24/Gameplay/Entities/ElevatorShaft": [
     "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Routers/Standard": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
@@ -540,10 +549,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "std/get": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Routers/Standard": [
-    "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier": [

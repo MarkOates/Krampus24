@@ -7,6 +7,7 @@
 #include <AllegroFlare/Camera3D.hpp>
 #include <AllegroFlare/CollisionObservers/Simple.hpp>
 #include <AllegroFlare/DialogSystem/DialogSystem.hpp>
+#include <AllegroFlare/Elements/StoryboardPages/Base.hpp>
 #include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/FontBin.hpp>
 #include <AllegroFlare/GameConfigurations/Base.hpp>
@@ -144,7 +145,8 @@ namespace Krampus24
          bool a_0th_entity_exists();
          Krampus24::Gameplay::Entities::Base* find_0th_entity();
          void create_and_set_player_input_controller_for_0th_entity();
-         void spawn_arbitrary_storyboard_screen(std::string storyboard_identifier="[unset-storyboard_identifier]");
+         void xxxspawn_arbitrary_storyboard_screen(std::string storyboard_identifier="[unset-storyboard_identifier]");
+         std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier();
          void interact_with_focused_inspectable_object();
          void hide_inspect_hint();
          void show_inspect_hint();

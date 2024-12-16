@@ -4,6 +4,7 @@
 #include <AllegroFlare/CollisionObservers/Simple.hpp>
 #include <AllegroFlare/DialogSystem/DialogSystem.hpp>
 #include <AllegroFlare/DialogTree/NodeBank.hpp>
+#include <AllegroFlare/Elements/StoryboardPages/Base.hpp>
 #include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/FontBin.hpp>
 #include <AllegroFlare/GameEvent.hpp>
@@ -29,6 +30,7 @@ namespace Krampus24
             AllegroFlare::DialogSystem::DialogSystem* dialog_system;
             AllegroFlare::FontBin* font_bin;
             std::vector<Krampus24::Gameplay::Entities::Base*>* entities;
+            std::string arbitrary_storyboard_screen_identifier_to_start;
             bool primary_power_coil_collected;
             bool primary_power_coil_returned_to_ship;
             AllegroFlare::CollisionObservers::Simple* collision_observer;
@@ -46,9 +48,11 @@ namespace Krampus24
             void set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system);
             void set_font_bin(AllegroFlare::FontBin* font_bin);
             void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities);
+            void set_arbitrary_storyboard_screen_identifier_to_start(std::string arbitrary_storyboard_screen_identifier_to_start);
             void set_primary_power_coil_collected(bool primary_power_coil_collected);
             void set_primary_power_coil_returned_to_ship(bool primary_power_coil_returned_to_ship);
             void set_collision_observer(AllegroFlare::CollisionObservers::Simple* collision_observer);
+            std::string get_arbitrary_storyboard_screen_identifier_to_start() const;
             bool get_primary_power_coil_collected() const;
             bool get_primary_power_coil_returned_to_ship() const;
             bool get_initialized() const;
@@ -61,6 +65,7 @@ namespace Krampus24
             std::pair<int, std::string> get_entities_names_in_list();
             bool entity_with_name_exists(std::string name="[unset-name]");
             Krampus24::Gameplay::Entities::Base* find_entity_by_name_or_throw(std::string name="[unset-name]");
+            void spawn_arbitrary_storyboard_screen(std::string storyboard_identifier="[unset-storyboard_identifier]");
             virtual bool interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr) override;
             void link_elevators(std::string elevator_a_name="[unset-elevator_a_name]", std::string elevator_b_name="[unset-elevator_b_name]");
             void set_elevator_shaft_num_tiers(std::string elevator_shaft_name="[unset-elevator_shaft_name]", float num_tiers=4.0f);
@@ -74,6 +79,8 @@ namespace Krampus24
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
             std::string u(std::string string="[unset-string]");
             virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank() override;
+            AllegroFlare::Elements::StoryboardPages::Base* create_storyboard_page__text(AllegroFlare::FontBin* font_bin=nullptr, std::string page_text={});
+            virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier-DISCARDED]") override;
             ALLEGRO_FONT* obtain_hud_font();
          };
       }

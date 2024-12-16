@@ -29,6 +29,12 @@ properties:
     init_with: nullptr
     setter: before_initialized
 
+  - name: arbitrary_storyboard_screen_identifier_to_start
+    type: std::string
+    init_with: '"[unset-arbitrary_storyboard_screen_identifier_to_start]"'
+    getter: true
+    setter: true
+
   - name: primary_power_coil_collected
     type: bool
     init_with: false
@@ -199,6 +205,23 @@ methods:
       - AllegroFlare::Logger
 
 
+  - name: spawn_arbitrary_storyboard_screen
+    parameters:
+      - name: storyboard_identifier
+        type: std::string
+        default_argument: '"[unset-storyboard_identifier]"'
+    xguards: [ game_configuration ]
+    body: |
+      arbitrary_storyboard_screen_identifier_to_start = storyboard_identifier;
+      event_emitter->emit_router_event(
+         AllegroFlare::Routers::Standard::EVENT_ACTIVATE_ARBITRARY_STORYBOARD_SCREEN,
+         nullptr,
+         al_get_time()
+      );
+    body_dependency_symbols:
+      - AllegroFlare::Routers::Standard
+
+
   - name: interact_with_focused_object
     type: bool
     virtual: true
@@ -216,6 +239,13 @@ methods:
       if (name == "sliding_door.001")
       {
          event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
+      }
+      else if (name == "pig.001")
+      {
+         //spawn_arbit pig_storyboard
+         spawn_arbitrary_storyboard_screen("pig_storyboard");
+         // HERE
+         //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       }
       else if (name == "console-01")
       {
@@ -685,6 +715,61 @@ methods:
       - AllegroFlare::DialogTree::NodeOptions::GoToNode
 
 
+  - name: create_storyboard_page__text
+    type: AllegroFlare::Elements::StoryboardPages::Base*
+    parameters:
+      - name: font_bin
+        type: AllegroFlare::FontBin*
+        default_argument: nullptr
+      - name: page_text
+        type: std::string
+        default_argument: '{}'
+    guards: [ font_bin, (!page_text.empty()) ]
+    body: |
+      auto page = new AllegroFlare::Elements::StoryboardPages::AdvancingText(font_bin, page_text);
+      return page;
+    body_dependency_symbols:
+      - AllegroFlare::Elements::StoryboardPages::AdvancingText
+
+
+  - name: create_arbitrary_storyboard_pages_by_identifier
+    type: std::vector<AllegroFlare::Elements::StoryboardPages::Base *>
+    virtual: true
+    override: true
+    parameters:
+      - name: identifier
+        type: std::string
+        default_argument: '"[unset-identifier-DISCARDED]"'
+    guards: [ font_bin ]
+    body: |
+      //AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
+
+      //identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
+      //spawn_arbitrary_storyboard_screen
+      identifier = arbitrary_storyboard_screen_identifier_to_start;
+
+      std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
+
+      if (identifier == "pig_storyboard")
+      {
+         result =
+         {
+            create_storyboard_page__text(font_bin,
+              "This is text from an arbitrary \"pig_storyboard\" storyboard screen."
+            ),
+         };
+      }
+      else
+      {
+         AllegroFlare::Logger::throw_error(
+            "AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
+            "Foobar boobaz"
+         );
+      }
+
+      return result;
+
+
   - name: obtain_hud_font
     type: ALLEGRO_FONT*
     body: |
@@ -734,5 +819,11 @@ dependencies:
     headers: [ AllegroFlare/GameEvent.hpp ]
   - symbol: Krampus24::Gameplay::Entities::ElevatorShaft
     headers: [ Krampus24/Gameplay/Entities/ElevatorShaft.hpp ]
+  - symbol: AllegroFlare::Elements::StoryboardPages::Base
+    headers: [ AllegroFlare/Elements/StoryboardPages/Base.hpp ]
+  - symbol: AllegroFlare::Elements::StoryboardPages::AdvancingText
+    headers: [ AllegroFlare/Elements/StoryboardPages/AdvancingText.hpp ]
+  - symbol: AllegroFlare::Routers::Standard
+    headers: [ AllegroFlare/Routers/Standard.hpp ]
 
 

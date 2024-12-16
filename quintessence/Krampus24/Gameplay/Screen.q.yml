@@ -847,7 +847,7 @@ methods:
        - Krampus24::Gameplay::PlayerInputControllers::Player
 
 
-  - name: spawn_arbitrary_storyboard_screen
+  - name: xxxspawn_arbitrary_storyboard_screen
     parameters:
       - name: storyboard_identifier
         type: std::string
@@ -860,6 +860,15 @@ methods:
          nullptr,
          al_get_time()
       );
+
+
+  - name: create_arbitrary_storyboard_pages_by_identifier
+    type: std::vector<AllegroFlare::Elements::StoryboardPages::Base *>
+    guards: [ font_bin, scripting ]
+    body: |
+      return scripting->create_arbitrary_storyboard_pages_by_identifier(
+            arbitrary_storyboard_screen_identifier_to_start
+         );
 
 
   - name: interact_with_focused_inspectable_object
@@ -1832,5 +1841,7 @@ dependencies:
     headers: [ AllegroFlare/DialogSystem/DialogSystem.hpp ]
   - symbol: AllegroFlare::StringTransformer
     headers: [ AllegroFlare/StringTransformer.hpp ]
+  - symbol: AllegroFlare::Elements::StoryboardPages::Base
+    headers: [ AllegroFlare/Elements/StoryboardPages/Base.hpp ]
 
 

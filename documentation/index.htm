@@ -763,6 +763,10 @@ table td
   <td class="property">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;*</td>
 </tr>
 <tr>
+  <td class="property">arbitrary_storyboard_screen_identifier_to_start</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
   <td class="property">primary_power_coil_collected</td>
   <td class="property">bool</td>
 </tr>
@@ -816,6 +820,10 @@ table td
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Base*</td>
   <td class="method"><b>find_entity_by_name_or_throw</b>(std::string name=&quot;[unset-name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>spawn_arbitrary_storyboard_screen</b>(std::string storyboard_identifier=&quot;[unset-storyboard_identifier]&quot;)</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -872,6 +880,14 @@ table td
 <tr>
   <td class="method">AllegroFlare::DialogTree::NodeBank</td>
   <td class="method"><b>build_dialog_node_bank</b>()</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::Elements::StoryboardPages::Base*</td>
+  <td class="method"><b>create_storyboard_page__text</b>(AllegroFlare::FontBin* font_bin=nullptr, std::string page_text={})</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
+  <td class="method"><b>create_arbitrary_storyboard_pages_by_identifier</b>(std::string identifier=&quot;[unset-identifier-DISCARDED]&quot;)</td>
 </tr>
 <tr>
   <td class="method">ALLEGRO_FONT*</td>
@@ -939,6 +955,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::ElevatorShaft&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/ElevatorShaft.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::AdvancingText&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/AdvancingText.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Routers::Standard&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Routers/Standard.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -3676,7 +3701,11 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>spawn_arbitrary_storyboard_screen</b>(std::string storyboard_identifier=&quot;[unset-storyboard_identifier]&quot;)</td>
+  <td class="method"><b>xxxspawn_arbitrary_storyboard_screen</b>(std::string storyboard_identifier=&quot;[unset-storyboard_identifier]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
+  <td class="method"><b>create_arbitrary_storyboard_pages_by_identifier</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -3936,6 +3965,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::StringTransformer&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/StringTransformer.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/Base.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -3982,6 +4014,10 @@ table td
   <td class="method">void</td>
   <td class="method"><b>call_on_collision_callback</b>(void* entity=nullptr)</td>
 </tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
+  <td class="method"><b>create_arbitrary_storyboard_pages_by_identifier</b>(std::string identifier=&quot;[unset-identifier]&quot;)</td>
+</tr>
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
@@ -3993,6 +4029,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameEvent&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameEvent.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/Base.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -4375,7 +4414,10 @@ table td
     "Krampus24/Game/Configurations/Main"
   ],
   "AllegroFlare/Elements/StoryboardPages/Base": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface"
   ],
   "AllegroFlare/StoryboardPageFactory": [
     "Krampus24/Game/Configurations/Main"
@@ -4439,7 +4481,8 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Elements/StoryboardPages/AdvancingText": [
-    "Krampus24/Game/Configurations/Main"
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/FontBin": [
     "Krampus24/Game/Configurations/Main",
@@ -4526,6 +4569,11 @@ table td
   ],
   "Krampus24/Gameplay/Entities/ElevatorShaft": [
     "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Routers/Standard": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
@@ -4801,10 +4849,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "std/get": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/Routers/Standard": [
-    "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier": [

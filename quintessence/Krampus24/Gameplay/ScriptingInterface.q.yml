@@ -77,6 +77,18 @@ methods:
       return;
 
 
+  - name: create_arbitrary_storyboard_pages_by_identifier
+    type: std::vector<AllegroFlare::Elements::StoryboardPages::Base *>
+    virtual: true
+    parameters:
+      - name: identifier
+        type: std::string
+        default_argument: '"[unset-identifier]"'
+    body: |
+      // Override in the derived class
+      return {};
+
+
 dependencies:
 
 
@@ -86,5 +98,7 @@ dependencies:
     headers: [ AllegroFlare/DialogTree/NodeBank.hpp ]
   - symbol: AllegroFlare::GameEvent
     headers: [ AllegroFlare/GameEvent.hpp ]
+  - symbol: AllegroFlare::Elements::StoryboardPages::Base
+    headers: [ AllegroFlare/Elements/StoryboardPages/Base.hpp ]
 
 

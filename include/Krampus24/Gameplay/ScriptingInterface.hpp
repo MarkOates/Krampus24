@@ -2,10 +2,13 @@
 
 
 #include <AllegroFlare/DialogTree/NodeBank.hpp>
+#include <AllegroFlare/Elements/StoryboardPages/Base.hpp>
 #include <AllegroFlare/GameEvent.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <functional>
 #include <map>
+#include <string>
+#include <vector>
 
 
 namespace Krampus24
@@ -31,6 +34,7 @@ namespace Krampus24
          virtual bool interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr);
          bool has_on_collision_callback(void* entity=nullptr);
          void call_on_collision_callback(void* entity=nullptr);
+         virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]");
       };
    }
 }
