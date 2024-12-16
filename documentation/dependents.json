@@ -116,6 +116,9 @@
   "AllegroFlare/Elements/StoryboardPages/Base": [
     "Krampus24/Game/Configurations/Main"
   ],
+  "AllegroFlare/StoryboardPageFactory": [
+    "Krampus24/Game/Configurations/Main"
+  ],
   "AllegroFlare/GameSession": [
     "Krampus24/Game/Configurations/Main"
   ],
@@ -174,6 +177,20 @@
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/Elements/StoryboardPages/AdvancingText": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/FontBin": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
+  "AllegroFlare/StringTransformer": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Game/DialogTree": [
     "Krampus24/Game/DialogBuilder"
   ],
@@ -221,11 +238,6 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/FontBin": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
-  ],
   "ALLEGRO_FONT": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
@@ -248,10 +260,6 @@
     "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogSystem/DialogSystem": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/StringTransformer": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],

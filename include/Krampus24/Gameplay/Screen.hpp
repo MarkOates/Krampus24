@@ -107,7 +107,9 @@ namespace Krampus24
          AllegroFlare::AudioController* get_audio_controller() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
          AllegroFlare::DialogSystem::DialogSystem* get_dialog_system() const;
+         AllegroFlare::BitmapBin* get_bitmap_bin() const;
          AllegroFlare::FontBin* get_font_bin() const;
+         AllegroFlare::ModelBin* get_model_bin() const;
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
          AllegroFlare::Camera3D get_player_view_camera() const;

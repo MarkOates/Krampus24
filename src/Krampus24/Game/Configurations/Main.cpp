@@ -4,10 +4,13 @@
 
 #include <AllegroFlare/Achievement.hpp>
 #include <AllegroFlare/DialogTree/NodeBankFactory.hpp>
+#include <AllegroFlare/Elements/StoryboardPages/AdvancingText.hpp>
 #include <AllegroFlare/EventNames.hpp>
 #include <AllegroFlare/GameEventDatas/AchievementUnlocked.hpp>
 #include <AllegroFlare/GameProgressAndStateInfos/Base.hpp>
 #include <AllegroFlare/Runners/Complete.hpp>
+#include <AllegroFlare/StoryboardPageFactory.hpp>
+#include <AllegroFlare/StringTransformer.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Level.hpp>
@@ -363,17 +366,77 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_intro_
 
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_intro_storyboard_pages()
 {
+   return {};
+}
+
+std::string Main::u(std::string string)
+{
+   return AllegroFlare::StringTransformer(string).upcase().get_text();
+}
+
+AllegroFlare::Elements::StoryboardPages::Base* Main::create_storyboard_page__text(AllegroFlare::FontBin* font_bin, std::string page_text)
+{
+   if (!(font_bin))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Configurations::Main::create_storyboard_page__text]: error: guard \"font_bin\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Configurations::Main::create_storyboard_page__text]: error: guard \"font_bin\" not met");
+   }
+   if (!((!page_text.empty())))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Configurations::Main::create_storyboard_page__text]: error: guard \"(!page_text.empty())\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Configurations::Main::create_storyboard_page__text]: error: guard \"(!page_text.empty())\" not met");
+   }
+   auto page = new AllegroFlare::Elements::StoryboardPages::AdvancingText(font_bin, page_text);
+   //auto page = new AllegroFlare::Elements::StoryboardPages::AdvancingText(font_bin, u(page_text));
+   //page->set_font_name("Orbitron-Medium.ttf");
+   //page->set_font_name("Orbitron-Medium.ttf");
+   return page;
+
+   //return new AllegroFlare::Elements::StoryboardPages::ImageWithAdvancingText(
+      //bitmap_bin,
+      //font_bin,
+      //image_identifier,
+      //text
+   //);
+
+   //return page_factory->create_advancing_text_page(
+     //page_text,
+     //-400, // button_font_size
+     //400, // page_top_padding
+     //400, // page_left_padding
+     //400, // page_right_padding
+     //AllegroFlare::Elements::StoryboardPages::AdvancingText::DEFAULT_FONT_SIZE, // page_text_font_size
+     //AllegroFlare::Elements::StoryboardPages::AdvancingText::DEFAULT_FONT_NAME, // page_text_font_name
+     //1.5 // page_text_line_height_multiplier
+   //);
+   //return;
+}
+
+std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_new_game_intro_storyboard_pages()
+{
+   if (!(primary_gameplay_screen))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Configurations::Main::create_new_game_intro_storyboard_pages]: error: guard \"primary_gameplay_screen\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Configurations::Main::create_new_game_intro_storyboard_pages]: error: guard \"primary_gameplay_screen\" not met");
+   }
    //AllegroFlare::Logger::throw_error(
       //"AllegroFlare::GameConfigurations::Base::create_intro_storyboard_pages",
       //"Not implemented in the base class. This method must be implemented in the derived class"
    //);
+   AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
    //AllegroFlare::StoryboardPageFactory page_factory;
-   //page_factory.set_font_bin(font_bin);
-   //page_factory.set_bitmap_bin(bitmap_bin);
-   //page_factory.set_model_bin(model_bin);
+   //page_factory.set_font_bin(primary_gameplay_screen->get_font_bin());
+   //page_factory.set_bitmap_bin(primary_gameplay_screen->get_bitmap_bin());
+   //page_factory.set_model_bin(primary_gameplay_screen->get_model_bin());
 
-   //std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
-   //{
+   std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
+   {
       //page_factory.create_image_with_advancing_text_page(
          //"storyboard-1-01-1165x500.png",
          //"Once upon a time, in a magical kingdom ruled by a wise and just queen, a young hero sets out on a "
@@ -384,11 +447,93 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_intro_
          //"With the help of his trusty sidekick and a band of unlikely allies, he must navigate treacherous "
             //"terrain and battle fierce foes."
       //),
+      create_storyboard_page__text(font_bin,
       //page_factory.create_advancing_text_page(
-        //"And achieve his goal to save the kingdom."
-      //),
-   //};
-   return {};
+        //{
+        "Mission Log [Recording live]:\n\nI'm in route to the derelect space station TR-33 and should be docking "
+           "there in under a minute.\n\n"
+      ),
+      create_storyboard_page__text(font_bin,
+      //create_stlized_storyboard_page(&page_factory,
+        "Nobody seems to know what happened at the station, but "
+        "sublight communications stopped several years ago.\n\nHonestly, there's probably nothing "
+        "but decayed bodies at this point.\n\n"
+        //}
+      ),
+      //create_stylized_storyboard_page(&page_factory,
+      create_storyboard_page__text(font_bin,
+      //create_stylized_storyboard_page(
+      //page_factory.create_advancing_text_page(
+        "My mission is to make my way to the top floor of the TR-33 station, and retrieve what's left of the "
+        "power coil.  It'll be worth a fortune on the dark market, even if there's no charge left."
+        //"sublight communications stopped several years ago. There's probably nothing but decayed bodies, in all "
+        //"likelyhood.\n\n"
+      ),
+      create_storyboard_page__text(font_bin,
+      //create_stylized_storyboard_page(&page_factory,
+      //create_stylized_storyboard_page(
+      //page_factory.create_advancing_text_page(
+        "I'm docking my ship at the DOCKING PORT at the bottom of the station, which is at the sub-level below "
+           "level 1.\n\n"
+        "Based on the fragmented maps I obtained, I'll need to take a series of 5 elevator shafts to "
+           "the top floor, where the power coil is located."
+        //"sublight communications stopped several years ago. There's probably nothing but decayed bodies, in all "
+        //"likelyhood.\n\n"
+      ),
+      create_storyboard_page__text(font_bin,
+      //create_stylized_storyboard_page(&page_factory,
+      //create_stylized_storyboard_page(
+      //page_factory.create_advancing_text_page(
+        "Hm, what else was there...\n\n"
+        //"Oh, the date for this log. I always forget."
+        //"Today's date is...\n\n"
+        //"December 25 2124."
+        //"Heh, Christmas day, how quaint."
+        //"I hope Santa brings me a nice shiny power coil."
+      ),
+
+      create_storyboard_page__text(font_bin,
+      //create_stylized_storyboard_page(&page_factory,
+      //create_stylized_storyboard_page(
+      //page_factory.create_advancing_text_page(
+        //"Let's see, what else was there...\n\n"
+        "Oh, the date for this log.  I always forget.\n\n"
+        //"Today's date is...\n\n"
+        //"December 25 2124?\n\n"
+        //"Heh, Christmas day, how quaint.\n\n"
+        //"Let's hope Santa brings me a nice shiny power coil."
+      ),
+      create_storyboard_page__text(font_bin,
+      //create_stylized_storyboard_page(&page_factory,
+      //create_stylized_storyboard_page(
+      //page_factory.create_advancing_text_page(
+        //"Let's see, what else was there...\n\n"
+        //"Oh, the date for this log.  I always forget.\n\n"
+        "Today's date is...\n\n"
+        "December 25 2124?\n\n"
+        "Heh, Christmas day, how quaint.\n\n"
+        //"Let's hope Santa brings me a nice shiny power coil."
+      ),
+      create_storyboard_page__text(font_bin,
+      //create_stylized_storyboard_page(&page_factory,
+      //create_stylized_storyboard_page(
+      //page_factory.create_advancing_text_page(
+        //"Let's see, what else was there...\n\n"
+        //"Oh, the date for this log.  I always forget.\n\n"
+        //"Today's date is...\n\n"
+        //"December 25 2124?\n\n"
+        //"Heh, Christmas day, how quaint.\n\n"
+        "Let's hope Santa brings me a nice shiny power coil."
+      ),
+         //this->router.emit_route_event(
+            //AllegroFlare::Routers::Standard::EVENT_ACTIVATE_ARBITRARY_STORYBOARD_SCREEN,
+            //nullptr,
+            //al_get_time()
+         //);
+
+
+   };
+   return result;
 }
 
 std::vector<std::pair<std::string, std::string>> Main::build_title_screen_menu_options()

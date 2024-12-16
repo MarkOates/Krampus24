@@ -38,19 +38,21 @@ properties:
     type: AllegroFlare::BitmapBin*
     init_with: nullptr
     constructor_arg: true
+    getter: true
     setter: before_initialized
 
   - name: font_bin
     type: AllegroFlare::FontBin*
     init_with: nullptr
     constructor_arg: true
-    setter: before_initialized
     getter: true
+    setter: before_initialized
 
   - name: model_bin
     type: AllegroFlare::ModelBin*
     init_with: nullptr
     constructor_arg: true
+    getter: true
     setter: before_initialized
 
   - name: game_configuration

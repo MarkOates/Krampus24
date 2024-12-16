@@ -542,6 +542,18 @@ table td
   <td class="method"><b>create_intro_storyboard_pages</b>()</td>
 </tr>
 <tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>u</b>(std::string string=&quot;[unset-string]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">AllegroFlare::Elements::StoryboardPages::Base*</td>
+  <td class="method"><b>create_storyboard_page__text</b>(AllegroFlare::FontBin* font_bin=nullptr, std::string page_text={})</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
+  <td class="method"><b>create_new_game_intro_storyboard_pages</b>()</td>
+</tr>
+<tr>
   <td class="method">std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</td>
   <td class="method"><b>build_title_screen_menu_options</b>()</td>
 </tr>
@@ -621,6 +633,9 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/Base.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::StoryboardPageFactory&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/StoryboardPageFactory.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::GameSession&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/GameSession.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -661,6 +676,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::AdvancingText&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/AdvancingText.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::FontBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/FontBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::StringTransformer&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/StringTransformer.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -4337,6 +4361,9 @@ table td
   "AllegroFlare/Elements/StoryboardPages/Base": [
     "Krampus24/Game/Configurations/Main"
   ],
+  "AllegroFlare/StoryboardPageFactory": [
+    "Krampus24/Game/Configurations/Main"
+  ],
   "AllegroFlare/GameSession": [
     "Krampus24/Game/Configurations/Main"
   ],
@@ -4395,6 +4422,20 @@ table td
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/Elements/StoryboardPages/AdvancingText": [
+    "Krampus24/Game/Configurations/Main"
+  ],
+  "AllegroFlare/FontBin": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
+  "AllegroFlare/StringTransformer": [
+    "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Game/DialogTree": [
     "Krampus24/Game/DialogBuilder"
   ],
@@ -4442,11 +4483,6 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
-  "AllegroFlare/FontBin": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
-  ],
   "ALLEGRO_FONT": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
@@ -4469,10 +4505,6 @@ table td
     "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogSystem/DialogSystem": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/StringTransformer": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],

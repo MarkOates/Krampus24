@@ -258,9 +258,21 @@ AllegroFlare::DialogSystem::DialogSystem* Screen::get_dialog_system() const
 }
 
 
+AllegroFlare::BitmapBin* Screen::get_bitmap_bin() const
+{
+   return bitmap_bin;
+}
+
+
 AllegroFlare::FontBin* Screen::get_font_bin() const
 {
    return font_bin;
+}
+
+
+AllegroFlare::ModelBin* Screen::get_model_bin() const
+{
+   return model_bin;
 }
 
 

@@ -5,6 +5,7 @@
 #include <AllegroFlare/AudioController.hpp>
 #include <AllegroFlare/DialogTree/NodeBank.hpp>
 #include <AllegroFlare/Elements/StoryboardPages/Base.hpp>
+#include <AllegroFlare/FontBin.hpp>
 #include <AllegroFlare/GameConfigurations/Complete.hpp>
 #include <AllegroFlare/GameEvent.hpp>
 #include <AllegroFlare/GameSession.hpp>
@@ -57,6 +58,9 @@ namespace Krampus24
             virtual void handle_primary_gameplay_screen_finished() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_logos_storyboard_pages() override;
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_intro_storyboard_pages() override;
+            std::string u(std::string string="[unset-string]");
+            AllegroFlare::Elements::StoryboardPages::Base* create_storyboard_page__text(AllegroFlare::FontBin* font_bin=nullptr, std::string page_text={});
+            virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_new_game_intro_storyboard_pages() override;
             virtual std::vector<std::pair<std::string, std::string>> build_title_screen_menu_options() override;
             virtual void load_audio_controller(AllegroFlare::AudioController* audio_controller=nullptr) override;
             virtual void load_last_played_session_or_start_new(AllegroFlare::GameSession* game_session=nullptr) override;
