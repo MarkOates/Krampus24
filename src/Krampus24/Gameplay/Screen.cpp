@@ -998,6 +998,7 @@ void Screen::create_and_set_player_input_controller_for_0th_entity()
    Krampus24::Gameplay::PlayerInputControllers::Player *result_player_input_controller = new
       Krampus24::Gameplay::PlayerInputControllers::Player();
    result_player_input_controller->set_player_entity(find_0th_entity());
+   result_player_input_controller->set_move_multiplier(0.0875); // 0.1 is running, 0.5 is walking (slowly)
    result_player_input_controller->initialize();
 
    set_player_input_controller(result_player_input_controller);
@@ -1546,6 +1547,18 @@ void Screen::primary_render_func()
    return;
 }
 
+void Screen::unlock_all_doors()
+{
+   auto as = static_cast<Krampus24::Game::Scripting::Tree*>(scripting);
+   as->unlock_mega_door("mega_door.001");
+   as->unlock_door("door.003");
+   as->unlock_door("door.005");
+   as->unlock_sliding_door("sliding_door.001");
+   as->unlock_door("door.006");
+   as->unlock_sliding_door("sliding_door.002");
+   return;
+}
+
 void Screen::key_down_func(ALLEGRO_EVENT* ev)
 {
    if (!(initialized))
@@ -1617,6 +1630,10 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
          auto player_entity = find_0th_entity();
          player_entity->placement.position = player_spawn_position;
          player_entity->velocity.position = AllegroFlare::Vec3D(0, 0, 0);
+      } break;
+
+      case ALLEGRO_KEY_L: {
+         unlock_all_doors();
       } break;
 
       case ALLEGRO_KEY_R: {
