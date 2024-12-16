@@ -400,7 +400,7 @@ void Main::handle_arbitrary_storyboard_screen_finished()
    // TODO: Consider destroying pages in storyboard. Otherwise leakage, k?
 
    // Reset the name to blank
-   primary_gameplay_screen->set_arbitrary_storyboard_screen_identifier_to_start("currently-unset");
+   //primary_gameplay_screen->set_arbitrary_storyboard_screen_identifier_to_start("currently-unset");
 
    // Emit route event to return to game
    primary_gameplay_screen->get_event_emitter()->emit_router_event(

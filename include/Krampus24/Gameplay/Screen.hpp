@@ -61,7 +61,6 @@ namespace Krampus24
          std::string blocking_filename;
          Krampus24::Gameplay::ScriptingInterface* scripting;
          std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func;
-         std::string arbitrary_storyboard_screen_identifier_to_start;
          std::string current_location_name;
          std::string current_location_floor;
          float current_location_reveal_counter;
@@ -104,7 +103,6 @@ namespace Krampus24
          void set_visual_mesh_texture_identifier(std::string visual_mesh_texture_identifier);
          void set_blocking_filename(std::string blocking_filename);
          void set_build_scripting_instance_func(std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func);
-         void set_arbitrary_storyboard_screen_identifier_to_start(std::string arbitrary_storyboard_screen_identifier_to_start);
          void set_inspectable_entity_that_player_is_currently_colliding_with(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with);
          std::string get_data_folder_path() const;
          AllegroFlare::AudioController* get_audio_controller() const;
@@ -128,7 +126,6 @@ namespace Krampus24
          std::string get_visual_mesh_texture_identifier() const;
          std::string get_blocking_filename() const;
          std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> get_build_scripting_instance_func() const;
-         std::string get_arbitrary_storyboard_screen_identifier_to_start() const;
          Krampus24::Gameplay::Entities::Base* get_inspectable_entity_that_player_is_currently_colliding_with() const;
          bool get_initialized() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> &get_entities_ref();
@@ -145,7 +142,6 @@ namespace Krampus24
          bool a_0th_entity_exists();
          Krampus24::Gameplay::Entities::Base* find_0th_entity();
          void create_and_set_player_input_controller_for_0th_entity();
-         void xxxspawn_arbitrary_storyboard_screen(std::string storyboard_identifier="[unset-storyboard_identifier]");
          std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier();
          void interact_with_focused_inspectable_object();
          void hide_inspect_hint();

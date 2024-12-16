@@ -158,12 +158,6 @@ properties:
     getter: true
     setter: true
 
-  - name: arbitrary_storyboard_screen_identifier_to_start
-    type: std::string
-    init_with: '"[unset-arbitrary_storyboard_screen_identifier_to_start]"'
-    getter: true
-    setter: true
-
   - name: current_location_name
     type: std::string
     init_with: '""'
@@ -847,28 +841,11 @@ methods:
        - Krampus24::Gameplay::PlayerInputControllers::Player
 
 
-  - name: xxxspawn_arbitrary_storyboard_screen
-    parameters:
-      - name: storyboard_identifier
-        type: std::string
-        default_argument: '"[unset-storyboard_identifier]"'
-    xguards: [ game_configuration ]
-    body: |
-      arbitrary_storyboard_screen_identifier_to_start = storyboard_identifier;
-      event_emitter->emit_router_event(
-         AllegroFlare::Routers::Standard::EVENT_ACTIVATE_ARBITRARY_STORYBOARD_SCREEN,
-         nullptr,
-         al_get_time()
-      );
-
-
   - name: create_arbitrary_storyboard_pages_by_identifier
     type: std::vector<AllegroFlare::Elements::StoryboardPages::Base *>
     guards: [ font_bin, scripting ]
     body: |
-      return scripting->create_arbitrary_storyboard_pages_by_identifier(
-            arbitrary_storyboard_screen_identifier_to_start
-         );
+      return scripting->create_arbitrary_storyboard_pages_by_identifier();
 
 
   - name: interact_with_focused_inspectable_object

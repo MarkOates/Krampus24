@@ -766,6 +766,7 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
 
    //identifier = primary_gameplay_screen->get_arbitrary_storyboard_screen_identifier_to_start();
    //spawn_arbitrary_storyboard_screen
+   //std::string identifier = arbitrary_storyboard_screen_identifier_to_start;
    identifier = arbitrary_storyboard_screen_identifier_to_start;
 
    std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
@@ -782,7 +783,7 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
    else
    {
       AllegroFlare::Logger::throw_error(
-         "AllegroFlare::GameConfigurations::Base::create_arbitrary_storyboard_pages_by_identifier"
+         "Krampus24::Game::Scripting::Tree::create_arbitrary_storyboard_pages_by_identifier"
          "Foobar boobaz"
       );
    }
