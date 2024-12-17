@@ -3,6 +3,7 @@
 #include <Krampus24/Gameplay/Entities/Tablet.hpp>
 
 #include <AllegroFlare/Logger.hpp>
+#include <AllegroFlare/Random.hpp>
 #include <AllegroFlare/Shaders/Base.hpp>
 #include <AllegroFlare/Vec2D.hpp>
 #include <cmath>
@@ -116,6 +117,14 @@ void Tablet::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* tr
    return;
 }
 
+float Tablet::get_random_rotation()
+{
+   static AllegroFlare::Random random;
+   static std::vector<float> rotations = { 0.0, 0.25, 0.5, 0.75 };
+   static std::vector<float> offsets = { -0.125/2, 0.125/2 };
+   return random.get_random_element<float>(rotations) + random.get_random_element<float>(offsets);
+}
+
 std::vector<Krampus24::Gameplay::Entities::Base*> Tablet::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
@@ -143,7 +152,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Tablet::construct(AllegroFlare
    Krampus24::Gameplay::Entities::Tablet* result = new Krampus24::Gameplay::Entities::Tablet;
    //result->model = model_bin->auto_get("door-01.obj");
    //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   result->affected_by_environmental_forces = false;
+   result->affected_by_environmental_forces = true;
    result->collides_with_player = true;
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up
@@ -153,7 +162,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Tablet::construct(AllegroFlare
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
-   result->placement.rotation.y = rotation;
+   result->placement.rotation.y = get_random_rotation();
    result->player_can_inspect_or_use = true;
    result->locked = false;
 
