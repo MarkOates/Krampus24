@@ -431,6 +431,22 @@ methods:
          results[0]->name = entity->name;
          return results;
       }
+      else if (entity_root_name == Krampus24::Gameplay::Entities::PowerCoil::BLENDER_IDENTIFIER)
+      {
+         float rotation = entity->rotation.z / 360.0;
+         std::vector<Krampus24::Gameplay::Entities::Base*> results =
+            Krampus24::Gameplay::Entities::PowerCoil::construct(
+               model_bin,
+               bitmap_bin,
+               event_emitter,
+               collision_mesh,
+               entity->name,
+               position,
+               rotation
+            );
+         results[0]->name = entity->name;
+         return results;
+      }
       else if (entity_root_name == Krampus24::Gameplay::Entities::Tablet::BLENDER_IDENTIFIER)
       {
          float rotation = entity->rotation.z / 360.0;
@@ -490,6 +506,7 @@ methods:
       - Krampus24::Gameplay::Entities::ElevatorShaft
       - Krampus24::Gameplay::Entities::Console
       - Krampus24::Gameplay::Entities::PlayerShip
+      - Krampus24::Gameplay::Entities::PowerCoil
       - Krampus24::Gameplay::Entities::Tablet
 
 
@@ -1849,6 +1866,8 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Console.hpp ]
   - symbol: Krampus24::Gameplay::Entities::PlayerShip
     headers: [ Krampus24/Gameplay/Entities/PlayerShip.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::PowerCoil
+    headers: [ Krampus24/Gameplay/Entities/PowerCoil.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Tablet
     headers: [ Krampus24/Gameplay/Entities/Tablet.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Base

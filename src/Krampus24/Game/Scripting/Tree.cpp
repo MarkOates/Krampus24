@@ -592,9 +592,9 @@ void Tree::build_on_collision_callbacks()
             primary_power_coil_returned_to_ship = true;
          }
       }},
-      { find_entity_by_name_or_throw("primary_power_coil"), [this](){
-         find_entity_by_name_or_throw("primary_power_coil")->active = false;
-         find_entity_by_name_or_throw("primary_power_coil")->visible = false;
+      { find_entity_by_name_or_throw("power_coil"), [this](){
+         find_entity_by_name_or_throw("power_coil")->active = false;
+         find_entity_by_name_or_throw("power_coil")->visible = false;
          primary_power_coil_collected = true;
       }},
    };
