@@ -181,7 +181,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PowerCoil::construct(AllegroFl
    result->player_can_inspect_or_use = true;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 10.0, 2.0, 7.0 };
+   result->placement.size = { 6.0, 2.0, 6.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
@@ -222,7 +222,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PowerCoil::construct(AllegroFl
 
    result->collision_mesh = collision_mesh;
 
-   std::string collision_mesh_name = "player_ship-01-collision_mesh.obj";
+   std::string collision_mesh_name = "power_coil-01-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
    //mesh->displace(result->placement.position);
    ALLEGRO_TRANSFORM placement_transform;
