@@ -11,6 +11,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -31,6 +32,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -209,6 +211,7 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -231,6 +234,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -297,6 +301,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -346,6 +351,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -362,6 +368,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -377,6 +384,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -391,6 +399,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -405,6 +414,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -418,6 +428,7 @@
     "Krampus24/Gameplay/Entities/Horse",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -428,6 +439,7 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -438,6 +450,7 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -450,6 +463,7 @@
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
@@ -466,6 +480,7 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Zone",
@@ -477,6 +492,7 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Zone"
@@ -485,6 +501,7 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "Krampus24/Gameplay/Entities/ElevatorShaft/Style": [
@@ -508,6 +525,12 @@
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/Tablet"
+  ],
+  "Krampus24/Gameplay/Entities/PlayerShip": [
+    "Krampus24/Gameplay/Entities/PlayerShip"
+  ],
+  "Krampus24/Gameplay/Entities/PlayerShip/Style": [
+    "Krampus24/Gameplay/Entities/PlayerShip"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"
