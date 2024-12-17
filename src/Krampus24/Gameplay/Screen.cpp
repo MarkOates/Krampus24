@@ -803,6 +803,9 @@ void Screen::load_or_reload_meshes()
          {
             Krampus24::Gameplay::Entities::Base* player_entity = find_0th_entity();
             player_entity->placement.position = player_spawn_position;
+            float rotation = ALLEGRO_PI * 1.0; // NOTE: This value is not extracted from the entity, and is
+                                               // hard-coded here.
+            player_entity->player__spin = rotation; //player_spawn_position; // HERE
          }
       }
       else
@@ -1262,7 +1265,6 @@ void Screen::update()
    // Reposition the player vertically if they are attached to an elevator
    //
    {
-      // HERE
       auto player_entity = find_0th_entity();
       if (player_entity->is_attached_to_elevator())
       {
@@ -1353,7 +1355,6 @@ void Screen::update()
       {
          Krampus24::Gameplay::Entities::Base* entity =
             static_cast<Krampus24::Gameplay::Entities::Base*>(exited);
-         // HERE
          entity->on_exit_player_bbox_collision();
 
          if (entity->elevator_shaft__is_elevator_shaft)
@@ -1509,7 +1510,6 @@ void Screen::render()
       {
          //float reveal_opacity = std::max(current_location_reveal_counter
          
-         // HERE
          ALLEGRO_FONT *font = obtain_location_font();
          ALLEGRO_FONT *floor_font = obtain_location_floor_font();
          float y = 1080/5 * 4;
