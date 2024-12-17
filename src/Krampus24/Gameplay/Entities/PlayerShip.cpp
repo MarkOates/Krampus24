@@ -25,7 +25,7 @@ PlayerShip::PlayerShip()
    , event_emitter(nullptr)
    , collision_mesh(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
-   , left_door(nullptr)
+   , body(nullptr)
    , right_door(nullptr)
    , dynamic_collision_mesh_face_names({})
    , open_position(0.0f)
@@ -187,16 +187,16 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PlayerShip::construct(AllegroF
    result->placement.rotation.y = rotation;
 
    // Left door
-   result->left_door = new Krampus24::Gameplay::Entities::Base;
-   result->left_door->model = model_bin->auto_get("player_ship-01-body.obj");
-   result->left_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   result->left_door->affected_by_environmental_forces = false;
-   result->left_door->collides_with_player = false;
-   result->left_door->placement.position = { 0.0, 0.0, 0.0 };
-   result->left_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->left_door->placement.size = { 0, 0, 0 };
+   result->body = new Krampus24::Gameplay::Entities::Base;
+   result->body->model = model_bin->auto_get("player_ship-01-body.obj");
+   result->body->texture = bitmap_bin->auto_get("entities_texture-01.png");
+   result->body->affected_by_environmental_forces = false;
+   result->body->collides_with_player = false;
+   result->body->placement.position = { 0.0, 0.0, 0.0 };
+   result->body->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+   result->body->placement.size = { 0, 0, 0 };
    //result->left_door->placement.rotation.y = rotation;
-   result->left_door->visible = false;
+   result->body->visible = false;
    //result->left_door->active = false;
 
    // Right door
@@ -221,7 +221,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PlayerShip::construct(AllegroF
 
    result->collision_mesh = collision_mesh;
 
-   std::string collision_mesh_name = "door-03-collision_mesh.obj";
+   std::string collision_mesh_name = "player_ship-01-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
    //mesh->displace(result->placement.position);
    ALLEGRO_TRANSFORM placement_transform;
@@ -245,7 +245,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PlayerShip::construct(AllegroF
    result->initialized = true;
    result->set_state(STATE_CLOSED);
 
-   return { result, result->left_door, result->right_door };
+   return { result, result->body, result->right_door };
 }
 
 void PlayerShip::lock()
@@ -354,21 +354,21 @@ void PlayerShip::draw()
    //std::pair<float, float> uv_offset = get_uv_offset_from_style(style);//STYLE_NORMAL_DISRUPTED);
    //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
    //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
-   right_door->placement.start_transform();
-   right_door->model->set_texture(right_door->texture);
-   right_door->model->draw();
-   right_door->placement.restore_transform();
+   //right_door->placement.start_transform();
+   //right_door->model->set_texture(right_door->texture);
+   //right_door->model->draw();
+   //right_door->placement.restore_transform();
 
-   left_door->placement.start_transform();
-   left_door->model->set_texture(left_door->texture);
-   left_door->model->draw();
-   left_door->placement.restore_transform();
+   //body->placement.start_transform();
+   body->model->set_texture(body->texture);
+   body->model->draw();
+   //body->placement.restore_transform();
 
-   AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
 
    placement.restore_transform();
    return;
@@ -378,7 +378,7 @@ void PlayerShip::set_open_position(float open_position)
 {
    open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
-   left_door->placement.position.z = open_position * 2;
+   //body->placement.position.z = open_position * 2;
    right_door->placement.position.z = -open_position * 2;
    return;
 }

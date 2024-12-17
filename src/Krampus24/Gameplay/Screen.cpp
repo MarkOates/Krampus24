@@ -19,6 +19,7 @@
 #include <Krampus24/Gameplay/Entities/Horse.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
 #include <Krampus24/Gameplay/Entities/Pig.hpp>
+#include <Krampus24/Gameplay/Entities/PlayerShip.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <Krampus24/Gameplay/Entities/Tablet.hpp>
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
@@ -637,6 +638,22 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
       float rotation = entity->rotation.z / 360.0;
       std::vector<Krampus24::Gameplay::Entities::Base*> results =
          Krampus24::Gameplay::Entities::Console::construct(
+            model_bin,
+            bitmap_bin,
+            event_emitter,
+            collision_mesh,
+            entity->name,
+            position,
+            rotation
+         );
+      results[0]->name = entity->name;
+      return results;
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::PlayerShip::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      std::vector<Krampus24::Gameplay::Entities::Base*> results =
+         Krampus24::Gameplay::Entities::PlayerShip::construct(
             model_bin,
             bitmap_bin,
             event_emitter,

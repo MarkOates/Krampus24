@@ -527,7 +527,8 @@
     "Krampus24/Gameplay/Entities/Tablet"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip": [
-    "Krampus24/Gameplay/Entities/PlayerShip"
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip/Style": [
     "Krampus24/Gameplay/Entities/PlayerShip"

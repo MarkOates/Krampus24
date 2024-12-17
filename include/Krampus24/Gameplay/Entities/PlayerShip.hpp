@@ -53,7 +53,7 @@ namespace Krampus24
             AllegroFlare::EventEmitter* event_emitter;
             AllegroFlare::Physics::CollisionMesh* collision_mesh;
             AllegroFlare::Vec3D initial_position;
-            Krampus24::Gameplay::Entities::Base* left_door;
+            Krampus24::Gameplay::Entities::Base* body;
             Krampus24::Gameplay::Entities::Base* right_door;
             std::vector<std::string> dynamic_collision_mesh_face_names;
             float open_position;
