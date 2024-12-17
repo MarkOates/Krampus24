@@ -360,9 +360,15 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    }
    else if (name == "tablet.001")
    {
-      //spawn_arbit pig_storyboard
       spawn_arbitrary_storyboard_screen("tablet_in_zoo");
-      //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
+   }
+   else if (name == "tablet.002")
+   {
+      spawn_arbitrary_storyboard_screen("tablet_in_docking_bay");
+   }
+   else if (name == "tablet.003")
+   {
+      spawn_arbitrary_storyboard_screen("tablet_in_mess_hall");
    }
    else if (name == "console-01")
    {
@@ -766,7 +772,7 @@ AllegroFlare::Elements::StoryboardPages::Base* Tree::create_storyboard_page__tex
    return page;
 }
 
-std::vector<AllegroFlare::Elements::StoryboardPages::Base*> Tree::build_storyboard_text_from_file(std::string data_folder_path, std::string filename)
+std::vector<AllegroFlare::Elements::StoryboardPages::Base*> Tree::build_storyboard_text_from_file(std::string filename)
 {
    std::vector<AllegroFlare::Elements::StoryboardPages::Base*> pages_result;
 
@@ -780,7 +786,8 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base*> Tree::build_storyboa
    }
 
    std::string file_content = AllegroFlare::php::file_get_contents(full_file_location);
-   std::vector<std::string> pages = AllegroFlare::StringTransformer::split_multichar_delim(file_content, "--page--");
+   std::string delim = "---PAGE---";
+   std::vector<std::string> pages = AllegroFlare::StringTransformer::split_multichar_delim(file_content, delim);
 
    for (auto &page : pages)
    {
@@ -819,11 +826,14 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
    std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
 
    static std::map<std::string, std::function<void()>> items_map = {
-      { "tablet_in_zoo", [this, &result]() { //result = {
-         //create_storyboard_page__text(
-           //"This is new text from an arbitrary \"pig_storyboard\" storyboard screen."
-         //),
-         result = build_storyboard_text_from_file(data_folder_path, "tablet_in_zoo.txt");
+      { "tablet_in_zoo", [this, &result]() {
+         result = build_storyboard_text_from_file("tablet_in_zoo.txt");
+      }},
+      { "tablet_in_mess_hall", [this, &result]() {
+         result = build_storyboard_text_from_file("tablet_in_mess_hall.txt");
+      }},
+      { "tablet_in_docking_bay", [this, &result]() {
+         result = build_storyboard_text_from_file("tablet_in_docking_bay.txt");
       }},
    };
 
