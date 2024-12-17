@@ -3,6 +3,7 @@
 
 #include <AllegroFlare/Shaders/Base.hpp>
 #include <allegro5/allegro.h>
+#include <cstdint>
 #include <string>
 
 
@@ -22,6 +23,7 @@ namespace Krampus24
          float fog_distance;
          ALLEGRO_COLOR color_lift;
          float color_lift_intensity;
+         uint32_t color_lift_blend_mode;
          float uv_offset_x;
          float uv_offset_y;
          float camera_far_plane;
@@ -43,6 +45,7 @@ namespace Krampus24
          void set_fog_distance(float fog_distance);
          void set_color_lift(ALLEGRO_COLOR color_lift);
          void set_color_lift_intensity(float color_lift_intensity);
+         void set_color_lift_blend_mode(uint32_t color_lift_blend_mode);
          void set_uv_offset_x(float uv_offset_x);
          void set_uv_offset_y(float uv_offset_y);
          void set_camera_far_plane(float camera_far_plane);
@@ -52,6 +55,7 @@ namespace Krampus24
          float get_fog_distance() const;
          ALLEGRO_COLOR get_color_lift() const;
          float get_color_lift_intensity() const;
+         uint32_t get_color_lift_blend_mode() const;
          float get_uv_offset_x() const;
          float get_uv_offset_y() const;
          float get_camera_far_plane() const;

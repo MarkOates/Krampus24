@@ -6,6 +6,7 @@
 #include <AllegroFlare/Random.hpp>
 #include <AllegroFlare/Shaders/Base.hpp>
 #include <AllegroFlare/Vec2D.hpp>
+#include <allegro5/allegro_color.h>
 #include <cmath>
 #include <iostream>
 #include <set>
@@ -350,6 +351,16 @@ void Tablet::draw()
 {
    placement.start_transform();
 
+   ALLEGRO_COLOR color = al_color_name("dodgerblue");
+   AllegroFlare::Shaders::Base::set_vec3("color_lift", color.r, color.g, color.b);
+   AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.18);
+   AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 2);
+
+
+
+   //AllegroFlare::Shaders::Base::set_float("color_lift", al_color_name("lightpink"));
+   //AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+
    //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
    //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
@@ -360,6 +371,8 @@ void Tablet::draw()
 
    //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
    //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
+   AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 0);
+   AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
 
    placement.restore_transform();
    return;

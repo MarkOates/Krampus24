@@ -21,6 +21,7 @@ Principled::Principled()
    , fog_distance(20.0f)
    , color_lift(ALLEGRO_COLOR{0, 0, 0, 1})
    , color_lift_intensity(0.0f)
+   , color_lift_blend_mode(0)
    , uv_offset_x(0.4f)
    , uv_offset_y(20.0f)
    , camera_far_plane(100.0f)
@@ -67,6 +68,12 @@ void Principled::set_color_lift(ALLEGRO_COLOR color_lift)
 void Principled::set_color_lift_intensity(float color_lift_intensity)
 {
    this->color_lift_intensity = color_lift_intensity;
+}
+
+
+void Principled::set_color_lift_blend_mode(uint32_t color_lift_blend_mode)
+{
+   this->color_lift_blend_mode = color_lift_blend_mode;
 }
 
 
@@ -124,6 +131,12 @@ float Principled::get_color_lift_intensity() const
 }
 
 
+uint32_t Principled::get_color_lift_blend_mode() const
+{
+   return color_lift_blend_mode;
+}
+
+
 float Principled::get_uv_offset_x() const
 {
    return uv_offset_x;
@@ -168,6 +181,7 @@ void Principled::set_values_to_activated_shader()
    set_float("uv_offset_y", 0.0);
    set_vec3("color_lift", color_lift.r, color_lift.g, color_lift.b);
    set_float("color_lift_intensity", color_lift_intensity);
+   set_int("color_lift_blend_mode", color_lift_blend_mode);
    set_vec3("fog_color", fog_color.r, fog_color.g, fog_color.b);
    set_float("fog_intensity", fog_intensity);
    set_float("fog_distance", fog_distance);
@@ -242,6 +256,7 @@ std::string Principled::obtain_fragment_source()
      // Color lift
      uniform vec3 color_lift;
      uniform float color_lift_intensity;
+     uniform int color_lift_blend_mode;
 
      // Fog
      uniform vec3 fog_color;
@@ -249,6 +264,15 @@ std::string Principled::obtain_fragment_source()
      uniform vec3 world_tint;
 
      bool alpha_test_func(float x, int op, float compare);
+
+     float blendScreen(float base, float blend);
+     vec3 blendScreen(vec3 base, vec3 blend);
+     vec3 blendScreen(vec3 base, vec3 blend, float opacity);
+
+     float blendOverlay(float base, float blend);
+     vec3 blendOverlay(vec3 base, vec3 blend);
+     vec3 blendOverlay(vec3 base, vec3 blend, float opacity);
+
 
      void main()
      {
@@ -268,12 +292,25 @@ std::string Principled::obtain_fragment_source()
           //float intensity = 0.5;
 
           c = c * vec4(world_tint, 1.0);
-          c = c + vec4(
-                color_lift*color_lift_intensity,
-                //color_lift.g*color_lift_intensity,
-                //color_lift.b*color_lift_intensity,
-                1.0
-             );
+          if (color_lift_blend_mode == 0)
+          {
+             c = c + vec4(
+                   color_lift*color_lift_intensity,
+                   //color_lift.g*color_lift_intensity,
+                   //color_lift.b*color_lift_intensity,
+                   1.0
+                );
+          }
+          else if (color_lift_blend_mode == 1)
+          {
+             c = vec4(blendOverlay(c.rgb, color_lift, color_lift_intensity), 1.0);
+             //c = vec4(0.0, 1.0, 1.0, 1.0);
+          }
+          else if (color_lift_blend_mode == 2)
+          {
+             c = vec4(blendScreen(c.rgb, color_lift, color_lift_intensity), 1.0);
+             //c = vec4(0.0, 1.0, 1.0, 1.0);
+          }
           gl_FragColor = mix(c, mix(c, vec4(fog_color, 1.0), fog_depth), fog_intensity);
 
           //gl_FragColor = vec4(
@@ -303,6 +340,31 @@ std::string Principled::obtain_fragment_source()
        else if (op == 7) return x >= compare;
        return false;
      }
+
+     float blendScreen(float base, float blend) {
+       	return 1.0-((1.0-base)*(1.0-blend));
+     }
+
+     vec3 blendScreen(vec3 base, vec3 blend) {
+       	return vec3(blendScreen(base.r,blend.r),blendScreen(base.g,blend.g),blendScreen(base.b,blend.b));
+     }
+
+     vec3 blendScreen(vec3 base, vec3 blend, float opacity) {
+       	return (blendScreen(base, blend) * opacity + base * (1.0 - opacity));
+     }
+
+     float blendOverlay(float base, float blend) {
+       	return base<0.5?(2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));
+     }
+
+     vec3 blendOverlay(vec3 base, vec3 blend) {
+       	return vec3(blendOverlay(base.r,blend.r),blendOverlay(base.g,blend.g),blendOverlay(base.b,blend.b));
+     }
+
+     vec3 blendOverlay(vec3 base, vec3 blend, float opacity) {
+       	return (blendOverlay(base, blend) * opacity + base * (1.0 - opacity));
+     }
+
    )DELIM";
    return source;
 }

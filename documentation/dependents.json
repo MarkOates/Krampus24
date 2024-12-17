@@ -503,7 +503,8 @@
     "Krampus24/Gameplay/Screen"
   ],
   "al_color_name": [
-    "Krampus24/Gameplay/Entities/Pig"
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/Tablet"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"

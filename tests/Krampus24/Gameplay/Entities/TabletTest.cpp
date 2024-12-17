@@ -10,7 +10,7 @@ class Krampus24_Gameplay_Entities_TabletWithConstructFixtureTest : public Krampu
 };
 
 
-TEST_F(Krampus24_Gameplay_Entities_TabletWithConstructFixtureTest, can_be_created_without_blowing_up)
+TEST_F(Krampus24_Gameplay_Entities_TabletWithConstructFixtureTest, CAPTURE__can_be_created_without_blowing_up)
 {
    std::vector<Krampus24::Gameplay::Entities::Base*> entities = Krampus24::Gameplay::Entities::Tablet::construct(
       get_framework_model_bin(),
