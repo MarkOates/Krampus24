@@ -5,6 +5,7 @@
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Shaders/Base.hpp>
 #include <AllegroFlare/Vec2D.hpp>
+#include <allegro5/allegro_color.h>
 #include <cmath>
 #include <iostream>
 #include <set>
@@ -27,6 +28,7 @@ PowerCoil::PowerCoil()
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
    , body(nullptr)
    , right_door(nullptr)
+   , coil(nullptr)
    , dynamic_collision_mesh_face_names({})
    , open_position(0.0f)
    , speed(0.0165f)
@@ -37,6 +39,7 @@ PowerCoil::PowerCoil()
    , style(Krampus24::Gameplay::Entities::PowerCoil::STYLE_NORMAL)
    , uv_offset_x(0.0f)
    , uv_offset_y(0.0f)
+   , coil_retrieved(false)
    , initialized(false)
 {
 }
@@ -79,6 +82,12 @@ float PowerCoil::get_uv_offset_y() const
 }
 
 
+bool PowerCoil::get_coil_retrieved() const
+{
+   return coil_retrieved;
+}
+
+
 bool PowerCoil::valid_rotation(float rotation)
 {
    return true;
@@ -92,6 +101,22 @@ bool PowerCoil::valid_rotation(float rotation)
    if (rotation == 0.75) return true;
    if (rotation == 1.0) return true;
    return false;
+}
+
+void PowerCoil::retrieve_coil()
+{
+   coil_retrieved = true;
+   return;
+}
+
+bool PowerCoil::is_coil_retrieved()
+{
+   return coil_retrieved;
+}
+
+bool PowerCoil::coil_is_present()
+{
+   return !coil_retrieved;
 }
 
 void PowerCoil::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* transform)
@@ -213,6 +238,9 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PowerCoil::construct(AllegroFl
    result->right_door->visible = false;
    //result->right_door->active = false;
 
+
+   result->coil = model_bin->auto_get("power_coil-01-coil.obj");
+   //result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
 
    //type: std::pair<std::vector<std::string>, std::vector<AllegroFlare::Physics::CollisionMeshFace*>>
    // Load the collision mesh
@@ -367,6 +395,25 @@ void PowerCoil::draw()
    body->model->set_texture(body->texture);
    body->model->draw();
    //body->placement.restore_transform();
+
+
+   if (coil_is_present())
+   {
+      ALLEGRO_COLOR color = al_color_name("dodgerblue");
+      AllegroFlare::Shaders::Base::set_vec3("color_lift", color.r, color.g, color.b);
+      float normalized_wave = std::sin(al_get_time()*3);
+      AllegroFlare::Shaders::Base::set_float("color_lift_intensity", normalized_wave * 0.15 + 0.125);
+      AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 2);
+
+      //AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 0);
+      //AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+
+      coil->set_texture(body->texture);
+      coil->draw();
+
+      AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 0);
+      AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+   }
 
    //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
    //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);

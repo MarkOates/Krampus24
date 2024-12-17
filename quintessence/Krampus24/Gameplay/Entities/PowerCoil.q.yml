@@ -29,6 +29,10 @@ properties:
     type: Krampus24::Gameplay::Entities::Base*
     init_with: nullptr
 
+  - name: coil
+    type: AllegroFlare::Model3D*
+    init_with: nullptr
+
   - name: dynamic_collision_mesh_face_names
     type: std::vector<std::string>
     init_with: '{}'
@@ -77,6 +81,12 @@ properties:
     init_with: 0.0f
     getter: true
     setter: explicit
+
+  - name: coil_retrieved
+    type: bool
+    init_with: false
+    getter: true
+    setter: false
 
   - name: initialized
     type: bool
@@ -140,6 +150,24 @@ methods:
       if (rotation == 0.75) return true;
       if (rotation == 1.0) return true;
       return false;
+
+
+  - name: retrieve_coil
+    body: |
+      coil_retrieved = true;
+      return;
+
+
+  - name: is_coil_retrieved
+    type: bool
+    body: |
+      return coil_retrieved;
+
+
+  - name: coil_is_present
+    type: bool
+    body: |
+      return !coil_retrieved;
 
 
   - name: transform_model
@@ -260,6 +288,9 @@ methods:
       result->right_door->visible = false;
       //result->right_door->active = false;
 
+
+      result->coil = model_bin->auto_get("power_coil-01-coil.obj");
+      //result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
 
       //type: std::pair<std::vector<std::string>, std::vector<AllegroFlare::Physics::CollisionMeshFace*>>
       // Load the collision mesh
@@ -429,12 +460,32 @@ methods:
       body->model->draw();
       //body->placement.restore_transform();
 
+
+      if (coil_is_present())
+      {
+         ALLEGRO_COLOR color = al_color_name("dodgerblue");
+         AllegroFlare::Shaders::Base::set_vec3("color_lift", color.r, color.g, color.b);
+         float normalized_wave = std::sin(al_get_time()*3);
+         AllegroFlare::Shaders::Base::set_float("color_lift_intensity", normalized_wave * 0.15 + 0.125);
+         AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 2);
+
+         //AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 0);
+         //AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+
+         coil->set_texture(body->texture);
+         coil->draw();
+
+         AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 0);
+         AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+      }
+
       //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
       //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
 
       placement.restore_transform();
       return;
     body_dependency_symbols:
+      - al_color_name
       - AllegroFlare::Shaders::Base
 
 
@@ -698,3 +749,7 @@ dependencies:
     headers: [ allegro5/allegro.h ]
   - symbol: AllegroFlare::Model3D
     headers: [ AllegroFlare/Model3D.hpp ]
+  - symbol: al_color_name
+    headers: [ allegro5/allegro_color.h ]
+
+

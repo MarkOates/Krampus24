@@ -293,7 +293,10 @@ methods:
       {
          if (!primary_power_coil_collected)
          {
-            primary_power_coil_collected = true;
+            retrieve_primary_power_coil();
+            //retrieve_coil
+
+            //primary_power_coil_collected = true;
             // Consider emitting some kind of event, like telling the user to return to the ship or something
          }
       }
@@ -316,6 +319,23 @@ methods:
       // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
       // happened, it may play a "no interaction" sound, for example)
       return false;
+
+
+  - name: find_power_coil
+    type: Krampus24::Gameplay::Entities::PowerCoil*
+    body: |
+      return static_cast<Krampus24::Gameplay::Entities::PowerCoil*>(find_entity_by_name_or_throw("power_coil"));
+
+
+  - name: retrieve_primary_power_coil
+    body: |
+      auto power_coil = find_power_coil();
+      if (power_coil->coil_is_present())
+      {
+         power_coil->retrieve_coil();
+      }
+      primary_power_coil_collected = true;
+      return;
 
 
   - name: link_elevators
@@ -956,5 +976,7 @@ dependencies:
     headers: [ AllegroFlare/Routers/Standard.hpp ]
   - symbol: AllegroFlare::php::file_get_contents
     headers: [ AllegroFlare/UsefulPHP.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::PowerCoil
+    headers: [ Krampus24/Gameplay/Entities/PowerCoil.hpp ]
 
 

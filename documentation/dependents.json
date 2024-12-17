@@ -291,6 +291,11 @@
   "AllegroFlare/php/file_get_contents": [
     "Krampus24/Game/Scripting/Tree"
   ],
+  "Krampus24/Gameplay/Entities/PowerCoil": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -541,6 +546,7 @@
   ],
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PowerCoil",
     "Krampus24/Gameplay/Entities/Tablet"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip": [
@@ -549,10 +555,6 @@
   ],
   "Krampus24/Gameplay/Entities/PlayerShip/Style": [
     "Krampus24/Gameplay/Entities/PlayerShip"
-  ],
-  "Krampus24/Gameplay/Entities/PowerCoil": [
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/PowerCoil/Style": [
     "Krampus24/Gameplay/Entities/PowerCoil"

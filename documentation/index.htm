@@ -841,6 +841,14 @@ table td
   <td class="method"><b>interact_with_focused_object</b>(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr)</td>
 </tr>
 <tr>
+  <td class="method">Krampus24::Gameplay::Entities::PowerCoil*</td>
+  <td class="method"><b>find_power_coil</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>retrieve_primary_power_coil</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>link_elevators</b>(std::string elevator_a_name=&quot;[unset-elevator_a_name]&quot;, std::string elevator_b_name=&quot;[unset-elevator_b_name]&quot;)</td>
 </tr>
@@ -982,6 +990,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::php::file_get_contents&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/UsefulPHP.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::PowerCoil&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/PowerCoil.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2956,6 +2967,10 @@ table td
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
 <tr>
+  <td class="property">coil</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
   <td class="property">dynamic_collision_mesh_face_names</td>
   <td class="property">std::vector&lt;std::string&gt;</td>
 </tr>
@@ -2996,6 +3011,10 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
+  <td class="property">coil_retrieved</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
 </tr>
@@ -3013,6 +3032,18 @@ table td
 <tr>
   <td class="method">bool</td>
   <td class="method"><b>valid_rotation</b>(float rotation=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>retrieve_coil</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_coil_retrieved</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>coil_is_present</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -3165,6 +3196,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_color_name&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_color.h&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5336,6 +5370,11 @@ table td
   "AllegroFlare/php/file_get_contents": [
     "Krampus24/Game/Scripting/Tree"
   ],
+  "Krampus24/Gameplay/Entities/PowerCoil": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -5586,6 +5625,7 @@ table td
   ],
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PowerCoil",
     "Krampus24/Gameplay/Entities/Tablet"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip": [
@@ -5594,10 +5634,6 @@ table td
   ],
   "Krampus24/Gameplay/Entities/PlayerShip/Style": [
     "Krampus24/Gameplay/Entities/PlayerShip"
-  ],
-  "Krampus24/Gameplay/Entities/PowerCoil": [
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/PowerCoil/Style": [
     "Krampus24/Gameplay/Entities/PowerCoil"

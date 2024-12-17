@@ -55,6 +55,7 @@ namespace Krampus24
             AllegroFlare::Vec3D initial_position;
             Krampus24::Gameplay::Entities::Base* body;
             Krampus24::Gameplay::Entities::Base* right_door;
+            AllegroFlare::Model3D* coil;
             std::vector<std::string> dynamic_collision_mesh_face_names;
             float open_position;
             float speed;
@@ -65,6 +66,7 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::PowerCoil::Style style;
             float uv_offset_x;
             float uv_offset_y;
+            bool coil_retrieved;
             bool initialized;
 
          protected:
@@ -78,7 +80,11 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::PowerCoil::Style get_style() const;
             float get_uv_offset_x() const;
             float get_uv_offset_y() const;
+            bool get_coil_retrieved() const;
             static bool valid_rotation(float rotation=0.0f);
+            void retrieve_coil();
+            bool is_coil_retrieved();
+            bool coil_is_present();
             static void transform_model(AllegroFlare::Model3D* model=nullptr, ALLEGRO_TRANSFORM* transform=nullptr);
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces="[unset-name_for_collision_faces]", AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
             void lock();

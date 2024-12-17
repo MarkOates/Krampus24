@@ -10,6 +10,7 @@
 #include <AllegroFlare/GameEvent.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
+#include <Krampus24/Gameplay/Entities/PowerCoil.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
 #include <allegro5/allegro_font.h>
 #include <string>
@@ -73,6 +74,8 @@ namespace Krampus24
             Krampus24::Gameplay::Entities::Base* find_entity_by_name_or_throw(std::string name="[unset-name]");
             void spawn_arbitrary_storyboard_screen(std::string storyboard_identifier="[unset-storyboard_identifier]");
             virtual bool interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr) override;
+            Krampus24::Gameplay::Entities::PowerCoil* find_power_coil();
+            void retrieve_primary_power_coil();
             void link_elevators(std::string elevator_a_name="[unset-elevator_a_name]", std::string elevator_b_name="[unset-elevator_b_name]");
             void set_elevator_shaft_num_tiers(std::string elevator_shaft_name="[unset-elevator_shaft_name]", float num_tiers=4.0f);
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);

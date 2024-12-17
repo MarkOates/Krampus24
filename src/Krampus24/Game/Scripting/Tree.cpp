@@ -398,7 +398,10 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       if (!primary_power_coil_collected)
       {
-         primary_power_coil_collected = true;
+         retrieve_primary_power_coil();
+         //retrieve_coil
+
+         //primary_power_coil_collected = true;
          // Consider emitting some kind of event, like telling the user to return to the ship or something
       }
    }
@@ -421,6 +424,22 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    // Return "true" if an interaction occurred (otherwise it will indicate to the Gameplay/Screen that nothing
    // happened, it may play a "no interaction" sound, for example)
    return false;
+}
+
+Krampus24::Gameplay::Entities::PowerCoil* Tree::find_power_coil()
+{
+   return static_cast<Krampus24::Gameplay::Entities::PowerCoil*>(find_entity_by_name_or_throw("power_coil"));
+}
+
+void Tree::retrieve_primary_power_coil()
+{
+   auto power_coil = find_power_coil();
+   if (power_coil->coil_is_present())
+   {
+      power_coil->retrieve_coil();
+   }
+   primary_power_coil_collected = true;
+   return;
 }
 
 void Tree::link_elevators(std::string elevator_a_name, std::string elevator_b_name)
