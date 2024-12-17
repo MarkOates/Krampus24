@@ -289,6 +289,17 @@ methods:
       {
          event_emitter->emit_activate_dialog_node_by_name_event("console-06-dialog");
       }
+      else if (name == "player_ship")
+      {
+         if (primary_power_coil_collected)
+         {
+            // Nothing
+         }
+         else
+         {
+            event_emitter->emit_activate_dialog_node_by_name_event("player_ship-dialog");
+         }
+      }
          //{ find_entity_by_name_or_throw("console-01"), [this](){
             //travel_player_to_elevators_target("elevator-01");
          //}},
@@ -621,6 +632,18 @@ methods:
                { u("What would you like to do?") },
                {
                   { "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "player_ship-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "",
+               {
+                  u("This is my ship. It's a bit worn."),
+                  u("Hopefully I can retrieve the power coil on this station and trade it in for some fresh new parts.")
+               },
+               {
+                  //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
                   { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
                }
             )

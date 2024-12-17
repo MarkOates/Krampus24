@@ -178,6 +178,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PlayerShip::construct(AllegroF
    result->affected_by_environmental_forces = false;
    result->collides_with_player = true;
    result->placement.position = initial_position;
+   result->player_can_inspect_or_use = true;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
    result->placement.size = { 10.0, 0.5, 10.0 };
@@ -186,7 +187,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> PlayerShip::construct(AllegroF
    result->initial_position = initial_position;
    result->placement.rotation.y = rotation;
 
-   // Left door
+   // Body
    result->body = new Krampus24::Gameplay::Entities::Base;
    result->body->model = model_bin->auto_get("player_ship-01-body.obj");
    result->body->texture = bitmap_bin->auto_get("entities_texture-01.png");
