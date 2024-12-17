@@ -13,10 +13,6 @@ properties:
     type: AllegroFlare::EventEmitter*
     init_with: nullptr
 
-  - name: collision_mesh
-    type: AllegroFlare::Physics::CollisionMesh*
-    init_with: nullptr
-
   - name: initial_position
     type: AllegroFlare::Vec3D
     init_with: AllegroFlare::Vec3D(0, 0, 0)
@@ -42,10 +38,6 @@ properties:
     type: bool
     init_with: false
 
-  - name: dynamic_collision_mesh_face_names
-    type: std::vector<std::string>
-    init_with: '{}'
-
   - name: state
     type: uint32_t
     init_with: STATE_UNDEF
@@ -61,8 +53,8 @@ properties:
     init_with: 0.0f
 
   - name: style
-    type: Krampus24::Gameplay::Entities::Console::Style
-    init_with: Krampus24::Gameplay::Entities::Console::STYLE_NORMAL
+    type: Krampus24::Gameplay::Entities::Tablet::Style
+    init_with: Krampus24::Gameplay::Entities::Tablet::STYLE_NORMAL
     getter: true
     setter: explicit
 
@@ -84,7 +76,7 @@ properties:
 
   - name: BLENDER_IDENTIFIER
     type: char*
-    init_with: '(char*)"console"'
+    init_with: '(char*)"tablet"'
     static: true
     constexpr: true
 
@@ -182,22 +174,16 @@ methods:
       - name: event_emitter
         type: AllegroFlare::EventEmitter*
         default_argument: nullptr
-      - name: collision_mesh
-        type: AllegroFlare::Physics::CollisionMesh*
-        default_argument: nullptr
-      - name: name_for_collision_faces
-        type: std::string
-        default_argument: '"[unset-name_for_collision_faces]"'
       - name: initial_position
         type: AllegroFlare::Vec3D
         default_argument: AllegroFlare::Vec3D(0, 0, 0)
       - name: rotation
         type: float
         default_argument: 0.0f
-    guards: [ model_bin, bitmap_bin, event_emitter, collision_mesh ]
+    guards: [ model_bin, bitmap_bin, event_emitter ]
     body: |
       // Main entity
-      Krampus24::Gameplay::Entities::Console* result = new Krampus24::Gameplay::Entities::Console;
+      Krampus24::Gameplay::Entities::Tablet* result = new Krampus24::Gameplay::Entities::Tablet;
       //result->model = model_bin->auto_get("door-01.obj");
       //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->affected_by_environmental_forces = false;
@@ -208,7 +194,7 @@ methods:
 
       result->placement.size = { 3.0, 3.0, 3.0 };
       result->aabb3d.set_max(result->placement.size);
-      result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
+      result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
       result->initial_position = initial_position;
       result->placement.rotation.y = rotation;
       result->player_can_inspect_or_use = true;
@@ -216,7 +202,7 @@ methods:
 
       // Left door
       result->door = new Krampus24::Gameplay::Entities::Base;
-      result->door->model = model_bin->auto_get("console-01-body.obj");
+      result->door->model = model_bin->auto_get("tablet-01-body.obj");
       result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
       result->door->affected_by_environmental_forces = false;
       result->door->collides_with_player = false;
@@ -239,6 +225,7 @@ methods:
       //result->frame->visible = false;
 
       // Load our collision mesh for a dynamically blocking door when locked
+      /*
       result->collision_mesh = collision_mesh;
       std::string collision_mesh_name = "console-01-collision_mesh.obj";
       AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
@@ -251,6 +238,7 @@ methods:
             mesh
          );
       model_bin->destroy(collision_mesh_name);
+      */
      
       
 
@@ -355,7 +343,7 @@ methods:
   - name: set_style
     parameters:
       - name: style
-        type: Krampus24::Gameplay::Entities::Console::Style
+        type: Krampus24::Gameplay::Entities::Tablet::Style
         default_argument: STYLE_UNDEF
     body: |
       this->style = style;
@@ -390,7 +378,7 @@ methods:
     type: std::pair<float, float>
     parameters:
       - name: style
-        type: Krampus24::Gameplay::Entities::Console::Style
+        type: Krampus24::Gameplay::Entities::Tablet::Style
         default_argument: STYLE_UNDEF
     guards: [ (style != STYLE_UNDEF) ]
     body: |
@@ -425,29 +413,16 @@ methods:
     body: |
       placement.start_transform();
 
-      //std::pair<float, float> uv_offset = get_uv_offset_from_style(style);//STYLE_NORMAL_DISRUPTED);
-      //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
-      //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
-      AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
-      AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
-      //right_door->placement.start_transform();
-      //right_door->model->set_texture(right_door->texture);
-      //right_door->model->draw();
-      //right_door->placement.restore_transform();
-
-      door->placement.start_transform();
+      //door->placement.start_transform();
       door->model->set_texture(door->texture);
       door->model->draw();
-      door->placement.restore_transform();
+      //door->placement.restore_transform();
 
-      //frame->placement.start_transform();
-      //frame->model->set_texture(frame->texture);
-      //frame->model->draw();
-      //frame->placement.restore_transform();
-
-      AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
-      AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
 
       placement.restore_transform();
       return;
@@ -530,26 +505,6 @@ methods:
       return sound_effect_elements;
 
 
-  - name: activate_collision_mesh
-    guards: [ collision_mesh ]
-    body: |
-      for (auto &face_name : dynamic_collision_mesh_face_names)
-      {
-         collision_mesh->activate_dynamic_face(face_name);
-      }
-      return;
-
-
-  - name: deactivate_collision_mesh
-    guards: [ collision_mesh ]
-    body: |
-      for (auto &face_name : dynamic_collision_mesh_face_names)
-      {
-         collision_mesh->deactivate_dynamic_face(face_name);
-      }
-      return;
-
-
   - name: set_state
     parameters:
       - name: state
@@ -577,7 +532,7 @@ methods:
 
          case STATE_OPEN: {
             set_open_position(1.0f);
-            deactivate_collision_mesh();
+            //deactivate_collision_mesh();
             //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          } break;
 
@@ -589,7 +544,7 @@ methods:
 
          case STATE_CLOSED: {
             set_open_position(0.0f);
-            activate_collision_mesh();
+            //activate_collision_mesh();
          } break;
 
          default:
@@ -695,8 +650,8 @@ dependencies:
 
   - symbol: Krampus24::Gameplay::Entities::Base
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
-  - symbol: Krampus24::Gameplay::Entities::Console
-    headers: [ Krampus24/Gameplay/Entities/Console.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Tablet
+    headers: [ Krampus24/Gameplay/Entities/Tablet.hpp ]
   - symbol: AllegroFlare::BitmapBin
     headers: [ AllegroFlare/BitmapBin.hpp ]
   - symbol: AllegroFlare::ModelBin
@@ -721,13 +676,11 @@ dependencies:
     headers: [ AllegroFlare/EventEmitter.hpp ]
   - symbol: AllegroFlare::Shaders::Base
     headers: [ AllegroFlare/Shaders/Base.hpp ]
-  - symbol: Krampus24::Gameplay::Entities::Console::Style
-    headers: [ Krampus24/Gameplay/Entities/Console.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Tablet::Style
+    headers: [ Krampus24/Gameplay/Entities/Tablet.hpp ]
   - symbol: AllegroFlare::Physics::CollisionMesh
     headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
   - symbol: ALLEGRO_TRANSFORM
     headers: [ allegro5/allegro.h ]
   - symbol: AllegroFlare::Model3D
     headers: [ AllegroFlare/Model3D.hpp ]
-
-

@@ -246,6 +246,7 @@ methods:
       //tree_scripting.set_collision_observer(&collision_observer);
       //tree_scripting.set_font_bin(font_bin);
       //tree_scripting.initialize();
+
       //scripting = tree_scripting;
 
       // Setup dialog system styling
@@ -414,6 +415,22 @@ methods:
          results[0]->name = entity->name;
          return results;
       }
+      else if (entity_root_name == Krampus24::Gameplay::Entities::Tablet::BLENDER_IDENTIFIER)
+      {
+         float rotation = entity->rotation.z / 360.0;
+         std::vector<Krampus24::Gameplay::Entities::Base*> results =
+            Krampus24::Gameplay::Entities::Tablet::construct(
+               model_bin,
+               bitmap_bin,
+               event_emitter,
+               //collision_mesh,
+               //entity->name,
+               position,
+               rotation
+            );
+         results[0]->name = entity->name;
+         return results;
+      }
 
       //AllegroFlare::Vec3D position;
       bool affected_by_environmental_forces = true;
@@ -456,6 +473,7 @@ methods:
       - Krampus24::Gameplay::Entities::SlidingDoor
       - Krampus24::Gameplay::Entities::ElevatorShaft
       - Krampus24::Gameplay::Entities::Console
+      - Krampus24::Gameplay::Entities::Tablet
 
 
   - name: load_or_reload_meshes
@@ -1812,6 +1830,8 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/ElevatorShaft.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Console
     headers: [ Krampus24/Gameplay/Entities/Console.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Tablet
+    headers: [ Krampus24/Gameplay/Entities/Tablet.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Base
     headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
   - symbol: AllegroFlare::DialogSystem::DialogSystem

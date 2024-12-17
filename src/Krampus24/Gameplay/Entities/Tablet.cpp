@@ -1,6 +1,6 @@
 
 
-#include <Krampus24/Gameplay/Entities/Console.hpp>
+#include <Krampus24/Gameplay/Entities/Tablet.hpp>
 
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Shaders/Base.hpp>
@@ -20,21 +20,19 @@ namespace Entities
 {
 
 
-Console::Console()
+Tablet::Tablet()
    : Krampus24::Gameplay::Entities::Base()
    , event_emitter(nullptr)
-   , collision_mesh(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
    , door(nullptr)
    , frame(nullptr)
    , open_position(0.0f)
    , speed(0.0195f)
    , locked(false)
-   , dynamic_collision_mesh_face_names({})
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
-   , style(Krampus24::Gameplay::Entities::Console::STYLE_NORMAL)
+   , style(Krampus24::Gameplay::Entities::Tablet::STYLE_NORMAL)
    , uv_offset_x(0.0f)
    , uv_offset_y(0.0f)
    , initialized(false)
@@ -42,7 +40,7 @@ Console::Console()
 }
 
 
-Console::~Console()
+Tablet::~Tablet()
 {
    //if (initialized)
    //{
@@ -55,31 +53,31 @@ Console::~Console()
 }
 
 
-uint32_t Console::get_state() const
+uint32_t Tablet::get_state() const
 {
    return state;
 }
 
 
-Krampus24::Gameplay::Entities::Console::Style Console::get_style() const
+Krampus24::Gameplay::Entities::Tablet::Style Tablet::get_style() const
 {
    return style;
 }
 
 
-float Console::get_uv_offset_x() const
+float Tablet::get_uv_offset_x() const
 {
    return uv_offset_x;
 }
 
 
-float Console::get_uv_offset_y() const
+float Tablet::get_uv_offset_y() const
 {
    return uv_offset_y;
 }
 
 
-void Console::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* transform)
+void Tablet::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* transform)
 {
    //validate_initialized_or_output_to_cerr("transform");
    //validate_not_vertex_buffer("transform");
@@ -118,38 +116,31 @@ void Console::transform_model(AllegroFlare::Model3D* model, ALLEGRO_TRANSFORM* t
    return;
 }
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string name_for_collision_faces, AllegroFlare::Vec3D initial_position, float rotation)
+std::vector<Krampus24::Gameplay::Entities::Base*> Tablet::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"model_bin\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::construct]: error: guard \"model_bin\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"model_bin\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::construct]: error: guard \"model_bin\" not met");
    }
    if (!(bitmap_bin))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"bitmap_bin\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::construct]: error: guard \"bitmap_bin\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"bitmap_bin\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::construct]: error: guard \"bitmap_bin\" not met");
    }
    if (!(event_emitter))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"event_emitter\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::construct]: error: guard \"event_emitter\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"event_emitter\" not met");
-   }
-   if (!(collision_mesh))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"collision_mesh\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::construct]: error: guard \"collision_mesh\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::construct]: error: guard \"event_emitter\" not met");
    }
    // Main entity
-   Krampus24::Gameplay::Entities::Console* result = new Krampus24::Gameplay::Entities::Console;
+   Krampus24::Gameplay::Entities::Tablet* result = new Krampus24::Gameplay::Entities::Tablet;
    //result->model = model_bin->auto_get("door-01.obj");
    //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->affected_by_environmental_forces = false;
@@ -160,7 +151,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
 
    result->placement.size = { 3.0, 3.0, 3.0 };
    result->aabb3d.set_max(result->placement.size);
-   result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
+   result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
    result->placement.rotation.y = rotation;
    result->player_can_inspect_or_use = true;
@@ -168,7 +159,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
 
    // Left door
    result->door = new Krampus24::Gameplay::Entities::Base;
-   result->door->model = model_bin->auto_get("console-01-body.obj");
+   result->door->model = model_bin->auto_get("tablet-01-body.obj");
    result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->door->affected_by_environmental_forces = false;
    result->door->collides_with_player = false;
@@ -191,6 +182,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
    //result->frame->visible = false;
 
    // Load our collision mesh for a dynamically blocking door when locked
+   /*
    result->collision_mesh = collision_mesh;
    std::string collision_mesh_name = "console-01-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
@@ -203,6 +195,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
          mesh
       );
    model_bin->destroy(collision_mesh_name);
+   */
 
 
 
@@ -235,19 +228,19 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Console::construct(AllegroFlar
    return { result, result->door }; //, result->frame }; //, result->right_door };
 }
 
-void Console::unlock()
+void Tablet::unlock()
 {
    locked = false;
    return;
 }
 
-void Console::lock()
+void Tablet::lock()
 {
    locked = true;
    return;
 }
 
-void Console::attempt_to_open()
+void Tablet::attempt_to_open()
 {
    if (locked)
    {
@@ -260,7 +253,7 @@ void Console::attempt_to_open()
    return;
 }
 
-void Console::attempt_to_close()
+void Tablet::attempt_to_close()
 {
    if (locked)
    {
@@ -273,7 +266,7 @@ void Console::attempt_to_close()
    return;
 }
 
-bool Console::on_player_inspect_or_use()
+bool Tablet::on_player_inspect_or_use()
 {
    // This will spawn a dialog, but the dialog depends on what was assigned to it
    //if (is_state(STATE_OPEN) || is_state(STATE_OPENING))
@@ -289,35 +282,35 @@ bool Console::on_player_inspect_or_use()
    return false;
 }
 
-void Console::set_style(Krampus24::Gameplay::Entities::Console::Style style)
+void Tablet::set_style(Krampus24::Gameplay::Entities::Tablet::Style style)
 {
    this->style = style;
    std::tie(uv_offset_x, uv_offset_y) = get_uv_offset_from_style(style);
    return;
 }
 
-void Console::set_uv_offset_x(float uv_offset_x)
+void Tablet::set_uv_offset_x(float uv_offset_x)
 {
    this->style = STYLE_USER_CUSTOM_DEFINED_UV;
    this->uv_offset_x = uv_offset_x;
    return;
 }
 
-void Console::set_uv_offset_y(float uv_offset_y)
+void Tablet::set_uv_offset_y(float uv_offset_y)
 {
    this->style = STYLE_USER_CUSTOM_DEFINED_UV;
    this->uv_offset_y = uv_offset_y;
    return;
 }
 
-std::pair<float, float> Console::get_uv_offset_from_style(Krampus24::Gameplay::Entities::Console::Style style)
+std::pair<float, float> Tablet::get_uv_offset_from_style(Krampus24::Gameplay::Entities::Tablet::Style style)
 {
    if (!((style != STYLE_UNDEF)))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met");
    }
    switch (style)
    {
@@ -344,39 +337,26 @@ std::pair<float, float> Console::get_uv_offset_from_style(Krampus24::Gameplay::E
    return { 0, 0 };
 }
 
-void Console::draw()
+void Tablet::draw()
 {
    placement.start_transform();
 
-   //std::pair<float, float> uv_offset = get_uv_offset_from_style(style);//STYLE_NORMAL_DISRUPTED);
-   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset.first);
-   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset.second);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
 
-   //right_door->placement.start_transform();
-   //right_door->model->set_texture(right_door->texture);
-   //right_door->model->draw();
-   //right_door->placement.restore_transform();
-
-   door->placement.start_transform();
+   //door->placement.start_transform();
    door->model->set_texture(door->texture);
    door->model->draw();
-   door->placement.restore_transform();
+   //door->placement.restore_transform();
 
-   //frame->placement.start_transform();
-   //frame->model->set_texture(frame->texture);
-   //frame->model->draw();
-   //frame->placement.restore_transform();
-
-   AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
-   AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
 
    placement.restore_transform();
    return;
 }
 
-void Console::set_open_position(float open_position)
+void Tablet::set_open_position(float open_position)
 {
    open_position = std::max(std::min(1.0f, open_position), 0.0f);
    this->open_position = open_position;
@@ -385,7 +365,7 @@ void Console::set_open_position(float open_position)
    return;
 }
 
-void Console::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
+void Tablet::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
    //attempt_to_open();
    //set_state(STATE_OPENING);
@@ -393,34 +373,34 @@ void Console::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base
    return;
 }
 
-void Console::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
+void Tablet::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
    //attempt_to_close();
    //set_state(STATE_CLOSING);
    return;
 }
 
-void Console::on_time_step(double time_step, double time_now)
+void Tablet::on_time_step(double time_step, double time_now)
 {
    if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::on_time_step]: error: guard \"initialized\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::on_time_step]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::on_time_step]: error: guard \"initialized\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::on_time_step]: error: guard \"initialized\" not met");
    }
    update_state(time_step, time_now);
    return;
 }
 
-void Console::play_open_door_sound_effect()
+void Tablet::play_open_door_sound_effect()
 {
    //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
    event_emitter->emit_play_sound_effect_event("open_metal_door");
    return;
 }
 
-std::map<std::string, AllegroFlare::AudioRepositoryElement> Console::build_audio_controller_sound_effect_list()
+std::map<std::string, AllegroFlare::AudioRepositoryElement> Tablet::build_audio_controller_sound_effect_list()
 {
    std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
       { "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
@@ -428,53 +408,21 @@ std::map<std::string, AllegroFlare::AudioRepositoryElement> Console::build_audio
    return sound_effect_elements;
 }
 
-void Console::activate_collision_mesh()
-{
-   if (!(collision_mesh))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::activate_collision_mesh]: error: guard \"collision_mesh\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::activate_collision_mesh]: error: guard \"collision_mesh\" not met");
-   }
-   for (auto &face_name : dynamic_collision_mesh_face_names)
-   {
-      collision_mesh->activate_dynamic_face(face_name);
-   }
-   return;
-}
-
-void Console::deactivate_collision_mesh()
-{
-   if (!(collision_mesh))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::deactivate_collision_mesh]: error: guard \"collision_mesh\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::deactivate_collision_mesh]: error: guard \"collision_mesh\" not met");
-   }
-   for (auto &face_name : dynamic_collision_mesh_face_names)
-   {
-      collision_mesh->deactivate_dynamic_face(face_name);
-   }
-   return;
-}
-
-void Console::set_state(uint32_t state, bool override_if_busy)
+void Tablet::set_state(uint32_t state, bool override_if_busy)
 {
    if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::set_state]: error: guard \"initialized\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::set_state]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::set_state]: error: guard \"initialized\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::set_state]: error: guard \"initialized\" not met");
    }
    if (!(is_valid_state(state)))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::set_state]: error: guard \"is_valid_state(state)\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::set_state]: error: guard \"is_valid_state(state)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::set_state]: error: guard \"is_valid_state(state)\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::set_state]: error: guard \"is_valid_state(state)\" not met");
    }
    if (this->state == state) return;
    if (!override_if_busy && state_is_busy) return;
@@ -493,7 +441,7 @@ void Console::set_state(uint32_t state, bool override_if_busy)
 
       case STATE_OPEN: {
          set_open_position(1.0f);
-         deactivate_collision_mesh();
+         //deactivate_collision_mesh();
          //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
       } break;
 
@@ -505,7 +453,7 @@ void Console::set_state(uint32_t state, bool override_if_busy)
 
       case STATE_CLOSED: {
          set_open_position(0.0f);
-         activate_collision_mesh();
+         //activate_collision_mesh();
       } break;
 
       default:
@@ -519,21 +467,21 @@ void Console::set_state(uint32_t state, bool override_if_busy)
    return;
 }
 
-void Console::update_state(double time_step, double time_now)
+void Tablet::update_state(double time_step, double time_now)
 {
    if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::update_state]: error: guard \"initialized\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::update_state]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::update_state]: error: guard \"initialized\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::update_state]: error: guard \"initialized\" not met");
    }
    if (!(is_valid_state(state)))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::update_state]: error: guard \"is_valid_state(state)\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::update_state]: error: guard \"is_valid_state(state)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::update_state]: error: guard \"is_valid_state(state)\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::update_state]: error: guard \"is_valid_state(state)\" not met");
    }
    float age = infer_current_state_age(time_now);
 
@@ -566,7 +514,7 @@ void Console::update_state(double time_step, double time_now)
    return;
 }
 
-bool Console::is_valid_state(uint32_t state)
+bool Tablet::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
@@ -578,19 +526,19 @@ bool Console::is_valid_state(uint32_t state)
    return (valid_states.count(state) > 0);
 }
 
-bool Console::is_state(uint32_t possible_state)
+bool Tablet::is_state(uint32_t possible_state)
 {
    return (state == possible_state);
 }
 
-float Console::infer_current_state_age(float time_now)
+float Tablet::infer_current_state_age(float time_now)
 {
    if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Console::infer_current_state_age]: error: guard \"initialized\" not met.";
+      error_message << "[Krampus24::Gameplay::Entities::Tablet::infer_current_state_age]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Console::infer_current_state_age]: error: guard \"initialized\" not met");
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Tablet::infer_current_state_age]: error: guard \"initialized\" not met");
    }
    return (time_now - state_changed_at);
 }

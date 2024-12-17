@@ -733,15 +733,8 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
    return result;
 }
 
-AllegroFlare::Elements::StoryboardPages::Base* Tree::create_storyboard_page__text(AllegroFlare::FontBin* font_bin, std::string page_text)
+AllegroFlare::Elements::StoryboardPages::Base* Tree::create_storyboard_page__text(std::string page_text)
 {
-   if (!(font_bin))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Game::Scripting::Tree::create_storyboard_page__text]: error: guard \"font_bin\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::create_storyboard_page__text]: error: guard \"font_bin\" not met");
-   }
    if (!((!page_text.empty())))
    {
       std::stringstream error_message;
@@ -771,11 +764,44 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
 
    std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
 
+   static std::map<std::string, std::function<void()>> items_map = {
+      { "pig_storyboard", [this, &result]() { result = {
+         create_storyboard_page__text(
+           "This is new text from an arbitrary \"pig_storyboard\" storyboard screen."
+         ),
+      };}},
+   };
+
+   // locate and call the function to handle the item
+   if (items_map.count(identifier) == 0)
+   {
+      bool item_handled = false;
+
+      if (!item_handled)
+      {
+         // item not found
+         AllegroFlare::Logger::throw_error(
+            "Krampus24::Game::Scripting::Tree::create_arbitrary_storyboard_pages_by_identifier",
+            "Could not find listing for storyboard identifier \"" + identifier + "\"."
+         );
+      }
+   }
+   else
+   {
+      // call the item
+      items_map[identifier]();
+   }
+
+   return result;
+
+
+
+   /*
    if (identifier == "pig_storyboard")
    {
       result =
       {
-         create_storyboard_page__text(font_bin,
+         create_storyboard_page__text(//font_bin,
            "This is text from an arbitrary \"pig_storyboard\" storyboard screen."
          ),
       };
@@ -789,6 +815,7 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
    }
 
    return result;
+   */
 }
 
 ALLEGRO_FONT* Tree::obtain_hud_font()

@@ -79,7 +79,7 @@ namespace Krampus24
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
             std::string u(std::string string="[unset-string]");
             virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank() override;
-            AllegroFlare::Elements::StoryboardPages::Base* create_storyboard_page__text(AllegroFlare::FontBin* font_bin=nullptr, std::string page_text={});
+            AllegroFlare::Elements::StoryboardPages::Base* create_storyboard_page__text(std::string page_text={});
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]") override;
             ALLEGRO_FONT* obtain_hud_font();
          };

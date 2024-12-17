@@ -460,7 +460,7 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_new_ga
    }
    AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
 
-   return {};
+   //return {};
 
    std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
    {

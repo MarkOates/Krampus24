@@ -475,7 +475,7 @@ methods:
     body: |
       AllegroFlare::FontBin* font_bin = primary_gameplay_screen->get_font_bin();
 
-      return {};
+      //return {};
 
       std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
       {
