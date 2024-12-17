@@ -394,6 +394,14 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       event_emitter->emit_activate_dialog_node_by_name_event("console-06-dialog");
    }
+   else if (name == "power_coil")
+   {
+      if (!primary_power_coil_collected)
+      {
+         primary_power_coil_collected = true;
+         // Consider emitting some kind of event, like telling the user to return to the ship or something
+      }
+   }
    else if (name == "player_ship")
    {
       if (primary_power_coil_collected)
@@ -592,11 +600,11 @@ void Tree::build_on_collision_callbacks()
             primary_power_coil_returned_to_ship = true;
          }
       }},
-      { find_entity_by_name_or_throw("power_coil"), [this](){
-         find_entity_by_name_or_throw("power_coil")->active = false;
-         find_entity_by_name_or_throw("power_coil")->visible = false;
-         primary_power_coil_collected = true;
-      }},
+      //{ find_entity_by_name_or_throw("power_coil"), [this](){
+         //find_entity_by_name_or_throw("power_coil")->active = false;
+         //find_entity_by_name_or_throw("power_coil")->visible = false;
+         //if (!primary_power_coil_collected) primary_power_coil_collected = true;
+      //}},
    };
    return;
 }
