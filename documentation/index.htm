@@ -748,6 +748,10 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">data_folder_path</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
   <td class="property">event_emitter</td>
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
@@ -782,6 +786,10 @@ table td
 <tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">DEFAULT_DATA_FOLDER_PATH</td>
+  <td class="property">char*</td>
 </tr>
     </table>
 </div>    <h3>Methods</h3>
@@ -887,6 +895,10 @@ table td
   <td class="method"><b>create_storyboard_page__text</b>(std::string page_text={})</td>
 </tr>
 <tr>
+  <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base*&gt;</td>
+  <td class="method"><b>build_storyboard_text_from_file</b>(std::string filename={})</td>
+</tr>
+<tr>
   <td class="method">std::vector&lt;AllegroFlare::Elements::StoryboardPages::Base *&gt;</td>
   <td class="method"><b>create_arbitrary_storyboard_pages_by_identifier</b>(std::string identifier=&quot;[unset-identifier]&quot;)</td>
 </tr>
@@ -965,6 +977,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Routers::Standard&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Routers/Standard.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::php::file_get_contents&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/UsefulPHP.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -4817,6 +4832,9 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/php/file_get_contents": [
+    "Krampus24/Game/Scripting/Tree"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"

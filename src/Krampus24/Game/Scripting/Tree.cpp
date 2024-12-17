@@ -9,6 +9,7 @@
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
+#include <AllegroFlare/UsefulPHP.hpp>
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
@@ -28,6 +29,7 @@ namespace Scripting
 
 Tree::Tree()
    : Krampus24::Gameplay::ScriptingInterface()
+   , data_folder_path(DEFAULT_DATA_FOLDER_PATH)
    , event_emitter(nullptr)
    , dialog_system(nullptr)
    , font_bin(nullptr)
@@ -43,6 +45,12 @@ Tree::Tree()
 
 Tree::~Tree()
 {
+}
+
+
+void Tree::set_data_folder_path(std::string data_folder_path)
+{
+   this->data_folder_path = data_folder_path;
 }
 
 
@@ -96,6 +104,12 @@ void Tree::set_collision_observer(AllegroFlare::CollisionObservers::Simple* coll
 {
    if (get_initialized()) throw std::runtime_error("[Tree::set_collision_observer]: error: guard \"get_initialized()\" not met.");
    this->collision_observer = collision_observer;
+}
+
+
+std::string Tree::get_data_folder_path() const
+{
+   return data_folder_path;
 }
 
 
@@ -202,6 +216,13 @@ void Tree::initialize()
       error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"(!initialized)\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"(!initialized)\" not met");
+   }
+   if (!((data_folder_path != DEFAULT_DATA_FOLDER_PATH)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"(data_folder_path != DEFAULT_DATA_FOLDER_PATH)\" not met");
    }
    if (!(event_emitter))
    {
@@ -337,11 +358,10 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    }
-   else if (name == "pig.001")
+   else if (name == "tablet.001")
    {
       //spawn_arbit pig_storyboard
-      spawn_arbitrary_storyboard_screen("pig_storyboard");
-      // HERE
+      spawn_arbitrary_storyboard_screen("tablet_in_zoo");
       //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    }
    else if (name == "console-01")
@@ -746,6 +766,40 @@ AllegroFlare::Elements::StoryboardPages::Base* Tree::create_storyboard_page__tex
    return page;
 }
 
+std::vector<AllegroFlare::Elements::StoryboardPages::Base*> Tree::build_storyboard_text_from_file(std::string data_folder_path, std::string filename)
+{
+   std::vector<AllegroFlare::Elements::StoryboardPages::Base*> pages_result;
+
+   std::string full_file_location = data_folder_path + "stories/" + filename;
+   if (!std::filesystem::exists(full_file_location))
+   {
+      AllegroFlare::Logger::throw_error(
+         "Krampus24::Game::Scripting::Tree::build_storyboard_text_from_file",
+         "Could not find file \"" + full_file_location + "\"."
+      );
+   }
+
+   std::string file_content = AllegroFlare::php::file_get_contents(full_file_location);
+   std::vector<std::string> pages = AllegroFlare::StringTransformer::split_multichar_delim(file_content, "--page--");
+
+   for (auto &page : pages)
+   {
+      std::string trimmed = AllegroFlare::StringTransformer::trim(page);
+      if (trimmed.empty()) continue;
+      pages_result.push_back(create_storyboard_page__text(trimmed));
+   }
+
+   if (pages_result.empty())
+   {
+      AllegroFlare::Logger::throw_error(
+         "Krampus24::Game::Scripting::Tree::build_storyboard_text_from_file",
+         "When loading \"" + full_file_location + "\", the number of pages that assembled was unexpectedly 0."
+      );
+   }
+
+   return pages_result;
+}
+
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitrary_storyboard_pages_by_identifier(std::string identifier)
 {
    if (!(font_bin))
@@ -765,11 +819,12 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
    std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
 
    static std::map<std::string, std::function<void()>> items_map = {
-      { "pig_storyboard", [this, &result]() { result = {
-         create_storyboard_page__text(
-           "This is new text from an arbitrary \"pig_storyboard\" storyboard screen."
-         ),
-      };}},
+      { "tablet_in_zoo", [this, &result]() { //result = {
+         //create_storyboard_page__text(
+           //"This is new text from an arbitrary \"pig_storyboard\" storyboard screen."
+         //),
+         result = build_storyboard_text_from_file(data_folder_path, "tablet_in_zoo.txt");
+      }},
    };
 
    // locate and call the function to handle the item

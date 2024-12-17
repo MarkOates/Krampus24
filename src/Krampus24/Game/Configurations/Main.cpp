@@ -98,6 +98,7 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
       //std::cout << "---- ****** inside building scripting ----" << std::endl;
       // Build a scripting
       Krampus24::Game::Scripting::Tree *scripting = new Krampus24::Game::Scripting::Tree;
+      scripting->set_data_folder_path(screen->get_data_folder_path());
       scripting->set_entities(&screen->get_entities_ref());
       scripting->set_collision_observer(&screen->get_collision_observer_ref());
       scripting->set_font_bin(screen->get_font_bin());

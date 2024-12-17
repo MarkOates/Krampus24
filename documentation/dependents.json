@@ -280,6 +280,9 @@
     "Krampus24/Gameplay/Screen",
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/php/file_get_contents": [
+    "Krampus24/Game/Scripting/Tree"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],

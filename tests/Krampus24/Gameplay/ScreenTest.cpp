@@ -103,16 +103,18 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_dialog_system(get_framework_dialog_system());
    screen.set_game_configuration(&game_configuration);
    screen.set_build_scripting_instance_func(
-      [](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
+      [this](Krampus24::Gameplay::Screen* screen) -> Krampus24::Gameplay::ScriptingInterface* {
 
       //std::cout << "---- ****** inside building scripting ----" << std::endl;
       // Build a scripting
       Krampus24::Game::Scripting::Tree *scripting = new Krampus24::Game::Scripting::Tree;
+      scripting->set_data_folder_path(get_framework_data_folder_path());
       scripting->set_entities(&screen->get_entities_ref());
       scripting->set_collision_observer(&screen->get_collision_observer_ref());
       scripting->set_font_bin(screen->get_font_bin());
       scripting->set_dialog_system(screen->get_dialog_system());
       scripting->set_event_emitter(screen->get_event_emitter());
+      //scripting->set_data_folder_path(get_framework_data_folder_path());
       scripting->initialize();
 
       return scripting;

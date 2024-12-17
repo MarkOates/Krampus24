@@ -9,6 +9,12 @@ parent_classes:
 properties:
 
 
+  - name: data_folder_path
+    type: std::string
+    init_with: DEFAULT_DATA_FOLDER_PATH
+    getter: true
+    setter: true
+
   - name: event_emitter
     type: AllegroFlare::EventEmitter*
     init_with: nullptr
@@ -56,6 +62,12 @@ properties:
     type: bool
     init_with: false
     getter: true
+
+  - name: DEFAULT_DATA_FOLDER_PATH
+    type: char*
+    init_with: '(char*)"[unset-data_folder_path]"'
+    static: true
+    constexpr: true
 
 
 methods:
@@ -123,6 +135,7 @@ methods:
   - name: initialize
     guards:
       - (!initialized)
+      - (data_folder_path != DEFAULT_DATA_FOLDER_PATH)
       - event_emitter
       - dialog_system
       - entities
@@ -240,11 +253,10 @@ methods:
       {
          event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       }
-      else if (name == "pig.001")
+      else if (name == "tablet.001")
       {
          //spawn_arbit pig_storyboard
-         spawn_arbitrary_storyboard_screen("pig_storyboard");
-         // HERE
+         spawn_arbitrary_storyboard_screen("tablet_in_zoo");
          //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       }
       else if (name == "console-01")
@@ -543,7 +555,6 @@ methods:
       - AllegroFlare::StringTransformer
  
 
-
   - name: build_dialog_node_bank
     virtual: true
     override: true
@@ -729,6 +740,53 @@ methods:
       - AllegroFlare::Elements::StoryboardPages::AdvancingText
 
 
+  - name: build_storyboard_text_from_file
+    static: true
+    type: std::vector<AllegroFlare::Elements::StoryboardPages::Base*>
+    parameters:
+      - name: data_folder_path
+        type: std::string
+        default_argument: '{}'
+      - name: filename
+        type: std::string
+        default_argument: '{}'
+    body: |
+      std::vector<AllegroFlare::Elements::StoryboardPages::Base*> pages_result;
+
+      std::string full_file_location = data_folder_path + "stories/" + filename;
+      if (!std::filesystem::exists(full_file_location))
+      {
+         AllegroFlare::Logger::throw_error(
+            "Krampus24::Game::Scripting::Tree::build_storyboard_text_from_file",
+            "Could not find file \"" + full_file_location + "\"."
+         );
+      }
+
+      std::string file_content = AllegroFlare::php::file_get_contents(full_file_location);
+      std::vector<std::string> pages = AllegroFlare::StringTransformer::split_multichar_delim(file_content, "--page--");
+
+      for (auto &page : pages)
+      {
+         std::string trimmed = AllegroFlare::StringTransformer::trim(page);
+         if (trimmed.empty()) continue;
+         pages_result.push_back(create_storyboard_page__text(trimmed));
+      }
+
+      if (pages_result.empty())
+      {
+         AllegroFlare::Logger::throw_error(
+            "Krampus24::Game::Scripting::Tree::build_storyboard_text_from_file",
+            "When loading \"" + full_file_location + "\", the number of pages that assembled was unexpectedly 0."
+         );
+      }
+
+      return pages_result;
+
+    body_dependency_symbols:
+      - AllegroFlare::php::file_get_contents
+      - AllegroFlare::StringTransformer
+
+
   - name: create_arbitrary_storyboard_pages_by_identifier
     type: std::vector<AllegroFlare::Elements::StoryboardPages::Base *>
     virtual: true
@@ -749,11 +807,12 @@ methods:
       std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {};
 
       static std::map<std::string, std::function<void()>> items_map = {
-         { "pig_storyboard", [this, &result]() { result = {
-            create_storyboard_page__text(
-              "This is new text from an arbitrary \"pig_storyboard\" storyboard screen."
-            ),
-         };}},
+         { "tablet_in_zoo", [this, &result]() { //result = {
+            //create_storyboard_page__text(
+              //"This is new text from an arbitrary \"pig_storyboard\" storyboard screen."
+            //),
+            result = build_storyboard_text_from_file(data_folder_path, "tablet_in_zoo.txt");
+         }},
       };
 
       // locate and call the function to handle the item
@@ -857,5 +916,7 @@ dependencies:
     headers: [ AllegroFlare/Elements/StoryboardPages/AdvancingText.hpp ]
   - symbol: AllegroFlare::Routers::Standard
     headers: [ AllegroFlare/Routers/Standard.hpp ]
+  - symbol: AllegroFlare::php::file_get_contents
+    headers: [ AllegroFlare/UsefulPHP.hpp ]
 
 

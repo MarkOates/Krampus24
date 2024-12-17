@@ -25,7 +25,11 @@ namespace Krampus24
       {
          class Tree : public Krampus24::Gameplay::ScriptingInterface
          {
+         public:
+            static constexpr char* DEFAULT_DATA_FOLDER_PATH = (char*)"[unset-data_folder_path]";
+
          private:
+            std::string data_folder_path;
             AllegroFlare::EventEmitter* event_emitter;
             AllegroFlare::DialogSystem::DialogSystem* dialog_system;
             AllegroFlare::FontBin* font_bin;
@@ -44,6 +48,7 @@ namespace Krampus24
             Tree();
             virtual ~Tree();
 
+            void set_data_folder_path(std::string data_folder_path);
             void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
             void set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system);
             void set_font_bin(AllegroFlare::FontBin* font_bin);
@@ -52,6 +57,7 @@ namespace Krampus24
             void set_primary_power_coil_collected(bool primary_power_coil_collected);
             void set_primary_power_coil_returned_to_ship(bool primary_power_coil_returned_to_ship);
             void set_collision_observer(AllegroFlare::CollisionObservers::Simple* collision_observer);
+            std::string get_data_folder_path() const;
             std::string get_arbitrary_storyboard_screen_identifier_to_start() const;
             bool get_primary_power_coil_collected() const;
             bool get_primary_power_coil_returned_to_ship() const;
@@ -80,6 +86,7 @@ namespace Krampus24
             std::string u(std::string string="[unset-string]");
             virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank() override;
             AllegroFlare::Elements::StoryboardPages::Base* create_storyboard_page__text(std::string page_text={});
+            static std::vector<AllegroFlare::Elements::StoryboardPages::Base*> build_storyboard_text_from_file(std::string data_folder_path={}, std::string filename={});
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]") override;
             ALLEGRO_FONT* obtain_hud_font();
          };
