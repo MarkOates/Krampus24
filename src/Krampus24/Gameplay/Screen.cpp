@@ -1047,11 +1047,14 @@ void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
          AllegroFlare::Vec3D player_view_position = player_view_camera.position;
          //AllegroFlare::Vec3D player_view_position = player_view_camera.get_real_position();
          AllegroFlare::Vec3D player_look_vector = player_view_camera.get_viewing_direction();
+         //AllegroFlare::Vec3D entity_position = entity->placement.position;
+         //AllegroFlare::Vec3D entity_position = entity->placement.position;
+         AllegroFlare::Vec3D entity_position = entity->calculate_centroid(); // HERE
 
          float dot_product_to_entity = player_view_dot_product_to_entity(
             player_view_position,
             player_look_vector,
-            entity->placement.position // TODO: Replace this with centroid?
+            entity_position
          );
 
          bool is_looking_at_entity = -dot_product_to_entity > 0.9;

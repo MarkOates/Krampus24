@@ -114,6 +114,11 @@ properties:
     init_with: false
     exposed: true
 
+  - name: player_entered_inspect_at
+    type: float
+    init_with: 0.0f
+    exposed: true
+
   - name: elevator__target
     type: Krampus24::Gameplay::Entities::Base*
     init_with: nullptr
@@ -327,11 +332,27 @@ methods:
       );
 
 
+  - name: calculate_centroid
+    type: AllegroFlare::Vec3D
+    body: |
+      return placement.position + aabb3d.calculate_centroid() - calculate_aabb3d_offset_from_alignment();
+
+
   - name: draw_aabb3d
     body: |
       aabb3d.draw(placement.position - calculate_aabb3d_offset_from_alignment(), box_color);
       draw_origin();
+      draw_centroid();
       return;
+
+
+  - name: draw_centroid
+    body: |
+      AllegroFlare::draw_crosshair(calculate_centroid(), al_color_name("yellow"), 0.35);
+      return;
+    body_dependency_symbols:
+      - al_color_name
+      - AllegroFlare::Useful
 
 
   - name: draw_origin
@@ -628,5 +649,7 @@ dependencies:
     headers: [ AllegroFlare/Physics/AABB3D.hpp ]
   - symbol: AllegroFlare::Useful
     headers: [ AllegroFlare/Useful.hpp ]
+  - symbol: al_color_name
+    headers: [ allegro5/allegro_color.h ]
 
 

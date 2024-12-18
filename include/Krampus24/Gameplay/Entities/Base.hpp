@@ -52,6 +52,7 @@ namespace Krampus24
             bool collides_with_player;
             bool collides_with_enemies;
             bool player_can_inspect_or_use;
+            float player_entered_inspect_at;
             Krampus24::Gameplay::Entities::Base* elevator__target;
             float player__spin;
             float player__tilt;
@@ -79,7 +80,9 @@ namespace Krampus24
             bool collides(Krampus24::Gameplay::Entities::Base* other=nullptr);
             bool collides_aabb3d(Krampus24::Gameplay::Entities::Base* other=nullptr);
             AllegroFlare::Vec3D calculate_aabb3d_offset_from_alignment();
+            AllegroFlare::Vec3D calculate_centroid();
             void draw_aabb3d();
+            void draw_centroid();
             void draw_origin();
             void calculate_box_corners();
             ALLEGRO_COLOR build_color(float opacity=1.0f);

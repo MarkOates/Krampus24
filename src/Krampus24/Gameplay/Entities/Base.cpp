@@ -3,6 +3,7 @@
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 
 #include <AllegroFlare/Useful.hpp>
+#include <allegro5/allegro_color.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -37,6 +38,7 @@ Base::Base(std::string type, AllegroFlare::Model3D* model, ALLEGRO_BITMAP* textu
    , collides_with_player(false)
    , collides_with_enemies(false)
    , player_can_inspect_or_use(false)
+   , player_entered_inspect_at(0.0f)
    , elevator__target(nullptr)
    , player__spin(0.0f)
    , player__tilt(0.0f)
@@ -195,10 +197,22 @@ AllegroFlare::Vec3D Base::calculate_aabb3d_offset_from_alignment()
    );
 }
 
+AllegroFlare::Vec3D Base::calculate_centroid()
+{
+   return placement.position + aabb3d.calculate_centroid() - calculate_aabb3d_offset_from_alignment();
+}
+
 void Base::draw_aabb3d()
 {
    aabb3d.draw(placement.position - calculate_aabb3d_offset_from_alignment(), box_color);
    draw_origin();
+   draw_centroid();
+   return;
+}
+
+void Base::draw_centroid()
+{
+   AllegroFlare::draw_crosshair(calculate_centroid(), al_color_name("yellow"), 0.35);
    return;
 }
 

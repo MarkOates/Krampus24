@@ -1255,6 +1255,10 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">player_entered_inspect_at</td>
+  <td class="property">float</td>
+</tr>
+<tr>
   <td class="property">elevator__target</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
@@ -1350,8 +1354,16 @@ table td
   <td class="method"><b>calculate_aabb3d_offset_from_alignment</b>()</td>
 </tr>
 <tr>
+  <td class="method">AllegroFlare::Vec3D</td>
+  <td class="method"><b>calculate_centroid</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>draw_aabb3d</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw_centroid</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1414,6 +1426,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Useful&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Useful.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_color_name&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_color.h&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5658,6 +5673,12 @@ table td
   "AllegroFlare/Useful": [
     "Krampus24/Gameplay/Entities/Base"
   ],
+  "al_color_name": [
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/Tablet"
+  ],
   "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
@@ -5788,11 +5809,6 @@ table td
   ],
   "Krampus24/Gameplay/Entities/MegaDoor/Style": [
     "Krampus24/Gameplay/Entities/MegaDoor"
-  ],
-  "al_color_name": [
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/Tablet"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip/Style": [
     "Krampus24/Gameplay/Entities/PlayerShip"

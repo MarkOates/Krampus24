@@ -441,6 +441,12 @@
   "AllegroFlare/Useful": [
     "Krampus24/Gameplay/Entities/Base"
   ],
+  "al_color_name": [
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/Tablet"
+  ],
   "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
@@ -571,11 +577,6 @@
   ],
   "Krampus24/Gameplay/Entities/MegaDoor/Style": [
     "Krampus24/Gameplay/Entities/MegaDoor"
-  ],
-  "al_color_name": [
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/Tablet"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip/Style": [
     "Krampus24/Gameplay/Entities/PlayerShip"
