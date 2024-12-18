@@ -187,8 +187,7 @@
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/Zone"
   ],
   "AllegroFlare/Elements/StoryboardPages/AdvancingText": [
     "Krampus24/Game/Configurations/Main",
@@ -283,23 +282,19 @@
   ],
   "Krampus24/Gameplay/Entities/Horse": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Gameplay/Entities/Horse",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/Horse"
   ],
   "Krampus24/Gameplay/Entities/Pig": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/Pig"
   ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/Hen"
   ],
   "Krampus24/Gameplay/Entities/Turret": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/Turret"
   ],
   "Krampus24/Gameplay/Entities/Zone": [
     "Krampus24/Game/EntityFactory",
@@ -308,14 +303,12 @@
   ],
   "Krampus24/Gameplay/Entities/MegaDoor": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Game/Scripting/Tree"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/SlidingDoor"
   ],
   "Krampus24/Gameplay/Entities/ElevatorShaft": [
     "Krampus24/Game/EntityFactory",
@@ -324,24 +317,20 @@
   ],
   "Krampus24/Gameplay/Entities/Console": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/Console"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/PlayerShip"
   ],
   "Krampus24/Gameplay/Entities/PowerCoil": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/PowerCoil"
   ],
   "Krampus24/Gameplay/Entities/Tablet": [
     "Krampus24/Game/EntityFactory",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Gameplay/Entities/Tablet"
   ],
   "Krampus24/Gameplay/Entities/Base": [
     "Krampus24/Game/EntityFactory",
