@@ -81,7 +81,7 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
 
    // Make inspectable
    manager->player_can_inspect_or_use = true;
-   manager->aabb3d.set_max({ 5.0, 5.0, 5.0 });
+   manager->aabb3d.set_max({ 5.0, 1.5, 5.0 });
    manager->aabb3d_alignment = { 0.5, 0.0, 0.5 };
 
    manager->initialize();
