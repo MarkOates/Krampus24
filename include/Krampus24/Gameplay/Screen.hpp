@@ -70,6 +70,12 @@ namespace Krampus24
          bool rendering_entity_models;
          bool rendering_entity_bounding_boxes;
          bool showing_inspect_hint;
+         std::string dev__str_1;
+         float dev__float_1;
+         float dev__float_2;
+         float dev__float_3;
+         float dev__float_4;
+         bool dev__bool_1;
          AllegroFlare::CollisionObservers::Simple collision_observer;
          Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with;
          bool initialized;
@@ -146,6 +152,8 @@ namespace Krampus24
          void interact_with_focused_inspectable_object();
          void hide_inspect_hint();
          void show_inspect_hint();
+         bool is_player_looking_at_object(AllegroFlare::Vec3D player_position={}, AllegroFlare::Vec3D player_forward={}, AllegroFlare::Vec3D object_position={}, float angle_threshold_degrees=0.25);
+         float player_view_dot_product_to_entity(AllegroFlare::Vec3D player_view_position={}, AllegroFlare::Vec3D player_look_vector={}, AllegroFlare::Vec3D object_position={});
          void update_inspectable_entity_that_player_is_currently_colliding_with();
          void show_location_name(std::string location_name="[unset-location_name]", std::string location_floor="[unset-location_floor]");
          void update();

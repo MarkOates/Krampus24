@@ -10,6 +10,7 @@
 #include <AllegroFlare/RouteEventDatas/ActivateScreenByIdentifier.hpp>
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
+#include <AllegroFlare/Useful.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
 #include <Krampus24/Game/EntityFactory.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
@@ -65,6 +66,12 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , rendering_entity_models(true)
    , rendering_entity_bounding_boxes(false)
    , showing_inspect_hint(false)
+   , dev__str_1("[unset-def__str_1]")
+   , dev__float_1(0.0f)
+   , dev__float_2(0.0f)
+   , dev__float_3(0.0f)
+   , dev__float_4(0.0f)
+   , dev__bool_1(false)
    , collision_observer({})
    , inspectable_entity_that_player_is_currently_colliding_with(nullptr)
    , initialized(false)
@@ -970,6 +977,58 @@ void Screen::show_inspect_hint()
    return;
 }
 
+bool Screen::is_player_looking_at_object(AllegroFlare::Vec3D player_position, AllegroFlare::Vec3D player_forward, AllegroFlare::Vec3D object_position, float angle_threshold_degrees)
+{
+   // Check if the player is looking at an object
+   //bool is_player_looking_at_object(const Vector3 &player_position,
+                                    //const Vector3 &player_forward,
+                                    //const Vector3 &object_position,
+                                    //float angle_threshold_degrees)
+   {
+      // Vector pointing from player to object
+      AllegroFlare::Vec3D to_object = object_position - player_position;
+      AllegroFlare::Vec3D to_object_normalized = to_object.normalized();
+
+      // Normalize the player's forward vector
+      AllegroFlare::Vec3D player_forward_normalized = player_forward.normalized();
+
+      // Calculate the dot product
+      float dot_product = player_forward_normalized * to_object_normalized;
+      //float dot_product = player_forward_normalized.dot_product(to_object_normalized);
+
+      // Convert angle threshold to radians
+      float angle_threshold_radians = angle_threshold_degrees * (M_PI / 180.0f);
+
+      // Calculate the cosine of the threshold angle
+      float cos_threshold = std::cos(angle_threshold_radians);
+
+      // If the dot product is greater than the cosine of the threshold angle,
+      // the object is within the player's field of view
+      return dot_product >= cos_threshold;
+   }
+}
+
+float Screen::player_view_dot_product_to_entity(AllegroFlare::Vec3D player_view_position, AllegroFlare::Vec3D player_look_vector, AllegroFlare::Vec3D object_position)
+{
+   // Get tablet entity
+   //AllegroFlare::Vec3D player_view_position = player_view_camera.get_real_position();
+   //AllegroFlare::Vec3D player_look_vector = player_view_camera.get_viewing_direction();
+
+   // Calculate the vector pointing to the object
+   AllegroFlare::Vec3D object_vector = player_view_position - object_position;
+   //AllegroFlare::Vec3D object_vector = object_position - player_view_position;
+
+   // Normalize both vectors
+   AllegroFlare::Vec3D normalized_object_vector = object_vector.normalized();
+   AllegroFlare::Vec3D normalized_player_look_vector = player_look_vector.normalized();
+
+   // Compute the dot product
+   float dot_product = normalized_player_look_vector * normalized_object_vector;
+
+   // Return the alignment
+   return dot_product;
+}
+
 void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
 {
    auto player_entity = find_0th_entity();
@@ -985,6 +1044,29 @@ void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
                                                         // to work.
       if (entity->collides_aabb3d(player_entity)) 
       {
+         AllegroFlare::Vec3D player_view_position = player_view_camera.position;
+         //AllegroFlare::Vec3D player_view_position = player_view_camera.get_real_position();
+         AllegroFlare::Vec3D player_look_vector = player_view_camera.get_viewing_direction();
+
+         float dot_product_to_entity = player_view_dot_product_to_entity(
+            player_view_position,
+            player_look_vector,
+            entity->placement.position // TODO: Replace this with centroid?
+         );
+
+         bool is_looking_at_entity = -dot_product_to_entity > 0.9;
+
+         dev__str_1 = entity->name;
+         dev__float_1 = dot_product_to_entity;
+         dev__float_2 = std::abs(dot_product_to_entity);
+         dev__float_3 = AllegroFlare::distance(entity->placement.position, player_entity->placement.position);
+         dev__float_4 = AllegroFlare::distance(entity->placement.position, player_view_position);
+         dev__bool_1 = is_looking_at_entity;
+
+         if (!is_looking_at_entity) continue;
+
+         //if (!player_is_looking_at_object) continue; // TODO: bring in calculation
+
          found_colliding_entity = entity;
          break;
       }
@@ -1205,6 +1287,7 @@ void Screen::update()
 
    //
    // Update player collision events against other object
+   // NOTE: This relies on the player_view_camera, so it should be done after updating the camera
    //
 
    update_inspectable_entity_that_player_is_currently_colliding_with();
@@ -1362,19 +1445,34 @@ void Screen::render()
    }
 
 
-   /*
-   if (power_cell_collected)
+   bool drawing_dev_data = false;
+   if (drawing_dev_data)
    {
-      al_draw_textf(
-         obtain_hud_font(),
+      ALLEGRO_FONT *font = obtain_hud_font();
+      float padding = 40;
+
+      al_draw_multiline_textf(
+         font,
          ALLEGRO_COLOR{1, 0.65, 0, 1.0},
-         40,
-         30,
+         padding,
+         1080/2,
+         1920 - padding * 2,
+         al_get_font_line_height(font),
          ALLEGRO_ALIGN_LEFT,
-         "PRIMARY POWER COIL COLLECTED",
+         "str_1: %s\n"
+            "float_1: %f\n"
+            "float_2: %f\n"
+            "float_3: %f\n"
+            "float_4: %f\n"
+            "bool_1: %i\n",
+         dev__str_1.c_str(),
+            dev__float_1,
+            dev__float_2,
+            dev__float_3,
+            dev__float_4,
+            dev__bool_1
       );
    }
-   */
 
 
    //ALLEGRO_COLOR col=AllegroFlare::color::azure);

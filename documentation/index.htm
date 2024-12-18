@@ -54,6 +54,7 @@ table td
 <body>
 <h1>Table of Contents</h1>
 <ul>
+  <li><a href="#quintessence/Krampus/Gameplay/PlayerLookingAtResolver.q.yml">quintessence/Krampus/Gameplay/PlayerLookingAtResolver.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Blender/ObjectCustomProperties.q.yml">quintessence/Krampus24/Blender/ObjectCustomProperties.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Blender/ObjectCustomPropertiesLoader.q.yml">quintessence/Krampus24/Blender/ObjectCustomPropertiesLoader.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoader.q.yml">quintessence/Krampus24/BlenderBlockingLoader.q.yml</a></li>
@@ -89,6 +90,23 @@ table td
   <li><a href="#quintessence/Krampus24/Testing/WithConstructFixture.q.yml">quintessence/Krampus24/Testing/WithConstructFixture.q.yml</a></li>
 </ul>
 <h1>Components</h1>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
+    <h3 id="quintessence/Krampus/Gameplay/PlayerLookingAtResolver.q.yml">quintessence/Krampus/Gameplay/PlayerLookingAtResolver.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<p>This class contains no properties</p>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">std::string</td>
+  <td class="method"><b>run</b>()</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<p>This class contains no dependencies</p>  </div>
+</ul>
 <br><br><br>
 <br><br><br>
 <ul>
@@ -4515,6 +4533,30 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">dev__str_1</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
+  <td class="property">dev__float_1</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">dev__float_2</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">dev__float_3</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">dev__float_4</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">dev__bool_1</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">collision_observer</td>
   <td class="property">AllegroFlare::CollisionObservers::Simple</td>
 </tr>
@@ -4596,6 +4638,14 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>show_inspect_hint</b>()</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_player_looking_at_object</b>(AllegroFlare::Vec3D player_position={}, AllegroFlare::Vec3D player_forward={}, AllegroFlare::Vec3D object_position={}, float angle_threshold_degrees=0.25)</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>player_view_dot_product_to_entity</b>(AllegroFlare::Vec3D player_view_position={}, AllegroFlare::Vec3D player_look_vector={}, AllegroFlare::Vec3D object_position={})</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -4824,6 +4874,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Zone&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Zone.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::distance&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Useful.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5833,6 +5886,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Game/EntityFactory": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/distance": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

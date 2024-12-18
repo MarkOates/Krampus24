@@ -671,6 +671,9 @@
   "Krampus24/Game/EntityFactory": [
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/distance": [
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"
   ],
