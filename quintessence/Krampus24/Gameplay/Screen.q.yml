@@ -510,6 +510,28 @@ methods:
       - Krampus24::Gameplay::Entities::Tablet
 
 
+  - name: create_entity
+    type: std::vector<Krampus24::Gameplay::Entities::Base*>
+    virtual: true
+    parameters:
+      - name: blender_blocking_entity
+        type: Krampus24::BlenderBlockingLoaderEntity*
+        default_argument: nullptr
+    guards: [ blender_blocking_entity ]
+    body: |
+      // TODO: Find a way to move this method into a... Game/ class possibly?
+      Krampus24::Game::EntityFactory factory;
+      factory.set_event_emitter(event_emitter);
+      //factory.set_font_bin(font_bin);
+      factory.set_model_bin(model_bin);
+      factory.set_bitmap_bin(bitmap_bin);
+      factory.set_collision_mesh(collision_mesh);
+      factory.initialize();
+      return factory.create_entity(blender_blocking_entity);
+    body_dependency_symbols:
+      - Krampus24::Game::EntityFactory
+
+
   - name: load_or_reload_meshes
     body: |
       player_spawn_position = {4.0, 0.001, 3.5}; // DEVELOPMENT
@@ -518,6 +540,9 @@ methods:
       Krampus24::Gameplay::Entities::Base* existing_player_entity = nullptr;
       if (a_0th_entity_exists()) existing_player_entity = find_0th_entity();
       //if (existing_player_entity);
+
+
+
 
       // Load the collision mesh
       if (collision_mesh)
@@ -538,6 +563,9 @@ methods:
       }
       visual_mesh = model_bin->operator[](visual_mesh_identifier);
       visual_mesh->set_texture(bitmap_bin->operator[](visual_mesh_texture_identifier));
+
+
+
 
       // Load the blocking file
       // Delete all entities (except the existing player entity)
@@ -606,7 +634,8 @@ methods:
          }
          else
          {
-            std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = build_entity(entity);
+            //std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = scripting->create_entity(entity);
+            std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = create_entity(entity);
             for (auto &result_entity : result_entities)
             {
                entities.push_back(result_entity);
@@ -1878,5 +1907,7 @@ dependencies:
     headers: [ AllegroFlare/StringTransformer.hpp ]
   - symbol: AllegroFlare::Elements::StoryboardPages::Base
     headers: [ AllegroFlare/Elements/StoryboardPages/Base.hpp ]
+  - symbol: Krampus24::Game::EntityFactory
+    headers: [ Krampus24/Game/EntityFactory.hpp ]
 
 

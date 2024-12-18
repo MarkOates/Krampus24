@@ -31,8 +31,8 @@ Tree::Tree()
    : Krampus24::Gameplay::ScriptingInterface()
    , data_folder_path(DEFAULT_DATA_FOLDER_PATH)
    , event_emitter(nullptr)
-   , dialog_system(nullptr)
    , font_bin(nullptr)
+   , dialog_system(nullptr)
    , entities(nullptr)
    , arbitrary_storyboard_screen_identifier_to_start("[unset-arbitrary_storyboard_screen_identifier_to_start]")
    , primary_power_coil_collected(false)
@@ -61,17 +61,17 @@ void Tree::set_event_emitter(AllegroFlare::EventEmitter* event_emitter)
 }
 
 
-void Tree::set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system)
-{
-   if (get_initialized()) throw std::runtime_error("[Tree::set_dialog_system]: error: guard \"get_initialized()\" not met.");
-   this->dialog_system = dialog_system;
-}
-
-
 void Tree::set_font_bin(AllegroFlare::FontBin* font_bin)
 {
    if (get_initialized()) throw std::runtime_error("[Tree::set_font_bin]: error: guard \"get_initialized()\" not met.");
    this->font_bin = font_bin;
+}
+
+
+void Tree::set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system)
+{
+   if (get_initialized()) throw std::runtime_error("[Tree::set_dialog_system]: error: guard \"get_initialized()\" not met.");
+   this->dialog_system = dialog_system;
 }
 
 
@@ -231,6 +231,13 @@ void Tree::initialize()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"event_emitter\" not met");
    }
+   if (!(font_bin))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met");
+   }
    if (!(dialog_system))
    {
       std::stringstream error_message;
@@ -251,13 +258,6 @@ void Tree::initialize()
       error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"collision_observer\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"collision_observer\" not met");
-   }
-   if (!(font_bin))
-   {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"font_bin\" not met");
    }
    initialized = true;
    build_on_collision_callbacks();

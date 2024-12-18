@@ -61,6 +61,7 @@ table td
   <li><a href="#quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml">quintessence/Krampus24/BlenderBlockingLoaderEntity.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Configurations/Main.q.yml">quintessence/Krampus24/Game/Configurations/Main.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/DialogBuilder.q.yml">quintessence/Krampus24/Game/DialogBuilder.q.yml</a></li>
+  <li><a href="#quintessence/Krampus24/Game/EntityFactory.q.yml">quintessence/Krampus24/Game/EntityFactory.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Game/Scripting/Tree.q.yml">quintessence/Krampus24/Game/Scripting/Tree.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/GameProgressAndStateInfo.q.yml">quintessence/Krampus24/GameProgressAndStateInfo.q.yml</a></li>
   <li><a href="#quintessence/Krampus24/Gameplay/Entities/Base.q.yml">quintessence/Krampus24/Gameplay/Entities/Base.q.yml</a></li>
@@ -745,6 +746,108 @@ table td
 <br><br><br>
 <ul>
   <div class="component">
+    <h3 id="quintessence/Krampus24/Game/EntityFactory.q.yml">quintessence/Krampus24/Game/EntityFactory.q.yml</h3>
+    <p>(This component does not include supplementary documentation)</p>
+    <h3>Properties</h3>
+<div class="property-box properties">     <table>
+<tr>
+  <td class="property">event_emitter</td>
+  <td class="property">AllegroFlare::EventEmitter*</td>
+</tr>
+<tr>
+  <td class="property">model_bin</td>
+  <td class="property">AllegroFlare::ModelBin*</td>
+</tr>
+<tr>
+  <td class="property">bitmap_bin</td>
+  <td class="property">AllegroFlare::BitmapBin*</td>
+</tr>
+<tr>
+  <td class="property">collision_mesh</td>
+  <td class="property">AllegroFlare::Physics::CollisionMesh*</td>
+</tr>
+<tr>
+  <td class="property">initialized</td>
+  <td class="property">bool</td>
+</tr>
+    </table>
+</div>    <h3>Methods</h3>
+<div class="property-box methods">     <table>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
+  <td class="method"><b>create_entity</b>(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr)</td>
+</tr>
+    </table>
+</div>    <h3>Dependencies</h3>
+<div class="property-box dependencies">     <table>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::EventEmitter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/EventEmitter.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::ModelBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/ModelBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Horse&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Horse.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Pig&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Pig.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Hen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Hen.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Turret&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Turret.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Zone&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Zone.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::MegaDoor&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/MegaDoor.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::SlidingDoor&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/SlidingDoor.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::ElevatorShaft&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/ElevatorShaft.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Console&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Console.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::PlayerShip&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/PlayerShip.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::PowerCoil&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/PowerCoil.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Tablet&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Tablet.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Base&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Base.hpp&quot;]}</td>
+</tr>
+    </table>
+</div>  </div>
+</ul>
+<br><br><br>
+<br><br><br>
+<ul>
+  <div class="component">
     <h3 id="quintessence/Krampus24/Game/Scripting/Tree.q.yml">quintessence/Krampus24/Game/Scripting/Tree.q.yml</h3>
     <p>(This component does not include supplementary documentation)</p>
     <h3>Properties</h3>
@@ -758,12 +861,12 @@ table td
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
 <tr>
-  <td class="property">dialog_system</td>
-  <td class="property">AllegroFlare::DialogSystem::DialogSystem*</td>
-</tr>
-<tr>
   <td class="property">font_bin</td>
   <td class="property">AllegroFlare::FontBin*</td>
+</tr>
+<tr>
+  <td class="property">dialog_system</td>
+  <td class="property">AllegroFlare::DialogSystem::DialogSystem*</td>
 </tr>
 <tr>
   <td class="property">entities</td>
@@ -993,6 +1096,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::PowerCoil&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/PowerCoil.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::BitmapBin&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/BitmapBin.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -4430,6 +4542,10 @@ table td
   <td class="method"><b>build_entity</b>(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr)</td>
 </tr>
 <tr>
+  <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
+  <td class="method"><b>create_entity</b>(Krampus24::BlenderBlockingLoaderEntity* blender_blocking_entity=nullptr)</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>load_or_reload_meshes</b>()</td>
 </tr>
@@ -4743,6 +4859,9 @@ table td
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/Base.hpp&quot;]}</td>
 </tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Game::EntityFactory&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Game/EntityFactory.hpp&quot;]}</td>
+</tr>
     </table>
 </div>  </div>
 </ul>
@@ -4807,6 +4926,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Elements::StoryboardPages::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Elements/StoryboardPages/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5144,7 +5266,10 @@ table td
   ],
   "Krampus24/BlenderBlockingLoaderEntity": [
     "Krampus24/BlenderBlockingLoader",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface"
   ],
   "std/all_of": [
     "Krampus24/BlenderBlockingLoaderBlock",
@@ -5261,6 +5386,7 @@ table td
   ],
   "Krampus24/Gameplay/Entities/Door": [
     "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
@@ -5286,7 +5412,28 @@ table td
   "Krampus24/Game/Entities/SpaceSuit": [
     "Krampus24/Game/DialogBuilder"
   ],
+  "AllegroFlare/BitmapBin": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
   "AllegroFlare/EventEmitter": [
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
@@ -5302,11 +5449,103 @@ table td
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
   ],
-  "Krampus24/Gameplay/ScriptingInterface": [
+  "AllegroFlare/ModelBin": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Physics/CollisionMesh": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "Krampus24/Gameplay/Entities/Horse": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Pig": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Hen": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Turret": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Zone": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/MegaDoor": [
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/SlidingDoor": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/ElevatorShaft": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Console": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/PlayerShip": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/PowerCoil": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Tablet": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Gameplay/Entities/Base": [
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Console",
@@ -5329,6 +5568,10 @@ table td
     "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
   ],
+  "Krampus24/Gameplay/ScriptingInterface": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/CollisionObservers/Simple": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
@@ -5342,23 +5585,10 @@ table td
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Zone"
   ],
-  "Krampus24/Gameplay/Entities/SlidingDoor": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/MegaDoor": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
-  ],
   "Krampus24/Game/DialogBuilder": [
     "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogSystem/DialogSystem": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/ElevatorShaft": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
@@ -5369,11 +5599,6 @@ table td
   ],
   "AllegroFlare/php/file_get_contents": [
     "Krampus24/Game/Scripting/Tree"
-  ],
-  "Krampus24/Gameplay/Entities/PowerCoil": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -5427,45 +5652,6 @@ table td
   ],
   "AllegroFlare/Useful": [
     "Krampus24/Gameplay/Entities/Base"
-  ],
-  "Krampus24/Gameplay/Entities/Console": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/BitmapBin": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Entities/Horse",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/SnakeBot",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
-  ],
-  "AllegroFlare/ModelBin": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Entities/Horse",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/SnakeBot",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/Entities/Console",
@@ -5573,19 +5759,6 @@ table td
   "Krampus24/Gameplay/Entities/Console/Style": [
     "Krampus24/Gameplay/Entities/Console"
   ],
-  "AllegroFlare/Physics/CollisionMesh": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Testing/WithConstructFixture"
-  ],
   "ALLEGRO_TRANSFORM": [
     "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
@@ -5608,29 +5781,13 @@ table td
   "Krampus24/Gameplay/Entities/ElevatorShaft/Style": [
     "Krampus24/Gameplay/Entities/ElevatorShaft"
   ],
-  "Krampus24/Gameplay/Entities/Hen": [
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/Horse": [
-    "Krampus24/Gameplay/Entities/Horse",
-    "Krampus24/Gameplay/Screen"
-  ],
   "Krampus24/Gameplay/Entities/MegaDoor/Style": [
     "Krampus24/Gameplay/Entities/MegaDoor"
-  ],
-  "Krampus24/Gameplay/Entities/Pig": [
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Screen"
   ],
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/PowerCoil",
     "Krampus24/Gameplay/Entities/Tablet"
-  ],
-  "Krampus24/Gameplay/Entities/PlayerShip": [
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip/Style": [
     "Krampus24/Gameplay/Entities/PlayerShip"
@@ -5647,20 +5804,8 @@ table td
   "Krampus24/Gameplay/Entities/SnakeBot/Style": [
     "Krampus24/Gameplay/Entities/SnakeBot"
   ],
-  "Krampus24/Gameplay/Entities/Tablet": [
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Screen"
-  ],
   "Krampus24/Gameplay/Entities/Tablet/Style": [
     "Krampus24/Gameplay/Entities/Tablet"
-  ],
-  "Krampus24/Gameplay/Entities/Turret": [
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/Zone": [
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",
@@ -5733,6 +5878,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "al_color_html": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Game/EntityFactory": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

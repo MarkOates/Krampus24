@@ -36,7 +36,7 @@ namespace Krampus24
          void set_collision_mesh(AllegroFlare::Physics::CollisionMesh* collision_mesh);
          bool get_initialized() const;
          void initialize();
-         std::vector<Krampus24::Gameplay::Entities::Base*> build_entity(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr);
+         std::vector<Krampus24::Gameplay::Entities::Base*> create_entity(Krampus24::BlenderBlockingLoaderEntity* entity=nullptr);
       };
    }
 }

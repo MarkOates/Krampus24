@@ -11,6 +11,7 @@
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
 #include <Krampus24/BlenderBlockingLoader.hpp>
+#include <Krampus24/Game/EntityFactory.hpp>
 #include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Console.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
@@ -731,6 +732,26 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Screen::build_entity(Krampus24
    return { result };
 }
 
+std::vector<Krampus24::Gameplay::Entities::Base*> Screen::create_entity(Krampus24::BlenderBlockingLoaderEntity* blender_blocking_entity)
+{
+   if (!(blender_blocking_entity))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::create_entity]: error: guard \"blender_blocking_entity\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::create_entity]: error: guard \"blender_blocking_entity\" not met");
+   }
+   // TODO: Find a way to move this method into a... Game/ class possibly?
+   Krampus24::Game::EntityFactory factory;
+   factory.set_event_emitter(event_emitter);
+   //factory.set_font_bin(font_bin);
+   factory.set_model_bin(model_bin);
+   factory.set_bitmap_bin(bitmap_bin);
+   factory.set_collision_mesh(collision_mesh);
+   factory.initialize();
+   return factory.create_entity(blender_blocking_entity);
+}
+
 void Screen::load_or_reload_meshes()
 {
    player_spawn_position = {4.0, 0.001, 3.5}; // DEVELOPMENT
@@ -739,6 +760,9 @@ void Screen::load_or_reload_meshes()
    Krampus24::Gameplay::Entities::Base* existing_player_entity = nullptr;
    if (a_0th_entity_exists()) existing_player_entity = find_0th_entity();
    //if (existing_player_entity);
+
+
+
 
    // Load the collision mesh
    if (collision_mesh)
@@ -759,6 +783,9 @@ void Screen::load_or_reload_meshes()
    }
    visual_mesh = model_bin->operator[](visual_mesh_identifier);
    visual_mesh->set_texture(bitmap_bin->operator[](visual_mesh_texture_identifier));
+
+
+
 
    // Load the blocking file
    // Delete all entities (except the existing player entity)
@@ -827,7 +854,8 @@ void Screen::load_or_reload_meshes()
       }
       else
       {
-         std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = build_entity(entity);
+         //std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = scripting->create_entity(entity);
+         std::vector<Krampus24::Gameplay::Entities::Base*> result_entities = create_entity(entity);
          for (auto &result_entity : result_entities)
          {
             entities.push_back(result_entity);

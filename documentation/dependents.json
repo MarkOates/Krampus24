@@ -65,7 +65,10 @@
   ],
   "Krampus24/BlenderBlockingLoaderEntity": [
     "Krampus24/BlenderBlockingLoader",
-    "Krampus24/Gameplay/Screen"
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Gameplay/ScriptingInterface"
   ],
   "std/all_of": [
     "Krampus24/BlenderBlockingLoaderBlock",
@@ -182,6 +185,7 @@
   ],
   "Krampus24/Gameplay/Entities/Door": [
     "Krampus24/Game/Configurations/Main",
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
@@ -207,7 +211,28 @@
   "Krampus24/Game/Entities/SpaceSuit": [
     "Krampus24/Game/DialogBuilder"
   ],
+  "AllegroFlare/BitmapBin": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Shaders/Fog"
+  ],
   "AllegroFlare/EventEmitter": [
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
@@ -223,11 +248,103 @@
     "Krampus24/Gameplay/Screen",
     "Krampus24/Shaders/Fog"
   ],
-  "Krampus24/Gameplay/ScriptingInterface": [
+  "AllegroFlare/ModelBin": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Physics/CollisionMesh": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen",
+    "Krampus24/Testing/WithConstructFixture"
+  ],
+  "Krampus24/Gameplay/Entities/Horse": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Horse",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Pig": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Pig",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Hen": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Hen",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Turret": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Turret",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Zone": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/MegaDoor": [
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "Krampus24/Gameplay/Entities/SlidingDoor": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/ElevatorShaft": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Console": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/PlayerShip": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/PowerCoil": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Gameplay/Entities/Tablet": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Gameplay/Entities/Base": [
+    "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Console",
@@ -250,6 +367,10 @@
     "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
   ],
+  "Krampus24/Gameplay/ScriptingInterface": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/CollisionObservers/Simple": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
@@ -263,23 +384,10 @@
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Zone"
   ],
-  "Krampus24/Gameplay/Entities/SlidingDoor": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/MegaDoor": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
-  ],
   "Krampus24/Game/DialogBuilder": [
     "Krampus24/Game/Scripting/Tree"
   ],
   "AllegroFlare/DialogSystem/DialogSystem": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/ElevatorShaft": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
@@ -290,11 +398,6 @@
   ],
   "AllegroFlare/php/file_get_contents": [
     "Krampus24/Game/Scripting/Tree"
-  ],
-  "Krampus24/Gameplay/Entities/PowerCoil": [
-    "Krampus24/Game/Scripting/Tree",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -348,45 +451,6 @@
   ],
   "AllegroFlare/Useful": [
     "Krampus24/Gameplay/Entities/Base"
-  ],
-  "Krampus24/Gameplay/Entities/Console": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/BitmapBin": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Entities/Horse",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/SnakeBot",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Shaders/Fog"
-  ],
-  "AllegroFlare/ModelBin": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Entities/Horse",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/SnakeBot",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/Entities/Console",
@@ -494,19 +558,6 @@
   "Krampus24/Gameplay/Entities/Console/Style": [
     "Krampus24/Gameplay/Entities/Console"
   ],
-  "AllegroFlare/Physics/CollisionMesh": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen",
-    "Krampus24/Testing/WithConstructFixture"
-  ],
   "ALLEGRO_TRANSFORM": [
     "Krampus24/Gameplay/Entities/Console",
     "Krampus24/Gameplay/Entities/Door",
@@ -529,29 +580,13 @@
   "Krampus24/Gameplay/Entities/ElevatorShaft/Style": [
     "Krampus24/Gameplay/Entities/ElevatorShaft"
   ],
-  "Krampus24/Gameplay/Entities/Hen": [
-    "Krampus24/Gameplay/Entities/Hen",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/Horse": [
-    "Krampus24/Gameplay/Entities/Horse",
-    "Krampus24/Gameplay/Screen"
-  ],
   "Krampus24/Gameplay/Entities/MegaDoor/Style": [
     "Krampus24/Gameplay/Entities/MegaDoor"
-  ],
-  "Krampus24/Gameplay/Entities/Pig": [
-    "Krampus24/Gameplay/Entities/Pig",
-    "Krampus24/Gameplay/Screen"
   ],
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/PowerCoil",
     "Krampus24/Gameplay/Entities/Tablet"
-  ],
-  "Krampus24/Gameplay/Entities/PlayerShip": [
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Gameplay/Entities/PlayerShip/Style": [
     "Krampus24/Gameplay/Entities/PlayerShip"
@@ -568,20 +603,8 @@
   "Krampus24/Gameplay/Entities/SnakeBot/Style": [
     "Krampus24/Gameplay/Entities/SnakeBot"
   ],
-  "Krampus24/Gameplay/Entities/Tablet": [
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Screen"
-  ],
   "Krampus24/Gameplay/Entities/Tablet/Style": [
     "Krampus24/Gameplay/Entities/Tablet"
-  ],
-  "Krampus24/Gameplay/Entities/Turret": [
-    "Krampus24/Gameplay/Entities/Turret",
-    "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/Zone": [
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/Screen"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",
@@ -654,6 +677,9 @@
     "Krampus24/Gameplay/Screen"
   ],
   "al_color_html": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "Krampus24/Game/EntityFactory": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

@@ -32,8 +32,8 @@ namespace Krampus24
          private:
             std::string data_folder_path;
             AllegroFlare::EventEmitter* event_emitter;
-            AllegroFlare::DialogSystem::DialogSystem* dialog_system;
             AllegroFlare::FontBin* font_bin;
+            AllegroFlare::DialogSystem::DialogSystem* dialog_system;
             std::vector<Krampus24::Gameplay::Entities::Base*>* entities;
             std::string arbitrary_storyboard_screen_identifier_to_start;
             bool primary_power_coil_collected;
@@ -51,8 +51,8 @@ namespace Krampus24
 
             void set_data_folder_path(std::string data_folder_path);
             void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
-            void set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system);
             void set_font_bin(AllegroFlare::FontBin* font_bin);
+            void set_dialog_system(AllegroFlare::DialogSystem::DialogSystem* dialog_system);
             void set_entities(std::vector<Krampus24::Gameplay::Entities::Base*>* entities);
             void set_arbitrary_storyboard_screen_identifier_to_start(std::string arbitrary_storyboard_screen_identifier_to_start);
             void set_primary_power_coil_collected(bool primary_power_coil_collected);

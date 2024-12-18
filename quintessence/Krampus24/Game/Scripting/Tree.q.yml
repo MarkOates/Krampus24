@@ -20,13 +20,13 @@ properties:
     init_with: nullptr
     setter: before_initialized
 
-  - name: dialog_system
-    type: AllegroFlare::DialogSystem::DialogSystem*
+  - name: font_bin
+    type: AllegroFlare::FontBin*
     init_with: nullptr
     setter: before_initialized
 
-  - name: font_bin
-    type: AllegroFlare::FontBin*
+  - name: dialog_system
+    type: AllegroFlare::DialogSystem::DialogSystem*
     init_with: nullptr
     setter: before_initialized
 
@@ -137,10 +137,10 @@ methods:
       - (!initialized)
       - (data_folder_path != DEFAULT_DATA_FOLDER_PATH)
       - event_emitter
+      - font_bin
       - dialog_system
       - entities
       - collision_observer
-      - font_bin
     body: |
       initialized = true;
       build_on_collision_callbacks();
@@ -978,5 +978,11 @@ dependencies:
     headers: [ AllegroFlare/UsefulPHP.hpp ]
   - symbol: Krampus24::Gameplay::Entities::PowerCoil
     headers: [ Krampus24/Gameplay/Entities/PowerCoil.hpp ]
+  - symbol: Krampus24::BlenderBlockingLoaderEntity
+    headers: [ Krampus24/BlenderBlockingLoaderEntity.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMesh
+    headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
 
 

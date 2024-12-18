@@ -105,24 +105,25 @@ void EntityFactory::initialize()
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::EntityFactory::initialize]: error: guard \"collision_mesh\" not met");
    }
+   initialized = true;
    return;
 }
 
-std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::build_entity(Krampus24::BlenderBlockingLoaderEntity* entity)
+std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::create_entity(Krampus24::BlenderBlockingLoaderEntity* entity)
 {
    if (!(initialized))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Game::EntityFactory::build_entity]: error: guard \"initialized\" not met.";
+      error_message << "[Krampus24::Game::EntityFactory::create_entity]: error: guard \"initialized\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Game::EntityFactory::build_entity]: error: guard \"initialized\" not met");
+      throw std::runtime_error("[Krampus24::Game::EntityFactory::create_entity]: error: guard \"initialized\" not met");
    }
    if (!(entity))
    {
       std::stringstream error_message;
-      error_message << "[Krampus24::Game::EntityFactory::build_entity]: error: guard \"entity\" not met.";
+      error_message << "[Krampus24::Game::EntityFactory::create_entity]: error: guard \"entity\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Game::EntityFactory::build_entity]: error: guard \"entity\" not met");
+      throw std::runtime_error("[Krampus24::Game::EntityFactory::create_entity]: error: guard \"entity\" not met");
    }
 
    float x = entity->location.x;

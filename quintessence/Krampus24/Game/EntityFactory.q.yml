@@ -36,11 +36,13 @@ methods:
       - model_bin
       - bitmap_bin
       - collision_mesh
+    guards: [ (!initialized) ]
     body: |
+      initialized = true;
       return;
 
 
-  - name: build_entity
+  - name: create_entity
     type: std::vector<Krampus24::Gameplay::Entities::Base*>
     parameters:
       - name: entity

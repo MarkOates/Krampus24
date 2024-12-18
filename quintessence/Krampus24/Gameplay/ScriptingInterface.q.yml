@@ -100,5 +100,7 @@ dependencies:
     headers: [ AllegroFlare/GameEvent.hpp ]
   - symbol: AllegroFlare::Elements::StoryboardPages::Base
     headers: [ AllegroFlare/Elements/StoryboardPages/Base.hpp ]
+  - symbol: Krampus24::BlenderBlockingLoaderEntity
+    headers: [ Krampus24/BlenderBlockingLoaderEntity.hpp ]
 
 
