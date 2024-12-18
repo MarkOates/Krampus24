@@ -409,7 +409,7 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       if (primary_power_coil_collected)
       {
-         // Nothing
+         primary_power_coil_returned_to_ship = true; // NOTE This signals the end of the game for now
       }
       else
       {
@@ -612,13 +612,13 @@ void Tree::build_on_collision_callbacks()
          //travel_player_to_elevators_target("elevator-10");
       //}},
 
-      { find_entity_by_name_or_throw("player_ship"), [this](){
-         //travel_player_to_elevators_target("elevator-10");
-         if (primary_power_coil_collected)
-         {
-            primary_power_coil_returned_to_ship = true;
-         }
-      }},
+      //{ find_entity_by_name_or_throw("player_ship"), [this](){
+         ////travel_player_to_elevators_target("elevator-10");
+         //if (primary_power_coil_collected)
+         //{
+            //primary_power_coil_returned_to_ship = true;
+         //}
+      //}},
       //{ find_entity_by_name_or_throw("power_coil"), [this](){
          //find_entity_by_name_or_throw("power_coil")->active = false;
          //find_entity_by_name_or_throw("power_coil")->visible = false;
