@@ -575,6 +575,10 @@
   "Krampus24/Gameplay/Entities/ElevatorShaft/Style": [
     "Krampus24/Gameplay/Entities/ElevatorShaft"
   ],
+  "AllegroFlare/distance": [
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Gameplay/Entities/MegaDoor/Style": [
     "Krampus24/Gameplay/Entities/MegaDoor"
   ],
@@ -670,9 +674,6 @@
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Game/EntityFactory": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/distance": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

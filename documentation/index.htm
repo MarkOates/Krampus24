@@ -1259,6 +1259,10 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
+  <td class="property">player_can_inspect_or_use__custom_look_at_logic</td>
+  <td class="property">std::function&lt;bool(Krampus24::Gameplay::Entities::Base*, AllegroFlare::Vec3D*, AllegroFlare::Vec3D*)&gt;</td>
+</tr>
+<tr>
   <td class="property">elevator__target</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
@@ -2189,6 +2193,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::ElevatorShaft::Style&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/ElevatorShaft.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::distance&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Useful.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5807,6 +5814,10 @@ table td
   "Krampus24/Gameplay/Entities/ElevatorShaft/Style": [
     "Krampus24/Gameplay/Entities/ElevatorShaft"
   ],
+  "AllegroFlare/distance": [
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Screen"
+  ],
   "Krampus24/Gameplay/Entities/MegaDoor/Style": [
     "Krampus24/Gameplay/Entities/MegaDoor"
   ],
@@ -5902,9 +5913,6 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Game/EntityFactory": [
-    "Krampus24/Gameplay/Screen"
-  ],
-  "AllegroFlare/distance": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

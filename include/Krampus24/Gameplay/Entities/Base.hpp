@@ -12,6 +12,7 @@
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -53,6 +54,7 @@ namespace Krampus24
             bool collides_with_enemies;
             bool player_can_inspect_or_use;
             float player_entered_inspect_at;
+            std::function<bool(Krampus24::Gameplay::Entities::Base*, AllegroFlare::Vec3D*, AllegroFlare::Vec3D*)> player_can_inspect_or_use__custom_look_at_logic;
             Krampus24::Gameplay::Entities::Base* elevator__target;
             float player__spin;
             float player__tilt;

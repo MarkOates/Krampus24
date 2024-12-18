@@ -853,6 +853,9 @@ methods:
       auto player_entity = find_0th_entity();
       if (!player_entity) throw std::runtime_error("asjiodfasjdiofajsdiofasjdifoajsdiofjadsoi");
 
+      AllegroFlare::Vec3D player_view_position = player_view_camera.position;
+      AllegroFlare::Vec3D player_look_vector = player_view_camera.get_viewing_direction();
+
       Krampus24::Gameplay::Entities::Base *found_colliding_entity = nullptr;
       for (auto &entity : entities)
       {
@@ -863,34 +866,50 @@ methods:
                                                            // to work.
          if (entity->collides_aabb3d(player_entity)) 
          {
-            AllegroFlare::Vec3D player_view_position = player_view_camera.position;
-            //AllegroFlare::Vec3D player_view_position = player_view_camera.get_real_position();
-            AllegroFlare::Vec3D player_look_vector = player_view_camera.get_viewing_direction();
-            //AllegroFlare::Vec3D entity_position = entity->placement.position;
-            //AllegroFlare::Vec3D entity_position = entity->placement.position;
-            AllegroFlare::Vec3D entity_position = entity->calculate_centroid(); // HERE
+            //AllegroFlare::Vec3D player_view_position = player_view_camera.position;
+            //AllegroFlare::Vec3D player_look_vector = player_view_camera.get_viewing_direction();
 
-            float dot_product_to_entity = player_view_dot_product_to_entity(
-               player_view_position,
-               player_look_vector,
-               entity_position
-            );
+            // TODO: The factoring could be improved here a bit, breaking on the found collision entity and assigning
+            // to it is duplicated in the conditional branch.
 
-            bool is_looking_at_entity = -dot_product_to_entity > 0.9;
+            if (entity->player_can_inspect_or_use__custom_look_at_logic)
+            {
+               bool inspect_collision_does_hit = entity->player_can_inspect_or_use__custom_look_at_logic(
+                     entity,
+                     &player_view_position,
+                     &player_look_vector
+                  );
+               if (!inspect_collision_does_hit) continue;
 
-            dev__str_1 = entity->name;
-            dev__float_1 = dot_product_to_entity;
-            dev__float_2 = std::abs(dot_product_to_entity);
-            dev__float_3 = AllegroFlare::distance(entity->placement.position, player_entity->placement.position);
-            dev__float_4 = AllegroFlare::distance(entity->placement.position, player_view_position);
-            dev__bool_1 = is_looking_at_entity;
+               found_colliding_entity = entity;
+               break;
+            }
+            else
+            {
+               AllegroFlare::Vec3D entity_position = entity->calculate_centroid(); // HERE
 
-            if (!is_looking_at_entity) continue;
+               float dot_product_to_entity = player_view_dot_product_to_entity(
+                  player_view_position,
+                  player_look_vector,
+                  entity_position
+               );
 
-            //if (!player_is_looking_at_object) continue; // TODO: bring in calculation
+               bool is_looking_at_entity = -dot_product_to_entity > 0.9;
 
-            found_colliding_entity = entity;
-            break;
+               dev__str_1 = entity->name;
+               dev__float_1 = dot_product_to_entity;
+               dev__float_2 = std::abs(dot_product_to_entity);
+               dev__float_3 = AllegroFlare::distance(entity->placement.position, player_entity->placement.position);
+               dev__float_4 = AllegroFlare::distance(entity->placement.position, player_view_position);
+               dev__bool_1 = is_looking_at_entity;
+
+               if (!is_looking_at_entity) continue;
+
+               //if (!player_is_looking_at_object) continue; // TODO: bring in calculation
+
+               found_colliding_entity = entity;
+               break;
+            }
          }
       }
 

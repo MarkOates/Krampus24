@@ -119,6 +119,11 @@ properties:
     init_with: 0.0f
     exposed: true
 
+  - name: player_can_inspect_or_use__custom_look_at_logic
+    type: std::function<bool(Krampus24::Gameplay::Entities::Base*, AllegroFlare::Vec3D*, AllegroFlare::Vec3D*)>
+    init_with: '{}'
+    exposed: true
+
   - name: elevator__target
     type: Krampus24::Gameplay::Entities::Base*
     init_with: nullptr

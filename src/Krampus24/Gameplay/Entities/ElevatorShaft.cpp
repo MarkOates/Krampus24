@@ -4,6 +4,7 @@
 
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Shaders/Base.hpp>
+#include <AllegroFlare/Useful.hpp>
 #include <AllegroFlare/Vec2D.hpp>
 #include <cmath>
 #include <iostream>
@@ -234,6 +235,29 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
 
    result->initialized = true;
    result->set_state(STATE_AT_BOTTOM);
+
+
+   result->player_can_inspect_or_use__custom_look_at_logic = [](
+         Krampus24::Gameplay::Entities::Base* self,
+         AllegroFlare::Vec3D *player_position,
+         AllegroFlare::Vec3D *player_view_direction
+   ) -> bool {
+      // TODO: Figure out this logic
+      AllegroFlare::Vec2D self_flat_position(
+         self->placement.position.x,
+         self->placement.position.z
+      );
+      AllegroFlare::Vec2D player_flat_position(
+         player_position->x,
+         player_position->z
+      );
+
+      float player_distance_from_center =
+         AllegroFlare::manhattan_distance(&self_flat_position, &player_flat_position);
+      if (player_distance_from_center < 1.5) return true;
+
+      return false;
+   };
 
    return { result }; //, result->right_door };
 }
