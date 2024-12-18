@@ -65,6 +65,7 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , rendering_collision_wiremesh(false)
    , rendering_entity_models(true)
    , rendering_entity_bounding_boxes(false)
+   , inspect_hint_text(DEFAULT_INSPECT_HINT_TEXT)
    , showing_inspect_hint(false)
    , dev__str_1("[unset-def__str_1]")
    , dev__float_1(0.0f)
@@ -971,9 +972,10 @@ void Screen::hide_inspect_hint()
    return;
 }
 
-void Screen::show_inspect_hint()
+void Screen::show_inspect_hint(std::string inspect_hint_text)
 {
    showing_inspect_hint = true;
+   this->inspect_hint_text = inspect_hint_text;
    return;
 }
 
@@ -1106,7 +1108,19 @@ void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
       }
       else
       {
-         show_inspect_hint();
+         //std::string inspect_hint_text = DEFAULT_INSPECT_HINT_TEXT;
+         //if (inspectable_entity_that_player_is_currently_colliding_with->has_custom_inspect_hint_text())
+         //{
+            //inspect_hint_text = 
+               //inspectable_entity_that_player_is_currently_colliding_with->custom_inspect_hint_text;
+         //}
+         //inspect_hint_text =
+         //inspectable_entity_that_player_is_currently_colliding_with->player_can_inspect_or_use__hint_text;
+
+         show_inspect_hint(
+            //inspect_hint_text,
+            inspectable_entity_that_player_is_currently_colliding_with->player_can_inspect_or_use__hint_text
+         );
       }
    }
    return;
@@ -1420,13 +1434,15 @@ void Screen::render()
    {
       if (showing_inspect_hint)
       {
+         float o = 0.8;
          al_draw_textf(
-            obtain_hud_font(),
-            ALLEGRO_COLOR{1, 0.65, 0, 1.0},
-            1920-300,
-            1080/2,
+            obtain_gameplay_hud_font(),
+            ALLEGRO_COLOR{0.0f*o, 1.0f*o, 1.0f*o, 1.0f*o},
+            1920/2,
+            1080/6 * 5,
             ALLEGRO_ALIGN_CENTER,
-            "[E] Inspect"
+            "[E] %s",
+            inspect_hint_text.c_str()
          );
 
       }
@@ -1846,6 +1862,11 @@ void Screen::virtual_control_axis_change_func(ALLEGRO_EVENT* ev)
    }
    // TODO: this function
    return;
+}
+
+ALLEGRO_FONT* Screen::obtain_gameplay_hud_font()
+{
+   return font_bin->auto_get("Oswald-Medium.ttf -60");
 }
 
 ALLEGRO_FONT* Screen::obtain_hud_font()

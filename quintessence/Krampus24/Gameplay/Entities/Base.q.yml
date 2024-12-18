@@ -114,9 +114,14 @@ properties:
     init_with: false
     exposed: true
 
-  - name: player_entered_inspect_at
+  - name: player_can_inspect_or_use__entered_at
     type: float
     init_with: 0.0f
+    exposed: true
+
+  - name: player_can_inspect_or_use__hint_text
+    type: std::string
+    init_with: '"Inspect"'
     exposed: true
 
   - name: player_can_inspect_or_use__custom_look_at_logic

@@ -259,6 +259,9 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
       return false;
    };
 
+   result->player_can_inspect_or_use__hint_text = "Activate elevator";
+
+
    return { result }; //, result->right_door };
 }
 

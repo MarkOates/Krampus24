@@ -53,7 +53,8 @@ namespace Krampus24
             bool collides_with_player;
             bool collides_with_enemies;
             bool player_can_inspect_or_use;
-            float player_entered_inspect_at;
+            float player_can_inspect_or_use__entered_at;
+            std::string player_can_inspect_or_use__hint_text;
             std::function<bool(Krampus24::Gameplay::Entities::Base*, AllegroFlare::Vec3D*, AllegroFlare::Vec3D*)> player_can_inspect_or_use__custom_look_at_logic;
             Krampus24::Gameplay::Entities::Base* elevator__target;
             float player__spin;

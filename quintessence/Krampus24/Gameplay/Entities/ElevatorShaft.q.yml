@@ -317,6 +317,9 @@ methods:
          return false;
       };
 
+      result->player_can_inspect_or_use__hint_text = "Activate elevator";
+
+
       return { result }; //, result->right_door };
     body_dependency_symbols:
       - AllegroFlare::distance

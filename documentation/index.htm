@@ -1255,8 +1255,12 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
-  <td class="property">player_entered_inspect_at</td>
+  <td class="property">player_can_inspect_or_use__entered_at</td>
   <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">player_can_inspect_or_use__hint_text</td>
+  <td class="property">std::string</td>
 </tr>
 <tr>
   <td class="property">player_can_inspect_or_use__custom_look_at_logic</td>
@@ -4551,6 +4555,10 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">inspect_hint_text</td>
+  <td class="property">std::string</td>
+</tr>
+<tr>
   <td class="property">showing_inspect_hint</td>
   <td class="property">bool</td>
 </tr>
@@ -4589,6 +4597,10 @@ table td
 <tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">DEFAULT_INSPECT_HINT_TEXT</td>
+  <td class="property">char*</td>
 </tr>
     </table>
 </div>    <h3>Methods</h3>
@@ -4659,7 +4671,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>show_inspect_hint</b>()</td>
+  <td class="method"><b>show_inspect_hint</b>(std::string inspect_hint_text=DEFAULT_INSPECT_HINT_TEXT)</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -4728,6 +4740,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>virtual_control_axis_change_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">ALLEGRO_FONT*</td>
+  <td class="method"><b>obtain_gameplay_hud_font</b>()</td>
 </tr>
 <tr>
   <td class="method">ALLEGRO_FONT*</td>

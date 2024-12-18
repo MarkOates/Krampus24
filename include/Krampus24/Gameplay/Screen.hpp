@@ -37,6 +37,9 @@ namespace Krampus24
    {
       class Screen : public AllegroFlare::Screens::Gameplay
       {
+      public:
+         static constexpr char* DEFAULT_INSPECT_HINT_TEXT = (char*)"Inspect";
+
       private:
          std::string data_folder_path;
          AllegroFlare::AudioController* audio_controller;
@@ -69,6 +72,7 @@ namespace Krampus24
          bool rendering_collision_wiremesh;
          bool rendering_entity_models;
          bool rendering_entity_bounding_boxes;
+         std::string inspect_hint_text;
          bool showing_inspect_hint;
          std::string dev__str_1;
          float dev__float_1;
@@ -151,7 +155,7 @@ namespace Krampus24
          std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier();
          void interact_with_focused_inspectable_object();
          void hide_inspect_hint();
-         void show_inspect_hint();
+         void show_inspect_hint(std::string inspect_hint_text=DEFAULT_INSPECT_HINT_TEXT);
          bool is_player_looking_at_object(AllegroFlare::Vec3D player_position={}, AllegroFlare::Vec3D player_forward={}, AllegroFlare::Vec3D object_position={}, float angle_threshold_degrees=0.25);
          float player_view_dot_product_to_entity(AllegroFlare::Vec3D player_view_position={}, AllegroFlare::Vec3D player_look_vector={}, AllegroFlare::Vec3D object_position={});
          void update_inspectable_entity_that_player_is_currently_colliding_with();
@@ -169,6 +173,7 @@ namespace Krampus24
          virtual void virtual_control_button_up_func(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false) override;
          virtual void virtual_control_button_down_func(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false) override;
          virtual void virtual_control_axis_change_func(ALLEGRO_EVENT* ev=nullptr) override;
+         ALLEGRO_FONT* obtain_gameplay_hud_font();
          ALLEGRO_FONT* obtain_hud_font();
          ALLEGRO_FONT* obtain_location_font();
          ALLEGRO_FONT* obtain_location_floor_font();
