@@ -233,6 +233,33 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
    if (game_event->is_type("unlock_elevator_3")) unlock_door("door.006");
    if (game_event->is_type("unlock_elevator_4")) unlock_sliding_door("sliding_door.002");
    return;
+
+   //audio_controller->set_and_load_sound_effect_elements(
+      //Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list()
+   //);
+
+   //audio_controller->set_and_load_music_track_elements(
+      //Krampus24::Game::Scripting::Tree::build_audio_controller_music_track_list()
+   //);
+}
+
+std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_controller_sound_effect_list()
+{
+   return Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list();
+
+   //std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+      //{ "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+   //};
+   //return sound_effect_elements;
+   return {};
+}
+
+std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_controller_music_track_list()
+{
+   std::map<std::string, AllegroFlare::AudioRepositoryElement> elements = {
+      { "escape", { "escape-01.ogg", true, "none" } },
+   };
+   return elements;
 }
 
 void Tree::update_step(double time_now, double delta_time)
@@ -331,7 +358,7 @@ void Tree::start_destruct_sequence()
    destruct_sequence_started = true;
    destruct_sequence_started_at = al_get_time();
    //destruct_countdown_started = true;
-   //event_emitter->emit_play_music_track_event("escape-01.ogg"); // TODO: Uncomment this
+   event_emitter->emit_play_music_track_event("escape"); // TODO: Uncomment this
    return;
 }
 

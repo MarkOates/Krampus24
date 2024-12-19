@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include <AllegroFlare/AudioRepositoryElement.hpp>
 #include <AllegroFlare/CollisionObservers/Simple.hpp>
 #include <AllegroFlare/DialogSystem/DialogSystem.hpp>
 #include <AllegroFlare/DialogTree/NodeBank.hpp>
@@ -14,6 +15,7 @@
 #include <Krampus24/Gameplay/Entities/PowerCoil.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
 #include <allegro5/allegro_font.h>
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>
@@ -83,6 +85,8 @@ namespace Krampus24
             AllegroFlare::Timer get_destruct_countdown_timer() const;
             bool get_initialized() const;
             virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
+            virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list() override;
+            virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_music_track_list() override;
             virtual void update_step(double time_now=0.0f, double delta_time=1.0f) override;
             virtual void render_hud() override;
             virtual bool end_state_achieved() override;

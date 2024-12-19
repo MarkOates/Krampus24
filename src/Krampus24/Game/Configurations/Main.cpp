@@ -547,7 +547,10 @@ void Main::load_audio_controller(AllegroFlare::AudioController* audio_controller
    }
    //AllegroFlare::AudioController *audio_controller = get_framework_audio_controller();
    audio_controller->set_and_load_sound_effect_elements(
-      Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list()
+      Krampus24::Game::Scripting::Tree().build_audio_controller_sound_effect_list()
+   );
+   audio_controller->set_and_load_music_track_elements(
+      Krampus24::Game::Scripting::Tree().build_audio_controller_music_track_list()
    );
    // An example of how to load a sound effect track:
    //audio_controller->set_and_load_sound_effect_elements({

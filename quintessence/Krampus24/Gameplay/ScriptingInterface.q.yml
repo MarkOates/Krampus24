@@ -22,6 +22,32 @@ methods:
       return;
 
 
+  - name: build_audio_controller_sound_effect_list
+    virtual: true
+    type: std::map<std::string, AllegroFlare::AudioRepositoryElement>
+    body: |
+      // Override in the derived class
+      // EXAMPLE:
+      //std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+         //{ "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+      //};
+      //return sound_effect_elements;
+      return {};
+
+
+  - name: build_audio_controller_music_track_list
+    virtual: true
+    type: std::map<std::string, AllegroFlare::AudioRepositoryElement>
+    body: |
+      // Override in the derived class
+      // EXAMPLE:
+      //std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+         //{ "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+      //};
+      //return sound_effect_elements;
+      return {};
+
+
   - name: render_hud
     virtual: true
     body: |
@@ -116,5 +142,7 @@ dependencies:
     headers: [ AllegroFlare/Elements/StoryboardPages/Base.hpp ]
   - symbol: Krampus24::BlenderBlockingLoaderEntity
     headers: [ Krampus24/BlenderBlockingLoaderEntity.hpp ]
+  - symbol: AllegroFlare::AudioRepositoryElement
+    headers: [ AllegroFlare/AudioRepositoryElement.hpp ]
 
 

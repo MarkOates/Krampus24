@@ -946,6 +946,14 @@ table td
   <td class="method"><b>game_event_func</b>(AllegroFlare::GameEvent* game_event=nullptr)</td>
 </tr>
 <tr>
+  <td class="method">std::map&lt;std::string, AllegroFlare::AudioRepositoryElement&gt;</td>
+  <td class="method"><b>build_audio_controller_sound_effect_list</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::map&lt;std::string, AllegroFlare::AudioRepositoryElement&gt;</td>
+  <td class="method"><b>build_audio_controller_music_track_list</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>update_step</b>(double time_now=0.0f, double delta_time=1.0f)</td>
 </tr>
@@ -1181,6 +1189,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::TimerFormatter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/TimerFormatter.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AudioRepositoryElement&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AudioRepositoryElement.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5068,6 +5079,14 @@ table td
   <td class="method"><b>game_event_func</b>(AllegroFlare::GameEvent* game_event=nullptr)</td>
 </tr>
 <tr>
+  <td class="method">std::map&lt;std::string, AllegroFlare::AudioRepositoryElement&gt;</td>
+  <td class="method"><b>build_audio_controller_sound_effect_list</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::map&lt;std::string, AllegroFlare::AudioRepositoryElement&gt;</td>
+  <td class="method"><b>build_audio_controller_music_track_list</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>render_hud</b>()</td>
 </tr>
@@ -5116,6 +5135,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::BlenderBlockingLoaderEntity&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/BlenderBlockingLoaderEntity.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AudioRepositoryElement&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AudioRepositoryElement.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5782,6 +5804,21 @@ table td
   "AllegroFlare/TimerFormatter": [
     "Krampus24/Game/Scripting/Tree"
   ],
+  "AllegroFlare/AudioRepositoryElement": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/ScriptingInterface",
+    "Krampus24/Testing/WithConstructFixture"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -5914,19 +5951,6 @@ table td
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Zone"
-  ],
-  "AllegroFlare/AudioRepositoryElement": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/SnakeBot",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Gameplay/Entities/Console",

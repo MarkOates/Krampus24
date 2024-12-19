@@ -394,6 +394,21 @@
   "AllegroFlare/TimerFormatter": [
     "Krampus24/Game/Scripting/Tree"
   ],
+  "AllegroFlare/AudioRepositoryElement": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Door",
+    "Krampus24/Gameplay/Entities/ElevatorShaft",
+    "Krampus24/Gameplay/Entities/MegaDoor",
+    "Krampus24/Gameplay/Entities/PlayerShip",
+    "Krampus24/Gameplay/Entities/PowerCoil",
+    "Krampus24/Gameplay/Entities/SlidingDoor",
+    "Krampus24/Gameplay/Entities/SnakeBot",
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Zone",
+    "Krampus24/Gameplay/ScriptingInterface",
+    "Krampus24/Testing/WithConstructFixture"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -526,19 +541,6 @@
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Zone"
-  ],
-  "AllegroFlare/AudioRepositoryElement": [
-    "Krampus24/Gameplay/Entities/Console",
-    "Krampus24/Gameplay/Entities/Door",
-    "Krampus24/Gameplay/Entities/ElevatorShaft",
-    "Krampus24/Gameplay/Entities/MegaDoor",
-    "Krampus24/Gameplay/Entities/PlayerShip",
-    "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/SlidingDoor",
-    "Krampus24/Gameplay/Entities/SnakeBot",
-    "Krampus24/Gameplay/Entities/Tablet",
-    "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Testing/WithConstructFixture"
   ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Gameplay/Entities/Console",

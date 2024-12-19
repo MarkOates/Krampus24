@@ -37,6 +37,28 @@ void ScriptingInterface::game_event_func(AllegroFlare::GameEvent* game_event)
    return;
 }
 
+std::map<std::string, AllegroFlare::AudioRepositoryElement> ScriptingInterface::build_audio_controller_sound_effect_list()
+{
+   // Override in the derived class
+   // EXAMPLE:
+   //std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+      //{ "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+   //};
+   //return sound_effect_elements;
+   return {};
+}
+
+std::map<std::string, AllegroFlare::AudioRepositoryElement> ScriptingInterface::build_audio_controller_music_track_list()
+{
+   // Override in the derived class
+   // EXAMPLE:
+   //std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+      //{ "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+   //};
+   //return sound_effect_elements;
+   return {};
+}
+
 void ScriptingInterface::render_hud()
 {
    return;
