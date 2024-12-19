@@ -4487,6 +4487,10 @@ table td
   <td class="property">AllegroFlare::Camera3D</td>
 </tr>
 <tr>
+  <td class="property">cinematic_camera</td>
+  <td class="property">AllegroFlare::Camera3D</td>
+</tr>
+<tr>
   <td class="property">live_camera</td>
   <td class="property">AllegroFlare::Camera3D</td>
 </tr>
@@ -4497,6 +4501,10 @@ table td
 <tr>
   <td class="property">camera_state</td>
   <td class="property">uint32_t</td>
+</tr>
+<tr>
+  <td class="property">current_playing_cinematic_identifier</td>
+  <td class="property">std::string</td>
 </tr>
 <tr>
   <td class="property">camera_state_is_busy</td>
@@ -4723,6 +4731,14 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>start_cinematic_camera</b>(std::string cinematic_identifier=&quot;[unset-cinematic_identifier]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_cinematic_camera</b>(double time_now=0.0f, double delta_time=1.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>render</b>()</td>
 </tr>
 <tr>
@@ -4788,6 +4804,10 @@ table td
 <tr>
   <td class="method">float</td>
   <td class="method"><b>infer_current_camera_state_age</b>(float time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>blend_camera</b>(AllegroFlare::Camera3D* source_=nullptr, AllegroFlare::Camera3D* target_=nullptr, float mul=0.0f)</td>
 </tr>
 <tr>
   <td class="method">ALLEGRO_FONT*</td>
@@ -4963,6 +4983,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::distance&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Useful.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Interpolators&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Interpolators.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5977,6 +6000,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "Krampus24/Game/EntityFactory": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/Interpolators": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

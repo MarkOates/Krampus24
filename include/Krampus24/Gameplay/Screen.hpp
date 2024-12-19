@@ -60,9 +60,11 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* game_configuration;
          AllegroFlare::Camera2D hud_camera;
          AllegroFlare::Camera3D player_view_camera;
+         AllegroFlare::Camera3D cinematic_camera;
          AllegroFlare::Camera3D live_camera;
          AllegroFlare::Camera3D target_camera;
          uint32_t camera_state;
+         std::string current_playing_cinematic_identifier;
          bool camera_state_is_busy;
          float camera_state_changed_at;
          float player_spin;
@@ -113,6 +115,7 @@ namespace Krampus24
          void set_game_configuration(AllegroFlare::GameConfigurations::Base* game_configuration);
          void set_hud_camera(AllegroFlare::Camera2D hud_camera);
          void set_player_view_camera(AllegroFlare::Camera3D player_view_camera);
+         void set_cinematic_camera(AllegroFlare::Camera3D cinematic_camera);
          void set_live_camera(AllegroFlare::Camera3D live_camera);
          void set_target_camera(AllegroFlare::Camera3D target_camera);
          void set_player_spin(float player_spin);
@@ -136,9 +139,11 @@ namespace Krampus24
          AllegroFlare::GameConfigurations::Base* get_game_configuration() const;
          AllegroFlare::Camera2D get_hud_camera() const;
          AllegroFlare::Camera3D get_player_view_camera() const;
+         AllegroFlare::Camera3D get_cinematic_camera() const;
          AllegroFlare::Camera3D get_live_camera() const;
          AllegroFlare::Camera3D get_target_camera() const;
          uint32_t get_camera_state() const;
+         std::string get_current_playing_cinematic_identifier() const;
          float get_player_spin() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> get_entities() const;
          AllegroFlare::Physics::CollisionMesh* get_collision_mesh() const;
@@ -174,6 +179,8 @@ namespace Krampus24
          void update_inspectable_entity_that_player_is_currently_colliding_with();
          void show_location_name(std::string location_name="[unset-location_name]", std::string location_floor="[unset-location_floor]");
          void update();
+         void start_cinematic_camera(std::string cinematic_identifier="[unset-cinematic_identifier]");
+         void update_cinematic_camera(double time_now=0.0f, double delta_time=1.0f);
          void render();
          std::string u(std::string string="[unset-string]");
          void xxxcall_on_finished_callback_func();
@@ -191,6 +198,7 @@ namespace Krampus24
          static bool is_valid_camera_state(uint32_t camera_state=CAMERA_STATE_UNDEF);
          bool is_camera_state(uint32_t possible_camera_state=CAMERA_STATE_UNDEF);
          float infer_current_camera_state_age(float time_now=al_get_time());
+         void blend_camera(AllegroFlare::Camera3D* source_=nullptr, AllegroFlare::Camera3D* target_=nullptr, float mul=0.0f);
          ALLEGRO_FONT* obtain_gameplay_hud_font();
          ALLEGRO_FONT* obtain_hud_font();
          ALLEGRO_FONT* obtain_location_font();

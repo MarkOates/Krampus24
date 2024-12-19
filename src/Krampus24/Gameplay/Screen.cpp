@@ -4,6 +4,7 @@
 
 #include <AllegroFlare/Camera3D.hpp>
 #include <AllegroFlare/EventNames.hpp>
+#include <AllegroFlare/Interpolators.hpp>
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Physics/CollisionMeshCollisionStepper.hpp>
 #include <AllegroFlare/PlayerInputControllers/Generic.hpp>
@@ -45,9 +46,11 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , game_configuration(game_configuration)
    , hud_camera({})
    , player_view_camera({})
+   , cinematic_camera({})
    , live_camera({})
    , target_camera({})
    , camera_state(CAMERA_STATE_UNDEF)
+   , current_playing_cinematic_identifier("[unset-current_playing_cinematic_identifier]")
    , camera_state_is_busy(false)
    , camera_state_changed_at(0.0f)
    , player_spin(0.0f)
@@ -154,6 +157,12 @@ void Screen::set_hud_camera(AllegroFlare::Camera2D hud_camera)
 void Screen::set_player_view_camera(AllegroFlare::Camera3D player_view_camera)
 {
    this->player_view_camera = player_view_camera;
+}
+
+
+void Screen::set_cinematic_camera(AllegroFlare::Camera3D cinematic_camera)
+{
+   this->cinematic_camera = cinematic_camera;
 }
 
 
@@ -299,6 +308,12 @@ AllegroFlare::Camera3D Screen::get_player_view_camera() const
 }
 
 
+AllegroFlare::Camera3D Screen::get_cinematic_camera() const
+{
+   return cinematic_camera;
+}
+
+
 AllegroFlare::Camera3D Screen::get_live_camera() const
 {
    return live_camera;
@@ -314,6 +329,12 @@ AllegroFlare::Camera3D Screen::get_target_camera() const
 uint32_t Screen::get_camera_state() const
 {
    return camera_state;
+}
+
+
+std::string Screen::get_current_playing_cinematic_identifier() const
+{
+   return current_playing_cinematic_identifier;
 }
 
 
@@ -1091,12 +1112,12 @@ void Screen::update_inspectable_entity_that_player_is_currently_colliding_with()
 
             bool is_looking_at_entity = -dot_product_to_entity > 0.9;
 
-            dev__str_1 = entity->name;
-            dev__float_1 = dot_product_to_entity;
-            dev__float_2 = std::abs(dot_product_to_entity);
-            dev__float_3 = AllegroFlare::distance(entity->placement.position, player_entity->placement.position);
-            dev__float_4 = AllegroFlare::distance(entity->placement.position, player_view_position);
-            dev__bool_1 = is_looking_at_entity;
+            //dev__str_1 = entity->name;
+            //dev__float_1 = dot_product_to_entity;
+            //dev__float_2 = std::abs(dot_product_to_entity);
+            //dev__float_3 = AllegroFlare::distance(entity->placement.position, player_entity->placement.position);
+            //dev__float_4 = AllegroFlare::distance(entity->placement.position, player_view_position);
+            //dev__bool_1 = is_looking_at_entity;
 
             if (!is_looking_at_entity) continue;
 
@@ -1329,7 +1350,10 @@ void Screen::update()
 
 
    // Use the player_view_camera as the live_camera
-   live_camera = player_view_camera;
+   update_cinematic_camera();
+   update_camera_state();
+   //live_camera = player_view_camera;
+   //update_cinematic_camera();
 
 
 
@@ -1349,6 +1373,77 @@ void Screen::update()
    if (scripting->end_state_achieved())
    {
       call_on_finished_callback_func();
+   }
+
+   return;
+}
+
+void Screen::start_cinematic_camera(std::string cinematic_identifier)
+{
+   if (!is_camera_state(CAMERA_STATE_PLAYER)) return;
+
+   if (current_playing_cinematic_identifier == "test_cinematic")
+   {
+      // TODO: Play horn thing
+   }
+
+   this->current_playing_cinematic_identifier = cinematic_identifier;
+   set_camera_state(CAMERA_STATE_CINEMATIC);
+   return;
+}
+
+void Screen::update_cinematic_camera(double time_now, double delta_time)
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::update_cinematic_camera]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::update_cinematic_camera]: error: guard \"initialized\" not met");
+   }
+   if (!is_camera_state(CAMERA_STATE_CINEMATIC)) return; // DEVELOPMENT
+   //Camera3D point_A; 
+   if (current_playing_cinematic_identifier == "test_cinematic")
+   {
+      float cinematic_age = infer_current_camera_state_age();
+      float duration = 6.0f;
+      float normalized_duration = std::min(1.0f, std::max(0.0f, (cinematic_age / duration)));
+      dev__float_1 = normalized_duration;
+
+      if (normalized_duration >= 1.0) set_camera_state(CAMERA_STATE_PLAYER);
+      else
+      {
+         float start_spin = -0.9;
+         AllegroFlare::Camera3D point_A = player_view_camera;
+         point_A.position = {-1, 8, 0};
+         point_A.stepout = {0, 9, 0};
+         point_A.tilt = 0.0;
+         point_A.spin = start_spin + 1.4;
+
+         AllegroFlare::Camera3D point_B;
+         point_B.position = {-1, 18, 0};
+         //point_B.position = {-1, 32, 0};
+         point_B.stepout = {0, 7, 0};
+         point_B.tilt = -1.2;
+         point_B.spin = start_spin + -0.2;
+
+         //cinematic_camera = point_A;
+         float smoothed = AllegroFlare::Interpolators::slow_in_out(normalized_duration);
+         blend_camera(&point_A, &point_B, smoothed);
+
+         cinematic_camera = point_A;
+      }
+   }
+   else
+   {
+      float duration = 2.0f;
+      AllegroFlare::Camera3D point_A; 
+      point_A.position = {-1, -18, 0};
+      cinematic_camera = point_A;
+      if (infer_current_camera_state_age() > duration)
+      {
+         // cinematic is over
+      }
    }
 
    return;
@@ -1495,7 +1590,7 @@ void Screen::render()
    }
 
 
-   bool drawing_dev_data = false;
+   bool drawing_dev_data = true;
    if (drawing_dev_data)
    {
       ALLEGRO_FONT *font = obtain_hud_font();
@@ -1692,6 +1787,10 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
          {
             interact_with_focused_inspectable_object();
          }
+      } break;
+
+      case ALLEGRO_KEY_P: {
+         start_cinematic_camera("test_cinematic");
       } break;
 
       case ALLEGRO_KEY_M: {
@@ -1931,12 +2030,14 @@ void Screen::update_camera_state(float time_now)
    switch (camera_state)
    {
       case CAMERA_STATE_PLAYER:
+         live_camera = player_view_camera;
       break;
 
       case CAMERA_STATE_BLENDING_TO_CINEMATIC:
       break;
 
       case CAMERA_STATE_CINEMATIC:
+         live_camera = cinematic_camera;
       break;
 
       case CAMERA_STATE_BLENDING_TO_PLAYER:
@@ -1973,6 +2074,39 @@ bool Screen::is_camera_state(uint32_t possible_camera_state)
 float Screen::infer_current_camera_state_age(float time_now)
 {
    return (time_now - camera_state_changed_at);
+}
+
+void Screen::blend_camera(AllegroFlare::Camera3D* source_, AllegroFlare::Camera3D* target_, float mul)
+{
+   if (!(source_))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::blend_camera]: error: guard \"source_\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::blend_camera]: error: guard \"source_\" not met");
+   }
+   if (!(target_))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::blend_camera]: error: guard \"target_\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::blend_camera]: error: guard \"target_\" not met");
+   }
+   //void blend(AllegroFlare::Camera3D* source_, AllegroFlare::Camera3D* target_)
+   {
+      AllegroFlare::Camera3D &source = *source_;
+      AllegroFlare::Camera3D &target = *target_;
+      //float mul = 0.1;
+      
+      //source.position = (source.position - target.position) * mul + source.position;
+      source.position = (target.position - source.position) * mul + source.position;
+      source.spin = (target.spin - source.spin) * mul + source.spin;
+      source.tilt = (target.tilt - source.tilt) * mul + source.tilt;
+      source.stepout = (target.stepout - source.stepout) * mul + source.stepout;
+      source.zoom = (target.zoom - source.zoom) * mul + source.zoom;
+      source.near_plane = (target.near_plane - source.near_plane) * mul + source.near_plane;
+      source.far_plane = (target.far_plane - source.far_plane) * mul + source.far_plane;
+    }
 }
 
 ALLEGRO_FONT* Screen::obtain_gameplay_hud_font()
