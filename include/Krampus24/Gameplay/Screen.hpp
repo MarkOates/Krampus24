@@ -26,6 +26,7 @@
 #include <Krampus24/Shaders/Principled.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
+#include <cstdint>
 #include <functional>
 #include <string>
 #include <vector>
@@ -41,6 +42,14 @@ namespace Krampus24
          static constexpr char* DEFAULT_INSPECT_HINT_TEXT = (char*)"Inspect";
 
       private:
+         enum CameraState
+         {
+            CAMERA_STATE_UNDEF = 0,
+            CAMERA_STATE_PLAYER,
+            CAMERA_STATE_BLENDING_TO_CINEMATIC,
+            CAMERA_STATE_CINEMATIC,
+            CAMERA_STATE_BLENDING_TO_PLAYER,
+         };
          std::string data_folder_path;
          AllegroFlare::AudioController* audio_controller;
          AllegroFlare::EventEmitter* event_emitter;
@@ -53,6 +62,9 @@ namespace Krampus24
          AllegroFlare::Camera3D player_view_camera;
          AllegroFlare::Camera3D live_camera;
          AllegroFlare::Camera3D target_camera;
+         uint32_t camera_state;
+         bool camera_state_is_busy;
+         float camera_state_changed_at;
          float player_spin;
          std::vector<Krampus24::Gameplay::Entities::Base*> entities;
          AllegroFlare::Physics::CollisionMesh* collision_mesh;
@@ -126,6 +138,7 @@ namespace Krampus24
          AllegroFlare::Camera3D get_player_view_camera() const;
          AllegroFlare::Camera3D get_live_camera() const;
          AllegroFlare::Camera3D get_target_camera() const;
+         uint32_t get_camera_state() const;
          float get_player_spin() const;
          std::vector<Krampus24::Gameplay::Entities::Base*> get_entities() const;
          AllegroFlare::Physics::CollisionMesh* get_collision_mesh() const;
@@ -173,6 +186,11 @@ namespace Krampus24
          virtual void virtual_control_button_up_func(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false) override;
          virtual void virtual_control_button_down_func(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false) override;
          virtual void virtual_control_axis_change_func(ALLEGRO_EVENT* ev=nullptr) override;
+         void set_camera_state(uint32_t camera_state=CAMERA_STATE_UNDEF, bool override_if_busy=false);
+         void update_camera_state(float time_now=al_get_time());
+         static bool is_valid_camera_state(uint32_t camera_state=CAMERA_STATE_UNDEF);
+         bool is_camera_state(uint32_t possible_camera_state=CAMERA_STATE_UNDEF);
+         float infer_current_camera_state_age(float time_now=al_get_time());
          ALLEGRO_FONT* obtain_gameplay_hud_font();
          ALLEGRO_FONT* obtain_hud_font();
          ALLEGRO_FONT* obtain_location_font();

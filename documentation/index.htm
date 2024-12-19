@@ -4495,6 +4495,18 @@ table td
   <td class="property">AllegroFlare::Camera3D</td>
 </tr>
 <tr>
+  <td class="property">camera_state</td>
+  <td class="property">uint32_t</td>
+</tr>
+<tr>
+  <td class="property">camera_state_is_busy</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">camera_state_changed_at</td>
+  <td class="property">float</td>
+</tr>
+<tr>
   <td class="property">player_spin</td>
   <td class="property">float</td>
 </tr>
@@ -4756,6 +4768,26 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>virtual_control_axis_change_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_camera_state</b>(uint32_t camera_state=CAMERA_STATE_UNDEF, bool override_if_busy=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_camera_state</b>(float time_now=al_get_time())</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_valid_camera_state</b>(uint32_t camera_state=CAMERA_STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_camera_state</b>(uint32_t possible_camera_state=CAMERA_STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>infer_current_camera_state_age</b>(float time_now=al_get_time())</td>
 </tr>
 <tr>
   <td class="method">ALLEGRO_FONT*</td>

@@ -21,6 +21,7 @@
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_primitives.h>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 #include <tuple>
@@ -46,6 +47,9 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , player_view_camera({})
    , live_camera({})
    , target_camera({})
+   , camera_state(CAMERA_STATE_UNDEF)
+   , camera_state_is_busy(false)
+   , camera_state_changed_at(0.0f)
    , player_spin(0.0f)
    , entities(entities)
    , collision_mesh(collision_mesh)
@@ -307,6 +311,12 @@ AllegroFlare::Camera3D Screen::get_target_camera() const
 }
 
 
+uint32_t Screen::get_camera_state() const
+{
+   return camera_state;
+}
+
+
 float Screen::get_player_spin() const
 {
    return player_spin;
@@ -500,6 +510,8 @@ void Screen::initialize()
    principled_shader.set_fog_distance(40.0);
 
    principled_shader.set_world_tint(ALLEGRO_COLOR{0.3, 0.3, 0.4, 1.0});
+
+   set_camera_state(CAMERA_STATE_PLAYER);
 
    initialized = true;
    return;
@@ -1862,6 +1874,105 @@ void Screen::virtual_control_axis_change_func(ALLEGRO_EVENT* ev)
    }
    // TODO: this function
    return;
+}
+
+void Screen::set_camera_state(uint32_t camera_state, bool override_if_busy)
+{
+   if (!(is_valid_camera_state(camera_state)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::set_camera_state]: error: guard \"is_valid_camera_state(camera_state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::set_camera_state]: error: guard \"is_valid_camera_state(camera_state)\" not met");
+   }
+   if (this->camera_state == camera_state) return;
+   if (!override_if_busy && camera_state_is_busy) return;
+   uint32_t previous_camera_state = this->camera_state;
+
+   switch (camera_state)
+   {
+      case CAMERA_STATE_PLAYER:
+      break;
+
+      case CAMERA_STATE_BLENDING_TO_CINEMATIC:
+      break;
+
+      case CAMERA_STATE_CINEMATIC:
+      break;
+
+      case CAMERA_STATE_BLENDING_TO_PLAYER:
+      break;
+
+      default:
+         AllegroFlare::Logger::throw_error(
+            "ClassName::set_camera_state",
+            "Unable to handle case for camera_state \"" + std::to_string(camera_state) + "\""
+         );
+      break;
+   }
+
+   this->camera_state = camera_state;
+   camera_state_changed_at = al_get_time();
+
+   return;
+}
+
+void Screen::update_camera_state(float time_now)
+{
+   if (!(is_valid_camera_state(camera_state)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::update_camera_state]: error: guard \"is_valid_camera_state(camera_state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::update_camera_state]: error: guard \"is_valid_camera_state(camera_state)\" not met");
+   }
+   float age = infer_current_camera_state_age(time_now);
+
+   switch (camera_state)
+   {
+      case CAMERA_STATE_PLAYER:
+      break;
+
+      case CAMERA_STATE_BLENDING_TO_CINEMATIC:
+      break;
+
+      case CAMERA_STATE_CINEMATIC:
+      break;
+
+      case CAMERA_STATE_BLENDING_TO_PLAYER:
+      break;
+
+      default:
+         AllegroFlare::Logger::throw_error(
+            "ClassName::update_camera_state",
+            "Unable to handle case for camera_state \"" + std::to_string(camera_state) + "\""
+         );
+      break;
+   }
+
+   return;
+}
+
+bool Screen::is_valid_camera_state(uint32_t camera_state)
+{
+   std::set<uint32_t> valid_camera_states =
+   {
+      CAMERA_STATE_PLAYER,
+      CAMERA_STATE_BLENDING_TO_CINEMATIC,
+      CAMERA_STATE_CINEMATIC,
+      CAMERA_STATE_BLENDING_TO_PLAYER,
+   };
+   return (valid_camera_states.count(camera_state) > 0);
+}
+
+bool Screen::is_camera_state(uint32_t possible_camera_state)
+{
+   return (camera_state == possible_camera_state);
+}
+
+float Screen::infer_current_camera_state_age(float time_now)
+{
+   return (time_now - camera_state_changed_at);
 }
 
 ALLEGRO_FONT* Screen::obtain_gameplay_hud_font()

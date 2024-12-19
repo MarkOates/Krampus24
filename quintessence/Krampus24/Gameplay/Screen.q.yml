@@ -87,6 +87,20 @@ properties:
     getter: true
     setter: true
 
+  - name: camera_state
+    type: uint32_t
+    init_with: CAMERA_STATE_UNDEF
+    getter: true
+    setter: explicit
+
+  - name: camera_state_is_busy
+    type: bool
+    init_with: false
+
+  - name: camera_state_changed_at
+    type: float
+    init_with: 0.0f
+
   - name: player_spin
     type: float
     init_with: 0.0f
@@ -245,6 +259,18 @@ properties:
     constexpr: true
 
 
+enums:
+
+
+  - name: CameraState
+    enumerators:
+      - CAMERA_STATE_UNDEF
+      - CAMERA_STATE_PLAYER
+      - CAMERA_STATE_BLENDING_TO_CINEMATIC
+      - CAMERA_STATE_CINEMATIC
+      - CAMERA_STATE_BLENDING_TO_PLAYER
+
+
 methods:
 
 
@@ -298,6 +324,8 @@ methods:
       principled_shader.set_fog_distance(40.0);
 
       principled_shader.set_world_tint(ALLEGRO_COLOR{0.3, 0.3, 0.4, 1.0});
+
+      set_camera_state(CAMERA_STATE_PLAYER);
 
       initialized = true;
       return;
@@ -1729,6 +1757,126 @@ methods:
     body: |
       // TODO: this function
       return;
+
+
+  - name: set_camera_state
+    parameters:
+      - name: camera_state
+        type: uint32_t
+        default_argument: CAMERA_STATE_UNDEF
+      - name: override_if_busy
+        type: bool
+        default_argument: false
+    guards: [ is_valid_camera_state(camera_state) ]
+    body: |
+      if (this->camera_state == camera_state) return;
+      if (!override_if_busy && camera_state_is_busy) return;
+      uint32_t previous_camera_state = this->camera_state;
+
+      switch (camera_state)
+      {
+         case CAMERA_STATE_PLAYER:
+         break;
+
+         case CAMERA_STATE_BLENDING_TO_CINEMATIC:
+         break;
+
+         case CAMERA_STATE_CINEMATIC:
+         break;
+
+         case CAMERA_STATE_BLENDING_TO_PLAYER:
+         break;
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::set_camera_state",
+               "Unable to handle case for camera_state \"" + std::to_string(camera_state) + "\""
+            );
+         break;
+      }
+
+      this->camera_state = camera_state;
+      camera_state_changed_at = al_get_time();
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+
+
+  - name: update_camera_state
+    parameters:
+      - name: time_now
+        type: float
+        default_argument: al_get_time()
+    guards: [ is_valid_camera_state(camera_state) ]
+    body: |
+      float age = infer_current_camera_state_age(time_now);
+
+      switch (camera_state)
+      {
+         case CAMERA_STATE_PLAYER:
+         break;
+
+         case CAMERA_STATE_BLENDING_TO_CINEMATIC:
+         break;
+
+         case CAMERA_STATE_CINEMATIC:
+         break;
+
+         case CAMERA_STATE_BLENDING_TO_PLAYER:
+         break;
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::update_camera_state",
+               "Unable to handle case for camera_state \"" + std::to_string(camera_state) + "\""
+            );
+         break;
+      }
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+
+
+  - name: is_valid_camera_state
+    type: bool
+    static: true
+    parameters:
+      - name: camera_state
+        type: uint32_t
+        default_argument: CAMERA_STATE_UNDEF
+    body: |
+      std::set<uint32_t> valid_camera_states =
+      {
+         CAMERA_STATE_PLAYER,
+         CAMERA_STATE_BLENDING_TO_CINEMATIC,
+         CAMERA_STATE_CINEMATIC,
+         CAMERA_STATE_BLENDING_TO_PLAYER,
+      };
+      return (valid_camera_states.count(camera_state) > 0);
+    body_dependency_symbols:
+      - std::set
+
+
+  - name: is_camera_state
+    type: bool
+    parameters:
+      - name: possible_camera_state
+        type: uint32_t
+        default_argument: CAMERA_STATE_UNDEF
+    body: |
+     return (camera_state == possible_camera_state);
+
+
+  - name: infer_current_camera_state_age
+    type: float
+    parameters:
+      - name: time_now
+        type: float
+        default_argument: al_get_time()
+    body: |
+      return (time_now - camera_state_changed_at);
 
 
   - name: obtain_gameplay_hud_font
