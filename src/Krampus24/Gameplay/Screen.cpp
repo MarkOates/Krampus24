@@ -53,6 +53,8 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , current_playing_cinematic_identifier("[unset-current_playing_cinematic_identifier]")
    , camera_state_is_busy(false)
    , camera_state_changed_at(0.0f)
+   , showing_cinematic_black_bars(false)
+   , game__central_core_cinematic_triggered(false)
    , player_spin(0.0f)
    , entities(entities)
    , collision_mesh(collision_mesh)
@@ -1299,7 +1301,15 @@ void Screen::update()
 
          if (entity->zone__is_zone)
          {
-            if (entity->name == "central_column_f1") show_location_name("Central Column", "Floor 1");
+            if (entity->name == "central_column_f1")
+            {
+               show_location_name("Central Column", "Floor 1");
+               if (!game__central_core_cinematic_triggered)
+               {
+                  start_cinematic_camera("central_core_cinematic");
+                  game__central_core_cinematic_triggered = true;
+               }
+            }
             else if (entity->name == "docking_bay") show_location_name("Docking Bay", "Sub Level");
             else if (entity->name == "library") show_location_name("Library", "Floor 1");
             else if (entity->name == "vr_room") show_location_name("VR Room", "Floor 1");
@@ -1382,7 +1392,7 @@ void Screen::start_cinematic_camera(std::string cinematic_identifier)
 {
    if (!is_camera_state(CAMERA_STATE_PLAYER)) return;
 
-   if (current_playing_cinematic_identifier == "test_cinematic")
+   if (current_playing_cinematic_identifier == "central_core_cinematic")
    {
       // TODO: Play horn thing
    }
@@ -1403,7 +1413,7 @@ void Screen::update_cinematic_camera(double time_now, double delta_time)
    }
    if (!is_camera_state(CAMERA_STATE_CINEMATIC)) return; // DEVELOPMENT
    //Camera3D point_A; 
-   if (current_playing_cinematic_identifier == "test_cinematic")
+   if (current_playing_cinematic_identifier == "central_core_cinematic")
    {
       float cinematic_age = infer_current_camera_state_age();
       float duration = 6.0f;
@@ -1536,6 +1546,19 @@ void Screen::render()
    al_clear_depth_buffer(1.0);
 
 
+
+   // Show the cinematic black bars
+   if (showing_cinematic_black_bars)
+   {
+      current_location_reveal_counter = 0.0; // HACK
+      float bar_height = 120;
+      al_draw_filled_rectangle(0, 0, 1920, bar_height, ALLEGRO_COLOR{0, 0, 0, 1});
+      al_draw_filled_rectangle(0, 1080-bar_height, 1920, 1080, ALLEGRO_COLOR{0, 0, 0, 1});
+   }
+
+
+
+
    // TODO: Consider motion effects for showing/revealing
    if (!get_gameplay_suspended())
    {
@@ -1590,7 +1613,7 @@ void Screen::render()
    }
 
 
-   bool drawing_dev_data = true;
+   bool drawing_dev_data = false;
    if (drawing_dev_data)
    {
       ALLEGRO_FONT *font = obtain_hud_font();
@@ -1646,6 +1669,12 @@ void Screen::game_event_func(AllegroFlare::GameEvent* game_event)
       throw std::runtime_error("[Krampus24::Gameplay::Screen::game_event_func]: error: guard \"game_event\" not met");
    }
    if (scripting) scripting->game_event_func(game_event);
+
+   //if (game_event->is_type("trigger_central_core_cinematic"))
+   //{
+      //start_cinematic_camera("central_core_cinematic");
+   //}
+
    // game_configuration->handle_game_event(game_event);
    return;
 }
@@ -1790,7 +1819,7 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
       } break;
 
       case ALLEGRO_KEY_P: {
-         start_cinematic_camera("test_cinematic");
+         start_cinematic_camera("central_core_cinematic");
       } break;
 
       case ALLEGRO_KEY_M: {
@@ -1991,15 +2020,19 @@ void Screen::set_camera_state(uint32_t camera_state, bool override_if_busy)
    switch (camera_state)
    {
       case CAMERA_STATE_PLAYER:
+         showing_cinematic_black_bars = false;
       break;
 
       case CAMERA_STATE_BLENDING_TO_CINEMATIC:
+         showing_cinematic_black_bars = true;
       break;
 
       case CAMERA_STATE_CINEMATIC:
+         showing_cinematic_black_bars = true;
       break;
 
       case CAMERA_STATE_BLENDING_TO_PLAYER:
+         showing_cinematic_black_bars = true;
       break;
 
       default:

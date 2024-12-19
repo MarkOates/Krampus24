@@ -67,6 +67,8 @@ namespace Krampus24
          std::string current_playing_cinematic_identifier;
          bool camera_state_is_busy;
          float camera_state_changed_at;
+         bool showing_cinematic_black_bars;
+         bool game__central_core_cinematic_triggered;
          float player_spin;
          std::vector<Krampus24::Gameplay::Entities::Base*> entities;
          AllegroFlare::Physics::CollisionMesh* collision_mesh;
