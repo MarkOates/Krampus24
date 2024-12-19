@@ -364,14 +364,21 @@ methods:
     virtual: true
     override: true
     type: std::vector<AllegroFlare::Elements::StoryboardPages::Base *>
+    guards: [ primary_gameplay_screen ]
     body: |
-      //AllegroFlare::StoryboardPageFactory page_factory;
-      //page_factory.set_font_bin(font_bin);
-      //page_factory.set_bitmap_bin(bitmap_bin);
-      //page_factory.set_model_bin(model_bin);
-      //page_factory.create_clubcatt_logo_page(),
-      //page_factory.create_image_page(bitmap_bin->operator[]("clubcatt-website-01.jpg")),
-      return {};
+      AllegroFlare::StoryboardPageFactory page_factory;
+      page_factory.set_font_bin(primary_gameplay_screen->get_font_bin());
+      page_factory.set_bitmap_bin(primary_gameplay_screen->get_bitmap_bin());
+      page_factory.set_model_bin(primary_gameplay_screen->get_model_bin());
+
+      std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {
+         page_factory.create_clubcatt_logo_page(),
+         page_factory.create_image_page(
+               primary_gameplay_screen->get_bitmap_bin()->operator[]("clubcatt-website-01.jpg")
+            ),
+      };
+
+      return result;
 
 
   - name: create_intro_storyboard_pages
@@ -535,6 +542,7 @@ methods:
          { "Start New Game",    "start_new_game" },                // TODO: If the game session has not begun
          //{ "Achievements",      "goto_achievements_screen" },
          //{ "Settings",          "goto_settings_screen" },
+         { "Settings",          "goto_display_settings_screen" },
          //{ "Version",           "goto_version_screen" },
          //{ "Credits",           "goto_credits_screen" },           // TODO: If game has been won
          { "Quit",              "quit" },

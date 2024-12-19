@@ -357,13 +357,26 @@ void Main::handle_primary_gameplay_screen_finished()
 
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_intro_logos_storyboard_pages()
 {
-   //AllegroFlare::StoryboardPageFactory page_factory;
-   //page_factory.set_font_bin(font_bin);
-   //page_factory.set_bitmap_bin(bitmap_bin);
-   //page_factory.set_model_bin(model_bin);
-   //page_factory.create_clubcatt_logo_page(),
-   //page_factory.create_image_page(bitmap_bin->operator[]("clubcatt-website-01.jpg")),
-   return {};
+   if (!(primary_gameplay_screen))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Configurations::Main::create_intro_logos_storyboard_pages]: error: guard \"primary_gameplay_screen\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Configurations::Main::create_intro_logos_storyboard_pages]: error: guard \"primary_gameplay_screen\" not met");
+   }
+   AllegroFlare::StoryboardPageFactory page_factory;
+   page_factory.set_font_bin(primary_gameplay_screen->get_font_bin());
+   page_factory.set_bitmap_bin(primary_gameplay_screen->get_bitmap_bin());
+   page_factory.set_model_bin(primary_gameplay_screen->get_model_bin());
+
+   std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result = {
+      page_factory.create_clubcatt_logo_page(),
+      page_factory.create_image_page(
+            primary_gameplay_screen->get_bitmap_bin()->operator[]("clubcatt-website-01.jpg")
+         ),
+   };
+
+   return result;
 }
 
 std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_intro_storyboard_pages()
@@ -515,6 +528,7 @@ std::vector<std::pair<std::string, std::string>> Main::build_title_screen_menu_o
       { "Start New Game",    "start_new_game" },                // TODO: If the game session has not begun
       //{ "Achievements",      "goto_achievements_screen" },
       //{ "Settings",          "goto_settings_screen" },
+      { "Settings",          "goto_display_settings_screen" },
       //{ "Version",           "goto_version_screen" },
       //{ "Credits",           "goto_credits_screen" },           // TODO: If game has been won
       { "Quit",              "quit" },
