@@ -286,6 +286,7 @@ std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_co
       { "opening", { "opening-b-05.ogg", false, "true" } },
       { "escape", { "escape-01.ogg", true, "none" } },
       { "stasis", { "cryo-02.ogg", true, "none" } },
+      { "arrival", { "floor_1-06.ogg", true, "none" } },
    };
    return elements;
 }

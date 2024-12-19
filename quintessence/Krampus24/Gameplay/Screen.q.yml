@@ -618,6 +618,15 @@ methods:
     override: true
     guards: [ initialized ]
     body: |
+      static bool first_activation = false;
+      if (!first_activation)
+      {
+         std::cout << "first screen activation" << std::endl;
+         event_emitter->emit_play_music_track_event("arrival"); // TODO: Figure out the correct place for this
+         first_activation = true;
+      }
+      //event_emitter->emit_play_music_track_event("arrival"); // TODO: Figure out the correct place for this
+      
       //emit_event_to_update_input_hints_bar();
       //emit_show_and_size_input_hints_bar_event();
       return;
