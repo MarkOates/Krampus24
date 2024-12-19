@@ -89,6 +89,18 @@ properties:
     getter: true
     setter: true
 
+  - name: destruct_sequence_running
+    type: bool
+    init_with: false
+    getter: true
+    setter: true
+
+  - name: destruct_sequence_completed
+    type: bool
+    init_with: false
+    getter: true
+    setter: true
+
   - name: collision_observer
     type: AllegroFlare::CollisionObservers::Simple*
     init_with: nullptr
@@ -158,6 +170,7 @@ methods:
       std::map<std::string, AllegroFlare::AudioRepositoryElement> elements = {
          { "opening", { "opening-b-05.ogg", false, "true" } },
          { "escape", { "escape-01.ogg", true, "none" } },
+         { "stasis", { "cryo-02.ogg", true, "none" } },
       };
       return elements;
 
@@ -181,6 +194,17 @@ methods:
             start_destruct_timer();
          }
       }
+      if (destruct_sequence_running && (get_countdown_time_now_msec() <= 0.0))
+      {
+         end_destruct_sequence();
+      }
+      return;
+
+
+  - name: end_destruct_sequence
+    body: |
+      destruct_sequence_running = false;
+      destruct_sequence_completed = true;
       return;
 
 
@@ -251,13 +275,18 @@ methods:
 
   - name: start_destruct_sequence
     body: |
-      destruct_countdown_showing = true;
-      //destruct_countdown_timer.reset();
-      //destruct_countdown_timer.start();
-      destruct_sequence_started = true;
-      destruct_sequence_started_at = al_get_time();
-      //destruct_countdown_started = true;
-      event_emitter->emit_play_music_track_event("escape"); // TODO: Uncomment this
+      if (!destruct_sequence_running)
+      {
+         destruct_countdown_showing = true;
+         //destruct_countdown_timer.reset();
+         //destruct_countdown_timer.start();
+         destruct_sequence_started = true;
+         destruct_sequence_started_at = al_get_time();
+         //destruct_countdown_started = true;
+         event_emitter->emit_play_music_track_event("escape"); // TODO: Uncomment this
+
+         destruct_sequence_running = true;
+      }
       return;
 
 

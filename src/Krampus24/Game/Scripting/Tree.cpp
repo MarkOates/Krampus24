@@ -44,6 +44,8 @@ Tree::Tree()
    , destruct_countdown_started(false)
    , destruct_countdown_duration_msec(120000*2)
    , destruct_countdown_timer({})
+   , destruct_sequence_running(false)
+   , destruct_sequence_completed(false)
    , collision_observer(nullptr)
    , initialized(false)
 {
@@ -143,6 +145,18 @@ void Tree::set_destruct_countdown_timer(AllegroFlare::Timer destruct_countdown_t
 }
 
 
+void Tree::set_destruct_sequence_running(bool destruct_sequence_running)
+{
+   this->destruct_sequence_running = destruct_sequence_running;
+}
+
+
+void Tree::set_destruct_sequence_completed(bool destruct_sequence_completed)
+{
+   this->destruct_sequence_completed = destruct_sequence_completed;
+}
+
+
 void Tree::set_collision_observer(AllegroFlare::CollisionObservers::Simple* collision_observer)
 {
    if (get_initialized()) throw std::runtime_error("[Tree::set_collision_observer]: error: guard \"get_initialized()\" not met.");
@@ -210,6 +224,18 @@ AllegroFlare::Timer Tree::get_destruct_countdown_timer() const
 }
 
 
+bool Tree::get_destruct_sequence_running() const
+{
+   return destruct_sequence_running;
+}
+
+
+bool Tree::get_destruct_sequence_completed() const
+{
+   return destruct_sequence_completed;
+}
+
+
 bool Tree::get_initialized() const
 {
    return initialized;
@@ -259,6 +285,7 @@ std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_co
    std::map<std::string, AllegroFlare::AudioRepositoryElement> elements = {
       { "opening", { "opening-b-05.ogg", false, "true" } },
       { "escape", { "escape-01.ogg", true, "none" } },
+      { "stasis", { "cryo-02.ogg", true, "none" } },
    };
    return elements;
 }
@@ -273,6 +300,17 @@ void Tree::update_step(double time_now, double delta_time)
          start_destruct_timer();
       }
    }
+   if (destruct_sequence_running && (get_countdown_time_now_msec() <= 0.0))
+   {
+      end_destruct_sequence();
+   }
+   return;
+}
+
+void Tree::end_destruct_sequence()
+{
+   destruct_sequence_running = false;
+   destruct_sequence_completed = true;
    return;
 }
 
@@ -353,13 +391,18 @@ Krampus24::Gameplay::Entities::Base* Tree::find_0th_entity()
 
 void Tree::start_destruct_sequence()
 {
-   destruct_countdown_showing = true;
-   //destruct_countdown_timer.reset();
-   //destruct_countdown_timer.start();
-   destruct_sequence_started = true;
-   destruct_sequence_started_at = al_get_time();
-   //destruct_countdown_started = true;
-   event_emitter->emit_play_music_track_event("escape"); // TODO: Uncomment this
+   if (!destruct_sequence_running)
+   {
+      destruct_countdown_showing = true;
+      //destruct_countdown_timer.reset();
+      //destruct_countdown_timer.start();
+      destruct_sequence_started = true;
+      destruct_sequence_started_at = al_get_time();
+      //destruct_countdown_started = true;
+      event_emitter->emit_play_music_track_event("escape"); // TODO: Uncomment this
+
+      destruct_sequence_running = true;
+   }
    return;
 }
 

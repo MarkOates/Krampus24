@@ -551,6 +551,18 @@ void Screen::setup_dialog_system_styling()
    return;
 }
 
+Krampus24::Game::Scripting::Tree* Screen::get_scripting_as()
+{
+   if (!(scripting))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::get_scripting_as]: error: guard \"scripting\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::get_scripting_as]: error: guard \"scripting\" not met");
+   }
+   return static_cast<Krampus24::Game::Scripting::Tree*>(scripting);
+}
+
 std::vector<Krampus24::Gameplay::Entities::Base*> Screen::create_entity(Krampus24::BlenderBlockingLoaderEntity* blender_blocking_entity)
 {
    if (!(blender_blocking_entity))
@@ -1329,7 +1341,14 @@ void Screen::update()
 
             else if (entity->name == "central_column_armory_f3") show_location_name("Armory", "Floor 3");
 
-            else if (entity->name == "central_column_chryo_f4") show_location_name("Cryostasis", "Floor 4");
+            else if (entity->name == "central_column_chryo_f4")
+            {
+               show_location_name("Cryostasis", "Floor 4");
+               if (!get_scripting_as()->get_destruct_sequence_running())
+               {
+                  event_emitter->emit_play_music_track_event("stasis");
+               }
+            }
 
             else if (entity->name == "central_column_f5") show_location_name("Power Coil Room", "Top Floor");
 

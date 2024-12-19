@@ -47,6 +47,8 @@ namespace Krampus24
             bool destruct_countdown_started;
             int destruct_countdown_duration_msec;
             AllegroFlare::Timer destruct_countdown_timer;
+            bool destruct_sequence_running;
+            bool destruct_sequence_completed;
             AllegroFlare::CollisionObservers::Simple* collision_observer;
             bool initialized;
             void build_on_collision_callbacks();
@@ -72,6 +74,8 @@ namespace Krampus24
             void set_destruct_countdown_started(bool destruct_countdown_started);
             void set_destruct_countdown_duration_msec(int destruct_countdown_duration_msec);
             void set_destruct_countdown_timer(AllegroFlare::Timer destruct_countdown_timer);
+            void set_destruct_sequence_running(bool destruct_sequence_running);
+            void set_destruct_sequence_completed(bool destruct_sequence_completed);
             void set_collision_observer(AllegroFlare::CollisionObservers::Simple* collision_observer);
             std::string get_data_folder_path() const;
             std::string get_arbitrary_storyboard_screen_identifier_to_start() const;
@@ -83,11 +87,14 @@ namespace Krampus24
             bool get_destruct_countdown_started() const;
             int get_destruct_countdown_duration_msec() const;
             AllegroFlare::Timer get_destruct_countdown_timer() const;
+            bool get_destruct_sequence_running() const;
+            bool get_destruct_sequence_completed() const;
             bool get_initialized() const;
             virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list() override;
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_music_track_list() override;
             virtual void update_step(double time_now=0.0f, double delta_time=1.0f) override;
+            void end_destruct_sequence();
             virtual void render_hud() override;
             virtual bool end_state_achieved() override;
             bool a_0th_entity_exists();

@@ -20,6 +20,7 @@
 #include <AllegroFlare/Vec3D.hpp>
 #include <AllegroFlare/VirtualControllers/Base.hpp>
 #include <Krampus24/BlenderBlockingLoaderEntity.hpp>
+#include <Krampus24/Game/Scripting/Tree.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Screen.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
@@ -162,6 +163,7 @@ namespace Krampus24
          AllegroFlare::CollisionObservers::Simple &get_collision_observer_ref();
          void initialize();
          void setup_dialog_system_styling();
+         Krampus24::Game::Scripting::Tree* get_scripting_as();
          virtual std::vector<Krampus24::Gameplay::Entities::Base*> create_entity(Krampus24::BlenderBlockingLoaderEntity* blender_blocking_entity=nullptr);
          void load_or_reload_meshes();
          virtual void on_activate() override;

@@ -366,6 +366,13 @@ methods:
       return;
 
 
+  - name: get_scripting_as
+    type: Krampus24::Game::Scripting::Tree*
+    guards: [ scripting ]
+    body: |
+      return static_cast<Krampus24::Game::Scripting::Tree*>(scripting);
+
+
   - name: create_entity
     type: std::vector<Krampus24::Gameplay::Entities::Base*>
     virtual: true
@@ -1183,7 +1190,14 @@ methods:
 
                else if (entity->name == "central_column_armory_f3") show_location_name("Armory", "Floor 3");
 
-               else if (entity->name == "central_column_chryo_f4") show_location_name("Cryostasis", "Floor 4");
+               else if (entity->name == "central_column_chryo_f4")
+               {
+                  show_location_name("Cryostasis", "Floor 4");
+                  if (!get_scripting_as()->get_destruct_sequence_running())
+                  {
+                     event_emitter->emit_play_music_track_event("stasis");
+                  }
+               }
 
                else if (entity->name == "central_column_f5") show_location_name("Power Coil Room", "Top Floor");
 

@@ -927,6 +927,14 @@ table td
   <td class="property">AllegroFlare::Timer</td>
 </tr>
 <tr>
+  <td class="property">destruct_sequence_running</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destruct_sequence_completed</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">collision_observer</td>
   <td class="property">AllegroFlare::CollisionObservers::Simple*</td>
 </tr>
@@ -956,6 +964,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>update_step</b>(double time_now=0.0f, double delta_time=1.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>end_destruct_sequence</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -4717,6 +4729,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>setup_dialog_system_styling</b>()</td>
+</tr>
+<tr>
+  <td class="method">Krampus24::Game::Scripting::Tree*</td>
+  <td class="method"><b>get_scripting_as</b>()</td>
 </tr>
 <tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
