@@ -1691,6 +1691,7 @@ void Screen::primary_update_func(double time_now, double delta_time)
    AllegroFlare::Screens::Gameplay::primary_update_func(time_now, delta_time);
    // Update stuff here (take into account delta_time)
    update();
+   if (scripting) scripting->update_step(time_now, delta_time);
    return;
 }
 

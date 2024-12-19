@@ -29,6 +29,7 @@ namespace Krampus24
 
          virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr);
          virtual void render_hud();
+         virtual void update_step(double time_now=0.0f, double delta_time=1.0f);
          virtual bool end_state_achieved();
          virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank();
          virtual bool interact_with_focused_object(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with=nullptr);

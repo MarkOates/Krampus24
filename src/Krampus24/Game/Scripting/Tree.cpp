@@ -9,6 +9,7 @@
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Routers/Standard.hpp>
 #include <AllegroFlare/StringTransformer.hpp>
+#include <AllegroFlare/TimerFormatter.hpp>
 #include <AllegroFlare/UsefulPHP.hpp>
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
@@ -37,6 +38,12 @@ Tree::Tree()
    , arbitrary_storyboard_screen_identifier_to_start("[unset-arbitrary_storyboard_screen_identifier_to_start]")
    , primary_power_coil_collected(false)
    , primary_power_coil_returned_to_ship(false)
+   , destruct_countdown_showing(false)
+   , destruct_sequence_started(false)
+   , destruct_sequence_started_at(0.0)
+   , destruct_countdown_started(false)
+   , destruct_countdown_duration_msec(120000*2)
+   , destruct_countdown_timer({})
    , collision_observer(nullptr)
    , initialized(false)
 {
@@ -100,6 +107,42 @@ void Tree::set_primary_power_coil_returned_to_ship(bool primary_power_coil_retur
 }
 
 
+void Tree::set_destruct_countdown_showing(bool destruct_countdown_showing)
+{
+   this->destruct_countdown_showing = destruct_countdown_showing;
+}
+
+
+void Tree::set_destruct_sequence_started(bool destruct_sequence_started)
+{
+   this->destruct_sequence_started = destruct_sequence_started;
+}
+
+
+void Tree::set_destruct_sequence_started_at(float destruct_sequence_started_at)
+{
+   this->destruct_sequence_started_at = destruct_sequence_started_at;
+}
+
+
+void Tree::set_destruct_countdown_started(bool destruct_countdown_started)
+{
+   this->destruct_countdown_started = destruct_countdown_started;
+}
+
+
+void Tree::set_destruct_countdown_duration_msec(int destruct_countdown_duration_msec)
+{
+   this->destruct_countdown_duration_msec = destruct_countdown_duration_msec;
+}
+
+
+void Tree::set_destruct_countdown_timer(AllegroFlare::Timer destruct_countdown_timer)
+{
+   this->destruct_countdown_timer = destruct_countdown_timer;
+}
+
+
 void Tree::set_collision_observer(AllegroFlare::CollisionObservers::Simple* collision_observer)
 {
    if (get_initialized()) throw std::runtime_error("[Tree::set_collision_observer]: error: guard \"get_initialized()\" not met.");
@@ -131,6 +174,42 @@ bool Tree::get_primary_power_coil_returned_to_ship() const
 }
 
 
+bool Tree::get_destruct_countdown_showing() const
+{
+   return destruct_countdown_showing;
+}
+
+
+bool Tree::get_destruct_sequence_started() const
+{
+   return destruct_sequence_started;
+}
+
+
+float Tree::get_destruct_sequence_started_at() const
+{
+   return destruct_sequence_started_at;
+}
+
+
+bool Tree::get_destruct_countdown_started() const
+{
+   return destruct_countdown_started;
+}
+
+
+int Tree::get_destruct_countdown_duration_msec() const
+{
+   return destruct_countdown_duration_msec;
+}
+
+
+AllegroFlare::Timer Tree::get_destruct_countdown_timer() const
+{
+   return destruct_countdown_timer;
+}
+
+
 bool Tree::get_initialized() const
 {
    return initialized;
@@ -156,8 +235,24 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
    return;
 }
 
+void Tree::update_step(double time_now, double delta_time)
+{
+   if (destruct_sequence_started && !destruct_countdown_started)
+   {
+      float time_since_destruct_sequence_activated = al_get_time() - destruct_sequence_started_at;
+      if (time_since_destruct_sequence_activated > 11.0) // Per the music, the trombones start at 11 seconds in
+      {
+         start_destruct_timer();
+      }
+   }
+   return;
+}
+
 void Tree::render_hud()
 {
+   //if (!destruct_countdown_started) start_countdown_timer(); // DEVELOPMENT
+
+
    if (primary_power_coil_collected)
    {
       al_draw_textf(
@@ -167,6 +262,26 @@ void Tree::render_hud()
          30,
          ALLEGRO_ALIGN_LEFT,
          "PRIMARY POWER COIL COLLECTED"
+      );
+   }
+   //destruct_countdown_showing = true;
+   if (destruct_countdown_showing)
+   {
+      //destruct_countdown_timer
+      ALLEGRO_FONT *font = obtain_countdown_font();
+
+      std::string timer_str = AllegroFlare::TimerFormatter(get_countdown_time_now_msec()).format();
+
+      al_draw_multiline_textf(
+         font,
+         ALLEGRO_COLOR{0.8, 0.08, 0.02, 1.0},
+         1920/2,
+         1080/6*4,
+         1920,
+         al_get_font_line_height(font),
+         ALLEGRO_ALIGN_CENTER,
+         "STATION SELF DESTRUCT\n%s",
+            timer_str.c_str()
       );
    }
    return;
@@ -206,6 +321,35 @@ Krampus24::Gameplay::Entities::Base* Tree::find_0th_entity()
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::find_0th_entity]: error: guard \"(entities->size() > 0)\" not met");
    }
    return entities->at(0);
+}
+
+void Tree::start_destruct_sequence()
+{
+   destruct_countdown_showing = true;
+   //destruct_countdown_timer.reset();
+   //destruct_countdown_timer.start();
+   destruct_sequence_started = true;
+   destruct_sequence_started_at = al_get_time();
+   //destruct_countdown_started = true;
+   //event_emitter->emit_play_music_track_event("escape-01.ogg"); // TODO: Uncomment this
+   return;
+}
+
+void Tree::start_destruct_timer()
+{
+   //destruct_countdown_showing = true;
+   destruct_countdown_timer.reset();
+   destruct_countdown_timer.start();
+   //destruct_sequence_started = true;
+   //destruct_sequence_started_at = al_get_time();
+   destruct_countdown_started = true;
+   return;
+}
+
+int Tree::get_countdown_time_now_msec()
+{
+   if (!destruct_countdown_started) return destruct_countdown_duration_msec;
+   return std::max(0, destruct_countdown_duration_msec - destruct_countdown_timer.get_elapsed_time_milliseconds());
 }
 
 void Tree::initialize()
@@ -399,6 +543,7 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
       if (!primary_power_coil_collected)
       {
          retrieve_primary_power_coil();
+         start_destruct_sequence();
          //retrieve_coil
 
          //primary_power_coil_collected = true;
@@ -995,6 +1140,12 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
 ALLEGRO_FONT* Tree::obtain_hud_font()
 {
    return font_bin->auto_get("Oswald-Medium.ttf -52");
+}
+
+ALLEGRO_FONT* Tree::obtain_countdown_font()
+{
+   return font_bin->auto_get("Michroma-Regular.ttf -82");
+   //return font_bin->auto_get("Orbitron-Medium.ttf -82");
 }
 
 

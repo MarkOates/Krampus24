@@ -388,6 +388,12 @@
   "AllegroFlare/php/file_get_contents": [
     "Krampus24/Game/Scripting/Tree"
   ],
+  "AllegroFlare/Timer": [
+    "Krampus24/Game/Scripting/Tree"
+  ],
+  "AllegroFlare/TimerFormatter": [
+    "Krampus24/Game/Scripting/Tree"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],

@@ -42,6 +42,12 @@ void ScriptingInterface::render_hud()
    return;
 }
 
+void ScriptingInterface::update_step(double time_now, double delta_time)
+{
+   // Override in the derived class
+   return;
+}
+
 bool ScriptingInterface::end_state_achieved()
 {
    return false;

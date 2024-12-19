@@ -903,6 +903,30 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">destruct_countdown_showing</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destruct_sequence_started</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destruct_sequence_started_at</td>
+  <td class="property">float</td>
+</tr>
+<tr>
+  <td class="property">destruct_countdown_started</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">destruct_countdown_duration_msec</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">destruct_countdown_timer</td>
+  <td class="property">AllegroFlare::Timer</td>
+</tr>
+<tr>
   <td class="property">collision_observer</td>
   <td class="property">AllegroFlare::CollisionObservers::Simple*</td>
 </tr>
@@ -923,6 +947,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>update_step</b>(double time_now=0.0f, double delta_time=1.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>render_hud</b>()</td>
 </tr>
 <tr>
@@ -936,6 +964,18 @@ table td
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Base*</td>
   <td class="method"><b>find_0th_entity</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>start_destruct_sequence</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>start_destruct_timer</b>()</td>
+</tr>
+<tr>
+  <td class="method">int</td>
+  <td class="method"><b>get_countdown_time_now_msec</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1045,6 +1085,10 @@ table td
   <td class="method">ALLEGRO_FONT*</td>
   <td class="method"><b>obtain_hud_font</b>()</td>
 </tr>
+<tr>
+  <td class="method">ALLEGRO_FONT*</td>
+  <td class="method"><b>obtain_countdown_font</b>()</td>
+</tr>
     </table>
 </div>    <h3>Dependencies</h3>
 <div class="property-box dependencies">     <table>
@@ -1131,6 +1175,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Timer&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Timer.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::TimerFormatter&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/TimerFormatter.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -5022,6 +5072,10 @@ table td
   <td class="method"><b>render_hud</b>()</td>
 </tr>
 <tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_step</b>(double time_now=0.0f, double delta_time=1.0f)</td>
+</tr>
+<tr>
   <td class="method">bool</td>
   <td class="method"><b>end_state_achieved</b>()</td>
 </tr>
@@ -5720,6 +5774,12 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/php/file_get_contents": [
+    "Krampus24/Game/Scripting/Tree"
+  ],
+  "AllegroFlare/Timer": [
+    "Krampus24/Game/Scripting/Tree"
+  ],
+  "AllegroFlare/TimerFormatter": [
     "Krampus24/Game/Scripting/Tree"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [

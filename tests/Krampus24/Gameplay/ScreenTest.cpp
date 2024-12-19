@@ -196,3 +196,35 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
 
       live_camera = target_camera;
 */
+
+
+
+/*
+   AllegroFlare::Camera2D hud_camera;
+   AllegroFlare::Camera3D live_camera;
+      AllegroFlare::Camera3D target_camera;
+      if (false)
+      { // First person
+         target_camera.stepout = AllegroFlare::Vec3D(0, 1.75, 0);
+         target_camera.tilt = 0.0;
+      }
+      if (false)
+      { // Third person
+         target_camera.stepout = AllegroFlare::Vec3D(0, 1.75, 8);
+         target_camera.tilt = 0.3;
+      }
+      if (false)
+      { // Top down
+         target_camera.stepout = AllegroFlare::Vec3D(0, 0, 10);
+         target_camera.tilt = 0.98;
+      }
+      if (true)
+      { // Gobal birds eye
+         target_camera.stepout = AllegroFlare::Vec3D(0, 0, 20);
+         target_camera.tilt = 0.98;
+      }
+
+      live_camera = target_camera;
+*/
+
+

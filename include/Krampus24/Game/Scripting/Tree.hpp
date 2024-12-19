@@ -8,6 +8,7 @@
 #include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/FontBin.hpp>
 #include <AllegroFlare/GameEvent.hpp>
+#include <AllegroFlare/Timer.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/PowerCoil.hpp>
@@ -38,6 +39,12 @@ namespace Krampus24
             std::string arbitrary_storyboard_screen_identifier_to_start;
             bool primary_power_coil_collected;
             bool primary_power_coil_returned_to_ship;
+            bool destruct_countdown_showing;
+            bool destruct_sequence_started;
+            float destruct_sequence_started_at;
+            bool destruct_countdown_started;
+            int destruct_countdown_duration_msec;
+            AllegroFlare::Timer destruct_countdown_timer;
             AllegroFlare::CollisionObservers::Simple* collision_observer;
             bool initialized;
             void build_on_collision_callbacks();
@@ -57,17 +64,33 @@ namespace Krampus24
             void set_arbitrary_storyboard_screen_identifier_to_start(std::string arbitrary_storyboard_screen_identifier_to_start);
             void set_primary_power_coil_collected(bool primary_power_coil_collected);
             void set_primary_power_coil_returned_to_ship(bool primary_power_coil_returned_to_ship);
+            void set_destruct_countdown_showing(bool destruct_countdown_showing);
+            void set_destruct_sequence_started(bool destruct_sequence_started);
+            void set_destruct_sequence_started_at(float destruct_sequence_started_at);
+            void set_destruct_countdown_started(bool destruct_countdown_started);
+            void set_destruct_countdown_duration_msec(int destruct_countdown_duration_msec);
+            void set_destruct_countdown_timer(AllegroFlare::Timer destruct_countdown_timer);
             void set_collision_observer(AllegroFlare::CollisionObservers::Simple* collision_observer);
             std::string get_data_folder_path() const;
             std::string get_arbitrary_storyboard_screen_identifier_to_start() const;
             bool get_primary_power_coil_collected() const;
             bool get_primary_power_coil_returned_to_ship() const;
+            bool get_destruct_countdown_showing() const;
+            bool get_destruct_sequence_started() const;
+            float get_destruct_sequence_started_at() const;
+            bool get_destruct_countdown_started() const;
+            int get_destruct_countdown_duration_msec() const;
+            AllegroFlare::Timer get_destruct_countdown_timer() const;
             bool get_initialized() const;
             virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
+            virtual void update_step(double time_now=0.0f, double delta_time=1.0f) override;
             virtual void render_hud() override;
             virtual bool end_state_achieved() override;
             bool a_0th_entity_exists();
             Krampus24::Gameplay::Entities::Base* find_0th_entity();
+            void start_destruct_sequence();
+            void start_destruct_timer();
+            int get_countdown_time_now_msec();
             void initialize();
             std::pair<int, std::string> get_entities_names_in_list();
             bool entity_with_name_exists(std::string name="[unset-name]");
@@ -94,6 +117,7 @@ namespace Krampus24
             std::vector<AllegroFlare::Elements::StoryboardPages::Base*> build_storyboard_text_from_file(std::string filename={});
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]") override;
             ALLEGRO_FONT* obtain_hud_font();
+            ALLEGRO_FONT* obtain_countdown_font();
          };
       }
    }

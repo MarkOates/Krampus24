@@ -28,6 +28,20 @@ methods:
       return;
 
 
+  - name: update_step
+    virtual: true
+    parameters:
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+      - name: delta_time
+        type: double
+        default_argument: 1.0f
+    body: |
+      // Override in the derived class
+      return;
+
+
   - name: end_state_achieved
     type: bool
     virtual: true
