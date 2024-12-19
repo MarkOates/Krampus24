@@ -720,6 +720,7 @@ void Screen::load_or_reload_meshes()
 
    // Load up the sound effects // DEVELOPMENT
    // TODO: Move this to another more appropriate location
+   /*
    audio_controller->set_and_load_sound_effect_elements(
       Krampus24::Game::Scripting::Tree().build_audio_controller_sound_effect_list()
    );
@@ -727,6 +728,7 @@ void Screen::load_or_reload_meshes()
    audio_controller->set_and_load_music_track_elements(
       Krampus24::Game::Scripting::Tree().build_audio_controller_music_track_list()
    );
+   */
 
 
 

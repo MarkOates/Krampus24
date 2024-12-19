@@ -123,6 +123,11 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
 
    result->initialize();
 
+
+   // TODO: Determine if this is this the right spot for this
+   runner->get_event_emitter()->emit_play_music_track_event("opening");
+
+
    primary_gameplay_screen = result;
 
    return result;
