@@ -399,6 +399,18 @@ methods:
       return;
 
 
+  - name: snap_to_top
+    body: |
+      set_state(STATE_AT_TOP);
+      return;
+
+
+  - name: snap_to_bottom
+    body: |
+      set_state(STATE_AT_BOTTOM);
+      return;
+
+
   - name: set_style
     parameters:
       - name: style

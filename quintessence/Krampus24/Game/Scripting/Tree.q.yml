@@ -374,6 +374,42 @@ methods:
       - Krampus24::Gameplay::Entities::ElevatorShaft
 
 
+  - name: snap_elevator_shaft_to_bottom
+    parameters:
+      - name: elevator_shaft_name
+        type: std::string
+        default_argument: '"[unset-elevator_shaft_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* e = find_entity_by_name_or_throw(elevator_shaft_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::ElevatorShaft*>(e);
+      as->snap_to_bottom();
+      //as->set_num_tiers(num_tiers);
+      return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::ElevatorShaft
+
+
+  - name: snap_elevator_shaft_to_top
+    parameters:
+      - name: elevator_shaft_name
+        type: std::string
+        default_argument: '"[unset-elevator_shaft_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* e = find_entity_by_name_or_throw(elevator_shaft_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::ElevatorShaft*>(e);
+      as->snap_to_top();
+      //as->set_num_tiers(num_tiers);
+      return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::ElevatorShaft
+
+
   - name: customize_door_style
     parameters:
       - name: door_object_name
@@ -527,7 +563,7 @@ methods:
       lock_mega_door("mega_door.001"); // Major door on the first floor
 
 
-      set_elevator_shaft_num_tiers("elevator_shaft-01", 6);
+      set_elevator_shaft_num_tiers("elevator_shaft.001", 6);
 
       // Link the elevators
       //link_elevators("elevator-01", "elevator-02");
@@ -537,6 +573,41 @@ methods:
       //link_elevators("elevator-09", "elevator-10");
 
       on_entity_collision_callbacks = {
+         { find_entity_by_name_or_throw("door.001"), [this](){
+            snap_elevator_shaft_to_bottom("elevator_shaft.001");
+         }},
+         { find_entity_by_name_or_throw("door.002"), [this](){
+            snap_elevator_shaft_to_top("elevator_shaft.001");
+         }},
+
+         { find_entity_by_name_or_throw("door.003"), [this](){
+            snap_elevator_shaft_to_bottom("elevator_shaft.005");
+         }},
+         { find_entity_by_name_or_throw("door.004"), [this](){
+            snap_elevator_shaft_to_top("elevator_shaft.005");
+         }},
+
+         { find_entity_by_name_or_throw("door.005"), [this](){
+            snap_elevator_shaft_to_bottom("elevator_shaft.002");
+         }},
+         { find_entity_by_name_or_throw("door.007"), [this](){
+            snap_elevator_shaft_to_top("elevator_shaft.002");
+         }},
+
+         { find_entity_by_name_or_throw("door.006"), [this](){
+            snap_elevator_shaft_to_bottom("elevator_shaft.003");
+         }},
+         { find_entity_by_name_or_throw("door.009"), [this](){
+            snap_elevator_shaft_to_top("elevator_shaft.003");
+         }},
+
+         { find_entity_by_name_or_throw("sliding_door.002"), [this](){
+            snap_elevator_shaft_to_bottom("elevator_shaft.004");
+         }},
+         { find_entity_by_name_or_throw("sliding_door.003"), [this](){
+            snap_elevator_shaft_to_top("elevator_shaft.004");
+         }},
+
          //{ find_entity_by_name_or_throw("hen-01"), [this](){
             //travel_player_to_elevators_target("elevator-01");
          //}},

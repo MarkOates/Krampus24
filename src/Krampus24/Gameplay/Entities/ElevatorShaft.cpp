@@ -331,6 +331,18 @@ void ElevatorShaft::unlock()
    return;
 }
 
+void ElevatorShaft::snap_to_top()
+{
+   set_state(STATE_AT_TOP);
+   return;
+}
+
+void ElevatorShaft::snap_to_bottom()
+{
+   set_state(STATE_AT_BOTTOM);
+   return;
+}
+
 void ElevatorShaft::set_style(Krampus24::Gameplay::Entities::ElevatorShaft::Style style)
 {
    this->style = style;
