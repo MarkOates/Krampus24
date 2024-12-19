@@ -257,7 +257,7 @@ std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_co
 std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_controller_music_track_list()
 {
    std::map<std::string, AllegroFlare::AudioRepositoryElement> elements = {
-      { "opening", { "opening-b-04.ogg", false, "true" } },
+      { "opening", { "opening-b-05.ogg", false, "true" } },
       { "escape", { "escape-01.ogg", true, "none" } },
    };
    return elements;

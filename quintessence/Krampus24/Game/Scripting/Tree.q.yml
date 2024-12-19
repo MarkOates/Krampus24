@@ -156,7 +156,7 @@ methods:
     type: std::map<std::string, AllegroFlare::AudioRepositoryElement>
     body: |
       std::map<std::string, AllegroFlare::AudioRepositoryElement> elements = {
-         { "opening", { "opening-b-04.ogg", false, "true" } },
+         { "opening", { "opening-b-05.ogg", false, "true" } },
          { "escape", { "escape-01.ogg", true, "none" } },
       };
       return elements;
