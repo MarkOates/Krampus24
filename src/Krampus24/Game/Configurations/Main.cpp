@@ -484,8 +484,8 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Main::create_new_ga
    std::vector<AllegroFlare::Elements::StoryboardPages::Base *> result =
    {
       create_storyboard_page__text(font_bin,
-        "Mission Log [Recording live]:\n\nI'm in route to the derelect space station TR-33 and should be docking "
-           "there in under a minute.\n\n"
+        "Mission Log [Recording live]:\n\nI'm on route to the derelect space station TR-33 and will be docking "
+           "in one minute.\n\n"
       ),
       create_storyboard_page__text(font_bin,
         "Nobody seems to know what happened at the station, but "
