@@ -1017,7 +1017,11 @@ void Screen::interact_with_focused_inspectable_object()
       bool scripting_scoped_inspection_occurred = false;
       //if (!entity_scoped_inspection_occurred) // TODO: Consider if a guard here is desired or not
       {
-         scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+         if (scripting)
+         {
+            // NOTE: No scripting here
+            scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+         }
       }
 
       // If no inspection happened, play a "no inspection sound"
@@ -1415,7 +1419,7 @@ void Screen::update()
    // Evaluate win condition
    //
 
-   if (scripting->end_state_achieved())
+   if (scripting && scripting->end_state_achieved())
    {
       call_on_finished_callback_func();
    }
@@ -1753,6 +1757,13 @@ void Screen::primary_render_func()
 
 void Screen::unlock_all_doors()
 {
+   if (!(scripting))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Screen::unlock_all_doors]: error: guard \"scripting\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Screen::unlock_all_doors]: error: guard \"scripting\" not met");
+   }
    auto as = static_cast<Krampus24::Game::Scripting::Tree*>(scripting);
    as->unlock_mega_door("mega_door.001");
    as->unlock_door("door.003");

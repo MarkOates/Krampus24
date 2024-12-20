@@ -826,7 +826,11 @@ methods:
          bool scripting_scoped_inspection_occurred = false;
          //if (!entity_scoped_inspection_occurred) // TODO: Consider if a guard here is desired or not
          {
-            scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+            if (scripting)
+            {
+               // NOTE: No scripting here
+               scripting->interact_with_focused_object(inspectable_entity_that_player_is_currently_colliding_with);
+            }
          }
 
          // If no inspection happened, play a "no inspection sound"
@@ -1264,7 +1268,7 @@ methods:
       // Evaluate win condition
       //
 
-      if (scripting->end_state_achieved())
+      if (scripting && scripting->end_state_achieved())
       {
          call_on_finished_callback_func();
       }
@@ -1622,6 +1626,7 @@ methods:
 
 
   - name: unlock_all_doors
+    guards: [ scripting ]
     body: |
       auto as = static_cast<Krampus24::Game::Scripting::Tree*>(scripting);
       as->unlock_mega_door("mega_door.001");
