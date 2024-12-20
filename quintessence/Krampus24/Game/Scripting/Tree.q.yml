@@ -195,6 +195,7 @@ methods:
 
 
   - name: draw_message_roll
+    guards: [ initialized ]
     body: |
       if (message_roll.empty()) return;
 
@@ -226,6 +227,8 @@ methods:
 
 
   - name: draw_inspect_hint
+    virtual: true
+    override: true
     parameters:
       - name: inspect_hint_text
         type: std::string

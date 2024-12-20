@@ -1605,7 +1605,7 @@ void Screen::render()
       {
          if (scripting)
          {
-            get_scripting_as()->draw_inspect_hint(inspect_hint_text);
+            scripting->draw_inspect_hint(inspect_hint_text);
          }
 
          // TODO: Consider moving inspect hint to Scripting

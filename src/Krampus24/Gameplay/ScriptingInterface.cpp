@@ -64,6 +64,12 @@ void ScriptingInterface::render_hud()
    return;
 }
 
+void ScriptingInterface::draw_inspect_hint(std::string inspect_hint_text)
+{
+   // TODO: Consider moving all this inspect hint logic into the scripting interface
+   return;
+}
+
 void ScriptingInterface::update_step(double time_now, double delta_time)
 {
    // Override in the derived class

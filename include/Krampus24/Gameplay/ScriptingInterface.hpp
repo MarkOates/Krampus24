@@ -32,6 +32,7 @@ namespace Krampus24
          virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list();
          virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_music_track_list();
          virtual void render_hud();
+         virtual void draw_inspect_hint(std::string inspect_hint_text="[unset-inspect_hint_text]");
          virtual void update_step(double time_now=0.0f, double delta_time=1.0f);
          virtual bool end_state_achieved();
          virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank();

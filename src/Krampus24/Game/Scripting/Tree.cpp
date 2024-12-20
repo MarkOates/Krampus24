@@ -298,6 +298,13 @@ void Tree::add_locked_message_to_message_roll()
 
 void Tree::draw_message_roll()
 {
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::draw_message_roll]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::draw_message_roll]: error: guard \"initialized\" not met");
+   }
    if (message_roll.empty()) return;
 
    float time_now = al_get_time();

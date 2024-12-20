@@ -54,6 +54,17 @@ methods:
       return;
 
 
+  - name: draw_inspect_hint
+    virtual: true
+    parameters:
+      - name: inspect_hint_text
+        type: std::string
+        default_argument: '"[unset-inspect_hint_text]"'
+    body: |
+      // TODO: Consider moving all this inspect hint logic into the scripting interface
+      return;
+
+
   - name: update_step
     virtual: true
     parameters:
