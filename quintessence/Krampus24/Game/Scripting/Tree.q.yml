@@ -107,7 +107,7 @@ properties:
     setter: before_initialized
 
   - name: message_roll
-    type: std::vector<std::string>
+    type: std::vector<std::pair<std::string, ALLEGRO_COLOR>>
     init_with: '{}'
 
   - name: message_roll_last_updated_at
@@ -179,8 +179,11 @@ methods:
       - name: message_text
         type: std::string
         default_argument: '"[unset-message_text]"'
+      - name: color
+        type: ALLEGRO_COLOR
+        default_argument: 'ALLEGRO_COLOR{0.94, 0.97, 1.0, 1.0}'
     body: |
-      message_roll.push_back(message_text);
+      message_roll.push_back(std::pair<std::string, ALLEGRO_COLOR>(message_text, color));
       message_roll_last_updated_at = al_get_time();
       return;
 
@@ -194,23 +197,64 @@ methods:
       if (age < message_roll_message_duration)
       {
          //destruct_countdown_timer
-         ALLEGRO_FONT *font = obtain_player_ui_font();
-         ALLEGRO_COLOR ui_color = al_color_name("aliceblue");
+         std::string text = message_roll.back().first;
+         ALLEGRO_COLOR color = message_roll.back().second;
 
+         ALLEGRO_FONT *font = obtain_player_ui_font();
+         //ALLEGRO_COLOR ui_color = al_color_name("aliceblue");
          float o = 0.75f;
 
          al_draw_multiline_textf(
             font,
-            ALLEGRO_COLOR{ui_color.r*o, ui_color.g*o, ui_color.b*o, 1.0f*o},
+            ALLEGRO_COLOR{color.r*o, color.g*o, color.b*o, 1.0f*o},
             1920/2,
             1080/6*4,
             1920,
             al_get_font_line_height(font),
             ALLEGRO_ALIGN_CENTER,
             "%s",
-            u(message_roll.back()).c_str()
+            u(text).c_str()
          );
       }
+      return;
+
+
+  - name: draw_inspect_hint
+    parameters:
+      - name: inspect_hint_text
+        type: std::string
+        default_argument: '"[unset-inspect_hint_text]"'
+    body: |
+      ALLEGRO_FONT *font = obtain_player_ui_font();
+      ALLEGRO_COLOR ui_color = al_color_name("aliceblue");
+      float o = 0.75f;
+
+
+         al_draw_multiline_textf(
+            font,
+            ALLEGRO_COLOR{ui_color.r*o, ui_color.g*o, ui_color.b*o, 1.0f*o},
+            1920/2,
+            1080/6*5,
+            1920,
+            al_get_font_line_height(font),
+            ALLEGRO_ALIGN_CENTER,
+            "E  %s",
+            u(inspect_hint_text).c_str()
+            //"%e",
+            //u(message_roll.back()).c_str()
+         );
+
+
+      //al_draw_multiline_textf(
+      //al_draw_textf(
+         //font
+         //ALLEGRO_COLOR{ui_color.r*o, ui_color.g*o, ui_color.b*o, 1.0f*o},
+         //1920/2,
+         //1080/6 * 5,
+         //ALLEGRO_ALIGN_CENTER,
+         //"[E] %s",
+         //inspect_hint_text.c_str()
+      //);
       return;
 
 
@@ -497,8 +541,22 @@ methods:
          {
             add_message_to_message_roll("locked");
          }
-         //spawn_arbitrary_storyboard_screen("tablet_in_zoo");
       }
+      else if (name == "mega_door.001")
+      {
+         if (mega_door_is_locked(name))
+         {
+            add_message_to_message_roll("locked");
+         }
+      }
+      //else if (name == "mega_door.001")
+      //{
+         //if (mega_door_is_locked(name))
+         //{
+            //add_message_to_message_roll("locked");
+         //}
+         //spawn_arbitrary_storyboard_screen("tablet_in_zoo");
+      //}
       else if (name == "tablet.001")
       {
          spawn_arbitrary_storyboard_screen("tablet_in_zoo");
@@ -725,6 +783,24 @@ methods:
       return;
     body_dependency_symbols:
       - Krampus24::Gameplay::Entities::SlidingDoor
+
+
+  - name: mega_door_is_locked
+    type: bool
+    parameters:
+      - name: mega_door_object_name
+        type: std::string
+        default_argument: '"[unset-mega_door_object_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(mega_door_object_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::MegaDoor*>(door);
+      return as->get_locked();
+      //return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::MegaDoor
 
 
   - name: lock_mega_door
@@ -1339,5 +1415,7 @@ dependencies:
     headers: [ AllegroFlare/TimerFormatter.hpp ]
   - symbol: AllegroFlare::AudioRepositoryElement
     headers: [ AllegroFlare/AudioRepositoryElement.hpp ]
+  - symbol: ALLEGRO_COLOR
+    headers: [ allegro5/allegro.h ]
 
 

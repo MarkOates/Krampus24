@@ -14,6 +14,7 @@
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/PowerCoil.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
+#include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <map>
 #include <string>
@@ -50,7 +51,7 @@ namespace Krampus24
             bool destruct_sequence_running;
             bool destruct_sequence_completed;
             AllegroFlare::CollisionObservers::Simple* collision_observer;
-            std::vector<std::string> message_roll;
+            std::vector<std::pair<std::string, ALLEGRO_COLOR>> message_roll;
             float message_roll_last_updated_at;
             float message_roll_message_duration;
             bool initialized;
@@ -95,8 +96,9 @@ namespace Krampus24
             bool get_initialized() const;
             virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list() override;
-            void add_message_to_message_roll(std::string message_text="[unset-message_text]");
+            void add_message_to_message_roll(std::string message_text="[unset-message_text]", ALLEGRO_COLOR color=ALLEGRO_COLOR{0.94, 0.97, 1.0, 1.0});
             void draw_message_roll();
+            void draw_inspect_hint(std::string inspect_hint_text="[unset-inspect_hint_text]");
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_music_track_list() override;
             virtual void update_step(double time_now=0.0f, double delta_time=1.0f) override;
             void end_destruct_sequence();
@@ -123,6 +125,7 @@ namespace Krampus24
             bool sliding_door_is_locked(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void unlock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
+            bool mega_door_is_locked(std::string mega_door_object_name="[unset-mega_door_object_name]");
             void lock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");
             void unlock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");
             void lock_door(std::string door_object_name="[unset-door_object_name]");

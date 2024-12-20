@@ -409,6 +409,13 @@
     "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
   ],
+  "ALLEGRO_COLOR": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Shaders/AllegroDefault",
+    "Krampus24/Shaders/Fog",
+    "Krampus24/Shaders/Principled"
+  ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
   ],
@@ -446,12 +453,6 @@
   "AllegroFlare/PlayerInputControllers/Base": [
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
-  ],
-  "ALLEGRO_COLOR": [
-    "Krampus24/Gameplay/Entities/Base",
-    "Krampus24/Shaders/AllegroDefault",
-    "Krampus24/Shaders/Fog",
-    "Krampus24/Shaders/Principled"
   ],
   "ALLEGRO_VERTEX": [
     "Krampus24/Gameplay/Entities/Base"

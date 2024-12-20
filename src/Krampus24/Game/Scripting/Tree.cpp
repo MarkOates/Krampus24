@@ -283,9 +283,9 @@ std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_co
    return {};
 }
 
-void Tree::add_message_to_message_roll(std::string message_text)
+void Tree::add_message_to_message_roll(std::string message_text, ALLEGRO_COLOR color)
 {
-   message_roll.push_back(message_text);
+   message_roll.push_back(std::pair<std::string, ALLEGRO_COLOR>(message_text, color));
    message_roll_last_updated_at = al_get_time();
    return;
 }
@@ -299,23 +299,60 @@ void Tree::draw_message_roll()
    if (age < message_roll_message_duration)
    {
       //destruct_countdown_timer
-      ALLEGRO_FONT *font = obtain_player_ui_font();
-      ALLEGRO_COLOR ui_color = al_color_name("aliceblue");
+      std::string text = message_roll.back().first;
+      ALLEGRO_COLOR color = message_roll.back().second;
 
+      ALLEGRO_FONT *font = obtain_player_ui_font();
+      //ALLEGRO_COLOR ui_color = al_color_name("aliceblue");
       float o = 0.75f;
 
       al_draw_multiline_textf(
          font,
-         ALLEGRO_COLOR{ui_color.r*o, ui_color.g*o, ui_color.b*o, 1.0f*o},
+         ALLEGRO_COLOR{color.r*o, color.g*o, color.b*o, 1.0f*o},
          1920/2,
          1080/6*4,
          1920,
          al_get_font_line_height(font),
          ALLEGRO_ALIGN_CENTER,
          "%s",
-         u(message_roll.back()).c_str()
+         u(text).c_str()
       );
    }
+   return;
+}
+
+void Tree::draw_inspect_hint(std::string inspect_hint_text)
+{
+   ALLEGRO_FONT *font = obtain_player_ui_font();
+   ALLEGRO_COLOR ui_color = al_color_name("aliceblue");
+   float o = 0.75f;
+
+
+      al_draw_multiline_textf(
+         font,
+         ALLEGRO_COLOR{ui_color.r*o, ui_color.g*o, ui_color.b*o, 1.0f*o},
+         1920/2,
+         1080/6*5,
+         1920,
+         al_get_font_line_height(font),
+         ALLEGRO_ALIGN_CENTER,
+         "E  %s",
+         u(inspect_hint_text).c_str()
+         //"%e",
+         //u(message_roll.back()).c_str()
+      );
+
+
+   //al_draw_multiline_textf(
+   //al_draw_textf(
+      //font
+      //ALLEGRO_COLOR{ui_color.r*o, ui_color.g*o, ui_color.b*o, 1.0f*o},
+      //1920/2,
+      //1080/6 * 5,
+      //ALLEGRO_ALIGN_CENTER,
+      //"[E] %s",
+      //inspect_hint_text.c_str()
+   //);
    return;
 }
 
@@ -628,8 +665,22 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
       {
          add_message_to_message_roll("locked");
       }
-      //spawn_arbitrary_storyboard_screen("tablet_in_zoo");
    }
+   else if (name == "mega_door.001")
+   {
+      if (mega_door_is_locked(name))
+      {
+         add_message_to_message_roll("locked");
+      }
+   }
+   //else if (name == "mega_door.001")
+   //{
+      //if (mega_door_is_locked(name))
+      //{
+         //add_message_to_message_roll("locked");
+      //}
+      //spawn_arbitrary_storyboard_screen("tablet_in_zoo");
+   //}
    else if (name == "tablet.001")
    {
       spawn_arbitrary_storyboard_screen("tablet_in_zoo");
@@ -801,6 +852,17 @@ void Tree::unlock_sliding_door(std::string sliding_door_object_name)
    auto as = static_cast<Krampus24::Gameplay::Entities::SlidingDoor*>(door);
    as->unlock();
    return;
+}
+
+bool Tree::mega_door_is_locked(std::string mega_door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(mega_door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::MegaDoor*>(door);
+   return as->get_locked();
+   //return;
 }
 
 void Tree::lock_mega_door(std::string mega_door_object_name)

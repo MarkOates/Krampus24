@@ -55,6 +55,12 @@ MegaDoor::~MegaDoor()
 }
 
 
+bool MegaDoor::get_locked() const
+{
+   return locked;
+}
+
+
 uint32_t MegaDoor::get_state() const
 {
    return state;
@@ -180,10 +186,11 @@ std::vector<Krampus24::Gameplay::Entities::Base*> MegaDoor::construct(AllegroFla
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 10.0, 10.0, 10.0 };
+   result->placement.size = { 10.0, 4.0, 10.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
+   result->player_can_inspect_or_use = true;
    result->placement.rotation.y = rotation;
 
    // Left door
@@ -257,6 +264,7 @@ void MegaDoor::lock()
 void MegaDoor::unlock()
 {
    locked = false;
+   player_can_inspect_or_use = false;
    return;
 }
 

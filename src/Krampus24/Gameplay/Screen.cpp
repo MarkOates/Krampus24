@@ -1599,6 +1599,13 @@ void Screen::render()
    {
       if (showing_inspect_hint)
       {
+         if (scripting)
+         {
+            get_scripting_as()->draw_inspect_hint(inspect_hint_text);
+         }
+
+         // TODO: Consider moving inspect hint to Scripting
+         /*
          float o = 0.8;
          al_draw_textf(
             obtain_gameplay_hud_font(),
@@ -1609,7 +1616,7 @@ void Screen::render()
             "[E] %s",
             inspect_hint_text.c_str()
          );
-
+         */
       }
 
 
@@ -1619,7 +1626,7 @@ void Screen::render()
          
          ALLEGRO_FONT *font = obtain_location_font();
          ALLEGRO_FONT *floor_font = obtain_location_floor_font();
-         float y = 1080/5 * 4;
+         float y = 1080/5 * 4 - 36;
          al_draw_textf(
             font,
             ALLEGRO_COLOR{1.0, 1.0, 1.0, 1.0},
