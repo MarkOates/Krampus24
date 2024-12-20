@@ -50,6 +50,9 @@ namespace Krampus24
             bool destruct_sequence_running;
             bool destruct_sequence_completed;
             AllegroFlare::CollisionObservers::Simple* collision_observer;
+            std::vector<std::string> message_roll;
+            float message_roll_last_updated_at;
+            float message_roll_message_duration;
             bool initialized;
             void build_on_collision_callbacks();
 
@@ -92,6 +95,8 @@ namespace Krampus24
             bool get_initialized() const;
             virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list() override;
+            void add_message_to_message_roll(std::string message_text="[unset-message_text]");
+            void draw_message_roll();
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_music_track_list() override;
             virtual void update_step(double time_now=0.0f, double delta_time=1.0f) override;
             void end_destruct_sequence();
@@ -128,6 +133,7 @@ namespace Krampus24
             std::vector<AllegroFlare::Elements::StoryboardPages::Base*> build_storyboard_text_from_file(std::string filename={});
             virtual std::vector<AllegroFlare::Elements::StoryboardPages::Base *> create_arbitrary_storyboard_pages_by_identifier(std::string identifier="[unset-identifier]") override;
             ALLEGRO_FONT* obtain_hud_font();
+            ALLEGRO_FONT* obtain_player_ui_font();
             ALLEGRO_FONT* obtain_countdown_font();
          };
       }

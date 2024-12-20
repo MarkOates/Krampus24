@@ -47,6 +47,9 @@ Tree::Tree()
    , destruct_sequence_running(false)
    , destruct_sequence_completed(false)
    , collision_observer(nullptr)
+   , message_roll({})
+   , message_roll_last_updated_at(0.0f)
+   , message_roll_message_duration(3.0f)
    , initialized(false)
 {
 }
@@ -280,6 +283,42 @@ std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_co
    return {};
 }
 
+void Tree::add_message_to_message_roll(std::string message_text)
+{
+   message_roll.push_back(message_text);
+   message_roll_last_updated_at = al_get_time();
+   return;
+}
+
+void Tree::draw_message_roll()
+{
+   if (message_roll.empty()) return;
+
+   float time_now = al_get_time();
+   float age = time_now - message_roll_last_updated_at;
+   if (age < message_roll_message_duration)
+   {
+      //destruct_countdown_timer
+      ALLEGRO_FONT *font = obtain_player_ui_font();
+      ALLEGRO_COLOR ui_color = al_color_name("aliceblue");
+
+      float o = 0.75f;
+
+      al_draw_multiline_textf(
+         font,
+         ALLEGRO_COLOR{ui_color.r*o, ui_color.g*o, ui_color.b*o, 1.0f*o},
+         1920/2,
+         1080/6*4,
+         1920,
+         al_get_font_line_height(font),
+         ALLEGRO_ALIGN_CENTER,
+         "%s",
+         u(message_roll.back()).c_str()
+      );
+   }
+   return;
+}
+
 std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_controller_music_track_list()
 {
    std::map<std::string, AllegroFlare::AudioRepositoryElement> elements = {
@@ -320,6 +359,7 @@ void Tree::render_hud()
    //if (!destruct_countdown_started) start_countdown_timer(); // DEVELOPMENT
 
 
+   /*
    if (primary_power_coil_collected)
    {
       al_draw_textf(
@@ -331,6 +371,10 @@ void Tree::render_hud()
          "PRIMARY POWER COIL COLLECTED"
       );
    }
+   */
+
+   draw_message_roll();
+
    //destruct_countdown_showing = true;
    if (destruct_countdown_showing)
    {
@@ -570,10 +614,14 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
 
    auto &name = inspectable_entity_that_player_is_currently_colliding_with->name;
 
-   if (name == "sliding_door.001")
+   if (name == "")
    {
-      event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
+      // Throw?
    }
+   //else if (name == "sliding_door.001")
+   //{
+      //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
+   //}
    else if (name == "tablet.001")
    {
       spawn_arbitrary_storyboard_screen("tablet_in_zoo");
@@ -1212,6 +1260,11 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
 ALLEGRO_FONT* Tree::obtain_hud_font()
 {
    return font_bin->auto_get("Oswald-Medium.ttf -52");
+}
+
+ALLEGRO_FONT* Tree::obtain_player_ui_font()
+{
+   return font_bin->auto_get("Exan-Regular.ttf -42");
 }
 
 ALLEGRO_FONT* Tree::obtain_countdown_font()
