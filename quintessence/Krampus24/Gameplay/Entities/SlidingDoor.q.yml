@@ -41,6 +41,7 @@ properties:
   - name: locked
     type: bool
     init_with: false
+    getter: true
 
   - name: dynamic_collision_mesh_face_names
     type: std::vector<std::string>

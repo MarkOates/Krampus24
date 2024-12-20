@@ -622,6 +622,14 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    //{
       //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    //}
+   else if (name == "sliding_door.001" || name == "sliding_door.002" || name == "sliding_door.003")
+   {
+      if (sliding_door_is_locked(name))
+      {
+         add_message_to_message_roll("locked");
+      }
+      //spawn_arbitrary_storyboard_screen("tablet_in_zoo");
+   }
    else if (name == "tablet.001")
    {
       spawn_arbitrary_storyboard_screen("tablet_in_zoo");
@@ -760,6 +768,17 @@ void Tree::customize_door_style(std::string door_object_name, Krampus24::Gamepla
    auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
    as->set_style(door_style);
    return;
+}
+
+bool Tree::sliding_door_is_locked(std::string sliding_door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(sliding_door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::SlidingDoor*>(door);
+   return as->get_locked();
+   //return;
 }
 
 void Tree::lock_sliding_door(std::string sliding_door_object_name)

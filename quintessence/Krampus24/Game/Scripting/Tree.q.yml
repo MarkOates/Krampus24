@@ -491,6 +491,14 @@ methods:
       //{
          //event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
       //}
+      else if (name == "sliding_door.001" || name == "sliding_door.002" || name == "sliding_door.003")
+      {
+         if (sliding_door_is_locked(name))
+         {
+            add_message_to_message_roll("locked");
+         }
+         //spawn_arbitrary_storyboard_screen("tablet_in_zoo");
+      }
       else if (name == "tablet.001")
       {
          spawn_arbitrary_storyboard_screen("tablet_in_zoo");
@@ -665,6 +673,24 @@ methods:
       auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
       as->set_style(door_style);
       return;
+
+
+  - name: sliding_door_is_locked
+    type: bool
+    parameters:
+      - name: sliding_door_object_name
+        type: std::string
+        default_argument: '"[unset-sliding_door_object_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(sliding_door_object_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::SlidingDoor*>(door);
+      return as->get_locked();
+      //return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::SlidingDoor
 
 
   - name: lock_sliding_door

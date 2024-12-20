@@ -120,6 +120,7 @@ namespace Krampus24
             void snap_elevator_shaft_to_bottom(std::string elevator_shaft_name="[unset-elevator_shaft_name]");
             void snap_elevator_shaft_to_top(std::string elevator_shaft_name="[unset-elevator_shaft_name]");
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
+            bool sliding_door_is_locked(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void unlock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void lock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");

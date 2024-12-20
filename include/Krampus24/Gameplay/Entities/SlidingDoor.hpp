@@ -74,6 +74,7 @@ namespace Krampus24
             SlidingDoor();
             virtual ~SlidingDoor();
 
+            bool get_locked() const;
             uint32_t get_state() const;
             Krampus24::Gameplay::Entities::SlidingDoor::Style get_style() const;
             float get_uv_offset_x() const;

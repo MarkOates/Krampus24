@@ -55,6 +55,12 @@ SlidingDoor::~SlidingDoor()
 }
 
 
+bool SlidingDoor::get_locked() const
+{
+   return locked;
+}
+
+
 uint32_t SlidingDoor::get_state() const
 {
    return state;
