@@ -108,7 +108,7 @@ Krampus24::Gameplay::Entities::Pig* Pig::construct(AllegroFlare::ModelBin* model
    result->range = range;
    result->movement_direction = AllegroFlare::Vec3D(0, 0, 1);
    //result->movement_velocity = 0.01;
-   result->movement_velocity = 0.01;
+   result->movement_velocity = 0.0;
 
    result->initialized = true;
    result->random.set_seed(4371);
@@ -282,9 +282,7 @@ void Pig::update_state(double time_step, double time_now)
          {
             movement_direction = -movement_direction;
             placement.rotation.y += 0.5f;
-            //movement_direction = -movement_direction;
             set_state(STATE_RETURNING);
-            //movement_direction = (initial_position - placement.position).normalized();
          }
          else
          {

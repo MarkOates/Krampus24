@@ -57,3 +57,20 @@ TEST_F(Krampus24_Gameplay_Entities_HenWithConstructFixtureTest, can_be_created_w
 */
 
 
+/*
+      Krampus24::Gameplay::Entities::SlidingDoor* result = new Krampus24::Gameplay::Entities::SlidingDoor;
+      result->affected_by_environmental_forces = false;
+      result->collides_with_player = true;
+      result->placement.position = initial_position;
+      result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+
+      result->placement.size = { 5.0, 4.0, 5.0 };
+      result->aabb3d.set_max(result->placement.size);
+      result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
+      result->initial_position = initial_position;
+      result->placement.rotation.y = rotation;
+      result->player_can_inspect_or_use = true;
+      result->locked = false;
+*/
+
+

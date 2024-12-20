@@ -544,10 +544,15 @@ void Screen::setup_dialog_system_styling()
 {
    //dialog_system->set_standard_dialog_box_font_name("Orbitron-Medium.ttf");
 
-   dialog_system->set_standard_dialog_box_font_name("Exan-Regular.ttf");
-   dialog_system->set_standard_dialog_box_font_size(
-      AllegroFlare::DialogSystem::DialogSystem::DEFAULT_STANDARD_DIALOG_BOX_FONT_SIZE - 8
-   );
+   //dialog_system->set_standard_dialog_box_font_name("Exan-Regular.ttf");
+   //dialog_system->set_standard_dialog_box_font_size(
+      //AllegroFlare::DialogSystem::DialogSystem::DEFAULT_STANDARD_DIALOG_BOX_FONT_SIZE - 8
+   //);
+
+   //dialog_system->set_standard_dialog_box_font_name("Michroma-Regular.ttf");
+   //dialog_system->set_standard_dialog_box_font_size(
+      //AllegroFlare::DialogSystem::DialogSystem::DEFAULT_STANDARD_DIALOG_BOX_FONT_SIZE - 14
+   //);
    return;
 }
 

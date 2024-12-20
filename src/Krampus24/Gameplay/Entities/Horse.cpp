@@ -109,8 +109,8 @@ Krampus24::Gameplay::Entities::Horse* Horse::construct(AllegroFlare::ModelBin* m
    result->initialized = true;
    result->random.set_seed(4371);
 
-   //result->set_state(STATE_STANDING);
-   result->set_state(STATE_ROAMING);
+   result->set_state(STATE_STANDING);
+   //result->set_state(STATE_ROAMING);
 
    return result;
 }

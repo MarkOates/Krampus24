@@ -681,6 +681,18 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
          //add_message_to_message_roll("locked");
       }
    }
+   else if (name == "hen-01")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("hen_inspect");
+   }
+   else if (name == "pig.001")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("inspect_pig");
+   }
+   else if (name == "horse-01" || name == "horse-01.001")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("inspect_horse");
+   }
    else if (name == "mega_door.001")
    {
       if (mega_door_is_locked(name))
@@ -1063,7 +1075,8 @@ void Tree::build_on_collision_callbacks()
 
 std::string Tree::u(std::string string)
 {
-   return AllegroFlare::StringTransformer(string).upcase().get_text();
+   return string;
+   //return AllegroFlare::StringTransformer(string).upcase().get_text();
 }
 
 AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
@@ -1123,6 +1136,47 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             { u("What would you like to do?") },
             {
                { "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "hen_inspect", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               u("What is this?"),
+               u("It's like some kind of... robot."),
+               u("I it supposed to be a chicken?"),
+               u("Seems harmless... maybe even a little bit cute."),
+            },
+            {
+               //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "inspect_pig", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               u("A pig?"),
+               u("Where are all the people that are supposed to be on this station?"),
+               u("Hey, little piggy.")
+            },
+            {
+               //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "inspect_horse", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               u("This looks like some kind of small robot horse."),
+               u("It's a very crude robot, looks like it was made by hand."),
+               u("Definitely supposed to be a horse. I can tell by the ears and tail."),
+               //u("I just don't know why there are even animals at all here."),
+            },
+            {
+               //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
          )
@@ -1251,6 +1305,7 @@ AllegroFlare::Elements::StoryboardPages::Base* Tree::create_storyboard_page__tex
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::create_storyboard_page__text]: error: guard \"(!page_text.empty())\" not met");
    }
+   // Font = "ArchivoNarrow-Regular.ttf"; // TODO: Use this font
    auto page = new AllegroFlare::Elements::StoryboardPages::AdvancingText(font_bin, page_text);
    return page;
 }
