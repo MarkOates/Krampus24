@@ -55,6 +55,12 @@ Door::~Door()
 }
 
 
+bool Door::get_locked() const
+{
+   return locked;
+}
+
+
 uint32_t Door::get_state() const
 {
    return state;
@@ -180,10 +186,11 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up 
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
-   result->placement.size = { 10.0, 0.5, 10.0 };
+   result->placement.size = { 10.0, 4.0, 10.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.005, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
+   result->player_can_inspect_or_use = false; // NOTE: When the door is locked, the player can inspect it
    result->placement.rotation.y = rotation;
 
    // Left door
@@ -251,12 +258,14 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Door::construct(AllegroFlare::
 void Door::lock()
 {
    locked = true;
+   player_can_inspect_or_use = true;
    return;
 }
 
 void Door::unlock()
 {
    locked = false;
+   player_can_inspect_or_use = false;
    return;
 }
 

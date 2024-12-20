@@ -35,6 +35,7 @@ ElevatorShaft::ElevatorShaft()
    , num_tiers(4.0f)
    , speed((0.00165f * 3))
    , locked(false)
+   , using_is_disabled(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
@@ -242,6 +243,9 @@ std::vector<Krampus24::Gameplay::Entities::Base*> ElevatorShaft::construct(Alleg
          AllegroFlare::Vec3D *player_position,
          AllegroFlare::Vec3D *player_view_direction
    ) -> bool {
+      auto as = static_cast<Krampus24::Gameplay::Entities::ElevatorShaft*>(self);
+      if (!as->is_enabled_for_use()) return false;
+
       // TODO: Figure out this logic
       AllegroFlare::Vec2D self_flat_position(
          self->placement.position.x,
@@ -287,11 +291,29 @@ void ElevatorShaft::set_num_tiers(float num_tiers)
    return;
 }
 
+bool ElevatorShaft::is_enabled_for_use()
+{
+   return !using_is_disabled;
+}
+
+void ElevatorShaft::disable_for_use()
+{
+   using_is_disabled = true;
+   return;
+}
+
+void ElevatorShaft::enable_for_use()
+{
+   using_is_disabled = false;
+   return;
+}
+
 bool ElevatorShaft::attempt_to_move_elevator_up()
 {
    if (locked) return false;
    if (!is_state(STATE_AT_BOTTOM)) return false;
    set_state(STATE_GOING_UP);
+   disable_for_use(); //using_is_disabled = true;
    return true;
 }
 
@@ -300,6 +322,8 @@ bool ElevatorShaft::attempt_to_move_elevator_down()
    if (locked) return false;
    if (!is_state(STATE_AT_TOP)) return false;
    set_state(STATE_GOING_DOWN);
+   disable_for_use(); //using_is_disabled = true;
+   //using_is_disabled = true;
    return true;
 }
 
@@ -523,6 +547,8 @@ void ElevatorShaft::set_elevation_position(float elevation_position)
 
 void ElevatorShaft::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
+   enable_for_use(); //using_is_disabled = true;
+   //using_is_disabled = false;
    //if (!locked) set_state(STATE_GOING_UP);
    //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;
@@ -530,6 +556,8 @@ void ElevatorShaft::on_enter_player_bbox_collision(Krampus24::Gameplay::Entities
 
 void ElevatorShaft::on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity)
 {
+   enable_for_use(); //using_is_disabled = true;
+   //using_is_disabled = false;
    //if (!locked) set_state(STATE_GOING_DOWN);
    //else event_emitter->emit_activate_dialog_node_by_name_event("locked_door");
    return;

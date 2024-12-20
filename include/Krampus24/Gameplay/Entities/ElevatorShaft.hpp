@@ -62,6 +62,7 @@ namespace Krampus24
             float num_tiers;
             float speed;
             bool locked;
+            bool using_is_disabled;
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
@@ -84,6 +85,9 @@ namespace Krampus24
             static void transform_model(AllegroFlare::Model3D* model=nullptr, ALLEGRO_TRANSFORM* transform=nullptr);
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces="[unset-name_for_collision_faces]", AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
             void set_num_tiers(float num_tiers=4.0f);
+            bool is_enabled_for_use();
+            void disable_for_use();
+            void enable_for_use();
             bool attempt_to_move_elevator_up();
             bool attempt_to_move_elevator_down();
             virtual bool on_player_inspect_or_use() override;

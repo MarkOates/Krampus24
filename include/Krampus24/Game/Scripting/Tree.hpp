@@ -97,6 +97,7 @@ namespace Krampus24
             virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list() override;
             void add_message_to_message_roll(std::string message_text="[unset-message_text]", ALLEGRO_COLOR color=ALLEGRO_COLOR{0.94, 0.97, 1.0, 1.0});
+            void add_locked_message_to_message_roll();
             void draw_message_roll();
             void draw_inspect_hint(std::string inspect_hint_text="[unset-inspect_hint_text]");
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_music_track_list() override;
@@ -128,6 +129,7 @@ namespace Krampus24
             bool mega_door_is_locked(std::string mega_door_object_name="[unset-mega_door_object_name]");
             void lock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");
             void unlock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");
+            bool door_is_locked(std::string door_object_name="[unset-door_object_name]");
             void lock_door(std::string door_object_name="[unset-door_object_name]");
             void unlock_door(std::string door_object_name="[unset-door_object_name]");
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");

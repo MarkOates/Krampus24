@@ -74,6 +74,7 @@ namespace Krampus24
             Door();
             virtual ~Door();
 
+            bool get_locked() const;
             uint32_t get_state() const;
             Krampus24::Gameplay::Entities::Door::Style get_style() const;
             float get_uv_offset_x() const;

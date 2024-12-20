@@ -185,6 +185,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::create_entity(K
          rotation
       );
       results[0]->name = entity->name;
+      results[0]->set_type("Door");
       return results;
    }
    else if (entity_root_name == Krampus24::Gameplay::Entities::MegaDoor::BLENDER_IDENTIFIER)

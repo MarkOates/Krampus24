@@ -49,7 +49,7 @@ Tree::Tree()
    , collision_observer(nullptr)
    , message_roll({})
    , message_roll_last_updated_at(0.0f)
-   , message_roll_message_duration(3.0f)
+   , message_roll_message_duration(2.4f)
    , initialized(false)
 {
 }
@@ -287,6 +287,12 @@ void Tree::add_message_to_message_roll(std::string message_text, ALLEGRO_COLOR c
 {
    message_roll.push_back(std::pair<std::string, ALLEGRO_COLOR>(message_text, color));
    message_roll_last_updated_at = al_get_time();
+   return;
+}
+
+void Tree::add_locked_message_to_message_roll()
+{
+   add_message_to_message_roll("Locked", ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0});
    return;
 }
 
@@ -650,6 +656,7 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    //throw std::runtime_error("-------------------------=-=-=-=--=======================");
 
    auto &name = inspectable_entity_that_player_is_currently_colliding_with->name;
+   auto type = inspectable_entity_that_player_is_currently_colliding_with->get_type();
 
    if (name == "")
    {
@@ -663,24 +670,27 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       if (sliding_door_is_locked(name))
       {
-         add_message_to_message_roll("locked");
+         add_locked_message_to_message_roll();
+         //add_message_to_message_roll("locked");
       }
    }
    else if (name == "mega_door.001")
    {
       if (mega_door_is_locked(name))
       {
-         add_message_to_message_roll("locked");
+         add_locked_message_to_message_roll();
+         //add_message_to_message_roll("locked");
       }
    }
-   //else if (name == "mega_door.001")
-   //{
-      //if (mega_door_is_locked(name))
-      //{
+   else if (type == "Door") // WARNING: Here we're using "type", which is only assigned for the "Door" in this
+                            // specific case within the EntityFactory.
+   {
+      if (door_is_locked(name))
+      {
+         add_locked_message_to_message_roll();
          //add_message_to_message_roll("locked");
-      //}
-      //spawn_arbitrary_storyboard_screen("tablet_in_zoo");
-   //}
+      }
+   }
    else if (name == "tablet.001")
    {
       spawn_arbitrary_storyboard_screen("tablet_in_zoo");
@@ -885,6 +895,17 @@ void Tree::unlock_mega_door(std::string mega_door_object_name)
    auto as = static_cast<Krampus24::Gameplay::Entities::MegaDoor*>(door);
    as->unlock();
    return;
+}
+
+bool Tree::door_is_locked(std::string door_object_name)
+{
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(door_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::Door*>(door);
+   return as->get_locked();
+   //return;
 }
 
 void Tree::lock_door(std::string door_object_name)
