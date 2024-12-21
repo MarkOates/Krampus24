@@ -1857,6 +1857,14 @@ table td
   <td class="property">AllegroFlare::Vec3D</td>
 </tr>
 <tr>
+  <td class="property">collision_mesh</td>
+  <td class="property">AllegroFlare::Physics::CollisionMesh*</td>
+</tr>
+<tr>
+  <td class="property">dynamic_collision_mesh_face_names</td>
+  <td class="property">std::vector&lt;std::string&gt;</td>
+</tr>
+<tr>
   <td class="property">door</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
 </tr>
@@ -1925,7 +1933,7 @@ table td
 </tr>
 <tr>
   <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
+  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces=&quot;[unset-name_for_collision_faces]&quot;, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
 </tr>
 <tr>
   <td class="method">void</td>

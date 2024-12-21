@@ -16,8 +16,8 @@ TEST_F(Krampus24_Gameplay_Entities_CryobedWithConstructFixtureTest, CAPTURE__can
       get_framework_model_bin(),
       get_framework_bitmap_bin(),
       get_framework_event_emitter(),
-      //get_screen_collision_mesh(),
-      //"my_console",
+      get_screen_collision_mesh(),
+      "my_cryobed",
       AllegroFlare::Vec3D(0, 0, 0),
       0.0
       //0.0 //-0.125

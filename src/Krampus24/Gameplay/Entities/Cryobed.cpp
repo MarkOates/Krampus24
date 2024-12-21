@@ -26,6 +26,8 @@ Cryobed::Cryobed()
    : Krampus24::Gameplay::Entities::Base()
    , event_emitter(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
+   , collision_mesh(nullptr)
+   , dynamic_collision_mesh_face_names({})
    , door(nullptr)
    , frame(nullptr)
    , open_position(0.0f)
@@ -126,7 +128,7 @@ float Cryobed::get_random_rotation()
    return random.get_random_element<float>(rotations) + random.get_random_element<float>(offsets);
 }
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position, float rotation)
+std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string name_for_collision_faces, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
    {
@@ -148,6 +150,13 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
       error_message << "[Krampus24::Gameplay::Entities::Cryobed::construct]: error: guard \"event_emitter\" not met.";
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Cryobed::construct]: error: guard \"event_emitter\" not met");
+   }
+   if (!(collision_mesh))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Cryobed::construct]: error: guard \"collision_mesh\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Cryobed::construct]: error: guard \"collision_mesh\" not met");
    }
    // Main entity
    Krampus24::Gameplay::Entities::Cryobed* result = new Krampus24::Gameplay::Entities::Cryobed;
@@ -192,7 +201,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
    //result->frame->visible = false;
 
    // Load our collision mesh for a dynamically blocking door when locked
-   /*
+   ///*
+
    result->collision_mesh = collision_mesh;
    std::string collision_mesh_name = "cryobed-01-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
@@ -205,7 +215,8 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
          mesh
       );
    model_bin->destroy(collision_mesh_name);
-   */
+
+   //*/
 
 
 
