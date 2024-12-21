@@ -115,6 +115,7 @@ enums:
       - STYLE_UNDEF
       - STYLE_NORMAL
       - STYLE_NORMAL_DISRUPTED
+      - STYLE_RED
       - STYLE_BARN
       - STYLE_FIRE  # NOTE: This one is not really practical, just for debugging
       - STYLE_USER_CUSTOM_DEFINED_UV
@@ -375,6 +376,8 @@ methods:
          case STYLE_BARN: return { 0.2, 0.2 }; break;
 
          case STYLE_FIRE: return { 0.25, 0.20 }; break; // NOTE: This one is not really practical, just for debugging
+
+         case STYLE_RED: return { 0.1, 0.0 }; break;
 
          default:
             AllegroFlare::Logger::throw_error(

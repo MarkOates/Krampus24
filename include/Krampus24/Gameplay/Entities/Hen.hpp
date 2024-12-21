@@ -50,6 +50,7 @@ namespace Krampus24
             uint32_t get_state() const;
             static Krampus24::Gameplay::Entities::Hen* construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float range=3.0f);
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f) override;
+            void move_to_new_initial_position__return_to_origin__and_set_state_to_standing(AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0));
             void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);
             void update_state(double time_step=0.0f, double time_now=0.0f);
             static bool is_valid_state(uint32_t state=STATE_UNDEF);

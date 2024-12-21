@@ -1664,6 +1664,11 @@ void Screen::render()
    }
 
 
+   // HERE
+   //dev__float_1 = find_0th_entity()->placement.position.x;
+   //dev__float_2 = find_0th_entity()->placement.position.y;
+   //dev__float_3 = find_0th_entity()->placement.position.z;
+
    bool drawing_dev_data = false;
    if (drawing_dev_data)
    {
@@ -1776,6 +1781,7 @@ void Screen::unlock_all_doors()
    as->unlock_sliding_door("sliding_door.001");
    as->unlock_door("door.006");
    as->unlock_sliding_door("sliding_door.002");
+   as->unlock_door("door.011");
    return;
 }
 
@@ -1883,6 +1889,10 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
 
       case ALLEGRO_KEY_M: {
          rendering_entity_models = !rendering_entity_models;
+      } break;
+
+      case ALLEGRO_KEY_X: {
+         get_scripting_as()->place_all_animals_in_escape_pod();
       } break;
 
       case ALLEGRO_KEY_C: {

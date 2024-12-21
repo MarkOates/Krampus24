@@ -125,6 +125,14 @@ void Hen::on_time_step(double time_step, double time_now)
    return;
 }
 
+void Hen::move_to_new_initial_position__return_to_origin__and_set_state_to_standing(AllegroFlare::Vec3D initial_position)
+{
+   this->initial_position = initial_position;
+   placement.position = initial_position;
+   set_state(STATE_STANDING);
+   return;
+}
+
 void Hen::set_state(uint32_t state, bool override_if_busy)
 {
    if (!(initialized))

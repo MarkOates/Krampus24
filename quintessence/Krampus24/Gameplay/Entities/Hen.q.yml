@@ -156,6 +156,18 @@ methods:
       - std::sin
 
 
+  - name: move_to_new_initial_position__return_to_origin__and_set_state_to_standing
+    parameters:
+      - name: initial_position
+        type: AllegroFlare::Vec3D
+        default_argument: AllegroFlare::Vec3D(0, 0, 0)
+    body: |
+      this->initial_position = initial_position;
+      placement.position = initial_position;
+      set_state(STATE_STANDING);
+      return;
+
+
   - name: set_state
     parameters:
       - name: state

@@ -42,6 +42,7 @@ namespace Krampus24
             std::string arbitrary_storyboard_screen_identifier_to_start;
             bool primary_power_coil_collected;
             bool primary_power_coil_returned_to_ship;
+            bool escape_pod_activated;
             bool destruct_countdown_showing;
             bool destruct_sequence_started;
             float destruct_sequence_started_at;
@@ -72,6 +73,7 @@ namespace Krampus24
             void set_arbitrary_storyboard_screen_identifier_to_start(std::string arbitrary_storyboard_screen_identifier_to_start);
             void set_primary_power_coil_collected(bool primary_power_coil_collected);
             void set_primary_power_coil_returned_to_ship(bool primary_power_coil_returned_to_ship);
+            void set_escape_pod_activated(bool escape_pod_activated);
             void set_destruct_countdown_showing(bool destruct_countdown_showing);
             void set_destruct_sequence_started(bool destruct_sequence_started);
             void set_destruct_sequence_started_at(float destruct_sequence_started_at);
@@ -85,6 +87,7 @@ namespace Krampus24
             std::string get_arbitrary_storyboard_screen_identifier_to_start() const;
             bool get_primary_power_coil_collected() const;
             bool get_primary_power_coil_returned_to_ship() const;
+            bool get_escape_pod_activated() const;
             bool get_destruct_countdown_showing() const;
             bool get_destruct_sequence_started() const;
             float get_destruct_sequence_started_at() const;
@@ -108,9 +111,12 @@ namespace Krampus24
             bool a_0th_entity_exists();
             Krampus24::Gameplay::Entities::Base* find_0th_entity();
             void start_destruct_sequence();
+            void place_all_animals_in_escape_pod();
             void start_destruct_timer();
             int get_countdown_time_now_msec();
             void initialize();
+            void ensure_all_animals_are_available_to_be_collected();
+            std::vector<Krampus24::Gameplay::Entities::Base*> collect_all_animals();
             std::pair<int, std::string> get_entities_names_in_list();
             bool entity_with_name_exists(std::string name="[unset-name]");
             Krampus24::Gameplay::Entities::Base* find_entity_by_name_or_throw(std::string name="[unset-name]");
@@ -125,6 +131,7 @@ namespace Krampus24
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
             bool sliding_door_is_locked(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
+            void activate_escape_pod();
             void unlock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             bool mega_door_is_locked(std::string mega_door_object_name="[unset-mega_door_object_name]");
             void lock_mega_door(std::string mega_door_object_name="[unset-mega_door_object_name]");

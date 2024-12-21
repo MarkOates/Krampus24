@@ -37,6 +37,7 @@ namespace Krampus24
                STYLE_UNDEF = 0,
                STYLE_NORMAL,
                STYLE_NORMAL_DISRUPTED,
+               STYLE_RED,
                STYLE_BARN,
                STYLE_FIRE,
                STYLE_USER_CUSTOM_DEFINED_UV,

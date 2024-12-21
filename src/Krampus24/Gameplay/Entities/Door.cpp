@@ -309,6 +309,8 @@ std::pair<float, float> Door::get_uv_offset_from_style(Krampus24::Gameplay::Enti
 
       case STYLE_FIRE: return { 0.25, 0.20 }; break; // NOTE: This one is not really practical, just for debugging
 
+      case STYLE_RED: return { 0.1, 0.0 }; break;
+
       default:
          AllegroFlare::Logger::throw_error(
             "ClassName::get_uv_offset_from_style",

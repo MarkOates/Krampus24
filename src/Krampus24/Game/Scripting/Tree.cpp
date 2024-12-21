@@ -12,6 +12,7 @@
 #include <AllegroFlare/TimerFormatter.hpp>
 #include <AllegroFlare/UsefulPHP.hpp>
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
+#include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <iostream>
@@ -38,6 +39,7 @@ Tree::Tree()
    , arbitrary_storyboard_screen_identifier_to_start("[unset-arbitrary_storyboard_screen_identifier_to_start]")
    , primary_power_coil_collected(false)
    , primary_power_coil_returned_to_ship(false)
+   , escape_pod_activated(false)
    , destruct_countdown_showing(false)
    , destruct_sequence_started(false)
    , destruct_sequence_started_at(0.0)
@@ -109,6 +111,12 @@ void Tree::set_primary_power_coil_collected(bool primary_power_coil_collected)
 void Tree::set_primary_power_coil_returned_to_ship(bool primary_power_coil_returned_to_ship)
 {
    this->primary_power_coil_returned_to_ship = primary_power_coil_returned_to_ship;
+}
+
+
+void Tree::set_escape_pod_activated(bool escape_pod_activated)
+{
+   this->escape_pod_activated = escape_pod_activated;
 }
 
 
@@ -191,6 +199,12 @@ bool Tree::get_primary_power_coil_returned_to_ship() const
 }
 
 
+bool Tree::get_escape_pod_activated() const
+{
+   return escape_pod_activated;
+}
+
+
 bool Tree::get_destruct_countdown_showing() const
 {
    return destruct_countdown_showing;
@@ -261,6 +275,7 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
    if (game_event->is_type("unlock_vr_room")) unlock_sliding_door("sliding_door.001");
    if (game_event->is_type("unlock_elevator_3")) unlock_door("door.006");
    if (game_event->is_type("unlock_elevator_4")) unlock_sliding_door("sliding_door.002");
+   if (game_event->is_type("activate_escape_pod")) activate_escape_pod();//unlock_sliding_door("sliding_door.002");
    return;
 
    //audio_controller->set_and_load_sound_effect_elements(
@@ -401,6 +416,7 @@ void Tree::end_destruct_sequence()
 {
    destruct_sequence_running = false;
    destruct_sequence_completed = true;
+   event_emitter->emit_play_music_track_event("arrival"); // TODO: Consider game end style music
    return;
 }
 
@@ -450,7 +466,7 @@ void Tree::render_hud()
 
 bool Tree::end_state_achieved()
 {
-   return primary_power_coil_returned_to_ship;
+   return primary_power_coil_returned_to_ship; // || escape_pod_activated;
 }
 
 bool Tree::a_0th_entity_exists()
@@ -497,6 +513,37 @@ void Tree::start_destruct_sequence()
       event_emitter->emit_play_music_track_event("escape"); // TODO: Uncomment this
 
       destruct_sequence_running = true;
+
+      // Unlock the emergency escape pod door
+      unlock_door("door.011");
+
+      // TODO: Place all animals in the escape pod
+      place_all_animals_in_escape_pod();
+      //std::vector<Krampus24::Gameplay::Entities::Base*> all_animals = collect_all_animals();
+      //AllegroFlare::Vec3D center_of_escape_pod(19, 15+0.05, -8);
+      //for (auto &animal : all_animals)
+      //{
+         //animal->placement.position = center_of_escape_pod;
+      //}
+   }
+   return;
+}
+
+void Tree::place_all_animals_in_escape_pod()
+{
+   // TODO: Place all animals in the escape pod
+   std::vector<Krampus24::Gameplay::Entities::Base*> all_animals = collect_all_animals();
+   AllegroFlare::Vec3D center_of_escape_pod(19, 15+0.001, 8);
+   for (auto &animal : all_animals)
+   {
+      animal->placement.position = center_of_escape_pod;
+      if (animal->name == "hen-01")
+      {
+         static_cast<Krampus24::Gameplay::Entities::Hen*>(animal)->
+            move_to_new_initial_position__return_to_origin__and_set_state_to_standing(
+               center_of_escape_pod
+            );
+      }
    }
    return;
 }
@@ -570,8 +617,29 @@ void Tree::initialize()
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::initialize]: error: guard \"collision_observer\" not met");
    }
    initialized = true;
+
+   // Setup the callbacks are present
    build_on_collision_callbacks();
+
+   // Ensure "all animals" are present
+   ensure_all_animals_are_available_to_be_collected();
    return;
+}
+
+void Tree::ensure_all_animals_are_available_to_be_collected()
+{
+   collect_all_animals();
+}
+
+std::vector<Krampus24::Gameplay::Entities::Base*> Tree::collect_all_animals()
+{
+   std::vector<Krampus24::Gameplay::Entities::Base*> all_animals = {
+      find_entity_by_name_or_throw("hen-01"),
+      find_entity_by_name_or_throw("horse-01"),
+      find_entity_by_name_or_throw("horse-01.001"),
+      find_entity_by_name_or_throw("pig.001"),
+   };
+   return all_animals;
 }
 
 std::pair<int, std::string> Tree::get_entities_names_in_list()
@@ -746,6 +814,10 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       event_emitter->emit_activate_dialog_node_by_name_event("console-06-dialog");
    }
+   else if (name == "console-07")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("console-07-dialog");
+   }
    else if (name == "power_coil")
    {
       if (!primary_power_coil_collected)
@@ -872,6 +944,14 @@ void Tree::lock_sliding_door(std::string sliding_door_object_name)
    return;
 }
 
+void Tree::activate_escape_pod()
+{
+   escape_pod_activated = true;
+   // HERE
+   event_emitter->emit_activate_dialog_node_by_name_event("escape_pod_is_activated_now_return_to_ship");
+   return;
+}
+
 void Tree::unlock_sliding_door(std::string sliding_door_object_name)
 {
    Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(sliding_door_object_name);
@@ -968,10 +1048,13 @@ void Tree::build_on_collision_callbacks()
 
    // Customize some door styles
    customize_door_style("door.008", Krampus24::Gameplay::Entities::Door::Style::STYLE_NORMAL_DISRUPTED);
+   customize_door_style("door.011", Krampus24::Gameplay::Entities::Door::Style::STYLE_RED);
 
+   // Lock specific doors
    lock_door("door.003"); // Elevator on 1st floor leading up to 2nd
    lock_door("door.005"); // Elevator on 2nd floor leading up to 3rd floor
    lock_door("door.006"); // Elevator on 3rd floor (armory) leading up to 4rd floor
+   lock_door("door.011"); // Elevator on 3rd floor (armory) leading up to 4rd floor
    lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
    lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
    lock_mega_door("mega_door.001"); // Major door on the first floor
@@ -1136,6 +1219,32 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             { u("What would you like to do?") },
             {
                { "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "console-07-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "System",
+            { u("What would you like to do?") },
+            {
+               { "Activate Escape Pod", new AllegroFlare::DialogTree::NodeOptions::GoToNode("activate_escape_pod-dialog"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "activate_escape_pod-dialog", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("activate_escape_pod","exit_dialog")
+      },
+      { "escape_pod_is_activated_now_return_to_ship", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               u("YES! The escape pod is activated!"),
+               //u("I'll need to exit the station on my ship."),
+               //u("According to the 
+               u("That means the animals will make it out alive."),
+               u("I have to make it back to my ship before the destruct sequence finishes!"),
+               //u("I can just make it to my ship in time."),
+            },
+            {
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
          )

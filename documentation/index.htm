@@ -903,6 +903,10 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">escape_pod_activated</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">destruct_countdown_showing</td>
   <td class="property">bool</td>
 </tr>
@@ -1019,6 +1023,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>place_all_animals_in_escape_pod</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>start_destruct_timer</b>()</td>
 </tr>
 <tr>
@@ -1028,6 +1036,14 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>initialize</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>ensure_all_animals_are_available_to_be_collected</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
+  <td class="method"><b>collect_all_animals</b>()</td>
 </tr>
 <tr>
   <td class="method">std::pair&lt;int, std::string&gt;</td>
@@ -1084,6 +1100,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>lock_sliding_door</b>(std::string sliding_door_object_name=&quot;[unset-sliding_door_object_name]&quot;)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>activate_escape_pod</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -1251,6 +1271,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_COLOR&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Hen&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Hen.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -2414,6 +2437,10 @@ table td
 <tr>
   <td class="method">void</td>
   <td class="method"><b>on_time_step</b>(double time_step=0.0f, double time_now=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>move_to_new_initial_position__return_to_origin__and_set_state_to_standing</b>(AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0))</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -5783,6 +5810,7 @@ table td
   ],
   "Krampus24/Gameplay/Entities/Hen": [
     "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Hen"
   ],
   "Krampus24/Gameplay/Entities/Turret": [
