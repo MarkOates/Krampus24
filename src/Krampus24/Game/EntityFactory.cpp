@@ -3,6 +3,7 @@
 #include <Krampus24/Game/EntityFactory.hpp>
 
 #include <Krampus24/Gameplay/Entities/Console.hpp>
+#include <Krampus24/Gameplay/Entities/Cryobed.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
@@ -172,6 +173,22 @@ std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::create_entity(K
       //result->name = entity->name;
       //return { result };
    //}
+   else if (entity_root_name == Krampus24::Gameplay::Entities::Cryobed::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::Cryobed::construct(
+         model_bin,
+         bitmap_bin,
+         event_emitter,
+         collision_mesh,
+         entity->name,
+         position,
+         rotation
+      );
+      results[0]->name = entity->name;
+      //results[0]->set_type("Cryobed");
+      return results;
+   }
    else if (entity_root_name == Krampus24::Gameplay::Entities::Door::BLENDER_IDENTIFIER)
    {
       float rotation = entity->rotation.z / 360.0;

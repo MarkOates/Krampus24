@@ -162,7 +162,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
    Krampus24::Gameplay::Entities::Cryobed* result = new Krampus24::Gameplay::Entities::Cryobed;
    //result->model = model_bin->auto_get("door-01.obj");
    //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
-   result->affected_by_environmental_forces = true;
+   result->affected_by_environmental_forces = false;
    result->collides_with_player = true;
    result->placement.position = initial_position;
    //result->placement.position.y += 0.001f; // Move slightly up
