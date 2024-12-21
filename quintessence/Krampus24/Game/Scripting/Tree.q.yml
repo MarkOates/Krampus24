@@ -689,6 +689,10 @@ methods:
       {
          event_emitter->emit_activate_dialog_node_by_name_event("console-07-dialog");
       }
+      else if (name == "console-08")
+      {
+         event_emitter->emit_activate_dialog_node_by_name_event("console-08-dialog");
+      }
       else if (name == "power_coil")
       {
          if (!primary_power_coil_collected)
@@ -1209,6 +1213,18 @@ methods:
                { u("What would you like to do?") },
                {
                   { "Activate Escape Pod", new AllegroFlare::DialogTree::NodeOptions::GoToNode("activate_escape_pod-dialog"), 0 },
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "console-08-dialog", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "System",
+               {
+                  u("Escape Pod door will open automatically in the event of an emergency."),
+                  u("Until then, it remains closed for the safety of the crew."),
+               },
+               {
+                  //{ "Activate Escape Pod", new AllegroFlare::DialogTree::NodeOptions::GoToNode("activate_escape_pod-dialog"), 0 },
                   { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
                }
             )
