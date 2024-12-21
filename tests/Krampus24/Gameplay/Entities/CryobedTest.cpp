@@ -19,7 +19,7 @@ TEST_F(Krampus24_Gameplay_Entities_CryobedWithConstructFixtureTest, CAPTURE__can
       //get_screen_collision_mesh(),
       //"my_console",
       AllegroFlare::Vec3D(0, 0, 0),
-      -0.125/2
+      0.0
       //0.0 //-0.125
    );
    for (auto &entity : entities) add_entity_to_pool(entity);

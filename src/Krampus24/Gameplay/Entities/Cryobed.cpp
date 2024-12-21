@@ -163,7 +163,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
-   result->placement.rotation.y = get_random_rotation();
+   result->placement.rotation.y = rotation; //get_random_rotation();
    result->player_can_inspect_or_use = true;
    result->locked = false;
 
@@ -194,7 +194,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
    // Load our collision mesh for a dynamically blocking door when locked
    /*
    result->collision_mesh = collision_mesh;
-   std::string collision_mesh_name = "console-01-collision_mesh.obj";
+   std::string collision_mesh_name = "cryobed-01-collision_mesh.obj";
    AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
    ALLEGRO_TRANSFORM placement_transform;
    result->placement.build_transform(&placement_transform);
