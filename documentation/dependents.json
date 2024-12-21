@@ -5,6 +5,7 @@
     "Krampus24/BlenderBlockingLoader",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -27,6 +28,7 @@
     "Krampus24/BlenderBlockingLoaderEntity",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -214,6 +216,7 @@
     "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -234,6 +237,7 @@
     "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
@@ -250,6 +254,7 @@
   "AllegroFlare/ModelBin": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -269,6 +274,7 @@
     "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
@@ -338,6 +344,7 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -398,6 +405,7 @@
   "AllegroFlare/AudioRepositoryElement": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
@@ -426,6 +434,7 @@
   "AllegroFlare/Model3D": [
     "Krampus24/Gameplay/Entities/Base",
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Horse",
@@ -466,12 +475,14 @@
   ],
   "al_color_name": [
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/PowerCoil",
     "Krampus24/Gameplay/Entities/Tablet"
   ],
   "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -488,6 +499,7 @@
   ],
   "std/sin": [
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -504,6 +516,7 @@
   ],
   "std/abs": [
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -519,6 +532,7 @@
   ],
   "AllegroFlare/Random": [
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/Hen",
@@ -534,6 +548,7 @@
   ],
   "AllegroFlare/SampleBin": [
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
@@ -546,6 +561,7 @@
   ],
   "AllegroFlare/Shaders/Base": [
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
@@ -565,6 +581,7 @@
   ],
   "ALLEGRO_TRANSFORM": [
     "Krampus24/Gameplay/Entities/Console",
+    "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Entities/MegaDoor",
@@ -573,6 +590,12 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Zone"
+  ],
+  "Krampus24/Gameplay/Entities/Cryobed": [
+    "Krampus24/Gameplay/Entities/Cryobed"
+  ],
+  "Krampus24/Gameplay/Entities/Cryobed/Style": [
+    "Krampus24/Gameplay/Entities/Cryobed"
   ],
   "AllegroFlare/Physics/CollisionMeshFace": [
     "Krampus24/Gameplay/Entities/Door",
