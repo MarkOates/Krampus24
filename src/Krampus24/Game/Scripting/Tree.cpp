@@ -16,6 +16,7 @@
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
+#include <Krampus24/Gameplay/Entities/Trinket.hpp>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -762,6 +763,10 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       event_emitter->emit_activate_dialog_node_by_name_event("inspect_horse");
    }
+   //else if (name == "trinket.001") // NOTE: Trinkets are not inspected
+   //{
+      //event_emitter->emit_activate_dialog_node_by_name_event("inspect_medal_of_honor");
+   //}
    else if (name == "mega_door.001")
    {
       if (mega_door_is_locked(name))
@@ -845,6 +850,12 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       //event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed");
       spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
+   }
+   else if (name == "cryobed.004") // Front right cryobed
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("inspect_medal_of_honor");
+      //event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed");
+      //spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
    }
    else if (name == "power_coil")
    {
@@ -959,6 +970,24 @@ bool Tree::sliding_door_is_locked(std::string sliding_door_object_name)
    auto as = static_cast<Krampus24::Gameplay::Entities::SlidingDoor*>(door);
    return as->get_locked();
    //return;
+}
+
+void Tree::set_trinket_type(std::string trinket_object_name, Krampus24::Gameplay::Entities::Trinket::TrinketType trinket_type)
+{
+   if (!((trinket_type != Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_UNDEF)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::set_trinket_type]: error: guard \"(trinket_type != Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_UNDEF)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::set_trinket_type]: error: guard \"(trinket_type != Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_UNDEF)\" not met");
+   }
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(trinket_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::Trinket*>(door);
+   as->set_trinket_type(trinket_type);
+   return;
 }
 
 void Tree::lock_sliding_door(std::string sliding_door_object_name)
@@ -1097,6 +1126,10 @@ void Tree::build_on_collision_callbacks()
    lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
    lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
    lock_mega_door("mega_door.001"); // Major door on the first floor
+
+
+   // Customize the trinket types in the cryochamber
+   set_trinket_type("trinket.001", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_MEDAL_OF_HONOR);
 
 
    //make_cryobed_non_inspectable("cryobed.007");
@@ -1336,6 +1369,23 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
                u("This looks like some kind of small robot horse."),
                u("It's a very crude robot, looks like it was made by hand."),
                u("Definitely supposed to be a horse. I can tell by the ears and tail."),
+               //u("I just don't know why there are even animals at all here."),
+            },
+            {
+               //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "inspect_medal_of_honor", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               u("This is a medal of honor."),
+               u("It's only given to the most distinguished and respected."),
+               u("It must have meant a lot to the person who had it."),
+               //u("It must have meant a lot to the person who had it."),
+               //u("I've never known someone who 
+               //u("Definitely supposed to be a horse. I can tell by the ears and tail."),
                //u("I just don't know why there are even animals at all here."),
             },
             {

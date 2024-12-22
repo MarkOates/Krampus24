@@ -292,6 +292,11 @@
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
   ],
+  "Krampus24/Gameplay/Entities/Trinket": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Trinket"
+  ],
   "Krampus24/Gameplay/Entities/Horse": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Horse"
@@ -434,9 +439,14 @@
   "ALLEGRO_COLOR": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
+  ],
+  "Krampus24/Gameplay/Entities/Trinket/TrinketType": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Trinket"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -651,12 +661,6 @@
   ],
   "Krampus24/Gameplay/Entities/Tablet/Style": [
     "Krampus24/Gameplay/Entities/Tablet"
-  ],
-  "Krampus24/Gameplay/Entities/Trinket": [
-    "Krampus24/Gameplay/Entities/Trinket"
-  ],
-  "Krampus24/Gameplay/Entities/Trinket/Style": [
-    "Krampus24/Gameplay/Entities/Trinket"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",

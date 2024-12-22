@@ -12,17 +12,21 @@ class Krampus24_Gameplay_Entities_TrinketWithConstructFixtureTest : public Kramp
 
 TEST_F(Krampus24_Gameplay_Entities_TrinketWithConstructFixtureTest, CAPTURE__can_be_created_without_blowing_up)
 {
-   std::vector<Krampus24::Gameplay::Entities::Base*> entities = Krampus24::Gameplay::Entities::Trinket::construct(
+   Krampus24::Gameplay::Entities::Base* entity = Krampus24::Gameplay::Entities::Trinket::construct(
       get_framework_model_bin(),
       get_framework_bitmap_bin(),
       get_framework_event_emitter(),
       //get_screen_collision_mesh(),
       //"my_console",
       AllegroFlare::Vec3D(0, 0, 0),
-      -0.125/2
+      0.0,
       //0.0 //-0.125
    );
-   for (auto &entity : entities) add_entity_to_pool(entity);
+   //for (auto &entity : entities)
+   static_cast<Krampus24::Gameplay::Entities::Trinket*>(entity)->set_trinket_type(
+      Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_MEDAL_OF_HONOR
+   );
+   add_entity_to_pool(entity);
 
    // Add the sound effects
    AllegroFlare::AudioController *audio_controller = get_framework_audio_controller();

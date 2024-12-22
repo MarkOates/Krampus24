@@ -817,6 +817,9 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Trinket&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Trinket.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Horse&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Horse.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -1104,6 +1107,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>set_trinket_type</b>(std::string trinket_object_name=&quot;[unset-trinket_object_name]&quot;, Krampus24::Gameplay::Entities::Trinket::TrinketType trinket_type=Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>lock_sliding_door</b>(std::string sliding_door_object_name=&quot;[unset-sliding_door_object_name]&quot;)</td>
 </tr>
 <tr>
@@ -1286,6 +1293,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Cryobed&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Cryobed.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Trinket&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Trinket.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Trinket::TrinketType&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Trinket.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -4495,6 +4508,10 @@ table td
   <td class="property">AllegroFlare::EventEmitter*</td>
 </tr>
 <tr>
+  <td class="property">model_bin</td>
+  <td class="property">AllegroFlare::ModelBin*</td>
+</tr>
+<tr>
   <td class="property">initial_position</td>
   <td class="property">AllegroFlare::Vec3D</td>
 </tr>
@@ -4505,10 +4522,6 @@ table td
 <tr>
   <td class="property">frame</td>
   <td class="property">Krampus24::Gameplay::Entities::Base*</td>
-</tr>
-<tr>
-  <td class="property">open_position</td>
-  <td class="property">float</td>
 </tr>
 <tr>
   <td class="property">speed</td>
@@ -4531,8 +4544,16 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
-  <td class="property">style</td>
-  <td class="property">Krampus24::Gameplay::Entities::Trinket::Style</td>
+  <td class="property">trinket_type</td>
+  <td class="property">Krampus24::Gameplay::Entities::Trinket::TrinketType</td>
+</tr>
+<tr>
+  <td class="property">lift_color</td>
+  <td class="property">ALLEGRO_COLOR</td>
+</tr>
+<tr>
+  <td class="property">lift_color_intensity</td>
+  <td class="property">float</td>
 </tr>
 <tr>
   <td class="property">uv_offset_x</td>
@@ -4566,7 +4587,7 @@ table td
   <td class="method"><b>get_random_rotation</b>()</td>
 </tr>
 <tr>
-  <td class="method">std::vector&lt;Krampus24::Gameplay::Entities::Base*&gt;</td>
+  <td class="method">Krampus24::Gameplay::Entities::Base*</td>
   <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f)</td>
 </tr>
 <tr>
@@ -4582,40 +4603,16 @@ table td
   <td class="method"><b>lock</b>()</td>
 </tr>
 <tr>
-  <td class="method">void</td>
-  <td class="method"><b>attempt_to_open</b>()</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>attempt_to_close</b>()</td>
-</tr>
-<tr>
   <td class="method">bool</td>
   <td class="method"><b>on_player_inspect_or_use</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>set_style</b>(Krampus24::Gameplay::Entities::Trinket::Style style=STYLE_UNDEF)</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>set_uv_offset_x</b>(float uv_offset_x=0.0f)</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>set_uv_offset_y</b>(float uv_offset_y=0.0f)</td>
-</tr>
-<tr>
-  <td class="method">std::pair&lt;float, float&gt;</td>
-  <td class="method"><b>get_uv_offset_from_style</b>(Krampus24::Gameplay::Entities::Trinket::Style style=STYLE_UNDEF)</td>
+  <td class="method"><b>set_trinket_type</b>(Krampus24::Gameplay::Entities::Trinket::TrinketType trinket_type=TRINKET_TYPE_UNDEF)</td>
 </tr>
 <tr>
   <td class="method">void</td>
   <td class="method"><b>draw</b>()</td>
-</tr>
-<tr>
-  <td class="method">void</td>
-  <td class="method"><b>set_open_position</b>(float open_position=1.0f)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -4703,7 +4700,7 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Shaders::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Shaders/Base.hpp&quot;]}</td>
 </tr>
 <tr>
-  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Trinket::Style&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Trinket.hpp&quot;]}</td>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Trinket::TrinketType&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Trinket.hpp&quot;]}</td>
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Physics::CollisionMesh&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Physics/CollisionMesh.hpp&quot;]}</td>
@@ -4716,6 +4713,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_color_name&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_color.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_COLOR&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro.h&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -6312,6 +6312,11 @@ table td
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
   ],
+  "Krampus24/Gameplay/Entities/Trinket": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Trinket"
+  ],
   "Krampus24/Gameplay/Entities/Horse": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Horse"
@@ -6454,9 +6459,14 @@ table td
   "ALLEGRO_COLOR": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Base",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",
     "Krampus24/Shaders/Principled"
+  ],
+  "Krampus24/Gameplay/Entities/Trinket/TrinketType": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Trinket"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -6671,12 +6681,6 @@ table td
   ],
   "Krampus24/Gameplay/Entities/Tablet/Style": [
     "Krampus24/Gameplay/Entities/Tablet"
-  ],
-  "Krampus24/Gameplay/Entities/Trinket": [
-    "Krampus24/Gameplay/Entities/Trinket"
-  ],
-  "Krampus24/Gameplay/Entities/Trinket/Style": [
-    "Krampus24/Gameplay/Entities/Trinket"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",

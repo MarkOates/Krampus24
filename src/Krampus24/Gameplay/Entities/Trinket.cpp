@@ -25,16 +25,18 @@ namespace Entities
 Trinket::Trinket()
    : Krampus24::Gameplay::Entities::Base()
    , event_emitter(nullptr)
+   , model_bin(nullptr)
    , initial_position(AllegroFlare::Vec3D(0, 0, 0))
    , door(nullptr)
    , frame(nullptr)
-   , open_position(0.0f)
    , speed(0.0195f)
    , locked(false)
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
-   , style(Krampus24::Gameplay::Entities::Trinket::STYLE_NORMAL)
+   , trinket_type(Krampus24::Gameplay::Entities::Trinket::TRINKET_TYPE_UNDEF)
+   , lift_color(ALLEGRO_COLOR{1, 1, 1, 1})
+   , lift_color_intensity(0.0f)
    , uv_offset_x(0.0f)
    , uv_offset_y(0.0f)
    , initialized(false)
@@ -61,9 +63,21 @@ uint32_t Trinket::get_state() const
 }
 
 
-Krampus24::Gameplay::Entities::Trinket::Style Trinket::get_style() const
+Krampus24::Gameplay::Entities::Trinket::TrinketType Trinket::get_trinket_type() const
 {
-   return style;
+   return trinket_type;
+}
+
+
+ALLEGRO_COLOR Trinket::get_lift_color() const
+{
+   return lift_color;
+}
+
+
+float Trinket::get_lift_color_intensity() const
+{
+   return lift_color_intensity;
 }
 
 
@@ -126,7 +140,7 @@ float Trinket::get_random_rotation()
    return random.get_random_element<float>(rotations) + random.get_random_element<float>(offsets);
 }
 
-std::vector<Krampus24::Gameplay::Entities::Base*> Trinket::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position, float rotation)
+Krampus24::Gameplay::Entities::Base* Trinket::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::EventEmitter* event_emitter, AllegroFlare::Vec3D initial_position, float rotation)
 {
    if (!(model_bin))
    {
@@ -163,13 +177,29 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Trinket::construct(AllegroFlar
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
-   result->placement.rotation.y = get_random_rotation();
+   result->placement.rotation.y = rotation;
    result->player_can_inspect_or_use = true;
    result->locked = false;
 
+
+
+   result->model_bin = model_bin;
+
+
+   // TODO: Load all the models for the trinket types:
+   model_bin->preload("tablet-01-body.obj");
+   //model_bin->preload("tablet-01-body.obj");
+   //model_bin->preload("tablet-01-body.obj");
+   //model_bin->preload("tablet-01-body.obj");
+
+
+
+
    // Left door
    result->door = new Krampus24::Gameplay::Entities::Base;
-   result->door->model = model_bin->auto_get("tablet-01-body.obj");
+   result->door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+   //result->door->model = model_bin->auto_get("tablet-01-body.obj");
+   //result->door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
    result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
    result->door->affected_by_environmental_forces = false;
    result->door->collides_with_player = false;
@@ -192,6 +222,10 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Trinket::construct(AllegroFlar
    //result->frame->visible = false;
 
    // Load our collision mesh for a dynamically blocking door when locked
+
+
+   // Load all the models for the trinket types
+
    /*
    result->collision_mesh = collision_mesh;
    std::string collision_mesh_name = "console-01-collision_mesh.obj";
@@ -233,9 +267,10 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Trinket::construct(AllegroFlar
 
 
    result->initialized = true;
-   result->set_state(STATE_CLOSED);
+   result->set_state(STATE_IDLE);
+   result->set_trinket_type(TRINKET_TYPE_TABLET); // NOTE: Tablet as default
 
-   return { result, result->door }; //, result->frame }; //, result->right_door };
+   return result; //, result->frame }; //, result->right_door };
 }
 
 void Trinket::unlock()
@@ -247,32 +282,6 @@ void Trinket::unlock()
 void Trinket::lock()
 {
    locked = true;
-   return;
-}
-
-void Trinket::attempt_to_open()
-{
-   if (locked)
-   {
-      // TODO: Show or indicate in some way that the door is locked
-   }
-   else
-   {
-      set_state(STATE_OPENING);
-   }
-   return;
-}
-
-void Trinket::attempt_to_close()
-{
-   if (locked)
-   {
-      // TODO: Show or indicate in some way that the door is locked
-   }
-   else
-   {
-      set_state(STATE_CLOSING);
-   }
    return;
 }
 
@@ -292,68 +301,39 @@ bool Trinket::on_player_inspect_or_use()
    return false;
 }
 
-void Trinket::set_style(Krampus24::Gameplay::Entities::Trinket::Style style)
+void Trinket::set_trinket_type(Krampus24::Gameplay::Entities::Trinket::TrinketType trinket_type)
 {
-   this->style = style;
-   std::tie(uv_offset_x, uv_offset_y) = get_uv_offset_from_style(style);
-   return;
-}
-
-void Trinket::set_uv_offset_x(float uv_offset_x)
-{
-   this->style = STYLE_USER_CUSTOM_DEFINED_UV;
-   this->uv_offset_x = uv_offset_x;
-   return;
-}
-
-void Trinket::set_uv_offset_y(float uv_offset_y)
-{
-   this->style = STYLE_USER_CUSTOM_DEFINED_UV;
-   this->uv_offset_y = uv_offset_y;
-   return;
-}
-
-std::pair<float, float> Trinket::get_uv_offset_from_style(Krampus24::Gameplay::Entities::Trinket::Style style)
-{
-   if (!((style != STYLE_UNDEF)))
+   this->trinket_type = trinket_type;
+   switch (trinket_type)
    {
-      std::stringstream error_message;
-      error_message << "[Krampus24::Gameplay::Entities::Trinket::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met.";
-      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
-      throw std::runtime_error("[Krampus24::Gameplay::Entities::Trinket::get_uv_offset_from_style]: error: guard \"(style != STYLE_UNDEF)\" not met");
+      case TRINKET_TYPE_TABLET: {
+         door->model = model_bin->auto_get("tablet-01-body.obj");
+         lift_color = al_color_name("dodgerblue");
+         lift_color_intensity = 0.18;
+      }; break;
+
+      case TRINKET_TYPE_MEDAL_OF_HONOR: {
+         door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+         lift_color = al_color_name("yellow");
+         lift_color_intensity = 0.1;
+      }; break;
+
+      default: {
+         throw std::runtime_error("Error: UNKNOWN TRINKET TYPE");
+      }; break;
    }
-   switch (style)
-   {
-      case STYLE_NORMAL: return { 0, 0 }; break;
-
-      case STYLE_NORMAL_DISRUPTED: return { 0.05, 0.0 }; break;
-
-      case STYLE_BARN: return { 0.2, 0.2 }; break;
-
-      case STYLE_FIRE: return { 0.25, 0.20 }; break; // NOTE: This one is not really practical, just for debugging
-
-      default:
-         AllegroFlare::Logger::throw_error(
-            "ClassName::get_uv_offset_from_style",
-            "Unable to handle case for style \"" + std::to_string(style) + "\""
-         );
-      break;
-   }
-
-   AllegroFlare::Logger::throw_error(
-      "ClassName::get_uv_offset_from_style",
-      "Unexpected code path to here (code: 678sdf678sdf678sdf)"
-   );
-   return { 0, 0 };
+   return;
 }
 
 void Trinket::draw()
 {
    placement.start_transform();
 
-   ALLEGRO_COLOR color = al_color_name("dodgerblue");
+   ALLEGRO_COLOR color = lift_color; // al_color_name("dodgerblue");
+   float intensity = lift_color_intensity; // 0.18;
+
    AllegroFlare::Shaders::Base::set_vec3("color_lift", color.r, color.g, color.b);
-   AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.18);
+   AllegroFlare::Shaders::Base::set_float("color_lift_intensity", intensity);
    AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 2);
 
 
@@ -375,15 +355,6 @@ void Trinket::draw()
    AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
 
    placement.restore_transform();
-   return;
-}
-
-void Trinket::set_open_position(float open_position)
-{
-   open_position = std::max(std::min(1.0f, open_position), 0.0f);
-   this->open_position = open_position;
-   door->placement.position.z = open_position * 2;
-   //right_door->placement.position.z = -open_position * 2;
    return;
 }
 
@@ -455,27 +426,24 @@ void Trinket::set_state(uint32_t state, bool override_if_busy)
 
    switch (state)
    {
-      case STATE_OPENING: {
-         play_open_door_sound_effect();
-         //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+      //case STATE_OPENING: {
+         //play_open_door_sound_effect();
+         ////sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
          //set_state(STATE_OPEN);
-      } break;
+      //} break;
 
-      case STATE_OPEN: {
-         set_open_position(1.0f);
-         //deactivate_collision_mesh();
-         //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
-      } break;
+      //case STATE_CLOSING: {
+         //play_open_door_sound_effect();
+         ////sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+         ////set_state(STATE_CLOSED);
+      //} break;
 
-      case STATE_CLOSING: {
-         play_open_door_sound_effect();
-         //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
-         //set_state(STATE_CLOSED);
-      } break;
+      //case STATE_CLOSED: {
+         ////set_open_position(0.0f);
+         ////activate_collision_mesh();
+      //} break;
 
-      case STATE_CLOSED: {
-         set_open_position(0.0f);
-         //activate_collision_mesh();
+      case STATE_IDLE: {
       } break;
 
       default:
@@ -509,20 +477,7 @@ void Trinket::update_state(double time_step, double time_now)
 
    switch (state)
    {
-      case STATE_OPENING: {
-         set_open_position(open_position + speed);
-         if (open_position >= 1.0) set_state(STATE_OPEN);
-      } break;
-
-      case STATE_OPEN: {
-      } break;
-
-      case STATE_CLOSING: {
-         set_open_position(open_position - speed);
-         if (open_position <= 0.0) set_state(STATE_CLOSED);
-      } break;
-
-      case STATE_CLOSED: {
+      case STATE_IDLE: {
       } break;
 
       default:
@@ -540,10 +495,10 @@ bool Trinket::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
-      STATE_OPENING,
-      STATE_OPEN,
-      STATE_CLOSING,
-      STATE_CLOSED
+      //STATE_OPENING,
+      //STATE_OPEN,
+      //STATE_CLOSING,
+      STATE_IDLE
    };
    return (valid_states.count(state) > 0);
 }

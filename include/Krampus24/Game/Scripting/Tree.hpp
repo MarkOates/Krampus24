@@ -13,6 +13,7 @@
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/PowerCoil.hpp>
+#include <Krampus24/Gameplay/Entities/Trinket.hpp>
 #include <Krampus24/Gameplay/ScriptingInterface.hpp>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -130,6 +131,7 @@ namespace Krampus24
             void snap_elevator_shaft_to_top(std::string elevator_shaft_name="[unset-elevator_shaft_name]");
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
             bool sliding_door_is_locked(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
+            void set_trinket_type(std::string trinket_object_name="[unset-trinket_object_name]", Krampus24::Gameplay::Entities::Trinket::TrinketType trinket_type=Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_UNDEF);
             void lock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void activate_escape_pod();
             void unlock_sliding_door(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
