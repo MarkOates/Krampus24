@@ -44,7 +44,7 @@ methods:
     virtual: true
     override: true
     body: |
-      return "CYGNUS ATRATUS";
+      return "ATRATUS";
 
 
   - name: title_screen_title
@@ -52,7 +52,8 @@ methods:
     virtual: true
     override: true
     body: |
-      return "C      Y      G      N      U      S             A      T      R      A      T      U      S";
+      //return "C      Y      G      N      U      S             A      T      R      A      T      U      S";
+      return "A      T      R      A      T      U      S";
 
 
   - name: primary_display_icon_filename

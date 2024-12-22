@@ -51,12 +51,13 @@ std::string Main::app_icon_1024_filename()
 
 std::string Main::app_title()
 {
-   return "CYGNUS ATRATUS";
+   return "ATRATUS";
 }
 
 std::string Main::title_screen_title()
 {
-   return "C      Y      G      N      U      S             A      T      R      A      T      U      S";
+   //return "C      Y      G      N      U      S             A      T      R      A      T      U      S";
+   return "A      T      R      A      T      U      S";
 }
 
 std::string Main::primary_display_icon_filename()
