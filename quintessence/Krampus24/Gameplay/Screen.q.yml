@@ -808,6 +808,8 @@ methods:
     body_dependency_symbols:
        - AllegroFlare::PlayerInputControllers::Generic
        - Krampus24::Gameplay::PlayerInputControllers::Player
+       - std::sin
+       - std::cos
 
 
   - name: create_arbitrary_storyboard_pages_by_identifier
@@ -900,7 +902,7 @@ methods:
          //float dot_product = player_forward_normalized.dot_product(to_object_normalized);
 
          // Convert angle threshold to radians
-         float angle_threshold_radians = angle_threshold_degrees * (M_PI / 180.0f);
+         float angle_threshold_radians = angle_threshold_degrees * (ALLEGRO_PI / 180.0f);
 
          // Calculate the cosine of the threshold angle
          float cos_threshold = std::cos(angle_threshold_radians);
@@ -909,6 +911,8 @@ methods:
          // the object is within the player's field of view
          return dot_product >= cos_threshold;
       }
+    body_dependency_symbols:
+       - std::cos
 
 
   - name: player_view_dot_product_to_entity
@@ -2239,5 +2243,9 @@ dependencies:
     headers: [ AllegroFlare/Useful.hpp ]
   - symbol: AllegroFlare::Interpolators
     headers: [ AllegroFlare/Interpolators.hpp ]
+  - symbol: std::cos
+    headers: [ cmath ]
+  - symbol: std::sin
+    headers: [ cmath ]
 
 

@@ -21,6 +21,7 @@
 #include <Krampus24/Gameplay/Scripting/Empty.hpp>
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_primitives.h>
+#include <cmath>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -1071,7 +1072,7 @@ bool Screen::is_player_looking_at_object(AllegroFlare::Vec3D player_position, Al
       //float dot_product = player_forward_normalized.dot_product(to_object_normalized);
 
       // Convert angle threshold to radians
-      float angle_threshold_radians = angle_threshold_degrees * (M_PI / 180.0f);
+      float angle_threshold_radians = angle_threshold_degrees * (ALLEGRO_PI / 180.0f);
 
       // Calculate the cosine of the threshold angle
       float cos_threshold = std::cos(angle_threshold_radians);

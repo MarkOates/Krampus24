@@ -539,7 +539,8 @@
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone",
-    "Krampus24/Gameplay/PlayerInputControllers/Player"
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
+    "Krampus24/Gameplay/Screen"
   ],
   "std/abs": [
     "Krampus24/Gameplay/Entities/Console",
@@ -681,7 +682,8 @@
     "Krampus24/Gameplay/Screen"
   ],
   "std/cos": [
-    "Krampus24/Gameplay/PlayerInputControllers/Player"
+    "Krampus24/Gameplay/PlayerInputControllers/Player",
+    "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Screens/Base": [
     "Krampus24/Gameplay/Screen"
