@@ -661,10 +661,10 @@ methods:
       {
          spawn_arbitrary_storyboard_screen("tablet_in_med_bay");
       }
-      else if (name == "tablet.005")
-      {
-         spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
-      }
+      //else if (name == "tablet.005") // NOTE: This tablet text actually triggered from the cryobed, instead
+      //{
+         //spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
+      //}
       else if (name == "console-01")
       {
          event_emitter->emit_activate_dialog_node_by_name_event("console-01-dialog");
@@ -697,11 +697,20 @@ methods:
       {
          event_emitter->emit_activate_dialog_node_by_name_event("console-08-dialog");
       }
-      //else if (type == "Cryopod")
-      else if (type == "Cryobed") // WARNING: Here we're using "type", which is only assigned for the "Cryobed" in this
-                                  // specific case within the EntityFactory.
+      else if (name == "cryobed.003") // First cryobed
       {
          event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed");
+         //spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
+      }
+      else if (name == "cryobed.006") // Far right cryobed
+      {
+         event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed_model");
+         //spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
+      }
+      else if (name == "cryobed.007") // Captain's cryobed
+      {
+         //event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed");
+         spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
       }
       else if (name == "power_coil")
       {
@@ -1357,6 +1366,22 @@ methods:
                   u("A cryo bed."),
                   u("It's open and empty."),
                   u("I think the red screen means the pod has malfunctioned.")
+               },
+                  //"surgeries, medical proceedures, or adminstration of chemicals." },
+               {
+                  //{ "Advance", nullptr, 0 }, // Should be close dialog
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "inspect_cryo_bed_model", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "",
+               {
+                  u("I remember this specific model of cryo bed."),
+                  u("This is the 8008 model."),
+                  u("It was manufactured by the same company that went under almost 10 years ago after having to "
+                    "recall all of their faulty products."),
+                  u("The 8008 model cryo bed was the center of the entire scandal."),
                },
                   //"surgeries, medical proceedures, or adminstration of chemicals." },
                {
