@@ -81,6 +81,7 @@ namespace Krampus24
             static void transform_model(AllegroFlare::Model3D* model=nullptr, ALLEGRO_TRANSFORM* transform=nullptr);
             static float get_random_rotation();
             static std::vector<Krampus24::Gameplay::Entities::Base*> construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string name_for_collision_faces="[unset-name_for_collision_faces]", AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float rotation=0.0f);
+            void make_non_inspectable();
             void unlock();
             void lock();
             void attempt_to_open();

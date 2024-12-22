@@ -140,6 +140,7 @@ namespace Krampus24
             void lock_door(std::string door_object_name="[unset-door_object_name]");
             void unlock_door(std::string door_object_name="[unset-door_object_name]");
             void travel_player_to_elevators_target(std::string entering_elevator_name="[unset-entering_elevator_name]");
+            void make_cryobed_non_inspectable(std::string cryobed_name="[unset-cryobed_name]");
             std::string u(std::string string="[unset-string]");
             virtual AllegroFlare::DialogTree::NodeBank build_dialog_node_bank() override;
             AllegroFlare::Elements::StoryboardPages::Base* create_storyboard_page__text(std::string page_text={});

@@ -1014,6 +1014,24 @@ methods:
       return;
 
 
+  - name: make_cryobed_non_inspectable
+    parameters:
+      - name: cryobed_name
+        type: std::string
+        default_argument: '"[unset-cryobed_name]"'
+    body: |
+      Krampus24::Gameplay::Entities::Base* entity = find_entity_by_name_or_throw(cryobed_name);
+
+      // NOTE: Warning: assuming this is an Entities::Cryobed!
+      // TODO: Validate this is a cryobed!
+      auto as = static_cast<Krampus24::Gameplay::Entities::Cryobed*>(entity);
+      as->make_non_inspectable();
+      return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::Cryobed
+
+
+
   - name: build_on_collision_callbacks
     private: true
     body: |
@@ -1033,6 +1051,9 @@ methods:
       lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
       lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
       lock_mega_door("mega_door.001"); // Major door on the first floor
+
+
+      //make_cryobed_non_inspectable("cryobed.007");
 
 
       set_elevator_shaft_num_tiers("elevator_shaft.001", 6);
@@ -1634,5 +1655,7 @@ dependencies:
     headers: [ allegro5/allegro.h ]
   - symbol: Krampus24::Gameplay::Entities::Hen
     headers: [ Krampus24/Gameplay/Entities/Hen.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Cryobed
+    headers: [ Krampus24/Gameplay/Entities/Cryobed.hpp ]
 
 

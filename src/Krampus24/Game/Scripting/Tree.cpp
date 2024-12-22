@@ -11,6 +11,7 @@
 #include <AllegroFlare/StringTransformer.hpp>
 #include <AllegroFlare/TimerFormatter.hpp>
 #include <AllegroFlare/UsefulPHP.hpp>
+#include <Krampus24/Gameplay/Entities/Cryobed.hpp>
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
@@ -1048,6 +1049,17 @@ void Tree::travel_player_to_elevators_target(std::string entering_elevator_name)
    return;
 }
 
+void Tree::make_cryobed_non_inspectable(std::string cryobed_name)
+{
+   Krampus24::Gameplay::Entities::Base* entity = find_entity_by_name_or_throw(cryobed_name);
+
+   // NOTE: Warning: assuming this is an Entities::Cryobed!
+   // TODO: Validate this is a cryobed!
+   auto as = static_cast<Krampus24::Gameplay::Entities::Cryobed*>(entity);
+   as->make_non_inspectable();
+   return;
+}
+
 void Tree::build_on_collision_callbacks()
 {
    // Build and load the dialog system
@@ -1066,6 +1078,9 @@ void Tree::build_on_collision_callbacks()
    lock_sliding_door("sliding_door.001"); // Door to VR room (1st floor)
    lock_sliding_door("sliding_door.002"); // Elevator on 4th floor leading to final room (with power coil)
    lock_mega_door("mega_door.001"); // Major door on the first floor
+
+
+   //make_cryobed_non_inspectable("cryobed.007");
 
 
    set_elevator_shaft_num_tiers("elevator_shaft.001", 6);

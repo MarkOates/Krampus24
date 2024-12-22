@@ -168,7 +168,7 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
    //result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
 
-   result->placement.size = { 3.0, 0.5, 3.0 };
+   result->placement.size = { 5.0, 2.0, 4.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
@@ -247,6 +247,12 @@ std::vector<Krampus24::Gameplay::Entities::Base*> Cryobed::construct(AllegroFlar
    result->set_state(STATE_CLOSED);
 
    return { result, result->door }; //, result->frame }; //, result->right_door };
+}
+
+void Cryobed::make_non_inspectable()
+{
+   player_can_inspect_or_use = false;
+   return;
 }
 
 void Cryobed::unlock()
