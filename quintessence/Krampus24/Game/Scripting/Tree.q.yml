@@ -661,6 +661,10 @@ methods:
       {
          spawn_arbitrary_storyboard_screen("tablet_in_med_bay");
       }
+      else if (name == "tablet.005")
+      {
+         spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
+      }
       else if (name == "console-01")
       {
          event_emitter->emit_activate_dialog_node_by_name_event("console-01-dialog");
@@ -1518,6 +1522,9 @@ methods:
          }},
          { "tablet_in_med_bay", [this, &result]() {
             result = build_storyboard_text_from_file("tablet_in_med_bay.txt");
+         }},
+         { "tablet_in_cryo_bay", [this, &result]() {
+            result = build_storyboard_text_from_file("tablet_in_cryo_bay.txt");
          }},
       };
 

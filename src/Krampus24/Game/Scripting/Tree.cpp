@@ -795,6 +795,10 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       spawn_arbitrary_storyboard_screen("tablet_in_med_bay");
    }
+   else if (name == "tablet.005")
+   {
+      spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
+   }
    else if (name == "console-01")
    {
       event_emitter->emit_activate_dialog_node_by_name_event("console-01-dialog");
@@ -1519,6 +1523,9 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
       }},
       { "tablet_in_med_bay", [this, &result]() {
          result = build_storyboard_text_from_file("tablet_in_med_bay.txt");
+      }},
+      { "tablet_in_cryo_bay", [this, &result]() {
+         result = build_storyboard_text_from_file("tablet_in_cryo_bay.txt");
       }},
    };
 
