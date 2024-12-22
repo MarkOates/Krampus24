@@ -831,6 +831,12 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    {
       event_emitter->emit_activate_dialog_node_by_name_event("console-08-dialog");
    }
+   //else if (type == "Cryopod")
+   else if (type == "Cryobed") // WARNING: Here we're using "type", which is only assigned for the "Cryobed" in this
+                               // specific case within the EntityFactory.
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed");
+   }
    else if (name == "power_coil")
    {
       if (!primary_power_coil_collected)
@@ -1362,6 +1368,20 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
       },
       { "unlock_vr_room", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_vr_room", "exit_dialog")
       },
+      { "inspect_cryo_bed", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               u("A cryo bed."),
+               u("It's open and empty."),
+               u("I think the red screen means the pod has malfunctioned.")
+            },
+               //"surgeries, medical proceedures, or adminstration of chemicals." },
+            {
+               //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
 
       { "exit_dialog", new AllegroFlare::DialogTree::Nodes::ExitDialog()
       },
@@ -1410,16 +1430,16 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
       },
 
 
-      { "inspect_cryo_pod", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
-            "Cryo Pod",
-            { "Used for suspending life forms for extended periods of time. Can also be used for general "
-               "surgeries, medical proceedures, or adminstration of chemicals." },
-            {
-               //{ "Advance", nullptr, 0 }, // Should be close dialog
-               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
-            }
-         )
-      },
+      //{ "inspect_cryo_pod", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            //"Cryo Pod",
+            //{ "Used for suspending life forms for extended periods of time. Can also be used for general "
+               //"surgeries, medical proceedures, or adminstration of chemicals." },
+            //{
+               ////{ "Advance", nullptr, 0 }, // Should be close dialog
+               //{ "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            //}
+         //)
+      //},
       { "inspect_engine_core", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "Engine Core",
             { "The primary power source for the ship. The Entinite core provides power for all "
