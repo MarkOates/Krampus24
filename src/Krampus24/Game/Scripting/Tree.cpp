@@ -1382,7 +1382,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             {
                u("This is a medal of honor."),
                u("It's only given to the most distinguished and respected."),
-               u("It must have meant a lot to the person who had it."),
+               u("This must have meant a lot to the person who had it."),
                //u("It must have meant a lot to the person who had it."),
                //u("I've never known someone who 
                //u("Definitely supposed to be a horse. I can tell by the ears and tail."),
@@ -1444,10 +1444,10 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
       { "inspect_cryo_bed_model", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "",
             {
-               u("I remember this specific model of cryo bed."),
+               u("Hmm, I remember this specific model of cryo bed."),
                u("This is the 8008 model."),
-               u("It was manufactured by the same company that went under almost 10 years ago after having to "
-                 "recall all of their faulty products."),
+               u("It was manufactured by one of the largest corporations at the time. They had to "
+                 "recall almost all of their products due to faultly design."),
                u("The 8008 model cryo bed was the center of the entire scandal."),
             },
                //"surgeries, medical proceedures, or adminstration of chemicals." },
