@@ -1,0 +1,714 @@
+parent_classes:
+
+
+  - class: Krampus24::Gameplay::Entities::Base
+    scope: public
+    init_with: ''
+
+
+properties:
+
+
+  - name: event_emitter
+    type: AllegroFlare::EventEmitter*
+    init_with: nullptr
+
+  - name: initial_position
+    type: AllegroFlare::Vec3D
+    init_with: AllegroFlare::Vec3D(0, 0, 0)
+
+  - name: door
+    type: Krampus24::Gameplay::Entities::Base*
+    init_with: nullptr
+
+  - name: frame
+    type: Krampus24::Gameplay::Entities::Base*
+    init_with: nullptr
+
+  - name: open_position
+    type: float
+    init_with: 0.0f
+    setter: explicit
+
+  - name: speed
+    type: float
+    init_with: 0.0195f
+
+  - name: locked
+    type: bool
+    init_with: false
+
+  - name: state
+    type: uint32_t
+    init_with: STATE_UNDEF
+    getter: true
+    setter: explicit
+
+  - name: state_is_busy
+    type: bool
+    init_with: false
+
+  - name: state_changed_at
+    type: float
+    init_with: 0.0f
+
+  - name: style
+    type: Krampus24::Gameplay::Entities::Trinket::Style
+    init_with: Krampus24::Gameplay::Entities::Trinket::STYLE_NORMAL
+    getter: true
+    setter: explicit
+
+  - name: uv_offset_x
+    type: float
+    init_with: 0.0f
+    getter: true
+    setter: explicit
+
+  - name: uv_offset_y
+    type: float
+    init_with: 0.0f
+    getter: true
+    setter: explicit
+
+  - name: initialized
+    type: bool
+    init_with: false
+
+  - name: BLENDER_IDENTIFIER
+    type: char*
+    init_with: '(char*)"tablet"'
+    static: true
+    constexpr: true
+
+  - name: DOOR_OPEN_SAMPLE_IDENTIFIER
+    type: char*
+    init_with: '(char*)"door-01-opening.ogg"'
+    static: true
+    constexpr: true
+
+
+enums:
+
+
+  - name: State
+    enumerators:
+      - STATE_UNDEF
+      - STATE_OPENING
+      - STATE_OPEN
+      - STATE_CLOSING
+      - STATE_CLOSED
+
+
+  - name: Style
+    scope: public
+    enumerators:
+      - STYLE_UNDEF
+      - STYLE_NORMAL
+      - STYLE_NORMAL_DISRUPTED
+      - STYLE_BARN
+      - STYLE_FIRE  # NOTE: This one is not really practical, just for debugging
+      - STYLE_USER_CUSTOM_DEFINED_UV
+
+
+methods:
+
+
+  - name: transform_model
+    static: true
+    type: void
+    parameters:
+      - name: model
+        type: AllegroFlare::Model3D*
+        default_argument: nullptr
+      - name: transform
+        type: ALLEGRO_TRANSFORM*
+        default_argument: nullptr
+    body: |
+      //validate_initialized_or_output_to_cerr("transform");
+      //validate_not_vertex_buffer("transform");
+      ALLEGRO_TRANSFORM normal_transform;
+      al_copy_transform(&normal_transform, transform);
+      normal_transform.m[3][0] = 0.0f;
+      normal_transform.m[3][1] = 0.0f;
+      normal_transform.m[3][2] = 0.0f;
+
+      // TODO: Test this
+      auto &vertices = model->vertices;
+      for (unsigned i=0; i<vertices.size(); i++)
+      {
+         al_transform_coordinates_3d(
+            transform,
+            &vertices[i].x,
+            &vertices[i].y,
+            &vertices[i].z
+         );
+
+         // Also transform the normal:
+         al_transform_coordinates_3d(
+            &normal_transform,
+            &vertices[i].nx,
+            &vertices[i].ny,
+            &vertices[i].nz
+        );
+
+         AllegroFlare::Vec3D to_be_normalized =
+            AllegroFlare::Vec3D(vertices[i].nx, vertices[i].ny, vertices[i].nz).normalized();
+
+         vertices[i].nx = to_be_normalized.x;
+         vertices[i].ny = to_be_normalized.y;
+         vertices[i].nz = to_be_normalized.z;
+      }
+      return;
+
+
+  - name: get_random_rotation
+    static: true
+    type: float
+    body: |
+      static AllegroFlare::Random random;
+      static std::vector<float> rotations = { 0.0, 0.25, 0.5, 0.75 };
+      static std::vector<float> offsets = { -0.125/2, 0.125/2 };
+      return random.get_random_element<float>(rotations) + random.get_random_element<float>(offsets);
+    body_dependency_symbols:
+      - AllegroFlare::Random
+
+
+  - name: construct
+    static: true
+    type: std::vector<Krampus24::Gameplay::Entities::Base*>
+    parameters:
+      - name: model_bin
+        type: AllegroFlare::ModelBin*
+        default_argument: nullptr
+      - name: bitmap_bin
+        type: AllegroFlare::BitmapBin*
+        default_argument: nullptr
+      - name: event_emitter
+        type: AllegroFlare::EventEmitter*
+        default_argument: nullptr
+      - name: initial_position
+        type: AllegroFlare::Vec3D
+        default_argument: AllegroFlare::Vec3D(0, 0, 0)
+      - name: rotation
+        type: float
+        default_argument: 0.0f
+    guards: [ model_bin, bitmap_bin, event_emitter ]
+    body: |
+      // Main entity
+      Krampus24::Gameplay::Entities::Trinket* result = new Krampus24::Gameplay::Entities::Trinket;
+      //result->model = model_bin->auto_get("door-01.obj");
+      //result->texture = bitmap_bin->auto_get("entities_texture-01.png");
+      result->affected_by_environmental_forces = true;
+      result->collides_with_player = true;
+      result->placement.position = initial_position;
+      //result->placement.position.y += 0.001f; // Move slightly up
+      result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+
+      result->placement.size = { 3.0, 0.5, 3.0 };
+      result->aabb3d.set_max(result->placement.size);
+      result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
+      result->initial_position = initial_position;
+      result->placement.rotation.y = get_random_rotation();
+      result->player_can_inspect_or_use = true;
+      result->locked = false;
+
+      // Left door
+      result->door = new Krampus24::Gameplay::Entities::Base;
+      result->door->model = model_bin->auto_get("tablet-01-body.obj");
+      result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
+      result->door->affected_by_environmental_forces = false;
+      result->door->collides_with_player = false;
+      result->door->placement.position = { 0.0, 0.0, 0.0 };
+      result->door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+      result->door->placement.size = { 0, 0, 0 };
+      //result->left_door->placement.rotation.y = rotation;
+      result->door->visible = false;
+      //result->left_door->active = false;
+
+      //result->frame = new Krampus24::Gameplay::Entities::Base;
+      //result->frame->model = model_bin->auto_get("console-01-frame.obj");
+      //result->frame->texture = bitmap_bin->auto_get("entities_texture-01.png");
+      //result->frame->affected_by_environmental_forces = false;
+      //result->frame->collides_with_player = false;
+      //result->frame->placement.position = { 0.0, 0.0, 0.0 };
+      //result->frame->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+      //result->frame->placement.size = { 0, 0, 0 };
+      //result->left_door->placement.rotation.y = rotation;
+      //result->frame->visible = false;
+
+      // Load our collision mesh for a dynamically blocking door when locked
+      /*
+      result->collision_mesh = collision_mesh;
+      std::string collision_mesh_name = "console-01-collision_mesh.obj";
+      AllegroFlare::Model3D *mesh = model_bin->auto_get(collision_mesh_name);
+      ALLEGRO_TRANSFORM placement_transform;
+      result->placement.build_transform(&placement_transform);
+      transform_model(mesh, &placement_transform);
+      result->dynamic_collision_mesh_face_names =
+         collision_mesh->load_dynamic_faces(
+            name_for_collision_faces, //"mydoor",
+            mesh
+         );
+      model_bin->destroy(collision_mesh_name);
+      */
+     
+      
+
+
+
+      /*
+      // Right door
+      result->right_door = new Krampus24::Gameplay::Entities::Base;
+      result->right_door->model = model_bin->auto_get("sliding_door-01-door.obj");
+      result->right_door->texture = bitmap_bin->auto_get("entities_texture-01.png");
+      result->right_door->affected_by_environmental_forces = false;
+      result->right_door->collides_with_player = false;
+      result->right_door->placement.position = { 0.0, 0.0, 0.0 };
+      result->right_door->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
+      result->right_door->placement.size = { 0, 0, 0 };
+      //result->right_door->placement.rotation.y = rotation;
+      result->right_door->visible = false;
+      //result->right_door->active = false;
+      */
+
+      // Preload the samples
+      //result->sample_bin = sample_bin;
+      //sample_bin->preload(DOOR_OPEN_SAMPLE_IDENTIFIER);
+      result->event_emitter = event_emitter;
+      
+
+      result->initialized = true;
+      result->set_state(STATE_CLOSED);
+
+      return { result, result->door }; //, result->frame }; //, result->right_door };
+
+
+  - name: ~destroy
+    body: |
+      //if (initialized)
+      //{
+         //AllegroFlare::Logger::info_from(
+            //"Krampus24::Gameplay::Entities::Console",
+            //"This class will need to destroy its local copies of 
+         //);
+      //}
+      return;
+
+
+  - name: unlock
+    body: |
+      locked = false;
+      return;
+
+
+  - name: lock
+    body: |
+      locked = true;
+      return;
+
+
+  - name: attempt_to_open
+    body: |
+      if (locked)
+      {
+         // TODO: Show or indicate in some way that the door is locked
+      }
+      else
+      {
+         set_state(STATE_OPENING);
+      }
+      return;
+
+
+  - name: attempt_to_close
+    body: |
+      if (locked)
+      {
+         // TODO: Show or indicate in some way that the door is locked
+      }
+      else
+      {
+         set_state(STATE_CLOSING);
+      }
+      return;
+
+
+  - name: on_player_inspect_or_use
+    type: bool
+    virtual: true
+    override: true
+    body: |
+      // This will spawn a dialog, but the dialog depends on what was assigned to it
+      //if (is_state(STATE_OPEN) || is_state(STATE_OPENING))
+      //{
+         //attempt_to_close();
+         //return true;
+      //}
+      //else if (is_state(STATE_CLOSED) || is_state(STATE_CLOSING))
+      //{
+         //attempt_to_open();
+         //return true;
+      //}
+      return false;
+
+
+  - name: set_style
+    parameters:
+      - name: style
+        type: Krampus24::Gameplay::Entities::Trinket::Style
+        default_argument: STYLE_UNDEF
+    body: |
+      this->style = style;
+      std::tie(uv_offset_x, uv_offset_y) = get_uv_offset_from_style(style);
+      return;
+
+
+  - name: set_uv_offset_x
+    parameters:
+      - name: uv_offset_x
+        type: float
+        default_argument: 0.0f
+    body: |
+      this->style = STYLE_USER_CUSTOM_DEFINED_UV;
+      this->uv_offset_x = uv_offset_x;
+      return;
+
+
+  - name: set_uv_offset_y
+    parameters:
+      - name: uv_offset_y
+        type: float
+        default_argument: 0.0f
+    body: |
+      this->style = STYLE_USER_CUSTOM_DEFINED_UV;
+      this->uv_offset_y = uv_offset_y;
+      return;
+
+
+  - name: get_uv_offset_from_style
+    static: true
+    type: std::pair<float, float>
+    parameters:
+      - name: style
+        type: Krampus24::Gameplay::Entities::Trinket::Style
+        default_argument: STYLE_UNDEF
+    guards: [ (style != STYLE_UNDEF) ]
+    body: |
+      switch (style)
+      {
+         case STYLE_NORMAL: return { 0, 0 }; break;
+
+         case STYLE_NORMAL_DISRUPTED: return { 0.05, 0.0 }; break;
+
+         case STYLE_BARN: return { 0.2, 0.2 }; break;
+
+         case STYLE_FIRE: return { 0.25, 0.20 }; break; // NOTE: This one is not really practical, just for debugging
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::get_uv_offset_from_style",
+               "Unable to handle case for style \"" + std::to_string(style) + "\""
+            );
+         break;
+      }
+      
+      AllegroFlare::Logger::throw_error(
+         "ClassName::get_uv_offset_from_style",
+         "Unexpected code path to here (code: 678sdf678sdf678sdf)"
+      );
+      return { 0, 0 };
+
+
+  - name: draw
+    virtual: true
+    override: true
+    body: |
+      placement.start_transform();
+
+      ALLEGRO_COLOR color = al_color_name("dodgerblue");
+      AllegroFlare::Shaders::Base::set_vec3("color_lift", color.r, color.g, color.b);
+      AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.18);
+      AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 2);
+
+
+
+      //AllegroFlare::Shaders::Base::set_float("color_lift", al_color_name("lightpink"));
+      //AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
+
+      //door->placement.start_transform();
+      door->model->set_texture(door->texture);
+      door->model->draw();
+      //door->placement.restore_transform();
+
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
+      //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
+      AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 0);
+      AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+
+      placement.restore_transform();
+      return;
+    body_dependency_symbols:
+      - al_color_name
+      - AllegroFlare::Shaders::Base
+
+
+  - name: set_open_position
+    parameters:
+      - name: open_position
+        type: float
+        default_argument: 1.0f
+    body: |
+      open_position = std::max(std::min(1.0f, open_position), 0.0f);
+      this->open_position = open_position;
+      door->placement.position.z = open_position * 2;
+      //right_door->placement.position.z = -open_position * 2;
+      return;
+
+
+  - name: on_enter_player_bbox_collision
+    virtual: true
+    override: true
+    parameters:
+      - name: player_entity
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    body: |
+      //attempt_to_open();
+      //set_state(STATE_OPENING);
+      //attempt_to_open
+      return;
+
+
+  - name: on_exit_player_bbox_collision
+    virtual: true
+    override: true
+    parameters:
+      - name: player_entity
+        type: Krampus24::Gameplay::Entities::Base*
+        default_argument: nullptr
+    body: |
+      //attempt_to_close();
+      //set_state(STATE_CLOSING);
+      return;
+
+
+  - name: on_time_step
+    virtual: true
+    override: true
+    guards: [ initialized ]
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 0.0f
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+    body: |
+      update_state(time_step, time_now);
+      return;
+    body_dependency_symbols:
+      - std::sin
+
+
+  - name: play_open_door_sound_effect
+    body: |
+      //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+      event_emitter->emit_play_sound_effect_event("open_metal_door");
+      return;
+
+
+  - name: build_audio_controller_sound_effect_list
+    static: true
+    type: std::map<std::string, AllegroFlare::AudioRepositoryElement>
+    body: |
+      std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+         { "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
+      };
+      return sound_effect_elements;
+
+
+  - name: set_state
+    parameters:
+      - name: state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+      - name: override_if_busy
+        type: bool
+        default_argument: false
+    guards: [ initialized, is_valid_state(state) ]
+    body: |
+      if (this->state == state) return;
+      if (!override_if_busy && state_is_busy) return;
+      uint32_t previous_state = this->state;
+
+      this->state = state;
+      state_changed_at = al_get_time();
+
+      switch (state)
+      {
+         case STATE_OPENING: {
+            play_open_door_sound_effect();
+            //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+            //set_state(STATE_OPEN);
+         } break;
+
+         case STATE_OPEN: {
+            set_open_position(1.0f);
+            //deactivate_collision_mesh();
+            //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+         } break;
+
+         case STATE_CLOSING: {
+            play_open_door_sound_effect();
+            //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+            //set_state(STATE_CLOSED);
+         } break;
+
+         case STATE_CLOSED: {
+            set_open_position(0.0f);
+            //activate_collision_mesh();
+         } break;
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::set_state",
+               "Unable to handle case for state \"" + std::to_string(state) + "\""
+            );
+         break;
+      }
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+
+
+  - name: update_state
+    parameters:
+      - name: time_step
+        type: double
+        default_argument: 0.0f
+      - name: time_now
+        type: double
+        default_argument: 0.0f
+    guards: [ initialized, is_valid_state(state) ]
+    body: |
+      float age = infer_current_state_age(time_now);
+
+      switch (state)
+      {
+         case STATE_OPENING: {
+            set_open_position(open_position + speed);
+            if (open_position >= 1.0) set_state(STATE_OPEN);
+         } break;
+
+         case STATE_OPEN: {
+         } break;
+
+         case STATE_CLOSING: {
+            set_open_position(open_position - speed);
+            if (open_position <= 0.0) set_state(STATE_CLOSED);
+         } break;
+
+         case STATE_CLOSED: {
+         } break;
+
+         default:
+            AllegroFlare::Logger::throw_error(
+               "ClassName::update_state",
+               "Unable to handle case for state \"" + std::to_string(state) + "\""
+            );
+         break;
+      }
+
+      return;
+    body_dependency_symbols:
+      - AllegroFlare::Logger
+      - AllegroFlare::Vec2D
+
+
+  - name: is_valid_state
+    type: bool
+    static: true
+    parameters:
+      - name: state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+    body: |
+      std::set<uint32_t> valid_states =
+      {
+         STATE_OPENING,
+         STATE_OPEN,
+         STATE_CLOSING,
+         STATE_CLOSED
+      };
+      return (valid_states.count(state) > 0);
+    body_dependency_symbols:
+      - std::set
+
+
+  - name: is_state
+    type: bool
+    parameters:
+      - name: possible_state
+        type: uint32_t
+        default_argument: STATE_UNDEF
+    body: |
+     return (state == possible_state);
+
+
+  - name: infer_current_state_age
+    type: float
+    parameters:
+      - name: time_now
+        type: float
+        default_argument: al_get_time()
+    guards: [ initialized ]
+    body: |
+      return (time_now - state_changed_at);
+
+
+dependencies:
+
+
+  - symbol: Krampus24::Gameplay::Entities::Base
+    headers: [ Krampus24/Gameplay/Entities/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Trinket
+    headers: [ Krampus24/Gameplay/Entities/Trinket.hpp ]
+  - symbol: AllegroFlare::BitmapBin
+    headers: [ AllegroFlare/BitmapBin.hpp ]
+  - symbol: AllegroFlare::ModelBin
+    headers: [ AllegroFlare/ModelBin.hpp ]
+  - symbol: AllegroFlare::Vec2D
+    headers: [ AllegroFlare/Vec2D.hpp ]
+  - symbol: AllegroFlare::Vec3D
+    headers: [ AllegroFlare/Vec3D.hpp ]
+  - symbol: std::sin
+    headers: [ cmath ]
+  - symbol: std::abs
+    headers: [ cmath ]
+  - symbol: AllegroFlare::Logger
+    headers: [ AllegroFlare/Logger.hpp ]
+  - symbol: AllegroFlare::Random
+    headers: [ AllegroFlare/Random.hpp ]
+  - symbol: AllegroFlare::SampleBin
+    headers: [ AllegroFlare/SampleBin.hpp ]
+  - symbol: AllegroFlare::AudioRepositoryElement
+    headers: [ AllegroFlare/AudioRepositoryElement.hpp ]
+  - symbol: AllegroFlare::EventEmitter
+    headers: [ AllegroFlare/EventEmitter.hpp ]
+  - symbol: AllegroFlare::Shaders::Base
+    headers: [ AllegroFlare/Shaders/Base.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Trinket::Style
+    headers: [ Krampus24/Gameplay/Entities/Trinket.hpp ]
+  - symbol: AllegroFlare::Physics::CollisionMesh
+    headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
+  - symbol: ALLEGRO_TRANSFORM
+    headers: [ allegro5/allegro.h ]
+  - symbol: AllegroFlare::Model3D
+    headers: [ AllegroFlare/Model3D.hpp ]
+  - symbol: al_color_name
+    headers: [ allegro5/allegro_color.h ]
+

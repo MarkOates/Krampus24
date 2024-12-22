@@ -17,6 +17,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
@@ -40,6 +41,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
@@ -228,6 +230,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen",
@@ -246,6 +249,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen",
@@ -266,6 +270,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
@@ -282,6 +287,7 @@
     "Krampus24/Gameplay/Entities/PowerCoil",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen",
     "Krampus24/Testing/WithConstructFixture"
@@ -361,6 +367,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/PlayerInputControllers/Player",
@@ -419,6 +426,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/ScriptingInterface",
     "Krampus24/Testing/WithConstructFixture"
@@ -450,6 +458,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
   ],
@@ -483,7 +492,8 @@
     "Krampus24/Gameplay/Entities/Cryobed",
     "Krampus24/Gameplay/Entities/Pig",
     "Krampus24/Gameplay/Entities/PowerCoil",
-    "Krampus24/Gameplay/Entities/Tablet"
+    "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket"
   ],
   "AllegroFlare/Vec2D": [
     "Krampus24/Gameplay/Entities/Console",
@@ -499,6 +509,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
@@ -516,6 +527,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/PlayerInputControllers/Player"
   ],
@@ -533,6 +545,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "AllegroFlare/Random": [
@@ -549,6 +562,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "AllegroFlare/SampleBin": [
@@ -562,6 +576,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "AllegroFlare/Shaders/Base": [
@@ -576,6 +591,7 @@
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/SnakeBot",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Shaders/AllegroDefault",
     "Krampus24/Shaders/Fog",
@@ -594,6 +610,7 @@
     "Krampus24/Gameplay/Entities/PowerCoil",
     "Krampus24/Gameplay/Entities/SlidingDoor",
     "Krampus24/Gameplay/Entities/Tablet",
+    "Krampus24/Gameplay/Entities/Trinket",
     "Krampus24/Gameplay/Entities/Zone"
   ],
   "Krampus24/Gameplay/Entities/Cryobed/Style": [
@@ -634,6 +651,12 @@
   ],
   "Krampus24/Gameplay/Entities/Tablet/Style": [
     "Krampus24/Gameplay/Entities/Tablet"
+  ],
+  "Krampus24/Gameplay/Entities/Trinket": [
+    "Krampus24/Gameplay/Entities/Trinket"
+  ],
+  "Krampus24/Gameplay/Entities/Trinket/Style": [
+    "Krampus24/Gameplay/Entities/Trinket"
   ],
   "ALLEGRO_EVENT": [
     "Krampus24/Gameplay/PlayerInputControllers/Player",
