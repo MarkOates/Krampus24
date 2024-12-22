@@ -1341,7 +1341,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             {
                u("What is this?"),
                u("It's like some kind of... robot."),
-               u("I it supposed to be a chicken?"),
+               u("Is it supposed to be a chicken?"),
                u("Seems harmless... maybe even a little bit cute."),
             },
             {

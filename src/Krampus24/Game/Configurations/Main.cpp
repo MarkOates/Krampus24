@@ -51,12 +51,12 @@ std::string Main::app_icon_1024_filename()
 
 std::string Main::app_title()
 {
-   return "Untitled Game";
+   return "CYGNUS ATRATUS";
 }
 
 std::string Main::title_screen_title()
 {
-   return "Untitled Game";
+   return "C      Y      G      N      U      S             A      T      R      A      T      U      S";
 }
 
 std::string Main::primary_display_icon_filename()
@@ -122,6 +122,33 @@ AllegroFlare::Screens::Gameplay* Main::create_primary_gameplay_screen(AllegroFla
    );
 
    result->initialize();
+
+
+
+   // HACK: Messily build the title screen customizations here, too
+   // Set the title style
+   auto &title_screen = runner->get_title_screen_ref();
+   //title_screen.set_title_font_size(-48);
+   title_screen.set_title_font_size(-48);
+   title_screen.set_title_position_y(1080/2-60);
+   title_screen.set_title_font_name("Orbitron-Medium.ttf");
+   //title_screen.set_title_text(CubeShooter::Typography::Transforms::kern_and_uppercase("Cube Shooter", 4));
+
+   // Set the menu style
+   title_screen.set_menu_position_y(1080/12*7);
+   title_screen.set_menu_font_name("Orbitron-Medium.ttf");
+   title_screen.set_menu_font_size(-26);
+   title_screen.set_menu_text_color(ALLEGRO_COLOR{0.8, 0.8, 0.8, 0.8});
+   title_screen.set_menu_selected_text_color(ALLEGRO_COLOR{1, 1, 1, 1});
+   title_screen.set_menu_selector_color(ALLEGRO_COLOR{0.0, 0.01, 0.02, 0.05});
+   title_screen.set_menu_selector_outline_color(ALLEGRO_COLOR{0.8, 0.8, 0.8, 0.8});
+
+   // Set the copyright style
+   //std::string copyright_text = "Copyright 2023 - CLUBCATT Games - Version " + release_info.get_version();
+   //title_screen.set_copyright_text(copyright_text);
+   //title_screen.set_copyright_font_size(-18);
+   //title_screen.set_copyright_text_color(AllegroFlare::Color(0xefefff, 0.2).to_al());
+
 
 
    // TODO: Determine if this is this the right spot for this
