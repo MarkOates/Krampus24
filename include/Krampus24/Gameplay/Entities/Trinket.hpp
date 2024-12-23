@@ -36,6 +36,7 @@ namespace Krampus24
                TRINKET_TYPE_MEDAL_OF_HONOR,
                TRINKET_TYPE_CARNATIONS,
                TRINKET_TYPE_TEDDY_BEAR,
+               TRINKET_TYPE_FAMILY_PHOTOS,
             };
          private:
             enum State

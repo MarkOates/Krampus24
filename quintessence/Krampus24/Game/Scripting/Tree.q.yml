@@ -1112,6 +1112,7 @@ methods:
 
       // Customize the trinket types in the cryochamber
       set_trinket_type("trinket.001", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_MEDAL_OF_HONOR);
+      set_trinket_type("trinket.002", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_FAMILY_PHOTOS);
       set_trinket_type("trinket.003", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_CARNATIONS);
       set_trinket_type("trinket.004", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_TEDDY_BEAR);
 

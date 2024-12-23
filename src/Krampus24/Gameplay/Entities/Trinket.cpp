@@ -333,6 +333,13 @@ void Trinket::set_trinket_type(Krampus24::Gameplay::Entities::Trinket::TrinketTy
          lift_color_intensity = 0.1;
       }; break;
 
+      case TRINKET_TYPE_FAMILY_PHOTOS: {
+         //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+         door->model = model_bin->auto_get("trinket-02-family_photos.obj");
+         lift_color = al_color_name("mistyrose");
+         lift_color_intensity = 0.1;
+      }; break;
+
       default: {
          throw std::runtime_error("Error: UNKNOWN TRINKET TYPE");
       }; break;

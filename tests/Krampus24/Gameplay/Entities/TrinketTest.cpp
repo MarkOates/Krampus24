@@ -25,7 +25,7 @@ TEST_F(Krampus24_Gameplay_Entities_TrinketWithConstructFixtureTest, CAPTURE__can
    //for (auto &entity : entities)
    static_cast<Krampus24::Gameplay::Entities::Trinket*>(entity)->set_trinket_type(
       //Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_MEDAL_OF_HONOR
-      Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_TEDDY_BEAR
+      Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_FAMILY_PHOTOS
    );
    add_entity_to_pool(entity);
 

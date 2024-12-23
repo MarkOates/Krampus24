@@ -111,6 +111,7 @@ enums:
       - TRINKET_TYPE_MEDAL_OF_HONOR
       - TRINKET_TYPE_CARNATIONS
       - TRINKET_TYPE_TEDDY_BEAR
+      - TRINKET_TYPE_FAMILY_PHOTOS
 
 
 methods:
@@ -383,6 +384,13 @@ methods:
             //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
             door->model = model_bin->auto_get("trinket-02-teddy_bear.obj");
             lift_color = al_color_name("sienna");
+            lift_color_intensity = 0.1;
+         }; break;
+
+         case TRINKET_TYPE_FAMILY_PHOTOS: {
+            //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+            door->model = model_bin->auto_get("trinket-02-family_photos.obj");
+            lift_color = al_color_name("mistyrose");
             lift_color_intensity = 0.1;
          }; break;
 
