@@ -274,6 +274,22 @@ methods:
          result->name = entity->name;
          return { result };
       }
+      else if (entity_root_name == Krampus24::Gameplay::Entities::Prop::BLENDER_IDENTIFIER)
+      {
+         float rotation = entity->rotation.z / 360.0;
+         Krampus24::Gameplay::Entities::Base* result =
+            Krampus24::Gameplay::Entities::Prop::construct(
+               model_bin,
+               bitmap_bin,
+               event_emitter,
+               //collision_mesh,
+               //entity->name,
+               position,
+               rotation
+            );
+         result->name = entity->name;
+         return { result };
+      }
 
       //AllegroFlare::Vec3D position;
       bool affected_by_environmental_forces = true;
@@ -307,6 +323,7 @@ methods:
       return { result };
     body_dependency_symbols:
       - Krampus24::Gameplay::Entities::Trinket
+      - Krampus24::Gameplay::Entities::Prop
       - Krampus24::Gameplay::Entities::Horse
       - Krampus24::Gameplay::Entities::Pig
       - Krampus24::Gameplay::Entities::Hen
@@ -337,6 +354,8 @@ dependencies:
     headers: [ AllegroFlare/Physics/CollisionMesh.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Trinket
     headers: [ Krampus24/Gameplay/Entities/Trinket.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Prop
+    headers: [ Krampus24/Gameplay/Entities/Prop.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Horse
     headers: [ Krampus24/Gameplay/Entities/Horse.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Pig

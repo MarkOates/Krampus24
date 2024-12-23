@@ -309,6 +309,11 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Trinket"
   ],
+  "Krampus24/Gameplay/Entities/Prop": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Prop"
+  ],
   "Krampus24/Gameplay/Entities/Horse": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Horse"
@@ -468,6 +473,10 @@
   "Krampus24/Gameplay/Entities/Trinket/TrinketType": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Trinket"
+  ],
+  "Krampus24/Gameplay/Entities/Prop/PropType": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Prop"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -692,12 +701,6 @@
   ],
   "Krampus24/Gameplay/Entities/PowerCoil/Style": [
     "Krampus24/Gameplay/Entities/PowerCoil"
-  ],
-  "Krampus24/Gameplay/Entities/Prop": [
-    "Krampus24/Gameplay/Entities/Prop"
-  ],
-  "Krampus24/Gameplay/Entities/Prop/PropType": [
-    "Krampus24/Gameplay/Entities/Prop"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"

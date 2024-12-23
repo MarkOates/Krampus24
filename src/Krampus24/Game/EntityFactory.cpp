@@ -13,6 +13,7 @@
 #include <Krampus24/Gameplay/Entities/Pig.hpp>
 #include <Krampus24/Gameplay/Entities/PlayerShip.hpp>
 #include <Krampus24/Gameplay/Entities/PowerCoil.hpp>
+#include <Krampus24/Gameplay/Entities/Prop.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <Krampus24/Gameplay/Entities/Tablet.hpp>
 #include <Krampus24/Gameplay/Entities/Trinket.hpp>
@@ -341,6 +342,22 @@ std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::create_entity(K
       float rotation = entity->rotation.z / 360.0;
       Krampus24::Gameplay::Entities::Base* result =
          Krampus24::Gameplay::Entities::Trinket::construct(
+            model_bin,
+            bitmap_bin,
+            event_emitter,
+            //collision_mesh,
+            //entity->name,
+            position,
+            rotation
+         );
+      result->name = entity->name;
+      return { result };
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::Prop::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      Krampus24::Gameplay::Entities::Base* result =
+         Krampus24::Gameplay::Entities::Prop::construct(
             model_bin,
             bitmap_bin,
             event_emitter,

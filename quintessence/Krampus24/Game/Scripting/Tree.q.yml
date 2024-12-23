@@ -915,6 +915,28 @@ methods:
       - Krampus24::Gameplay::Entities::Trinket
 
 
+  - name: set_prop_type
+    parameters:
+      - name: prop_object_name
+        type: std::string
+        default_argument: '"[unset-prop_object_name]"'
+      - name: prop_type
+        type: Krampus24::Gameplay::Entities::Prop::PropType
+        default_argument: Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_UNDEF
+    guards:
+      - (prop_type != Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_UNDEF)
+    body: |
+      Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(prop_object_name);
+
+      // NOTE: Warning: assuming this is an Entities::Door!
+      // TODO: Validate this is a door!
+      auto as = static_cast<Krampus24::Gameplay::Entities::Prop*>(door);
+      as->set_prop_type(prop_type);
+      return;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::Prop
+
+
   - name: lock_sliding_door
     parameters:
       - name: sliding_door_object_name
@@ -1122,6 +1144,10 @@ methods:
       set_trinket_type("trinket.002", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_FAMILY_PHOTOS);
       set_trinket_type("trinket.003", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_CARNATIONS);
       set_trinket_type("trinket.004", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_TEDDY_BEAR);
+
+
+      // Customize the props
+      set_prop_type("prop.001", Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_CAUTION_FLOOR);
 
 
       //make_cryobed_non_inspectable("cryobed.007");
@@ -1852,5 +1878,9 @@ dependencies:
     headers: [ Krampus24/Gameplay/Entities/Trinket.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Trinket::TrinketType
     headers: [ Krampus24/Gameplay/Entities/Trinket.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Prop
+    headers: [ Krampus24/Gameplay/Entities/Prop.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Prop::PropType
+    headers: [ Krampus24/Gameplay/Entities/Prop.hpp ]
 
 

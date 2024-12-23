@@ -24,7 +24,7 @@ namespace Krampus24
          class Prop : public Krampus24::Gameplay::Entities::Base
          {
          public:
-            static constexpr char* BLENDER_IDENTIFIER = (char*)"trinket";
+            static constexpr char* BLENDER_IDENTIFIER = (char*)"prop";
             static constexpr char* DOOR_OPEN_SAMPLE_IDENTIFIER = (char*)"door-01-opening.ogg";
 
          public:
@@ -55,7 +55,7 @@ namespace Krampus24
             uint32_t state;
             bool state_is_busy;
             float state_changed_at;
-            Krampus24::Gameplay::Entities::Prop::PropType trinket_type;
+            Krampus24::Gameplay::Entities::Prop::PropType prop_type;
             ALLEGRO_COLOR lift_color;
             float lift_color_intensity;
             float uv_offset_x;
@@ -70,7 +70,7 @@ namespace Krampus24
             virtual ~Prop();
 
             uint32_t get_state() const;
-            Krampus24::Gameplay::Entities::Prop::PropType get_trinket_type() const;
+            Krampus24::Gameplay::Entities::Prop::PropType get_prop_type() const;
             ALLEGRO_COLOR get_lift_color() const;
             float get_lift_color_intensity() const;
             float get_uv_offset_x() const;
@@ -81,7 +81,7 @@ namespace Krampus24
             void unlock();
             void lock();
             virtual bool on_player_inspect_or_use() override;
-            void set_trinket_type(Krampus24::Gameplay::Entities::Prop::PropType trinket_type=PROP_TYPE_UNDEF);
+            void set_prop_type(Krampus24::Gameplay::Entities::Prop::PropType prop_type=PROP_TYPE_UNDEF);
             virtual void draw() override;
             virtual void on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
             virtual void on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;

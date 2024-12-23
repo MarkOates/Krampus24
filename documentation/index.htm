@@ -822,6 +822,9 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Trinket&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Trinket.hpp&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Prop&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Prop.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Horse&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Horse.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -1116,6 +1119,10 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
+  <td class="method"><b>set_prop_type</b>(std::string prop_object_name=&quot;[unset-prop_object_name]&quot;, Krampus24::Gameplay::Entities::Prop::PropType prop_type=Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
   <td class="method"><b>lock_sliding_door</b>(std::string sliding_door_object_name=&quot;[unset-sliding_door_object_name]&quot;)</td>
 </tr>
 <tr>
@@ -1304,6 +1311,12 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Trinket::TrinketType&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Trinket.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Prop&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Prop.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Prop::PropType&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Prop.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -4125,7 +4138,7 @@ table td
   <td class="property">float</td>
 </tr>
 <tr>
-  <td class="property">trinket_type</td>
+  <td class="property">prop_type</td>
   <td class="property">Krampus24::Gameplay::Entities::Prop::PropType</td>
 </tr>
 <tr>
@@ -4189,7 +4202,7 @@ table td
 </tr>
 <tr>
   <td class="method">void</td>
-  <td class="method"><b>set_trinket_type</b>(Krampus24::Gameplay::Entities::Prop::PropType trinket_type=PROP_TYPE_UNDEF)</td>
+  <td class="method"><b>set_prop_type</b>(Krampus24::Gameplay::Entities::Prop::PropType prop_type=PROP_TYPE_UNDEF)</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -6823,6 +6836,11 @@ table td
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Trinket"
   ],
+  "Krampus24/Gameplay/Entities/Prop": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Prop"
+  ],
   "Krampus24/Gameplay/Entities/Horse": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Gameplay/Entities/Horse"
@@ -6982,6 +7000,10 @@ table td
   "Krampus24/Gameplay/Entities/Trinket/TrinketType": [
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Trinket"
+  ],
+  "Krampus24/Gameplay/Entities/Prop/PropType": [
+    "Krampus24/Game/Scripting/Tree",
+    "Krampus24/Gameplay/Entities/Prop"
   ],
   "Krampus24/JSONLoaders/Krampus24/GameProgressAndStateInfo": [
     "Krampus24/GameProgressAndStateInfo"
@@ -7206,12 +7228,6 @@ table td
   ],
   "Krampus24/Gameplay/Entities/PowerCoil/Style": [
     "Krampus24/Gameplay/Entities/PowerCoil"
-  ],
-  "Krampus24/Gameplay/Entities/Prop": [
-    "Krampus24/Gameplay/Entities/Prop"
-  ],
-  "Krampus24/Gameplay/Entities/Prop/PropType": [
-    "Krampus24/Gameplay/Entities/Prop"
   ],
   "Krampus24/Gameplay/Entities/SlidingDoor/Style": [
     "Krampus24/Gameplay/Entities/SlidingDoor"

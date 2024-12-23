@@ -23,7 +23,7 @@ TEST_F(Krampus24_Gameplay_Entities_PropWithConstructFixtureTest, CAPTURE__can_be
       //0.0 //-0.125
    );
    //for (auto &entity : entities)
-   static_cast<Krampus24::Gameplay::Entities::Prop*>(entity)->set_trinket_type(
+   static_cast<Krampus24::Gameplay::Entities::Prop*>(entity)->set_prop_type(
       //Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_MEDAL_OF_HONOR
       //Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_CAUTION_FLOOR
       Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_TABLE

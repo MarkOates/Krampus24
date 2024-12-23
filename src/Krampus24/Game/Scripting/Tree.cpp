@@ -15,6 +15,7 @@
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
+#include <Krampus24/Gameplay/Entities/Prop.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <Krampus24/Gameplay/Entities/Trinket.hpp>
 #include <iostream>
@@ -1003,6 +1004,24 @@ void Tree::set_trinket_type(std::string trinket_object_name, Krampus24::Gameplay
    return;
 }
 
+void Tree::set_prop_type(std::string prop_object_name, Krampus24::Gameplay::Entities::Prop::PropType prop_type)
+{
+   if (!((prop_type != Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_UNDEF)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Game::Scripting::Tree::set_prop_type]: error: guard \"(prop_type != Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_UNDEF)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Game::Scripting::Tree::set_prop_type]: error: guard \"(prop_type != Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_UNDEF)\" not met");
+   }
+   Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(prop_object_name);
+
+   // NOTE: Warning: assuming this is an Entities::Door!
+   // TODO: Validate this is a door!
+   auto as = static_cast<Krampus24::Gameplay::Entities::Prop*>(door);
+   as->set_prop_type(prop_type);
+   return;
+}
+
 void Tree::lock_sliding_door(std::string sliding_door_object_name)
 {
    Krampus24::Gameplay::Entities::Base* door = find_entity_by_name_or_throw(sliding_door_object_name);
@@ -1146,6 +1165,10 @@ void Tree::build_on_collision_callbacks()
    set_trinket_type("trinket.002", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_FAMILY_PHOTOS);
    set_trinket_type("trinket.003", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_CARNATIONS);
    set_trinket_type("trinket.004", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_TEDDY_BEAR);
+
+
+   // Customize the props
+   set_prop_type("prop.001", Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_CAUTION_FLOOR);
 
 
    //make_cryobed_non_inspectable("cryobed.007");

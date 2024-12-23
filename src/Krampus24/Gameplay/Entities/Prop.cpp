@@ -34,7 +34,7 @@ Prop::Prop()
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
-   , trinket_type(Krampus24::Gameplay::Entities::Prop::PROP_TYPE_UNDEF)
+   , prop_type(Krampus24::Gameplay::Entities::Prop::PROP_TYPE_UNDEF)
    , lift_color(ALLEGRO_COLOR{1, 1, 1, 1})
    , lift_color_intensity(0.0f)
    , uv_offset_x(0.0f)
@@ -63,9 +63,9 @@ uint32_t Prop::get_state() const
 }
 
 
-Krampus24::Gameplay::Entities::Prop::PropType Prop::get_trinket_type() const
+Krampus24::Gameplay::Entities::Prop::PropType Prop::get_prop_type() const
 {
-   return trinket_type;
+   return prop_type;
 }
 
 
@@ -173,7 +173,7 @@ Krampus24::Gameplay::Entities::Base* Prop::construct(AllegroFlare::ModelBin* mod
    //result->placement.position.y += 0.001f; // Move slightly up
    result->placement.align = { 0.0, 0.0, 0.0 }; // Not sure how this will make sense
 
-   result->placement.size = { 3.0, 0.5, 3.0 };
+   result->placement.size = { 4.0, 1.0, 4.0 };
    result->aabb3d.set_max(result->placement.size);
    result->aabb3d_alignment = { 0.5, 0.0, 0.5 }; // Just slightly below the floor
    result->initial_position = initial_position;
@@ -268,7 +268,7 @@ Krampus24::Gameplay::Entities::Base* Prop::construct(AllegroFlare::ModelBin* mod
 
    result->initialized = true;
    result->set_state(STATE_IDLE);
-   result->set_trinket_type(PROP_TYPE_TABLE); // NOTE: The default
+   result->set_prop_type(PROP_TYPE_TABLE); // NOTE: The default
 
    return result; //, result->frame }; //, result->right_door };
 }
@@ -301,10 +301,10 @@ bool Prop::on_player_inspect_or_use()
    return false;
 }
 
-void Prop::set_trinket_type(Krampus24::Gameplay::Entities::Prop::PropType trinket_type)
+void Prop::set_prop_type(Krampus24::Gameplay::Entities::Prop::PropType prop_type)
 {
-   this->trinket_type = trinket_type;
-   switch (trinket_type)
+   this->prop_type = prop_type;
+   switch (prop_type)
    {
       case PROP_TYPE_CAUTION_FLOOR: {
          door->model = model_bin->auto_get("assorted_props-01-caution_floor.obj");
@@ -320,7 +320,7 @@ void Prop::set_trinket_type(Krampus24::Gameplay::Entities::Prop::PropType trinke
 
       /*
       case PROP_TYPE_MEDAL_OF_HONOR: {
-         //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+         //door->model = model_bin->auto_get("trinke-medal_of_honor-01-body.obj");
          door->model = model_bin->auto_get("trinket-02-medal_of_honor.obj");
          lift_color = al_color_name("yellow");
          lift_color_intensity = 0.1;
