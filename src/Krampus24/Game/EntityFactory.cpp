@@ -15,9 +15,11 @@
 #include <Krampus24/Gameplay/Entities/PowerCoil.hpp>
 #include <Krampus24/Gameplay/Entities/Prop.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
+#include <Krampus24/Gameplay/Entities/Table.hpp>
 #include <Krampus24/Gameplay/Entities/Tablet.hpp>
 #include <Krampus24/Gameplay/Entities/Trinket.hpp>
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
+#include <Krampus24/Gameplay/Entities/WideTable.hpp>
 #include <Krampus24/Gameplay/Entities/Zone.hpp>
 #include <iostream>
 #include <sstream>
@@ -192,6 +194,38 @@ std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::create_entity(K
       );
       results[0]->name = entity->name;
       results[0]->set_type("Cryobed");
+      return results;
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::Table::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::Table::construct(
+         model_bin,
+         bitmap_bin,
+         event_emitter,
+         collision_mesh,
+         entity->name,
+         position,
+         rotation
+      );
+      results[0]->name = entity->name;
+      results[0]->set_type("Table");
+      return results;
+   }
+   else if (entity_root_name == Krampus24::Gameplay::Entities::WideTable::BLENDER_IDENTIFIER)
+   {
+      float rotation = entity->rotation.z / 360.0;
+      std::vector<Krampus24::Gameplay::Entities::Base*> results = Krampus24::Gameplay::Entities::WideTable::construct(
+         model_bin,
+         bitmap_bin,
+         event_emitter,
+         collision_mesh,
+         entity->name,
+         position,
+         rotation
+      );
+      results[0]->name = entity->name;
+      results[0]->set_type("WideTable");
       return results;
    }
    else if (entity_root_name == Krampus24::Gameplay::Entities::LibraryComputer::BLENDER_IDENTIFIER)
