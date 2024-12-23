@@ -278,6 +278,7 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
    if (game_event->is_type("unlock_elevator_3")) unlock_door("door.006");
    if (game_event->is_type("unlock_elevator_4")) unlock_sliding_door("sliding_door.002");
    if (game_event->is_type("activate_escape_pod")) activate_escape_pod();//unlock_sliding_door("sliding_door.002");
+   if (game_event->is_type("read_station_tr33")) spawn_arbitrary_storyboard_screen("library_computer_station_tr33");
    return;
 
    //audio_controller->set_and_load_sound_effect_elements(
@@ -835,6 +836,10 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
    else if (name == "console-08")
    {
       event_emitter->emit_activate_dialog_node_by_name_event("console-08-dialog");
+   }
+   else if (name == "library_computer")
+   {
+      event_emitter->emit_activate_dialog_node_by_name_event("inspect_library_computer");
    }
    else if (name == "cryobed.003") // Front left cryobed
    {
@@ -1478,6 +1483,8 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
       },
       { "unlock_vr_room", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("unlock_vr_room", "exit_dialog")
       },
+      { "dialog_read_station_tr33", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("read_station_tr33", "exit_dialog")
+      },
       { "inspect_cryo_bed", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "",
             {
@@ -1488,6 +1495,31 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
                //"surgeries, medical proceedures, or adminstration of chemicals." },
             {
                //{ "Advance", nullptr, 0 }, // Should be close dialog
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
+      { "inspect_library_computer", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               //u("This looks like a library computer."), // There's a few entries on the system."),
+               u("This looks like a library computer. There's not much on here at the moment, except for an "
+                 "entry about the space station. What should I do?"), // There's a few entries on the system."),
+               //u("There's several ."),
+               //u("It's open and empty."),
+               //u("I think the red screen means the pod has malfunctioned.")
+            },
+               //"surgeries, medical proceedures, or adminstration of chemicals." },
+            //{
+               //u("This looks like a library computer."),
+            //{ u("What would you like to do?") },
+            {
+               //{ "Activate Escape Pod", new AllegroFlare::DialogTree::NodeOptions::GoToNode("activate_escape_pod-dialog"), 0 },
+               //{ "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            //}
+               //{ "Read about the Station TR-33 model", nullptr, 0 }, // Should be close dialog
+               //{ "Read about the Station TR-33 model", nullptr, 0 }, // Should be close dialog
+               { "Read about Station TR-33", new AllegroFlare::DialogTree::NodeOptions::GoToNode("dialog_read_station_tr33"), 0 },
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
          )
@@ -1672,6 +1704,9 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
       }},
       { "tablet_in_cryo_bay", [this, &result]() {
          result = build_storyboard_text_from_file("tablet_in_cryo_bay.txt");
+      }},
+      { "library_computer_station_tr33", [this, &result]() {
+         result = build_storyboard_text_from_file("library_computer_station_tr33.txt");
       }},
    };
 
