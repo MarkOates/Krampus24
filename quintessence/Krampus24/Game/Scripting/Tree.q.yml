@@ -720,15 +720,15 @@ methods:
       }
       else if (name == "cryobed.005") // middle right cryobed
       {
-         //event_emitter->emit_activate_dialog_node_by_name_event("inspect_teddy_bear");
+         event_emitter->emit_activate_dialog_node_by_name_event("inspect_teddy_bear");
       }
       else if (name == "cryobed.001") // back left cryobed
       {
-         //event_emitter->emit_activate_dialog_node_by_name_event("inspect_flowers");
+         event_emitter->emit_activate_dialog_node_by_name_event("inspect_flowers");
       }
       else if (name == "cryobed.002") // middle left cryobed
       {
-         //event_emitter->emit_activate_dialog_node_by_name_event("inspect_family_photos");
+         event_emitter->emit_activate_dialog_node_by_name_event("inspect_family_photos");
       }
       else if (name == "power_coil")
       {
@@ -1374,6 +1374,46 @@ methods:
                }
             )
          },
+         { "inspect_teddy_bear", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "",
+               {
+                  u("A large teddy bear."),
+                  u("Whoever brought this on board must have cherished it deeply."),
+               },
+               {
+                  //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "inspect_flowers", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "",
+               {
+                  u("These are pink carnations."),
+                  u("Or, fake ones anyway. Real ones wouldn't have lasted very long in space."),
+                  u("Maybe they were given to the crew member as a gift before they left on this mission."),
+               },
+               {
+                  //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+         { "inspect_family_photos", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+               "",
+               {
+                  u("A cherished family photo, no doubt."),
+                  u("Showing a father, a wife, and a son."),
+                  u("This must be the family of whoever brought this onto the station."),
+                  u("This mission must have been something really important if they had to leave their family behind."),
+               },
+               {
+                  //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+                  { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+               }
+            )
+         },
+
          { "inspect_medal_of_honor", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
                "",
                {
