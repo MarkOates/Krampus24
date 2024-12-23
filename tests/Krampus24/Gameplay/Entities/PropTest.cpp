@@ -18,7 +18,7 @@ TEST_F(Krampus24_Gameplay_Entities_PropWithConstructFixtureTest, CAPTURE__can_be
       get_framework_event_emitter(),
       //get_screen_collision_mesh(),
       //"my_console",
-      AllegroFlare::Vec3D(0, 0, 0),
+      AllegroFlare::Vec3D(0, 3, 0),
       0.0
       //0.0 //-0.125
    );
@@ -26,7 +26,7 @@ TEST_F(Krampus24_Gameplay_Entities_PropWithConstructFixtureTest, CAPTURE__can_be
    static_cast<Krampus24::Gameplay::Entities::Prop*>(entity)->set_prop_type(
       //Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_MEDAL_OF_HONOR
       //Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_CAUTION_FLOOR
-      Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_TABLE
+      Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_VINES
    );
    add_entity_to_pool(entity);
 

@@ -34,6 +34,7 @@ namespace Krampus24
                PROP_TYPE_UNDEF = 0,
                PROP_TYPE_CAUTION_FLOOR,
                PROP_TYPE_TABLE,
+               PROP_TYPE_VINES,
                PROP_TYPE_MEDAL_OF_HONOR,
                PROP_TYPE_CARNATIONS,
                PROP_TYPE_TEDDY_BEAR,

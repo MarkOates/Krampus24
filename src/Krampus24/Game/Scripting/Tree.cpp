@@ -1169,6 +1169,7 @@ void Tree::build_on_collision_callbacks()
 
    // Customize the props
    set_prop_type("prop.001", Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_CAUTION_FLOOR);
+   //set_prop_type("prop.002", Krampus24::Gameplay::Entities::Prop::PropType::PROP_TYPE_VINES);
 
 
    //make_cryobed_non_inspectable("cryobed.007");

@@ -268,7 +268,7 @@ Krampus24::Gameplay::Entities::Base* Prop::construct(AllegroFlare::ModelBin* mod
 
    result->initialized = true;
    result->set_state(STATE_IDLE);
-   result->set_prop_type(PROP_TYPE_TABLE); // NOTE: The default
+   result->set_prop_type(PROP_TYPE_CAUTION_FLOOR); // NOTE: The default
 
    return result; //, result->frame }; //, result->right_door };
 }
@@ -316,6 +316,13 @@ void Prop::set_prop_type(Krampus24::Gameplay::Entities::Prop::PropType prop_type
          door->model = model_bin->auto_get("assorted_props-01-table.obj");
          lift_color = al_color_name("white");
          lift_color_intensity = 0.18;
+      }; break;
+
+      case PROP_TYPE_VINES: {
+         door->model = model_bin->auto_get("assorted_props-01-vines.obj");
+         lift_color = al_color_name("white");
+         lift_color_intensity = 0.05;
+         affected_by_environmental_forces = false;
       }; break;
 
       /*
