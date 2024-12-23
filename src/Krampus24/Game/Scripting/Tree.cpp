@@ -857,6 +857,12 @@ bool Tree::interact_with_focused_object(Krampus24::Gameplay::Entities::Base* ins
       //event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed");
       //spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
    }
+   else if (name == "cryobed.005") // middle right cryobed
+   {
+      //event_emitter->emit_activate_dialog_node_by_name_event("inspect_medal_of_honor");
+      //event_emitter->emit_activate_dialog_node_by_name_event("inspect_cryo_bed");
+      //spawn_arbitrary_storyboard_screen("tablet_in_cryo_bay");
+   }
    else if (name == "power_coil")
    {
       if (!primary_power_coil_collected)
@@ -1130,6 +1136,8 @@ void Tree::build_on_collision_callbacks()
 
    // Customize the trinket types in the cryochamber
    set_trinket_type("trinket.001", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_MEDAL_OF_HONOR);
+   set_trinket_type("trinket.003", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_CARNATIONS);
+   set_trinket_type("trinket.004", Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_TEDDY_BEAR);
 
 
    //make_cryobed_non_inspectable("cryobed.007");

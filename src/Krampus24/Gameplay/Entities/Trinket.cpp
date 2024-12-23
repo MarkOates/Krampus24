@@ -197,7 +197,7 @@ Krampus24::Gameplay::Entities::Base* Trinket::construct(AllegroFlare::ModelBin* 
 
    // Left door
    result->door = new Krampus24::Gameplay::Entities::Base;
-   result->door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+   result->door->model = model_bin->auto_get("trinket-02-medal_of_honor.obj");
    //result->door->model = model_bin->auto_get("tablet-01-body.obj");
    //result->door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
    result->door->texture = bitmap_bin->auto_get("entities_texture-01.png");
@@ -313,8 +313,23 @@ void Trinket::set_trinket_type(Krampus24::Gameplay::Entities::Trinket::TrinketTy
       }; break;
 
       case TRINKET_TYPE_MEDAL_OF_HONOR: {
-         door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+         //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+         door->model = model_bin->auto_get("trinket-02-medal_of_honor.obj");
          lift_color = al_color_name("yellow");
+         lift_color_intensity = 0.1;
+      }; break;
+
+      case TRINKET_TYPE_CARNATIONS: {
+         //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+         door->model = model_bin->auto_get("trinket-02-carnations.obj");
+         lift_color = al_color_name("white");
+         lift_color_intensity = 0.1;
+      }; break;
+
+      case TRINKET_TYPE_TEDDY_BEAR: {
+         //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
+         door->model = model_bin->auto_get("trinket-02-teddy_bear.obj");
+         lift_color = al_color_name("sienna");
          lift_color_intensity = 0.1;
       }; break;
 

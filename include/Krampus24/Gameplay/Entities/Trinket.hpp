@@ -34,6 +34,8 @@ namespace Krampus24
                TRINKET_TYPE_UNDEF = 0,
                TRINKET_TYPE_TABLET,
                TRINKET_TYPE_MEDAL_OF_HONOR,
+               TRINKET_TYPE_CARNATIONS,
+               TRINKET_TYPE_TEDDY_BEAR,
             };
          private:
             enum State
