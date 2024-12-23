@@ -34,7 +34,7 @@ Prop::Prop()
    , state(STATE_UNDEF)
    , state_is_busy(false)
    , state_changed_at(0.0f)
-   , trinket_type(Krampus24::Gameplay::Entities::Prop::TRINKET_TYPE_UNDEF)
+   , trinket_type(Krampus24::Gameplay::Entities::Prop::PROP_TYPE_UNDEF)
    , lift_color(ALLEGRO_COLOR{1, 1, 1, 1})
    , lift_color_intensity(0.0f)
    , uv_offset_x(0.0f)
@@ -268,7 +268,7 @@ Krampus24::Gameplay::Entities::Base* Prop::construct(AllegroFlare::ModelBin* mod
 
    result->initialized = true;
    result->set_state(STATE_IDLE);
-   result->set_trinket_type(TRINKET_TYPE_TABLET); // NOTE: Tablet as default
+   result->set_trinket_type(PROP_TYPE_TABLE); // NOTE: The default
 
    return result; //, result->frame }; //, result->right_door };
 }
@@ -306,42 +306,50 @@ void Prop::set_trinket_type(Krampus24::Gameplay::Entities::Prop::PropType trinke
    this->trinket_type = trinket_type;
    switch (trinket_type)
    {
-      case TRINKET_TYPE_TABLET: {
-         door->model = model_bin->auto_get("tablet-01-body.obj");
-         lift_color = al_color_name("dodgerblue");
+      case PROP_TYPE_CAUTION_FLOOR: {
+         door->model = model_bin->auto_get("assorted_props-01-caution_floor.obj");
+         lift_color = al_color_name("yellow");
          lift_color_intensity = 0.18;
       }; break;
 
-      case TRINKET_TYPE_MEDAL_OF_HONOR: {
+      case PROP_TYPE_TABLE: {
+         door->model = model_bin->auto_get("assorted_props-01-table.obj");
+         lift_color = al_color_name("white");
+         lift_color_intensity = 0.18;
+      }; break;
+
+      /*
+      case PROP_TYPE_MEDAL_OF_HONOR: {
          //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
          door->model = model_bin->auto_get("trinket-02-medal_of_honor.obj");
          lift_color = al_color_name("yellow");
          lift_color_intensity = 0.1;
       }; break;
 
-      case TRINKET_TYPE_CARNATIONS: {
+      case PROP_TYPE_CARNATIONS: {
          //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
          door->model = model_bin->auto_get("trinket-02-carnations.obj");
          lift_color = al_color_name("white");
          lift_color_intensity = 0.1;
       }; break;
 
-      case TRINKET_TYPE_TEDDY_BEAR: {
+      case PROP_TYPE_TEDDY_BEAR: {
          //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
          door->model = model_bin->auto_get("trinket-02-teddy_bear.obj");
          lift_color = al_color_name("sienna");
          lift_color_intensity = 0.1;
       }; break;
 
-      case TRINKET_TYPE_FAMILY_PHOTOS: {
+      case PROP_TYPE_FAMILY_PHOTOS: {
          //door->model = model_bin->auto_get("trinket-medal_of_honor-01-body.obj");
          door->model = model_bin->auto_get("trinket-02-family_photos.obj");
          lift_color = al_color_name("mistyrose");
          lift_color_intensity = 0.1;
       }; break;
+      */
 
       default: {
-         throw std::runtime_error("Error: UNKNOWN TRINKET TYPE");
+         throw std::runtime_error("Error: UNKNOWN PROP TYPE");
       }; break;
    }
    return;

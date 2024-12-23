@@ -31,12 +31,13 @@ namespace Krampus24
 
             enum PropType
             {
-               TRINKET_TYPE_UNDEF = 0,
-               TRINKET_TYPE_TABLET,
-               TRINKET_TYPE_MEDAL_OF_HONOR,
-               TRINKET_TYPE_CARNATIONS,
-               TRINKET_TYPE_TEDDY_BEAR,
-               TRINKET_TYPE_FAMILY_PHOTOS,
+               PROP_TYPE_UNDEF = 0,
+               PROP_TYPE_CAUTION_FLOOR,
+               PROP_TYPE_TABLE,
+               PROP_TYPE_MEDAL_OF_HONOR,
+               PROP_TYPE_CARNATIONS,
+               PROP_TYPE_TEDDY_BEAR,
+               PROP_TYPE_FAMILY_PHOTOS,
             };
          private:
             enum State
@@ -80,7 +81,7 @@ namespace Krampus24
             void unlock();
             void lock();
             virtual bool on_player_inspect_or_use() override;
-            void set_trinket_type(Krampus24::Gameplay::Entities::Prop::PropType trinket_type=TRINKET_TYPE_UNDEF);
+            void set_trinket_type(Krampus24::Gameplay::Entities::Prop::PropType trinket_type=PROP_TYPE_UNDEF);
             virtual void draw() override;
             virtual void on_enter_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
             virtual void on_exit_player_bbox_collision(Krampus24::Gameplay::Entities::Base* player_entity=nullptr) override;
