@@ -119,6 +119,12 @@ Krampus24::Gameplay::Entities::Pig* Pig::construct(AllegroFlare::ModelBin* model
    return result;
 }
 
+void Pig::set_rotation(float rotation)
+{
+   this->placement.rotation.y = rotation;
+   return;
+}
+
 void Pig::draw()
 {
    if (!model) return;

@@ -109,10 +109,16 @@ Krampus24::Gameplay::Entities::Horse* Horse::construct(AllegroFlare::ModelBin* m
    result->initialized = true;
    result->random.set_seed(4371);
 
-   result->set_state(STATE_STANDING);
+   result->set_state(STATE_IDLE);
    //result->set_state(STATE_ROAMING);
 
    return result;
+}
+
+void Horse::set_rotation(float rotation)
+{
+   this->placement.rotation.y = rotation;
+   return;
 }
 
 void Horse::draw()
@@ -176,7 +182,10 @@ void Horse::set_state(uint32_t state, bool override_if_busy)
 
    switch (state)
    {
-      case STATE_STANDING: {
+      case STATE_STANDING_STILL: {
+      } break;
+
+      case STATE_IDLE: {
       } break;
 
       case STATE_ROAMING: {
@@ -219,7 +228,7 @@ void Horse::update_state(double time_step, double time_now)
 
    switch (state)
    {
-      case STATE_STANDING: {
+      case STATE_STANDING_STILL: {
          //velocity.position = movement_direction * movement_velocity;
          //float anchor_x = 0.0;
          //float anchor_y = std::sin(time_now*12) * 0.05;
@@ -256,6 +265,11 @@ void Horse::update_state(double time_step, double time_now)
 
             //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
          }
+      } break;
+
+      case STATE_IDLE: {
+         velocity.position = { 0.0f, 0.0f, 0.0f };
+         bobble_ammount = std::sin(time_now*12) * 0.05;
       } break;
 
       case STATE_ROAMING: {
@@ -298,7 +312,8 @@ bool Horse::is_valid_state(uint32_t state)
 {
    std::set<uint32_t> valid_states =
    {
-      STATE_STANDING,
+      STATE_IDLE,
+      STATE_STANDING_STILL,
       STATE_RETURNING,
       STATE_ROAMING,
       STATE_TURNING,

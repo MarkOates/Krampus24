@@ -147,15 +147,17 @@ std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::create_entity(K
    }
    else if (entity_root_name == Krampus24::Gameplay::Entities::Horse::BLENDER_IDENTIFIER)
    {
-      //std::cout << "HEN made" << std::endl;
+      float rotation = entity->rotation.z / 360.0;
       auto *result = Krampus24::Gameplay::Entities::Horse::construct(model_bin, bitmap_bin, position, 6.0);
+      result->set_rotation(rotation);
       result->name = entity->name;
       return { result };
    }
    else if (entity_root_name == Krampus24::Gameplay::Entities::Pig::BLENDER_IDENTIFIER)
    {
-      //std::cout << "HEN made" << std::endl;
+      float rotation = entity->rotation.z / 360.0;
       auto *result = Krampus24::Gameplay::Entities::Pig::construct(model_bin, bitmap_bin, position, 6.0);
+      result->set_rotation(rotation);
       result->name = entity->name;
       return { result };
    }

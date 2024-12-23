@@ -68,7 +68,8 @@ enums:
   - name: State
     enumerators:
       - STATE_UNDEF
-      - STATE_STANDING
+      - STATE_STANDING_STILL
+      - STATE_IDLE
       - STATE_ROAMING
       - STATE_RETURNING
       - STATE_TURNING
@@ -141,10 +142,20 @@ methods:
       result->initialized = true;
       result->random.set_seed(4371);
 
-      result->set_state(STATE_STANDING);
+      result->set_state(STATE_IDLE);
       //result->set_state(STATE_ROAMING);
 
       return result;
+
+
+  - name: set_rotation
+    parameters:
+      - name: rotation
+        type: float
+        default_argument: 0.0f
+    body: |
+      this->placement.rotation.y = rotation;
+      return;
 
 
   - name: draw
@@ -209,7 +220,10 @@ methods:
 
       switch (state)
       {
-         case STATE_STANDING: {
+         case STATE_STANDING_STILL: {
+         } break;
+
+         case STATE_IDLE: {
          } break;
 
          case STATE_ROAMING: {
@@ -248,7 +262,7 @@ methods:
 
       switch (state)
       {
-         case STATE_STANDING: {
+         case STATE_STANDING_STILL: {
             //velocity.position = movement_direction * movement_velocity;
             //float anchor_x = 0.0;
             //float anchor_y = std::sin(time_now*12) * 0.05;
@@ -285,6 +299,11 @@ methods:
 
                //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
             }
+         } break;
+
+         case STATE_IDLE: {
+            velocity.position = { 0.0f, 0.0f, 0.0f };
+            bobble_ammount = std::sin(time_now*12) * 0.05;
          } break;
 
          case STATE_ROAMING: {
@@ -336,7 +355,8 @@ methods:
     body: |
       std::set<uint32_t> valid_states =
       {
-         STATE_STANDING,
+         STATE_IDLE,
+         STATE_STANDING_STILL,
          STATE_RETURNING,
          STATE_ROAMING,
          STATE_TURNING,

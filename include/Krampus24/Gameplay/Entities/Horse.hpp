@@ -26,7 +26,8 @@ namespace Krampus24
             enum State
             {
                STATE_UNDEF = 0,
-               STATE_STANDING,
+               STATE_STANDING_STILL,
+               STATE_IDLE,
                STATE_ROAMING,
                STATE_RETURNING,
                STATE_TURNING,
@@ -52,6 +53,7 @@ namespace Krampus24
 
             uint32_t get_state() const;
             static Krampus24::Gameplay::Entities::Horse* construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D initial_position=AllegroFlare::Vec3D(0, 0, 0), float range=3.0f);
+            void set_rotation(float rotation=0.0f);
             virtual void draw() override;
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f) override;
             void set_state(uint32_t state=STATE_UNDEF, bool override_if_busy=false);

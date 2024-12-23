@@ -152,6 +152,16 @@ methods:
       return result;
 
 
+  - name: set_rotation
+    parameters:
+      - name: rotation
+        type: float
+        default_argument: 0.0f
+    body: |
+      this->placement.rotation.y = rotation;
+      return;
+
+
   - name: draw
     virtual: true
     override: true
