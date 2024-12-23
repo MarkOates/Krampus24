@@ -366,6 +366,8 @@ methods:
             door->model = model_bin->auto_get("assorted_props-01-caution_floor.obj");
             lift_color = al_color_name("yellow");
             lift_color_intensity = 0.18;
+            player_can_inspect_or_use = false;
+            //affected_by_environmental_forces = false;
          }; break;
 
          case PROP_TYPE_TABLE: {
