@@ -330,6 +330,10 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Cryobed"
   ],
+  "Krampus24/Gameplay/Entities/LibraryComputer": [
+    "Krampus24/Game/EntityFactory",
+    "Krampus24/Gameplay/Entities/LibraryComputer"
+  ],
   "Krampus24/Gameplay/Entities/MegaDoor": [
     "Krampus24/Game/EntityFactory",
     "Krampus24/Game/Scripting/Tree"
@@ -658,9 +662,6 @@
   "AllegroFlare/distance": [
     "Krampus24/Gameplay/Entities/ElevatorShaft",
     "Krampus24/Gameplay/Screen"
-  ],
-  "Krampus24/Gameplay/Entities/LibraryComputer": [
-    "Krampus24/Gameplay/Entities/LibraryComputer"
   ],
   "Krampus24/Gameplay/Entities/LibraryComputer/Style": [
     "Krampus24/Gameplay/Entities/LibraryComputer"
