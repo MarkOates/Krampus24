@@ -37,6 +37,7 @@ namespace Gameplay
 
 Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::FontBin* font_bin, AllegroFlare::ModelBin* model_bin, AllegroFlare::GameConfigurations::Base* game_configuration, std::vector<Krampus24::Gameplay::Entities::Base*> entities, AllegroFlare::Physics::CollisionMesh* collision_mesh, std::string collision_mesh_identifier, std::string visual_mesh_identifier, std::string visual_mesh_texture_identifier, std::string blocking_filename)
    : AllegroFlare::Screens::Gameplay()
+   , is_deployment_environment_production(false)
    , data_folder_path("[unset-data_folder_path]")
    , audio_controller(nullptr)
    , event_emitter(event_emitter)
@@ -95,6 +96,12 @@ Screen::~Screen()
    // TODO: Destroy meshes (which should now be owned by this class)
    // TODO: Destroy visual mesh bitmap (which should now be owned by this class)
    return;
+}
+
+
+void Screen::set_is_deployment_environment_production(bool is_deployment_environment_production)
+{
+   this->is_deployment_environment_production = is_deployment_environment_production;
 }
 
 
@@ -248,6 +255,12 @@ void Screen::set_build_scripting_instance_func(std::function<Krampus24::Gameplay
 void Screen::set_inspectable_entity_that_player_is_currently_colliding_with(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with)
 {
    this->inspectable_entity_that_player_is_currently_colliding_with = inspectable_entity_that_player_is_currently_colliding_with;
+}
+
+
+bool Screen::get_is_deployment_environment_production() const
+{
+   return is_deployment_environment_production;
 }
 
 
@@ -1786,6 +1799,11 @@ void Screen::unlock_all_doors()
    return;
 }
 
+bool Screen::deployment_environment_is_not_production()
+{
+   return !is_deployment_environment_production;
+}
+
 void Screen::key_down_func(ALLEGRO_EVENT* ev)
 {
    if (!(initialized))
@@ -1804,157 +1822,160 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
    }
    AllegroFlare::Screens::Gameplay::key_down_func(ev);
 
-   bool shift = ev->keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
-   bool ctrl = ev->keyboard.modifiers & ALLEGRO_KEYMOD_COMMAND;
-
-   //bool keyboard_control_caught = false;
-   // This method is DEBUGGING
-   switch(ev->keyboard.keycode)
+   if (deployment_environment_is_not_production())
    {
-      case ALLEGRO_KEY_W: {
-         //toggle_drawing_debug_info();
-      } break;
+      bool shift = ev->keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
+      bool ctrl = ev->keyboard.modifiers & ALLEGRO_KEYMOD_COMMAND;
 
-      case ALLEGRO_KEY_A: {
-         //toggle_minimap_visibility();
-      } break;
+      //bool keyboard_control_caught = false;
+      // This method is DEBUGGING
+      switch(ev->keyboard.keycode)
+      {
+         case ALLEGRO_KEY_W: {
+            //toggle_drawing_debug_info();
+         } break;
 
-      case ALLEGRO_KEY_S: {
-         //toggle_minimap_visibility();
-      } break;
+         case ALLEGRO_KEY_A: {
+            //toggle_minimap_visibility();
+         } break;
 
-      case ALLEGRO_KEY_D: {
-         //toggle_minimap_visibility();
-      } break;
+         case ALLEGRO_KEY_S: {
+            //toggle_minimap_visibility();
+         } break;
 
-      case ALLEGRO_KEY_J: {
-         //live_camera.spin -= ALLEGRO_PI * 0.25;
-         //player_spin -= ALLEGRO_PI * 0.25;
-      } break;
+         case ALLEGRO_KEY_D: {
+            //toggle_minimap_visibility();
+         } break;
 
-      case ALLEGRO_KEY_K: {
-         //live_camera.spin += ALLEGRO_PI * 0.25;
-         //player_spin += ALLEGRO_PI * 0.25;
-      } break;
+         case ALLEGRO_KEY_J: {
+            //live_camera.spin -= ALLEGRO_PI * 0.25;
+            //player_spin -= ALLEGRO_PI * 0.25;
+         } break;
 
-      case ALLEGRO_KEY_U: {
-         //live_camera.tilt -= ALLEGRO_PI * 0.125;
-      } break;
+         case ALLEGRO_KEY_K: {
+            //live_camera.spin += ALLEGRO_PI * 0.25;
+            //player_spin += ALLEGRO_PI * 0.25;
+         } break;
 
-      case ALLEGRO_KEY_N: {
-         //live_camera.tilt += ALLEGRO_PI * 0.125;
-      } break;
+         case ALLEGRO_KEY_U: {
+            //live_camera.tilt -= ALLEGRO_PI * 0.125;
+         } break;
 
-      // DEVELOPMENT keys
+         case ALLEGRO_KEY_N: {
+            //live_camera.tilt += ALLEGRO_PI * 0.125;
+         } break;
 
-      case ALLEGRO_KEY_0: {
-         auto player_entity = find_0th_entity();
-         player_entity->placement.position = AllegroFlare::Vec3D(0, 0, 0);
-         player_entity->velocity.position = AllegroFlare::Vec3D(0, 0, 0);
-      } break;
+         // DEVELOPMENT keys
 
-      case ALLEGRO_KEY_9: {
-         auto player_entity = find_0th_entity();
-         player_entity->placement.position = player_spawn_position;
-         player_entity->velocity.position = AllegroFlare::Vec3D(0, 0, 0);
-      } break;
+         case ALLEGRO_KEY_0: {
+            auto player_entity = find_0th_entity();
+            player_entity->placement.position = AllegroFlare::Vec3D(0, 0, 0);
+            player_entity->velocity.position = AllegroFlare::Vec3D(0, 0, 0);
+         } break;
 
-      case ALLEGRO_KEY_L: {
-         unlock_all_doors();
-      } break;
+         case ALLEGRO_KEY_9: {
+            auto player_entity = find_0th_entity();
+            player_entity->placement.position = player_spawn_position;
+            player_entity->velocity.position = AllegroFlare::Vec3D(0, 0, 0);
+         } break;
 
-      case ALLEGRO_KEY_R: {
-         if (ctrl)
-         {
-            std::cout << "> Reload meshes...";
-            load_or_reload_meshes();
-            std::cout << "done" << std::endl;
-         }
-      } break;
+         case ALLEGRO_KEY_L: {
+            unlock_all_doors();
+         } break;
 
-      case ALLEGRO_KEY_V: {
-         rendering_visual_mesh = !rendering_visual_mesh;
-      } break;
+         case ALLEGRO_KEY_R: {
+            if (ctrl)
+            {
+               std::cout << "> Reload meshes...";
+               load_or_reload_meshes();
+               std::cout << "done" << std::endl;
+            }
+         } break;
 
-      case ALLEGRO_KEY_E: {
-         if (shift) rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
-         else
-         {
-            interact_with_focused_inspectable_object();
-         }
-      } break;
+         case ALLEGRO_KEY_V: {
+            rendering_visual_mesh = !rendering_visual_mesh;
+         } break;
 
-      case ALLEGRO_KEY_P: {
-         start_cinematic_camera("central_core_cinematic");
-      } break;
+         case ALLEGRO_KEY_E: {
+            if (shift) rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
+            else
+            {
+               interact_with_focused_inspectable_object();
+            }
+         } break;
 
-      case ALLEGRO_KEY_M: {
-         rendering_entity_models = !rendering_entity_models;
-      } break;
+         case ALLEGRO_KEY_P: {
+            start_cinematic_camera("central_core_cinematic");
+         } break;
 
-      case ALLEGRO_KEY_X: {
-         get_scripting_as()->place_all_animals_in_escape_pod();
-      } break;
+         case ALLEGRO_KEY_M: {
+            rendering_entity_models = !rendering_entity_models;
+         } break;
 
-      case ALLEGRO_KEY_C: {
-         rendering_collision_wiremesh = !rendering_collision_wiremesh;
-      } break;
+         case ALLEGRO_KEY_X: {
+            get_scripting_as()->place_all_animals_in_escape_pod();
+         } break;
+
+         case ALLEGRO_KEY_C: {
+            rendering_collision_wiremesh = !rendering_collision_wiremesh;
+         } break;
 
 
-      //case ALLEGRO_KEY_W:
-      //case ALLEGRO_KEY_UP: {
-         //player_up_pressed = true;
-      //} break;
+         //case ALLEGRO_KEY_W:
+         //case ALLEGRO_KEY_UP: {
+            //player_up_pressed = true;
+         //} break;
 
-      //case ALLEGRO_KEY_A:
-      //case ALLEGRO_KEY_LEFT: {
-         //player_left_pressed = true;
-      //} break;
+         //case ALLEGRO_KEY_A:
+         //case ALLEGRO_KEY_LEFT: {
+            //player_left_pressed = true;
+         //} break;
 
-      //case ALLEGRO_KEY_S:
-      //case ALLEGRO_KEY_DOWN: {
-         //player_down_pressed = true;
-      //} break;
+         //case ALLEGRO_KEY_S:
+         //case ALLEGRO_KEY_DOWN: {
+            //player_down_pressed = true;
+         //} break;
 
-      //case ALLEGRO_KEY_D:
-      //case ALLEGRO_KEY_RIGHT: {
-         //player_right_pressed = true;
-      //} break;
+         //case ALLEGRO_KEY_D:
+         //case ALLEGRO_KEY_RIGHT: {
+            //player_right_pressed = true;
+         //} break;
 
-      //case ALLEGRO_KEY_C: {
-         //set_player_controlled_entity(find_primary_camera());
-      //} break;
+         //case ALLEGRO_KEY_C: {
+            //set_player_controlled_entity(find_primary_camera());
+         //} break;
 
-      //case ALLEGRO_KEY_Q: {
-         //keyboard_control_caught = true;
-         //set_player_controlled_entity(find_primary_camera());
-      //} break;
-
-      //case ALLEGRO_KEY_SPACE:
-      //case ALLEGRO_KEY_E:
-      //case ALLEGRO_KEY_I: {
-         //if (infer_player_controlled_entity_is_camera())
-         //{
-            //interact_with_focused_object(); // TODO: Find a way to move this to the controller
+         //case ALLEGRO_KEY_Q: {
             //keyboard_control_caught = true;
-         //}
-      //} break;
+            //set_player_controlled_entity(find_primary_camera());
+         //} break;
 
-      case ALLEGRO_KEY_ESCAPE: {
-         // NOTE: For production, you will want to emit the EVENT_PAUSE_GAME. This will crash during test because
-         // there is no router. Externally, the body for on_paused_callback might be:
-         //event_emitter->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
-         
-         // NOTE: For testing, previously the call_on_finished_callback_func was called:
-         // call_on_finished_callback_func();
+         //case ALLEGRO_KEY_SPACE:
+         //case ALLEGRO_KEY_E:
+         //case ALLEGRO_KEY_I: {
+            //if (infer_player_controlled_entity_is_camera())
+            //{
+               //interact_with_focused_object(); // TODO: Find a way to move this to the controller
+               //keyboard_control_caught = true;
+            //}
+         //} break;
 
-         call_on_paused_callback_func();
-         //keyboard_control_caught = true;
-      } break;
+         case ALLEGRO_KEY_ESCAPE: {
+            // NOTE: For production, you will want to emit the EVENT_PAUSE_GAME. This will crash during test because
+            // there is no router. Externally, the body for on_paused_callback might be:
+            //event_emitter->emit_router_event(AllegroFlare::Routers::Standard::EVENT_PAUSE_GAME);
+            
+            // NOTE: For testing, previously the call_on_finished_callback_func was called:
+            // call_on_finished_callback_func();
 
-      default: {
-         // Nothing here
-      } break;
+            //call_on_paused_callback_func();
+            //keyboard_control_caught = true;
+         } break;
+
+         default: {
+            // Nothing here
+         } break;
+      }
    }
 
 

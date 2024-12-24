@@ -91,6 +91,8 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    //std::string visual_mesh_identifier = "meshfps_level-03-visual.obj";
    //std::string visual_mesh_texture_identifier = "RETRO_TEXTURE_PACK_V15-atlas-resave.png";
 
+   //AllegroFlare::DeploymentEnvironment deployment_environment("test");
+
    // Setup the screen
    TestGameConfiguration game_configuration;
    Krampus24::Gameplay::Screen screen;
@@ -100,6 +102,7 @@ TEST_F(Krampus24_Gameplay_ScreenTestWithAllegroFrameworksFullFixture,
    screen.set_bitmap_bin(get_framework_bitmap_bin());
    screen.set_font_bin(get_framework_font_bin());
    screen.set_model_bin(get_framework_model_bin());
+   screen.set_is_deployment_environment_production(false); // HACK
    screen.set_dialog_system(get_framework_dialog_system());
    screen.set_game_configuration(&game_configuration);
    screen.set_build_scripting_instance_func(

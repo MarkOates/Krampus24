@@ -51,6 +51,7 @@ namespace Krampus24
             CAMERA_STATE_CINEMATIC,
             CAMERA_STATE_BLENDING_TO_PLAYER,
          };
+         bool is_deployment_environment_production;
          std::string data_folder_path;
          AllegroFlare::AudioController* audio_controller;
          AllegroFlare::EventEmitter* event_emitter;
@@ -108,6 +109,7 @@ namespace Krampus24
          Screen(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::FontBin* font_bin=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::GameConfigurations::Base* game_configuration=nullptr, std::vector<Krampus24::Gameplay::Entities::Base*> entities={}, AllegroFlare::Physics::CollisionMesh* collision_mesh=nullptr, std::string collision_mesh_identifier="tree-0x-collision_mesh.obj", std::string visual_mesh_identifier="tree-0x-visual.obj", std::string visual_mesh_texture_identifier="RETRO_TEXTURE_PACK_V15-atlas-01.png", std::string blocking_filename="tree-0x.blocking");
          virtual ~Screen();
 
+         void set_is_deployment_environment_production(bool is_deployment_environment_production);
          void set_data_folder_path(std::string data_folder_path);
          void set_audio_controller(AllegroFlare::AudioController* audio_controller);
          void set_event_emitter(AllegroFlare::EventEmitter* event_emitter);
@@ -132,6 +134,7 @@ namespace Krampus24
          void set_blocking_filename(std::string blocking_filename);
          void set_build_scripting_instance_func(std::function<Krampus24::Gameplay::ScriptingInterface*(Krampus24::Gameplay::Screen*)> build_scripting_instance_func);
          void set_inspectable_entity_that_player_is_currently_colliding_with(Krampus24::Gameplay::Entities::Base* inspectable_entity_that_player_is_currently_colliding_with);
+         bool get_is_deployment_environment_production() const;
          std::string get_data_folder_path() const;
          AllegroFlare::AudioController* get_audio_controller() const;
          AllegroFlare::EventEmitter* get_event_emitter() const;
@@ -192,6 +195,7 @@ namespace Krampus24
          virtual void primary_update_func(double time_now=0.0f, double delta_time=1.0f) override;
          virtual void primary_render_func() override;
          void unlock_all_doors();
+         bool deployment_environment_is_not_production();
          virtual void key_down_func(ALLEGRO_EVENT* ev=nullptr) override;
          virtual void key_up_func(ALLEGRO_EVENT* ev=nullptr) override;
          virtual void virtual_control_button_up_func(AllegroFlare::Player* player=nullptr, AllegroFlare::VirtualControllers::Base* virtual_controller=nullptr, int virtual_controller_button_num=0, bool is_repeat=false) override;

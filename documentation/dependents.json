@@ -842,6 +842,9 @@
   "AllegroFlare/Interpolators": [
     "Krampus24/Gameplay/Screen"
   ],
+  "AllegroFlare/DeploymentEnvironment": [
+    "Krampus24/Gameplay/Screen"
+  ],
   "AllegroFlare/SystemInfo": [
     "Krampus24/Testing/WithConstructFixture"
   ],

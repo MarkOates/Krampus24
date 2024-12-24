@@ -32,10 +32,11 @@ The TR-33 package includes all essential components needed to launch a complete 
 Standard Features Include:
 
 - Cryobeds: Budget Model 8008
-- Log and Record Tablets: Essential Edition
-- Library Computer
-- Two Security Turrets
-- Essential Maintenance Robots
+- Log and record tablets: Essential Edition
+- Library computer
+- Two security turrets
+- Essential maintenance robots
+- Automatic biological waste removal system
 
 ---PAGE---
 

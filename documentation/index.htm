@@ -6127,6 +6127,10 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">is_deployment_environment_production</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
   <td class="property">data_folder_path</td>
   <td class="property">std::string</td>
 </tr>
@@ -6458,6 +6462,10 @@ table td
   <td class="method"><b>unlock_all_doors</b>()</td>
 </tr>
 <tr>
+  <td class="method">bool</td>
+  <td class="method"><b>deployment_environment_is_not_production</b>()</td>
+</tr>
+<tr>
   <td class="method">void</td>
   <td class="method"><b>key_down_func</b>(ALLEGRO_EVENT* ev=nullptr)</td>
 </tr>
@@ -6684,6 +6692,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;std::sin&quot;, &quot;headers&quot;=&gt;[&quot;cmath&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::DeploymentEnvironment&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/DeploymentEnvironment.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -7883,6 +7894,9 @@ table td
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/Interpolators": [
+    "Krampus24/Gameplay/Screen"
+  ],
+  "AllegroFlare/DeploymentEnvironment": [
     "Krampus24/Gameplay/Screen"
   ],
   "AllegroFlare/SystemInfo": [

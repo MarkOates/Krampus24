@@ -96,6 +96,7 @@ methods:
       result->set_font_bin(runner->get_font_bin());
       result->set_bitmap_bin(runner->get_bitmap_bin());
       result->set_model_bin(runner->get_model_bin());
+      result->set_is_deployment_environment_production(runner->get_framework()->is_deployment_environment_production());
       result->set_event_emitter(runner->get_event_emitter());
       result->set_dialog_system(&runner->get_framework()->get_dialog_system_ref());
       //result->set_game_configuration(this);
