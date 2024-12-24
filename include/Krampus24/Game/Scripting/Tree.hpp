@@ -102,8 +102,9 @@ namespace Krampus24
             virtual void game_event_func(AllegroFlare::GameEvent* game_event=nullptr) override;
             virtual std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list() override;
             void add_message_to_message_roll(std::string message_text="[unset-message_text]", ALLEGRO_COLOR color=ALLEGRO_COLOR{0.94, 0.97, 1.0, 1.0});
+            ALLEGRO_COLOR build_fail_message_color();
             ALLEGRO_COLOR build_success_message_color();
-            void add_locked_message_to_message_roll();
+            void add_locked_message_to_message_roll(std::string prefix_text="");
             void add_elevator_shaft_unlocked_message(int elevator_shaft_number=0);
             void add_megadoor_unlocked_message();
             void add_vr_room_unlocked_message();

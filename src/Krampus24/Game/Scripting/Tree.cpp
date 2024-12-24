@@ -334,15 +334,28 @@ void Tree::add_message_to_message_roll(std::string message_text, ALLEGRO_COLOR c
    return;
 }
 
+ALLEGRO_COLOR Tree::build_fail_message_color()
+{
+   //return ALLEGRO_COLOR{0.5, 1.0, 0.83, 1.0}; // Aquamarine
+   return ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0};
+   //return ALLEGRO_COLOR{0.0, 0.75, 1.0, 1.0};
+}
+
 ALLEGRO_COLOR Tree::build_success_message_color()
 {
    return ALLEGRO_COLOR{0.5, 1.0, 0.83, 1.0}; // Aquamarine
    //return ALLEGRO_COLOR{0.0, 0.75, 1.0, 1.0};
 }
 
-void Tree::add_locked_message_to_message_roll()
+void Tree::add_locked_message_to_message_roll(std::string prefix_text)
 {
-   add_message_to_message_roll("LOCKED", ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0});
+   //add_message_to_message_roll("LOCKED", ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0});
+
+   add_message_to_message_roll(
+      prefix_text + (prefix_text.empty() ? "" : " ") + "LOCKED",
+      build_fail_message_color()
+      //ALLEGRO_COLOR{0.0, 0.75, 1.0, 1.0}
+   );
    return;
 }
 

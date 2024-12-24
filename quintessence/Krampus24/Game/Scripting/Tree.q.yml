@@ -221,6 +221,14 @@ methods:
       return;
 
 
+  - name: build_fail_message_color
+    type: ALLEGRO_COLOR
+    body: |
+      //return ALLEGRO_COLOR{0.5, 1.0, 0.83, 1.0}; // Aquamarine
+      return ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0};
+      //return ALLEGRO_COLOR{0.0, 0.75, 1.0, 1.0};
+
+
   - name: build_success_message_color
     type: ALLEGRO_COLOR
     body: |
@@ -229,8 +237,18 @@ methods:
 
 
   - name: add_locked_message_to_message_roll
+    parameters:
+      - name: prefix_text
+        type: std::string
+        default_argument: '""'
     body: |
-      add_message_to_message_roll("LOCKED", ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0});
+      //add_message_to_message_roll("LOCKED", ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0});
+
+      add_message_to_message_roll(
+         prefix_text + (prefix_text.empty() ? "" : " ") + "LOCKED",
+         build_fail_message_color()
+         //ALLEGRO_COLOR{0.0, 0.75, 1.0, 1.0}
+      );
       return;
 
 
