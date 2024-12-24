@@ -258,7 +258,7 @@ void Turret::set_state(uint32_t state, bool override_if_busy)
       } break;
 
       case STATE_POWERING_UP: {
-         power_bar_level = 4; // DEVELOPMENT
+         power_bar_level = 0; // DEVELOPMENT
       } break;
 
       case STATE_BROKEN: {
@@ -303,6 +303,8 @@ void Turret::update_state(double time_step, double time_now)
       } break;
 
       case STATE_POWERING_UP: {
+         //throw std::runtime_error("asdfasdf");
+         power_bar_level = ((age / full_power_charge_duration) * 5);
          if (age >= full_power_charge_duration)
          {
             power_bar_level = 4;

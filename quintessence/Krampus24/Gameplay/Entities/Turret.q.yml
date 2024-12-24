@@ -290,7 +290,7 @@ methods:
          } break;
 
          case STATE_POWERING_UP: {
-            power_bar_level = 4; // DEVELOPMENT
+            power_bar_level = 0; // DEVELOPMENT
          } break;
 
          case STATE_BROKEN: {
@@ -331,6 +331,8 @@ methods:
          } break;
 
          case STATE_POWERING_UP: {
+            //throw std::runtime_error("asdfasdf");
+            power_bar_level = ((age / full_power_charge_duration) * 5);
             if (age >= full_power_charge_duration)
             {
                power_bar_level = 4;
