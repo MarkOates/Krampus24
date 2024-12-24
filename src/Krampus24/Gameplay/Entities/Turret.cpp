@@ -5,6 +5,7 @@
 #include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Shaders/Base.hpp>
 #include <allegro5/allegro_color.h>
+#include <cmath>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -200,6 +201,22 @@ void Turret::draw()
    //door->placement.start_transform();
    model->set_texture(texture);
    model->draw();
+
+
+
+   if (is_state(STATE_POWERING_UP))
+   {
+      ALLEGRO_TRANSFORM turret_body_transform;
+      al_identity_transform(&turret_body_transform);
+      al_translate_transform_3d(&turret_body_transform, 0, -1, 0);
+      al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(infer_current_state_age() * 3.2) * 0.4);
+      //al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(al_get_time() * 3.2) * 0.4);
+      al_translate_transform_3d(&turret_body_transform, 0, 1, 0);
+      al_compose_transform(&turret_body_transform, al_get_current_transform());
+      al_use_transform(&turret_body_transform);
+   }
+
+
 
    body->set_texture(texture);
    body->draw();
