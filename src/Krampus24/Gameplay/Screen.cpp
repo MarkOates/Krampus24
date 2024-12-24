@@ -1822,10 +1822,23 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
    }
    AllegroFlare::Screens::Gameplay::key_down_func(ev);
 
+
+   bool shift = ev->keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
+   bool ctrl = ev->keyboard.modifiers & ALLEGRO_KEYMOD_COMMAND;
+
+
+   switch(ev->keyboard.keycode)
+   {
+      case ALLEGRO_KEY_E: {
+         if (!shift) interact_with_focused_inspectable_object();
+      } break;
+   }
+
+
    if (deployment_environment_is_not_production())
    {
-      bool shift = ev->keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
-      bool ctrl = ev->keyboard.modifiers & ALLEGRO_KEYMOD_COMMAND;
+      //bool shift = ev->keyboard.modifiers & ALLEGRO_KEYMOD_SHIFT;
+      //bool ctrl = ev->keyboard.modifiers & ALLEGRO_KEYMOD_COMMAND;
 
       //bool keyboard_control_caught = false;
       // This method is DEBUGGING
@@ -1898,10 +1911,10 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
 
          case ALLEGRO_KEY_E: {
             if (shift) rendering_entity_bounding_boxes = !rendering_entity_bounding_boxes;
-            else
-            {
-               interact_with_focused_inspectable_object();
-            }
+            //else
+            //{
+               //interact_with_focused_inspectable_object();
+            //}
          } break;
 
          case ALLEGRO_KEY_P: {
