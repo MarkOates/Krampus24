@@ -210,6 +210,21 @@ void Turret::draw()
       al_identity_transform(&turret_body_transform);
       al_translate_transform_3d(&turret_body_transform, 0, -1, 0);
       al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(infer_current_state_age() * 3.2) * 0.4);
+      //al_rotate_transform_3d(&turret_body_transform, 1, 0, 0, std::sin(infer_current_state_age() * 3.2) * 0.4);
+      //al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(al_get_time() * 3.2) * 0.4);
+      al_translate_transform_3d(&turret_body_transform, 0, 1, 0);
+      al_compose_transform(&turret_body_transform, al_get_current_transform());
+      al_use_transform(&turret_body_transform);
+   }
+   else if (is_state(STATE_BROKEN))
+   {
+      float death_max_duration = 2.0;
+      float death_duration = std::min(infer_current_state_age(), death_max_duration) / death_max_duration;
+      ALLEGRO_TRANSFORM turret_body_transform;
+      al_identity_transform(&turret_body_transform);
+      al_translate_transform_3d(&turret_body_transform, 0, -1, 0);
+      //al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(infer_current_state_age() * 3.2) * 0.4);
+      al_rotate_transform_3d(&turret_body_transform, 1, 0, 0, death_duration * 0.68);
       //al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(al_get_time() * 3.2) * 0.4);
       al_translate_transform_3d(&turret_body_transform, 0, 1, 0);
       al_compose_transform(&turret_body_transform, al_get_current_transform());
