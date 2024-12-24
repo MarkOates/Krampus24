@@ -278,6 +278,7 @@ bool Turret::on_player_inspect_or_use()
    // TODO: Consider some interaction here
    //throw std::runtime_error("asdfasfasdf");
    if (is_state(STATE_IDLE)) set_state(STATE_POWERING_UP);
+   else if (is_state(STATE_BROKEN)) event_emitter->emit_activate_dialog_node_by_name_event("inspect_broken_turret");
    return true;
 }
 

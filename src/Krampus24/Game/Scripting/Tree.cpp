@@ -1528,6 +1528,18 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             }
          )
       },
+      { "inspect_broken_turret", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
+            "",
+            {
+               u("Uhmm, it seems to have broken."),
+               //u("Whoever brought this on board must have cherished it deeply."),
+            },
+            {
+               //{ "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
+            }
+         )
+      },
       { "inspect_flowers", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "",
             {
