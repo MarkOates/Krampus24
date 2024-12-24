@@ -280,6 +280,7 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
    if (game_event->is_type("unlock_elevator_4")) unlock_sliding_door("sliding_door.002");
    if (game_event->is_type("activate_escape_pod")) activate_escape_pod();//unlock_sliding_door("sliding_door.002");
    if (game_event->is_type("read_station_tr33")) spawn_arbitrary_storyboard_screen("library_computer_station_tr33");
+   if (game_event->is_type("read_swan_corporation")) spawn_arbitrary_storyboard_screen("library_swan_corporation");
    return;
 
    //audio_controller->set_and_load_sound_effect_elements(
@@ -1509,6 +1510,8 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
       },
       { "dialog_read_station_tr33", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("read_station_tr33", "exit_dialog")
       },
+      { "dialog_read_swan_corporation", new AllegroFlare::DialogTree::Nodes::EmitGameEvent("read_swan_corporation", "exit_dialog")
+      },
       { "inspect_cryo_bed", new AllegroFlare::DialogTree::Nodes::MultipageWithOptions(
             "",
             {
@@ -1527,8 +1530,8 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             "",
             {
                //u("This looks like a library computer."), // There's a few entries on the system."),
-               u("This looks like a library computer. There's not much on here at the moment, except for an "
-                 "entry about the space station. What should I do?"), // There's a few entries on the system."),
+               u("This looks like a library computer. There's not much on here, except for a few entries "
+                 "about the space station. What should I do?"), // There's a few entries on the system."),
                //u("There's several ."),
                //u("It's open and empty."),
                //u("I think the red screen means the pod has malfunctioned.")
@@ -1543,6 +1546,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             //}
                //{ "Read about the Station TR-33 model", nullptr, 0 }, // Should be close dialog
                //{ "Read about the Station TR-33 model", nullptr, 0 }, // Should be close dialog
+               { "Read about the SWAN Corporation", new AllegroFlare::DialogTree::NodeOptions::GoToNode("dialog_read_swan_corporation"), 0 },
                { "Read about Station TR-33", new AllegroFlare::DialogTree::NodeOptions::GoToNode("dialog_read_station_tr33"), 0 },
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
@@ -1731,6 +1735,9 @@ std::vector<AllegroFlare::Elements::StoryboardPages::Base *> Tree::create_arbitr
       }},
       { "library_computer_station_tr33", [this, &result]() {
          result = build_storyboard_text_from_file("library_computer_station_tr33.txt");
+      }},
+      { "library_swan_corporation", [this, &result]() {
+         result = build_storyboard_text_from_file("library_swan_corporation.txt");
       }},
    };
 

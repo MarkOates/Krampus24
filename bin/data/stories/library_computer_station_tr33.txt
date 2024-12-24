@@ -1,7 +1,53 @@
 ARCHIVE: LIBRARY COMPUTER
 
-Station TR-33
+SUBJECT: Station TR-33
 
 ---PAGE---
 
-Entry is empty
+The TR-33 Ultra Long-Range Space Transportation Vehicle is SWAN Corporation's most affordable and practical ultra-long-range space transportation model.
+
+This vehicle/station hybrid, like all ultra-long-range models, is ideal for multi-decade missions.
+
+---PAGE---
+
+Unlike SWAN's luxury models, the TR-33 is a cost-effective and efficient vehicle/station hybrid, specifically designed for shorter ultra-range missions lasting between 20 to 200 years.
+
+---PAGE---
+
+The TR-33 features a tall, multi-story vertical column design that centralizes heat and gravity systems into an efficient, unified core.
+
+---PAGE---
+
+The TR-33 package includes all essential components needed to launch a complete space mission. Standard facilities include:
+
+- A library
+- Medical bay
+- Hydroponics lab
+- Mess hall
+- Armory
+- VR room
+
+---PAGE---
+
+Standard Features Include:
+
+- Cryobeds: Budget Model 8008
+- Log and Record Tablets: Essential Edition
+- Library Computer
+- Two Security Turrets
+- Essential Maintenance Robots
+
+---PAGE---
+
+The TR-33 does not include any luxury features or equipment considered non-essential. Mission providers and crew are responsible for including any additional items necessary for their specific mission requirements.
+
+It is recommended that crew members bring one personal item for individual comfort or utility.
+
+---PAGE---
+
+For more information on purchasing the TR-33, contact SWAN to speak with a sales representative.
+
+---PAGE---
+
+For technical support with your TR-33, please visit our dedicated support channel. Please refrain from contacting the marketing department for support-related inquiries.
+
