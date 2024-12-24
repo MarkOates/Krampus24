@@ -5523,6 +5523,10 @@ table td
   <td class="property">int</td>
 </tr>
 <tr>
+  <td class="property">full_power_charge_duration</td>
+  <td class="property">float</td>
+</tr>
+<tr>
   <td class="property">body</td>
   <td class="property">AllegroFlare::Model3D*</td>
 </tr>
@@ -5541,6 +5545,18 @@ table td
 <tr>
   <td class="property">power_bar_4</td>
   <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">state</td>
+  <td class="property">uint32_t</td>
+</tr>
+<tr>
+  <td class="property">state_is_busy</td>
+  <td class="property">bool</td>
+</tr>
+<tr>
+  <td class="property">state_changed_at</td>
+  <td class="property">float</td>
 </tr>
 <tr>
   <td class="property">BLENDER_IDENTIFIER</td>
@@ -5564,6 +5580,30 @@ table td
 <tr>
   <td class="method">bool</td>
   <td class="method"><b>on_player_inspect_or_use</b>()</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>on_time_step</b>(double time_step=0.0f, double time_now=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>set_state</b>(uint32_t state=STATE_UNDEF, bool override_if_busy=false)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>update_state</b>(double time_step=0.0f, double time_now=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_valid_state</b>(uint32_t state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">bool</td>
+  <td class="method"><b>is_state</b>(uint32_t possible_state=STATE_UNDEF)</td>
+</tr>
+<tr>
+  <td class="method">float</td>
+  <td class="method"><b>infer_current_state_age</b>(float time_now=al_get_time())</td>
 </tr>
     </table>
 </div>    <h3>Dependencies</h3>
@@ -5597,6 +5637,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -7143,6 +7186,7 @@ table td
     "Krampus24/Gameplay/Entities/Table",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Trinket",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/WideTable",
     "Krampus24/Gameplay/Entities/Zone",

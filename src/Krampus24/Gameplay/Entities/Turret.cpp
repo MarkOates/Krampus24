@@ -2,9 +2,11 @@
 
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
 
+#include <AllegroFlare/Logger.hpp>
 #include <AllegroFlare/Shaders/Base.hpp>
 #include <allegro5/allegro_color.h>
 #include <iostream>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -21,11 +23,15 @@ Turret::Turret()
    : Krampus24::Gameplay::Entities::Base()
    , initialized(false)
    , power_bar_level(2)
+   , full_power_charge_duration(2.0f)
    , body(nullptr)
    , power_bar_1(nullptr)
    , power_bar_2(nullptr)
    , power_bar_3(nullptr)
    , power_bar_4(nullptr)
+   , state(STATE_UNDEF)
+   , state_is_busy(false)
+   , state_changed_at(0.0f)
 {
 }
 
@@ -38,6 +44,12 @@ Turret::~Turret()
 bool Turret::get_initialized() const
 {
    return initialized;
+}
+
+
+uint32_t Turret::get_state() const
+{
+   return state;
 }
 
 
@@ -74,8 +86,8 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
    // to the bounding box, as well as the collision padding of the player entity
    //float width = 2;
    //float height = 2;
-   AllegroFlare::Vec3D box_start_position = position; // + AllegroFlare::Vec3D(1, 0, 0);
-   AllegroFlare::Vec3D box_end_position = position; // + AllegroFlare::Vec3D(5, 0, 0);
+   //AllegroFlare::Vec3D box_start_position = position; // + AllegroFlare::Vec3D(1, 0, 0);
+   //AllegroFlare::Vec3D box_end_position = position; // + AllegroFlare::Vec3D(5, 0, 0);
 
    // Make the manager
    auto manager = new Krampus24::Gameplay::Entities::Turret;
@@ -84,13 +96,14 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
    manager->texture = bitmap_bin->auto_get("entities_texture-01.png");
    manager->placement.position = position;
    manager->placement.rotation.y = rotation;
-   manager->placement.size = { 0.0, 0.0, 0.0 };
-   manager->placement.align = { 0.5, 0.0, 0.5 };
+   manager->placement.size = { 6.0, 3.0, 6.0 };
+   manager->placement.align = { 0.0, 0.0, 0.0 };
    manager->placement.scale = { 1.0, 1.0, 1.0 };
 
    // Make inspectable
-   //manager->player_can_inspect_or_use = true;
-   manager->aabb3d.set_max({ 5.0, 1.5, 5.0 });
+   manager->collides_with_player = true;
+   manager->player_can_inspect_or_use = true;
+   manager->aabb3d.set_max(manager->placement.size); //{ 5.0, 1.5, 5.0 });
    manager->aabb3d_alignment = { 0.5, 0.0, 0.5 };
 
 
@@ -102,6 +115,8 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
 
 
    manager->initialize();
+
+   manager->set_state(STATE_IDLE);
 
    // DEVELOPMENT: For now, just going to make an interactable zone to trigger the action on this entity
    //manager->set_hit_box_2d(AllegroFlare::Physics::AABB2D(0, 0, 20, 20));
@@ -138,17 +153,20 @@ void Turret::draw()
 
    float base_bar_uv_offset_x = 0.3-0.1;
    float base_bar_uv_offset_y = 0.05;
+   float on_offset = 0.2f;
 
-   float bar_1_uv_offset_x = 0.2 + base_bar_uv_offset_x;
+
+   //float bar_1_uv_offset_x = 0.2f + base_bar_uv_offset_x;
+   float bar_1_uv_offset_x = (bar_1_on ? on_offset : 0.0f) + base_bar_uv_offset_x;
    float bar_1_uv_offset_y = 0.0 + base_bar_uv_offset_y;
 
-   float bar_2_uv_offset_x = 0.0 + base_bar_uv_offset_x;
+   float bar_2_uv_offset_x = (bar_2_on ? on_offset : 0.0f) + base_bar_uv_offset_x;
    float bar_2_uv_offset_y = 0.0 + base_bar_uv_offset_y;
 
-   float bar_3_uv_offset_x = 0.0 + base_bar_uv_offset_x;
+   float bar_3_uv_offset_x = (bar_3_on ? on_offset : 0.0f) + base_bar_uv_offset_x;
    float bar_3_uv_offset_y = 0.0 + base_bar_uv_offset_y;
 
-   float bar_4_uv_offset_x = 0.0 + base_bar_uv_offset_x;
+   float bar_4_uv_offset_x = (bar_4_on ? on_offset : 0.0f) + base_bar_uv_offset_x;
    float bar_4_uv_offset_y = 0.0 + base_bar_uv_offset_y;
 
 
@@ -200,7 +218,132 @@ void Turret::draw()
 bool Turret::on_player_inspect_or_use()
 {
    // TODO: Consider some interaction here
+   //throw std::runtime_error("asdfasfasdf");
+   if (is_state(STATE_IDLE)) set_state(STATE_POWERING_UP);
    return true;
+}
+
+void Turret::on_time_step(double time_step, double time_now)
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Turret::on_time_step]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Turret::on_time_step]: error: guard \"initialized\" not met");
+   }
+   update_state(time_step, time_now);
+   return;
+}
+
+void Turret::set_state(uint32_t state, bool override_if_busy)
+{
+   if (!(is_valid_state(state)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Turret::set_state]: error: guard \"is_valid_state(state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Turret::set_state]: error: guard \"is_valid_state(state)\" not met");
+   }
+   if (this->state == state) return;
+   if (!override_if_busy && state_is_busy) return;
+   uint32_t previous_state = this->state;
+   //this->state = state;
+   //state_changed_at = al_get_time();
+
+   switch (state)
+   {
+      case STATE_IDLE: {
+         power_bar_level = 0;
+      } break;
+
+      case STATE_POWERING_UP: {
+         power_bar_level = 4; // DEVELOPMENT
+      } break;
+
+      case STATE_BROKEN: {
+         power_bar_level = 0; // DEVELOPMENT
+      } break;
+
+      default: {
+         AllegroFlare::Logger::throw_error(
+            "ClassName::set_state",
+            "Unable to handle case for state \"" + std::to_string(state) + "\""
+         );
+      } break;
+   }
+
+   this->state = state;
+   state_changed_at = al_get_time();
+
+   return;
+}
+
+void Turret::update_state(double time_step, double time_now)
+{
+   if (!(initialized))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Turret::update_state]: error: guard \"initialized\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Turret::update_state]: error: guard \"initialized\" not met");
+   }
+   if (!(is_valid_state(state)))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Turret::update_state]: error: guard \"is_valid_state(state)\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Turret::update_state]: error: guard \"is_valid_state(state)\" not met");
+   }
+   float age = infer_current_state_age(time_now);
+
+   switch (state)
+   {
+      case STATE_IDLE: {
+      } break;
+
+      case STATE_POWERING_UP: {
+         if (age >= full_power_charge_duration)
+         {
+            power_bar_level = 4;
+            set_state(STATE_BROKEN);
+            // TODO: Play broke sound effect
+         }
+      } break;
+
+      case STATE_BROKEN: {
+      } break;
+
+      default: {
+         AllegroFlare::Logger::throw_error(
+            "ClassName::update_state",
+            "Unable to handle case for state \"" + std::to_string(state) + "\""
+         );
+      } break;
+   }
+
+   return;
+}
+
+bool Turret::is_valid_state(uint32_t state)
+{
+   std::set<uint32_t> valid_states =
+   {
+      STATE_IDLE,
+      STATE_POWERING_UP,
+      STATE_BROKEN,
+   };
+   return (valid_states.count(state) > 0);
+}
+
+bool Turret::is_state(uint32_t possible_state)
+{
+   return (state == possible_state);
+}
+
+float Turret::infer_current_state_age(float time_now)
+{
+   return (time_now - state_changed_at);
 }
 
 
