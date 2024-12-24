@@ -64,11 +64,11 @@ Krampus24::Gameplay::Entities::Horse* Horse::construct(AllegroFlare::ModelBin* m
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Horse::construct]: error: guard \"bitmap_bin\" not met");
    }
    Krampus24::Gameplay::Entities::Horse* result = new Krampus24::Gameplay::Entities::Horse;
-   result->model = model_bin->auto_get("horse-02-body.obj");
+   result->model = model_bin->auto_get("horse-03-body.obj");
    result->texture = bitmap_bin->auto_get("entities_texture-01.png");
 
 
-   result->legs_model = model_bin->auto_get("horse-02-legs.obj");
+   result->legs_model = model_bin->auto_get("horse-03-legs.obj");
 
 
    //Krampus24::Gameplay::Entities::Base* result = new Krampus24::Gameplay::Entities::Base();

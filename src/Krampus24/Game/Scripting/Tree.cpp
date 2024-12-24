@@ -538,18 +538,37 @@ void Tree::place_all_animals_in_escape_pod()
 {
    // TODO: Place all animals in the escape pod
    std::vector<Krampus24::Gameplay::Entities::Base*> all_animals = collect_all_animals();
-   AllegroFlare::Vec3D center_of_escape_pod(19-3, 15+0.001, 8);
+   AllegroFlare::Vec3D center_of_escape_pod(19-3, 15+0.001, 8-5);
+   float rotation = -0.25f;
+
+   auto hen = find_entity_by_name_or_throw("hen-01");
+   auto horse_1 = find_entity_by_name_or_throw("horse-01");
+   auto horse_2 = find_entity_by_name_or_throw("horse-01.001");
+   auto pig = find_entity_by_name_or_throw("pig.001");
+
+   // Move all the animals into position
    for (auto &animal : all_animals)
    {
       animal->placement.position = center_of_escape_pod;
-      if (animal->name == "hen-01")
-      {
-         static_cast<Krampus24::Gameplay::Entities::Hen*>(animal)->
-            move_to_new_initial_position__return_to_origin__and_set_state_to_standing(
-               center_of_escape_pod
-            );
-      }
+      animal->placement.rotation.y = rotation;
    }
+
+   // Distribute the animals in the escape pod (so they're not on top of each other)
+
+   static_cast<Krampus24::Gameplay::Entities::Hen*>(hen)->
+      move_to_new_initial_position__return_to_origin__and_set_state_to_standing(
+         center_of_escape_pod
+      );
+   hen->placement.position.z += 7;
+   hen->placement.rotation.y += 0.5;
+   hen->placement.position.x += 1.0;
+
+   horse_1->placement.position.z += 3;
+
+   horse_2->placement.position.z += 4;
+
+   pig->placement.position.z += 6;
+
    return;
 }
 
