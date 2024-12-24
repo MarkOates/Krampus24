@@ -133,8 +133,8 @@ namespace Krampus24
             void retrieve_primary_power_coil();
             void link_elevators(std::string elevator_a_name="[unset-elevator_a_name]", std::string elevator_b_name="[unset-elevator_b_name]");
             void set_elevator_shaft_num_tiers(std::string elevator_shaft_name="[unset-elevator_shaft_name]", float num_tiers=4.0f);
-            void snap_elevator_shaft_to_bottom(std::string elevator_shaft_name="[unset-elevator_shaft_name]");
-            void snap_elevator_shaft_to_top(std::string elevator_shaft_name="[unset-elevator_shaft_name]");
+            void snap_elevator_shaft_to_bottom_if_not_moving(std::string elevator_shaft_name="[unset-elevator_shaft_name]");
+            void snap_elevator_shaft_to_top_if_not_moving(std::string elevator_shaft_name="[unset-elevator_shaft_name]");
             void customize_door_style(std::string door_object_name="[unset-door_object_name]", Krampus24::Gameplay::Entities::Door::Style door_style=Krampus24::Gameplay::Entities::Door::Style::STYLE_BARN);
             bool sliding_door_is_locked(std::string sliding_door_object_name="[unset-sliding_door_object_name]");
             void set_trinket_type(std::string trinket_object_name="[unset-trinket_object_name]", Krampus24::Gameplay::Entities::Trinket::TrinketType trinket_type=Krampus24::Gameplay::Entities::Trinket::TrinketType::TRINKET_TYPE_UNDEF);

@@ -93,8 +93,9 @@ namespace Krampus24
             virtual bool on_player_inspect_or_use() override;
             void lock();
             void unlock();
-            void snap_to_top();
-            void snap_to_bottom();
+            bool elevator_is_moving();
+            void snap_to_top_if_not_moving();
+            void snap_to_bottom_if_not_moving();
             void set_style(Krampus24::Gameplay::Entities::ElevatorShaft::Style style=STYLE_UNDEF);
             void set_uv_offset_x(float uv_offset_x=0.0f);
             void set_uv_offset_y(float uv_offset_y=0.0f);

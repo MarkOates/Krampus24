@@ -1039,26 +1039,26 @@ void Tree::set_elevator_shaft_num_tiers(std::string elevator_shaft_name, float n
    return;
 }
 
-void Tree::snap_elevator_shaft_to_bottom(std::string elevator_shaft_name)
+void Tree::snap_elevator_shaft_to_bottom_if_not_moving(std::string elevator_shaft_name)
 {
    Krampus24::Gameplay::Entities::Base* e = find_entity_by_name_or_throw(elevator_shaft_name);
 
    // NOTE: Warning: assuming this is an Entities::Door!
    // TODO: Validate this is a door!
    auto as = static_cast<Krampus24::Gameplay::Entities::ElevatorShaft*>(e);
-   as->snap_to_bottom();
+   as->snap_to_bottom_if_not_moving();
    //as->set_num_tiers(num_tiers);
    return;
 }
 
-void Tree::snap_elevator_shaft_to_top(std::string elevator_shaft_name)
+void Tree::snap_elevator_shaft_to_top_if_not_moving(std::string elevator_shaft_name)
 {
    Krampus24::Gameplay::Entities::Base* e = find_entity_by_name_or_throw(elevator_shaft_name);
 
    // NOTE: Warning: assuming this is an Entities::Door!
    // TODO: Validate this is a door!
    auto as = static_cast<Krampus24::Gameplay::Entities::ElevatorShaft*>(e);
-   as->snap_to_top();
+   as->snap_to_top_if_not_moving();
    //as->set_num_tiers(num_tiers);
    return;
 }
@@ -1285,38 +1285,38 @@ void Tree::build_on_collision_callbacks()
 
    on_entity_collision_callbacks = {
       { find_entity_by_name_or_throw("door.001"), [this](){
-         snap_elevator_shaft_to_bottom("elevator_shaft.001");
+         snap_elevator_shaft_to_bottom_if_not_moving("elevator_shaft.001");
       }},
       { find_entity_by_name_or_throw("door.002"), [this](){
-         snap_elevator_shaft_to_top("elevator_shaft.001");
+         snap_elevator_shaft_to_top_if_not_moving("elevator_shaft.001");
       }},
 
       { find_entity_by_name_or_throw("door.003"), [this](){
-         snap_elevator_shaft_to_bottom("elevator_shaft.005");
+         snap_elevator_shaft_to_bottom_if_not_moving("elevator_shaft.005");
       }},
       { find_entity_by_name_or_throw("door.004"), [this](){
-         snap_elevator_shaft_to_top("elevator_shaft.005");
+         snap_elevator_shaft_to_top_if_not_moving("elevator_shaft.005");
       }},
 
       { find_entity_by_name_or_throw("door.005"), [this](){
-         snap_elevator_shaft_to_bottom("elevator_shaft.002");
+         snap_elevator_shaft_to_bottom_if_not_moving("elevator_shaft.002");
       }},
       { find_entity_by_name_or_throw("door.007"), [this](){
-         snap_elevator_shaft_to_top("elevator_shaft.002");
+         snap_elevator_shaft_to_top_if_not_moving("elevator_shaft.002");
       }},
 
       { find_entity_by_name_or_throw("door.006"), [this](){
-         snap_elevator_shaft_to_bottom("elevator_shaft.003");
+         snap_elevator_shaft_to_bottom_if_not_moving("elevator_shaft.003");
       }},
       { find_entity_by_name_or_throw("door.009"), [this](){
-         snap_elevator_shaft_to_top("elevator_shaft.003");
+         snap_elevator_shaft_to_top_if_not_moving("elevator_shaft.003");
       }},
 
       { find_entity_by_name_or_throw("sliding_door.002"), [this](){
-         snap_elevator_shaft_to_bottom("elevator_shaft.004");
+         snap_elevator_shaft_to_bottom_if_not_moving("elevator_shaft.004");
       }},
       { find_entity_by_name_or_throw("sliding_door.003"), [this](){
-         snap_elevator_shaft_to_top("elevator_shaft.004");
+         snap_elevator_shaft_to_top_if_not_moving("elevator_shaft.004");
       }},
 
       //{ find_entity_by_name_or_throw("hen-01"), [this](){

@@ -427,15 +427,21 @@ methods:
       return;
 
 
-  - name: snap_to_top
+  - name: elevator_is_moving
+    type: bool
     body: |
-      set_state(STATE_AT_TOP);
+      return is_state(STATE_GOING_UP) || is_state(STATE_GOING_DOWN);
+
+
+  - name: snap_to_top_if_not_moving
+    body: |
+      if (!elevator_is_moving()) set_state(STATE_AT_TOP);
       return;
 
 
-  - name: snap_to_bottom
+  - name: snap_to_bottom_if_not_moving
     body: |
-      set_state(STATE_AT_BOTTOM);
+      if (!elevator_is_moving()) set_state(STATE_AT_BOTTOM);
       return;
 
 

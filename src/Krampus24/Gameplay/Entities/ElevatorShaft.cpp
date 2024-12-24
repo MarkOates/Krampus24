@@ -355,15 +355,20 @@ void ElevatorShaft::unlock()
    return;
 }
 
-void ElevatorShaft::snap_to_top()
+bool ElevatorShaft::elevator_is_moving()
 {
-   set_state(STATE_AT_TOP);
+   return is_state(STATE_GOING_UP) || is_state(STATE_GOING_DOWN);
+}
+
+void ElevatorShaft::snap_to_top_if_not_moving()
+{
+   if (!elevator_is_moving()) set_state(STATE_AT_TOP);
    return;
 }
 
-void ElevatorShaft::snap_to_bottom()
+void ElevatorShaft::snap_to_bottom_if_not_moving()
 {
-   set_state(STATE_AT_BOTTOM);
+   if (!elevator_is_moving()) set_state(STATE_AT_BOTTOM);
    return;
 }
 
