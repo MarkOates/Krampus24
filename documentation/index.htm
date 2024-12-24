@@ -5519,6 +5519,30 @@ table td
   <td class="property">bool</td>
 </tr>
 <tr>
+  <td class="property">power_bar_level</td>
+  <td class="property">int</td>
+</tr>
+<tr>
+  <td class="property">body</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">power_bar_1</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">power_bar_2</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">power_bar_3</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
+  <td class="property">power_bar_4</td>
+  <td class="property">AllegroFlare::Model3D*</td>
+</tr>
+<tr>
   <td class="property">BLENDER_IDENTIFIER</td>
   <td class="property">char*</td>
 </tr>
@@ -5532,6 +5556,10 @@ table td
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Turret*</td>
   <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D position={}, float rotation=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>draw</b>()</td>
 </tr>
 <tr>
   <td class="method">bool</td>
@@ -5560,6 +5588,15 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Turret&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Turret.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;al_color_name&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_color.h&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Shaders::Base&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Shaders/Base.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Model3D&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Model3D.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -7614,6 +7651,7 @@ table td
     "Krampus24/Gameplay/Entities/Table",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Trinket",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/WideTable",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/Screen"
@@ -7653,6 +7691,7 @@ table td
     "Krampus24/Gameplay/Entities/Table",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Trinket",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/WideTable"
   ],
   "AllegroFlare/Vec2D": [
@@ -7776,6 +7815,7 @@ table td
     "Krampus24/Gameplay/Entities/Table",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Trinket",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/WideTable",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Shaders/AllegroDefault",

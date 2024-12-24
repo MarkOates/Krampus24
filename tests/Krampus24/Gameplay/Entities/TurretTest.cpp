@@ -55,3 +55,5 @@ TEST_F(Krampus24_Gameplay_Entities_TurretWithConstructFixtureTest, can_be_create
          float angle_in_degrees = angle_in_radians * (180.0 / ALLEGRO_PI);
          float angle_in_units = angle_in_degrees / 360.0f;
 */
+
+

@@ -2,6 +2,8 @@
 
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
 
+#include <AllegroFlare/Shaders/Base.hpp>
+#include <allegro5/allegro_color.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -18,6 +20,12 @@ namespace Entities
 Turret::Turret()
    : Krampus24::Gameplay::Entities::Base()
    , initialized(false)
+   , power_bar_level(2)
+   , body(nullptr)
+   , power_bar_1(nullptr)
+   , power_bar_2(nullptr)
+   , power_bar_3(nullptr)
+   , power_bar_4(nullptr)
 {
 }
 
@@ -71,8 +79,9 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
 
    // Make the manager
    auto manager = new Krampus24::Gameplay::Entities::Turret;
-   manager->model = model_bin->auto_get("turret-03.obj");
-   manager->texture = bitmap_bin->auto_get("turret-03.png");
+   manager->model = model_bin->auto_get("turret-11-legs.obj");
+   //manager->texture = bitmap_bin->auto_get("turret-11-body.png");
+   manager->texture = bitmap_bin->auto_get("entities_texture-01.png");
    manager->placement.position = position;
    manager->placement.rotation.y = rotation;
    manager->placement.size = { 0.0, 0.0, 0.0 };
@@ -84,6 +93,14 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
    manager->aabb3d.set_max({ 5.0, 1.5, 5.0 });
    manager->aabb3d_alignment = { 0.5, 0.0, 0.5 };
 
+
+   manager->body = model_bin->auto_get("turret-11-body.obj");
+   manager->power_bar_1 = model_bin->auto_get("turret-11-power_bar_1.obj");
+   manager->power_bar_2 = model_bin->auto_get("turret-11-power_bar_2.obj");
+   manager->power_bar_3 = model_bin->auto_get("turret-11-power_bar_3.obj");
+   manager->power_bar_4 = model_bin->auto_get("turret-11-power_bar_4.obj");
+
+
    manager->initialize();
 
    // DEVELOPMENT: For now, just going to make an interactable zone to trigger the action on this entity
@@ -92,6 +109,92 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
    //manager->set(AllegroFlare::Prototypes::TileFPS::EntityFlags::COLLIDES_WITH_PLAYER);
 
    return manager;
+}
+
+void Turret::draw()
+{
+   placement.start_transform();
+
+   ALLEGRO_COLOR color = al_color_name("dodgerblue");
+   AllegroFlare::Shaders::Base::set_vec3("color_lift", color.r, color.g, color.b);
+   AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.08);
+   AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 2);
+
+
+   //AllegroFlare::Shaders::Base::set_float("color_lift", al_color_name("lightpink"));
+   //AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", uv_offset_x);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", uv_offset_y);
+
+
+
+   bool bar_1_on = power_bar_level >= 1;
+   bool bar_2_on = power_bar_level >= 2;
+   bool bar_3_on = power_bar_level >= 3;
+   bool bar_4_on = power_bar_level >= 4;
+
+
+
+   float base_bar_uv_offset_x = 0.3-0.1;
+   float base_bar_uv_offset_y = 0.05;
+
+   float bar_1_uv_offset_x = 0.2 + base_bar_uv_offset_x;
+   float bar_1_uv_offset_y = 0.0 + base_bar_uv_offset_y;
+
+   float bar_2_uv_offset_x = 0.0 + base_bar_uv_offset_x;
+   float bar_2_uv_offset_y = 0.0 + base_bar_uv_offset_y;
+
+   float bar_3_uv_offset_x = 0.0 + base_bar_uv_offset_x;
+   float bar_3_uv_offset_y = 0.0 + base_bar_uv_offset_y;
+
+   float bar_4_uv_offset_x = 0.0 + base_bar_uv_offset_x;
+   float bar_4_uv_offset_y = 0.0 + base_bar_uv_offset_y;
+
+
+
+   //door->placement.start_transform();
+   model->set_texture(texture);
+   model->draw();
+
+   body->set_texture(texture);
+   body->draw();
+
+   //AllegroFlare::Shaders::Base::set_float("color_lift", al_color_name("red"));
+   //AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.3);
+
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", bar_1_uv_offset_x);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", bar_1_uv_offset_y);
+   power_bar_1->set_texture(texture);
+   power_bar_1->draw();
+
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", bar_2_uv_offset_x);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", bar_2_uv_offset_y);
+   power_bar_2->set_texture(texture);
+   power_bar_2->draw();
+
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", bar_3_uv_offset_x);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", bar_3_uv_offset_y);
+   power_bar_3->set_texture(texture);
+   power_bar_3->draw();
+
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", bar_4_uv_offset_x);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", bar_4_uv_offset_y);
+   power_bar_4->set_texture(texture);
+   power_bar_4->draw();
+   //door->placement.restore_transform();
+
+
+
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0.0);
+   //AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0.0);
+   AllegroFlare::Shaders::Base::set_int("color_lift_blend_mode", 0);
+   AllegroFlare::Shaders::Base::set_float("color_lift_intensity", 0.0);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_x", 0);
+   AllegroFlare::Shaders::Base::set_float("uv_offset_y", 0);
+
+   placement.restore_transform();
+   return;
 }
 
 bool Turret::on_player_inspect_or_use()
