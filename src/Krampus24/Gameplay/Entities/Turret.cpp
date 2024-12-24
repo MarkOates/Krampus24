@@ -148,7 +148,7 @@ void Turret::play_turret_startup_sound_effect()
 std::map<std::string, AllegroFlare::AudioRepositoryElement> Turret::build_audio_controller_sound_effect_list()
 {
    std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
-      { "turret_bootup_sound", { "turret_bootup_sound-03.ogg", false, "restart" } },
+      { "turret_bootup_sound", { "turret_bootup_sound-05.ogg", false, "restart" } },
    };
    return sound_effect_elements;
 }
@@ -209,8 +209,10 @@ void Turret::draw()
       ALLEGRO_TRANSFORM turret_body_transform;
       al_identity_transform(&turret_body_transform);
       al_translate_transform_3d(&turret_body_transform, 0, -1, 0);
+          //al_rotate_transform_3d(&turret_body_transform, 1, 0, 0, -std::sin(infer_current_state_age() * 4.2) * 0.1);
       al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(infer_current_state_age() * 3.2) * 0.4);
       //al_rotate_transform_3d(&turret_body_transform, 1, 0, 0, std::sin(infer_current_state_age() * 3.2) * 0.4);
+          //al_rotate_transform_3d(&turret_body_transform, 1, 0, 0, -std::sin(infer_current_state_age() * 4.2) * 0.2);
       //al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(al_get_time() * 3.2) * 0.4);
       al_translate_transform_3d(&turret_body_transform, 0, 1, 0);
       al_compose_transform(&turret_body_transform, al_get_current_transform());
@@ -218,13 +220,13 @@ void Turret::draw()
    }
    else if (is_state(STATE_BROKEN))
    {
-      float death_max_duration = 2.0;
+      float death_max_duration = 1.9;
       float death_duration = std::min(infer_current_state_age(), death_max_duration) / death_max_duration;
       ALLEGRO_TRANSFORM turret_body_transform;
       al_identity_transform(&turret_body_transform);
       al_translate_transform_3d(&turret_body_transform, 0, -1, 0);
       //al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(infer_current_state_age() * 3.2) * 0.4);
-      al_rotate_transform_3d(&turret_body_transform, 1, 0, 0, death_duration * 0.68);
+      al_rotate_transform_3d(&turret_body_transform, 1, 0, 0, death_duration * 0.53);
       //al_rotate_transform_3d(&turret_body_transform, 0, 1, 0, std::sin(al_get_time() * 3.2) * 0.4);
       al_translate_transform_3d(&turret_body_transform, 0, 1, 0);
       al_compose_transform(&turret_body_transform, al_get_current_transform());
