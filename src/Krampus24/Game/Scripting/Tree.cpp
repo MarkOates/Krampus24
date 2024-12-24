@@ -1467,7 +1467,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             {
                u("A cherished family photo, no doubt."),
                u("Showing a father, a wife, and a son."),
-               u("This must be the family of whoever brought this onto the station."),
+               u("This must be the family of this crew member."),
                u("This mission must have been something really important if they had to leave their family behind."),
             },
             {

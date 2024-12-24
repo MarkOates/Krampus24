@@ -239,6 +239,14 @@ properties:
     type: bool
     init_with: false
 
+  - name: game_artifically_won
+    type: bool
+    init_with: false
+
+  - name: win_state_signaled
+    type: bool
+    init_with: false
+
   - name: dev__str_1
     type: std::string
     init_with: '"[unset-def__str_1]"'
@@ -1284,9 +1292,13 @@ methods:
       // Evaluate win condition
       //
 
-      if (scripting && scripting->end_state_achieved())
+      if (!win_state_signaled)
       {
-         call_on_finished_callback_func();
+         if ((scripting && scripting->end_state_achieved()) || game_artifically_won)
+         {
+            call_on_finished_callback_func();
+            win_state_signaled = true;
+         }
       }
 
       return;
@@ -1786,6 +1798,10 @@ methods:
 
             case ALLEGRO_KEY_C: {
                rendering_collision_wiremesh = !rendering_collision_wiremesh;
+            } break;
+
+            case ALLEGRO_KEY_8: {
+               if (shift) game_artifically_won = true;
             } break;
 
 

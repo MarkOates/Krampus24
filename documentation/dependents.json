@@ -216,6 +216,9 @@
     "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Screen"
   ],
+  "ReleaseInfo": [
+    "Krampus24/Game/Configurations/Main"
+  ],
   "Krampus24/Game/DialogTree": [
     "Krampus24/Game/DialogBuilder"
   ],

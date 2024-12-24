@@ -92,6 +92,8 @@ namespace Krampus24
          bool rendering_entity_bounding_boxes;
          std::string inspect_hint_text;
          bool showing_inspect_hint;
+         bool game_artifically_won;
+         bool win_state_signaled;
          std::string dev__str_1;
          float dev__float_1;
          float dev__float_2;

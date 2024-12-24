@@ -53,7 +53,9 @@ methods:
     virtual: true
     override: true
     body: |
-      return "C      Y      G      N      U      S             A      T      R      A      T      U      S";
+      //return "C        Y        G        N        U        S\nA      T      R      A      T      U      S";
+      //return "C        Y        G        N        U        S\nA      T      R      A      T      U      S";
+      return "C Y G N U S    A T R A T U S";
       //return "A      T      R      A      T      U      S";
 
 
@@ -137,24 +139,31 @@ methods:
       // Set the title style
       auto &title_screen = runner->get_title_screen_ref();
       //title_screen.set_title_font_size(-48);
-      title_screen.set_title_font_size(-48);
-      title_screen.set_title_position_y(1080/2-60);
-      title_screen.set_title_font_name("Orbitron-Medium.ttf");
+      //title_screen.set_title_font_size(-92);
+      title_screen.set_title_font_size(-102);
+      title_screen.set_title_position_y(1080/2-60*2-8);
+      //title_screen.set_title_font_name("Orbitron-Medium.ttf");
+      //title_screen.set_title_font_name("Exan-Regular.ttf");
+      title_screen.set_title_font_name("Michroma-Regular.ttf");
       //title_screen.set_title_text(CubeShooter::Typography::Transforms::kern_and_uppercase("Cube Shooter", 4));
 
       // Set the menu style
-      title_screen.set_menu_position_y(1080/12*7);
+      title_screen.set_menu_position_y(1080/12*7 + 32);
       title_screen.set_menu_font_name("Orbitron-Medium.ttf");
-      title_screen.set_menu_font_size(-26);
+      title_screen.set_menu_font_name("Exan-Regular.ttf");
+      title_screen.set_menu_font_size(-24);
       title_screen.set_menu_text_color(ALLEGRO_COLOR{0.8, 0.8, 0.8, 0.8});
       title_screen.set_menu_selected_text_color(ALLEGRO_COLOR{1, 1, 1, 1});
       title_screen.set_menu_selector_color(ALLEGRO_COLOR{0.0, 0.01, 0.02, 0.05});
       title_screen.set_menu_selector_outline_color(ALLEGRO_COLOR{0.8, 0.8, 0.8, 0.8});
 
       // Set the copyright style
+      ReleaseInfo release_info;
       //std::string copyright_text = "Copyright 2023 - CLUBCATT Games - Version " + release_info.get_version();
+      //title_screen.set_copyright_font_name("Exan-Regular.ttf");
+      title_screen.set_copyright_font_name("Michroma-Regular.ttf");
       //title_screen.set_copyright_text(copyright_text);
-      //title_screen.set_copyright_font_size(-18);
+      title_screen.set_copyright_font_size(-22);
       //title_screen.set_copyright_text_color(AllegroFlare::Color(0xefefff, 0.2).to_al());
 
 
@@ -170,6 +179,7 @@ methods:
       - Krampus24::Gameplay::Screen
       - AllegroFlare::Runners::Complete
       - Krampus24::Game::Scripting::Tree
+      - ReleaseInfo 
 
 
   - name: create_primary_gameplay_subscreen
@@ -574,13 +584,13 @@ methods:
          //{ "Continue",          "continue_from_last_save" },       // TODO: If game session is saved and valid
          //{ "Load a Saved Game", "goto_load_a_saved_game_screen" }, // TODO: If game session is saved and valid,
                                                                    // and the game supports save slots
-         { "Start New Game",    "start_new_game" },                // TODO: If the game session has not begun
+         { u("Start New Game"),    "start_new_game" },                // TODO: If the game session has not begun
          //{ "Achievements",      "goto_achievements_screen" },
          //{ "Settings",          "goto_settings_screen" },
-         { "Settings",          "goto_display_settings_screen" },
+         { u("Settings"),          "goto_display_settings_screen" },
          //{ "Version",           "goto_version_screen" },
          //{ "Credits",           "goto_credits_screen" },           // TODO: If game has been won
-         { "Quit",              "quit" },
+         { u("Quit"),              "quit" },
       };
       return options;
 
@@ -914,5 +924,7 @@ dependencies:
     headers: [ AllegroFlare/FontBin.hpp ]
   - symbol: AllegroFlare::StringTransformer
     headers: [ AllegroFlare/StringTransformer.hpp ]
+  - symbol: ReleaseInfo
+    headers: [ ReleaseInfo.hpp ]
 
 

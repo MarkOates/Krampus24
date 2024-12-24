@@ -78,6 +78,8 @@ Screen::Screen(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::BitmapBi
    , rendering_entity_bounding_boxes(false)
    , inspect_hint_text(DEFAULT_INSPECT_HINT_TEXT)
    , showing_inspect_hint(false)
+   , game_artifically_won(false)
+   , win_state_signaled(false)
    , dev__str_1("[unset-def__str_1]")
    , dev__float_1(0.0f)
    , dev__float_2(0.0f)
@@ -1438,9 +1440,13 @@ void Screen::update()
    // Evaluate win condition
    //
 
-   if (scripting && scripting->end_state_achieved())
+   if (!win_state_signaled)
    {
-      call_on_finished_callback_func();
+      if ((scripting && scripting->end_state_achieved()) || game_artifically_won)
+      {
+         call_on_finished_callback_func();
+         win_state_signaled = true;
+      }
    }
 
    return;
@@ -1931,6 +1937,10 @@ void Screen::key_down_func(ALLEGRO_EVENT* ev)
 
          case ALLEGRO_KEY_C: {
             rendering_collision_wiremesh = !rendering_collision_wiremesh;
+         } break;
+
+         case ALLEGRO_KEY_8: {
+            if (shift) game_artifically_won = true;
          } break;
 
 
