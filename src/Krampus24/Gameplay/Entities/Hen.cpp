@@ -125,11 +125,11 @@ void Hen::on_time_step(double time_step, double time_now)
    return;
 }
 
-void Hen::move_to_new_initial_position__return_to_origin__and_set_state_to_standing(AllegroFlare::Vec3D initial_position)
+void Hen::move_to_new_initial_position__return_to_origin__and_set_state_to_idle(AllegroFlare::Vec3D initial_position)
 {
    this->initial_position = initial_position;
    placement.position = initial_position;
-   set_state(STATE_STANDING);
+   set_state(STATE_IDLE);
    return;
 }
 
@@ -159,6 +159,9 @@ void Hen::set_state(uint32_t state, bool override_if_busy)
    switch (state)
    {
       case STATE_STANDING: {
+      } break;
+
+      case STATE_IDLE: {
       } break;
 
       case STATE_ROAMING: {
@@ -202,6 +205,18 @@ void Hen::update_state(double time_step, double time_now)
    switch (state)
    {
       case STATE_STANDING: {
+         //float anchor_y = std::sin(time_now*12) * 0.05;
+         //placement.anchor.y = anchor_y;
+         //velocity.position = movement_direction * movement_velocity;
+         //float anchor_x = 0.0;
+         //float anchor_y = std::sin(time_now*12) * 0.05;
+         //float anchor_z = 0.0;
+         //placement.anchor = AllegroFlare::Vec3D(anchor_x, anchor_y, anchor_z);
+      } break;
+
+      case STATE_IDLE: {
+         float anchor_y = std::sin(time_now*12) * 0.05;
+         placement.anchor.y = anchor_y;
          //velocity.position = movement_direction * movement_velocity;
          //float anchor_x = 0.0;
          //float anchor_y = std::sin(time_now*12) * 0.05;
@@ -275,6 +290,7 @@ bool Hen::is_valid_state(uint32_t state)
    std::set<uint32_t> valid_states =
    {
       STATE_STANDING,
+      STATE_IDLE,
       STATE_RETURNING,
       STATE_ROAMING,
       STATE_TURNING,

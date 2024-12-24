@@ -445,7 +445,7 @@ methods:
       // Distribute the animals in the escape pod (so they're not on top of each other)
 
       static_cast<Krampus24::Gameplay::Entities::Hen*>(hen)->
-         move_to_new_initial_position__return_to_origin__and_set_state_to_standing(
+         move_to_new_initial_position__return_to_origin__and_set_state_to_idle(
             center_of_escape_pod
          );
       hen->placement.position.z += 7;
