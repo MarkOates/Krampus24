@@ -272,12 +272,36 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
       throw std::runtime_error("[Krampus24::Game::Scripting::Tree::game_event_func]: error: guard \"game_event\" not met");
    }
    // TODO: Handle different events
-   if (game_event->is_type("unlock_mega_door")) unlock_mega_door("mega_door.001");
-   if (game_event->is_type("unlock_elevator_1")) unlock_door("door.003");
-   if (game_event->is_type("unlock_elevator_2")) unlock_door("door.005");
-   if (game_event->is_type("unlock_vr_room")) unlock_sliding_door("sliding_door.001");
-   if (game_event->is_type("unlock_elevator_3")) unlock_door("door.006");
-   if (game_event->is_type("unlock_elevator_4")) unlock_sliding_door("sliding_door.002");
+   if (game_event->is_type("unlock_mega_door"))
+   {
+      unlock_mega_door("mega_door.001");
+      add_megadoor_unlocked_message();
+   }
+   if (game_event->is_type("unlock_elevator_1"))
+   {
+      unlock_door("door.003");
+      add_elevator_shaft_unlocked_message(1);
+   }
+   if (game_event->is_type("unlock_elevator_2"))
+   {
+      unlock_door("door.005");
+      add_elevator_shaft_unlocked_message(2);
+   }
+   if (game_event->is_type("unlock_vr_room"))
+   {
+      unlock_sliding_door("sliding_door.001");
+      add_vr_room_unlocked_message();
+   }
+   if (game_event->is_type("unlock_elevator_3"))
+   {
+      unlock_door("door.006");
+      add_elevator_shaft_unlocked_message(3);
+   }
+   if (game_event->is_type("unlock_elevator_4"))
+   {
+      unlock_sliding_door("sliding_door.002");
+      add_elevator_shaft_unlocked_message(4);
+   }
    if (game_event->is_type("activate_escape_pod")) activate_escape_pod();//unlock_sliding_door("sliding_door.002");
    if (game_event->is_type("read_station_tr33")) spawn_arbitrary_storyboard_screen("library_computer_station_tr33");
    if (game_event->is_type("read_swan_corporation")) spawn_arbitrary_storyboard_screen("library_swan_corporation");
@@ -310,9 +334,37 @@ void Tree::add_message_to_message_roll(std::string message_text, ALLEGRO_COLOR c
    return;
 }
 
+ALLEGRO_COLOR Tree::build_success_message_color()
+{
+   return ALLEGRO_COLOR{0.5, 1.0, 0.83, 1.0}; // Aquamarine
+   //return ALLEGRO_COLOR{0.0, 0.75, 1.0, 1.0};
+}
+
 void Tree::add_locked_message_to_message_roll()
 {
-   add_message_to_message_roll("Locked", ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0});
+   add_message_to_message_roll("LOCKED", ALLEGRO_COLOR{0.86, 0.08, 0.24, 1.0});
+   return;
+}
+
+void Tree::add_elevator_shaft_unlocked_message(int elevator_shaft_number)
+{
+   add_message_to_message_roll(
+      "ELEVATOR SHAFT " + std::to_string(elevator_shaft_number) + " UNLOCKED",
+      build_success_message_color()
+      //ALLEGRO_COLOR{0.0, 0.75, 1.0, 1.0}
+   );
+   return;
+}
+
+void Tree::add_megadoor_unlocked_message()
+{
+   add_message_to_message_roll("MEGADOOR UNLOCKED", build_success_message_color());
+   return;
+}
+
+void Tree::add_vr_room_unlocked_message()
+{
+   add_message_to_message_roll("VR ROOM UNLOCKED", build_success_message_color());
    return;
 }
 
@@ -1317,7 +1369,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             "System",
             { u("What would you like to do?") },
             {
-               { "Unlock Elevator 1", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_1"), 0 },
+               { "Activate Elevator Shaft 1", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_1"), 0 },
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
          )
@@ -1326,7 +1378,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             "System",
             { u("What would you like to do?") },
             {
-               { "Unlock Elevator 2", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_2"), 0 },
+               { "Activate Elevator Shaft 2", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_2"), 0 },
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
          )
@@ -1344,7 +1396,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             "System",
             { u("What would you like to do?") },
             {
-               { "Unlock Elevator 3", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_3"), 0 },
+               { "Activate Elevator Shaft 3", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_3"), 0 },
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
          )
@@ -1353,7 +1405,7 @@ AllegroFlare::DialogTree::NodeBank Tree::build_dialog_node_bank()
             "System",
             { u("What would you like to do?") },
             {
-               { "Unlock Last Elevator", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
+               { "Activate Elevator Shaft 4", new AllegroFlare::DialogTree::NodeOptions::GoToNode("unlock_elevator_4"), 0 },
                { "Exit", new AllegroFlare::DialogTree::NodeOptions::ExitDialog(), 0 },
             }
          )

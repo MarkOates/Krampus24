@@ -324,7 +324,7 @@ methods:
          return false;
       };
 
-      result->player_can_inspect_or_use__hint_text = "Activate elevator";
+      result->player_can_inspect_or_use__hint_text = "ACTIVATE ELEVATOR";
 
 
       return { result }; //, result->right_door };
