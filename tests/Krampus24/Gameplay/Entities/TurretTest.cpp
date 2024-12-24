@@ -13,11 +13,18 @@ class Krampus24_Gameplay_Entities_TurretWithConstructFixtureTest : public Krampu
 TEST_F(Krampus24_Gameplay_Entities_TurretWithConstructFixtureTest, can_be_created_without_blowing_up)
 {
    Krampus24::Gameplay::Entities::Turret *hen = Krampus24::Gameplay::Entities::Turret::construct(
+      get_framework_event_emitter(),
       get_framework_model_bin(),
       get_framework_bitmap_bin(),
       AllegroFlare::Vec3D(0, 0, 0)
       //3.0
    );
+
+   AllegroFlare::AudioController *audio_controller = get_framework_audio_controller();
+   audio_controller->set_and_load_sound_effect_elements(
+      Krampus24::Gameplay::Entities::Turret::build_audio_controller_sound_effect_list()
+   );
+
    add_entity_to_pool(hen);
    run_test_construct_loop();
 }

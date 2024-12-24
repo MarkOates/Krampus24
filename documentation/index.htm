@@ -1257,6 +1257,12 @@ table td
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;ALLEGRO_FONT&quot;, &quot;headers&quot;=&gt;[&quot;allegro5/allegro_font.h&quot;]}</td>
 </tr>
 <tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Turret&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Turret.hpp&quot;]}</td>
+</tr>
+<tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;Krampus24::Gameplay::Entities::Door::Style&quot;, &quot;headers&quot;=&gt;[&quot;Krampus24/Gameplay/Entities/Door.hpp&quot;]}</td>
 </tr>
 <tr>
@@ -5515,6 +5521,10 @@ table td
     <h3>Properties</h3>
 <div class="property-box properties">     <table>
 <tr>
+  <td class="property">event_emitter</td>
+  <td class="property">AllegroFlare::EventEmitter*</td>
+</tr>
+<tr>
   <td class="property">initialized</td>
   <td class="property">bool</td>
 </tr>
@@ -5571,7 +5581,15 @@ table td
 </tr>
 <tr>
   <td class="method">Krampus24::Gameplay::Entities::Turret*</td>
-  <td class="method"><b>construct</b>(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D position={}, float rotation=0.0f)</td>
+  <td class="method"><b>construct</b>(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D position={}, float rotation=0.0f)</td>
+</tr>
+<tr>
+  <td class="method">void</td>
+  <td class="method"><b>play_turret_startup_sound_effect</b>()</td>
+</tr>
+<tr>
+  <td class="method">std::map&lt;std::string, AllegroFlare::AudioRepositoryElement&gt;</td>
+  <td class="method"><b>build_audio_controller_sound_effect_list</b>()</td>
 </tr>
 <tr>
   <td class="method">void</td>
@@ -5640,6 +5658,9 @@ table td
 </tr>
 <tr>
   <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::Logger&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/Logger.hpp&quot;]}</td>
+</tr>
+<tr>
+  <td class="dependency">{&quot;symbol&quot;=&gt;&quot;AllegroFlare::AudioRepositoryElement&quot;, &quot;headers&quot;=&gt;[&quot;AllegroFlare/AudioRepositoryElement.hpp&quot;]}</td>
 </tr>
     </table>
 </div>  </div>
@@ -7364,6 +7385,7 @@ table td
   "Krampus24/Gameplay/Entities/Door": [
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Zone"
   ],
@@ -7510,6 +7532,7 @@ table td
   ],
   "Krampus24/Gameplay/Entities/Turret": [
     "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Turret"
   ],
   "Krampus24/Gameplay/Entities/Zone": [
@@ -7649,6 +7672,7 @@ table td
     "Krampus24/Gameplay/Entities/Table",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Trinket",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/WideTable",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/ScriptingInterface",

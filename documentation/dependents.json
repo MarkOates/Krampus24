@@ -199,6 +199,7 @@
   "Krampus24/Gameplay/Entities/Door": [
     "Krampus24/Game/Configurations/Main",
     "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Door",
     "Krampus24/Gameplay/Entities/Zone"
   ],
@@ -345,6 +346,7 @@
   ],
   "Krampus24/Gameplay/Entities/Turret": [
     "Krampus24/Game/EntityFactory",
+    "Krampus24/Game/Scripting/Tree",
     "Krampus24/Gameplay/Entities/Turret"
   ],
   "Krampus24/Gameplay/Entities/Zone": [
@@ -484,6 +486,7 @@
     "Krampus24/Gameplay/Entities/Table",
     "Krampus24/Gameplay/Entities/Tablet",
     "Krampus24/Gameplay/Entities/Trinket",
+    "Krampus24/Gameplay/Entities/Turret",
     "Krampus24/Gameplay/Entities/WideTable",
     "Krampus24/Gameplay/Entities/Zone",
     "Krampus24/Gameplay/ScriptingInterface",

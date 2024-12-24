@@ -12,12 +12,14 @@
 #include <AllegroFlare/TimerFormatter.hpp>
 #include <AllegroFlare/UsefulPHP.hpp>
 #include <Krampus24/Gameplay/Entities/Cryobed.hpp>
+#include <Krampus24/Gameplay/Entities/Door.hpp>
 #include <Krampus24/Gameplay/Entities/ElevatorShaft.hpp>
 #include <Krampus24/Gameplay/Entities/Hen.hpp>
 #include <Krampus24/Gameplay/Entities/MegaDoor.hpp>
 #include <Krampus24/Gameplay/Entities/Prop.hpp>
 #include <Krampus24/Gameplay/Entities/SlidingDoor.hpp>
 #include <Krampus24/Gameplay/Entities/Trinket.hpp>
+#include <Krampus24/Gameplay/Entities/Turret.hpp>
 #include <iostream>
 #include <set>
 #include <sstream>
@@ -318,13 +320,25 @@ void Tree::game_event_func(AllegroFlare::GameEvent* game_event)
 
 std::map<std::string, AllegroFlare::AudioRepositoryElement> Tree::build_audio_controller_sound_effect_list()
 {
-   return Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list();
+   //throw std::runtime_error("asdfasdfasdfasdfadsf");
+   //return Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list();
+   std::map<std::string, AllegroFlare::AudioRepositoryElement> result_elements;
+
+   // Example sound effect lists
+   std::map<std::string, AllegroFlare::AudioRepositoryElement> door_sounds =
+      Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list();
+   std::map<std::string, AllegroFlare::AudioRepositoryElement> turret_sounds =
+      Krampus24::Gameplay::Entities::Turret::build_audio_controller_sound_effect_list();
+
+   // Merging sound effect lists into result_elements
+   result_elements.insert(door_sounds.begin(), door_sounds.end());
+   result_elements.insert(turret_sounds.begin(), turret_sounds.end());
 
    //std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
       //{ "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
    //};
    //return sound_effect_elements;
-   return {};
+   return result_elements;
 }
 
 void Tree::add_message_to_message_roll(std::string message_text, ALLEGRO_COLOR color)

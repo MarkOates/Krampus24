@@ -198,13 +198,28 @@ methods:
     override: true
     type: std::map<std::string, AllegroFlare::AudioRepositoryElement>
     body: |
-      return Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list();
+      //throw std::runtime_error("asdfasdfasdfasdfadsf");
+      //return Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list();
+      std::map<std::string, AllegroFlare::AudioRepositoryElement> result_elements;
+
+      // Example sound effect lists
+      std::map<std::string, AllegroFlare::AudioRepositoryElement> door_sounds =
+         Krampus24::Gameplay::Entities::Door::build_audio_controller_sound_effect_list();
+      std::map<std::string, AllegroFlare::AudioRepositoryElement> turret_sounds =
+         Krampus24::Gameplay::Entities::Turret::build_audio_controller_sound_effect_list();
+
+      // Merging sound effect lists into result_elements
+      result_elements.insert(door_sounds.begin(), door_sounds.end());
+      result_elements.insert(turret_sounds.begin(), turret_sounds.end());
 
       //std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
          //{ "open_metal_door", { "door-01-opening.ogg", false, "restart" } },
       //};
       //return sound_effect_elements;
-      return {};
+      return result_elements;
+    body_dependency_symbols:
+      - Krampus24::Gameplay::Entities::Door
+      - Krampus24::Gameplay::Entities::Turret
 
 
   - name: add_message_to_message_roll
@@ -1922,6 +1937,10 @@ dependencies:
     headers: [ AllegroFlare/FontBin.hpp ]
   - symbol: ALLEGRO_FONT
     headers: [ allegro5/allegro_font.h ]
+  - symbol: Krampus24::Gameplay::Entities::Door
+    headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
+  - symbol: Krampus24::Gameplay::Entities::Turret
+    headers: [ Krampus24/Gameplay/Entities/Turret.hpp ]
   - symbol: Krampus24::Gameplay::Entities::Door::Style
     headers: [ Krampus24/Gameplay/Entities/Door.hpp ]
   - symbol: Krampus24::Gameplay::Entities::SlidingDoor

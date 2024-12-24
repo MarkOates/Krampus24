@@ -1,13 +1,17 @@
 #pragma once
 
 
+#include <AllegroFlare/AudioRepositoryElement.hpp>
 #include <AllegroFlare/BitmapBin.hpp>
+#include <AllegroFlare/EventEmitter.hpp>
 #include <AllegroFlare/Model3D.hpp>
 #include <AllegroFlare/ModelBin.hpp>
 #include <AllegroFlare/Vec3D.hpp>
 #include <Krampus24/Gameplay/Entities/Base.hpp>
 #include <Krampus24/Gameplay/Entities/Turret.hpp>
 #include <cstdint>
+#include <map>
+#include <string>
 
 
 namespace Krampus24
@@ -29,6 +33,7 @@ namespace Krampus24
                STATE_POWERING_UP,
                STATE_BROKEN,
             };
+            AllegroFlare::EventEmitter* event_emitter;
             bool initialized;
             int power_bar_level;
             float full_power_charge_duration;
@@ -51,7 +56,9 @@ namespace Krampus24
             bool get_initialized() const;
             uint32_t get_state() const;
             void initialize();
-            static Krampus24::Gameplay::Entities::Turret* construct(AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D position={}, float rotation=0.0f);
+            static Krampus24::Gameplay::Entities::Turret* construct(AllegroFlare::EventEmitter* event_emitter=nullptr, AllegroFlare::ModelBin* model_bin=nullptr, AllegroFlare::BitmapBin* bitmap_bin=nullptr, AllegroFlare::Vec3D position={}, float rotation=0.0f);
+            void play_turret_startup_sound_effect();
+            static std::map<std::string, AllegroFlare::AudioRepositoryElement> build_audio_controller_sound_effect_list();
             virtual void draw() override;
             virtual bool on_player_inspect_or_use() override;
             virtual void on_time_step(double time_step=0.0f, double time_now=0.0f) override;

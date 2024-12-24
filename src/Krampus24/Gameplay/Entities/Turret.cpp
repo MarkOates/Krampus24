@@ -21,9 +21,10 @@ namespace Entities
 
 Turret::Turret()
    : Krampus24::Gameplay::Entities::Base()
+   , event_emitter(nullptr)
    , initialized(false)
    , power_bar_level(2)
-   , full_power_charge_duration(2.0f)
+   , full_power_charge_duration(2.25f)
    , body(nullptr)
    , power_bar_1(nullptr)
    , power_bar_2(nullptr)
@@ -66,8 +67,15 @@ void Turret::initialize()
    return;
 }
 
-Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::Vec3D position, float rotation)
+Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::EventEmitter* event_emitter, AllegroFlare::ModelBin* model_bin, AllegroFlare::BitmapBin* bitmap_bin, AllegroFlare::Vec3D position, float rotation)
 {
+   if (!(event_emitter))
+   {
+      std::stringstream error_message;
+      error_message << "[Krampus24::Gameplay::Entities::Turret::construct]: error: guard \"event_emitter\" not met.";
+      std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
+      throw std::runtime_error("[Krampus24::Gameplay::Entities::Turret::construct]: error: guard \"event_emitter\" not met");
+   }
    if (!(model_bin))
    {
       std::stringstream error_message;
@@ -82,6 +90,7 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
       std::cerr << "\033[1;31m" << error_message.str() << " An exception will be thrown to halt the program.\033[0m" << std::endl;
       throw std::runtime_error("[Krampus24::Gameplay::Entities::Turret::construct]: error: guard \"bitmap_bin\" not met");
    }
+
    // TODO: Sort out the alignment, size, of objects, their collision boxes, their repositioning and the relationship
    // to the bounding box, as well as the collision padding of the player entity
    //float width = 2;
@@ -118,12 +127,29 @@ Krampus24::Gameplay::Entities::Turret* Turret::construct(AllegroFlare::ModelBin*
 
    manager->set_state(STATE_IDLE);
 
+   manager->event_emitter = event_emitter;
+
    // DEVELOPMENT: For now, just going to make an interactable zone to trigger the action on this entity
    //manager->set_hit_box_2d(AllegroFlare::Physics::AABB2D(0, 0, 20, 20));
    //manager->set(AllegroFlare::Prototypes::TileFPS::EntityFlags::PLAYER_CAN_INSPECT_OR_USE);
    //manager->set(AllegroFlare::Prototypes::TileFPS::EntityFlags::COLLIDES_WITH_PLAYER);
 
    return manager;
+}
+
+void Turret::play_turret_startup_sound_effect()
+{
+   //sample_bin->operator[](DOOR_OPEN_SAMPLE_IDENTIFIER)->play();
+   event_emitter->emit_play_sound_effect_event("turret_bootup_sound");
+   return;
+}
+
+std::map<std::string, AllegroFlare::AudioRepositoryElement> Turret::build_audio_controller_sound_effect_list()
+{
+   std::map<std::string, AllegroFlare::AudioRepositoryElement> sound_effect_elements = {
+      { "turret_bootup_sound", { "turret_bootup_sound-03.ogg", false, "restart" } },
+   };
+   return sound_effect_elements;
 }
 
 void Turret::draw()
@@ -258,7 +284,8 @@ void Turret::set_state(uint32_t state, bool override_if_busy)
       } break;
 
       case STATE_POWERING_UP: {
-         power_bar_level = 0; // DEVELOPMENT
+         power_bar_level = 1; // DEVELOPMENT
+         play_turret_startup_sound_effect();
       } break;
 
       case STATE_BROKEN: {
@@ -304,13 +331,27 @@ void Turret::update_state(double time_step, double time_now)
 
       case STATE_POWERING_UP: {
          //throw std::runtime_error("asdfasdf");
-         power_bar_level = ((age / full_power_charge_duration) * 5);
+         int next_level = ((age / full_power_charge_duration) * 4) + 1;
+
+         if (power_bar_level != next_level)
+         {
+            power_bar_level = next_level;
+            // Play blip sound effct
+         }
+
          if (age >= full_power_charge_duration)
          {
-            power_bar_level = 4;
+            power_bar_level = 5;
             set_state(STATE_BROKEN);
             // TODO: Play broke sound effect
          }
+
+         //if (power_bar_level != next_level)
+         //{
+            //power_bar_level = next_level;
+            // Play blip sound effct
+         //}
+
       } break;
 
       case STATE_BROKEN: {

@@ -167,7 +167,13 @@ std::vector<Krampus24::Gameplay::Entities::Base*> EntityFactory::create_entity(K
    else if (entity_root_name == Krampus24::Gameplay::Entities::Turret::BLENDER_IDENTIFIER)
    {
       float rotation = entity->rotation.z / 360.0;
-      auto *result = Krampus24::Gameplay::Entities::Turret::construct(model_bin, bitmap_bin, position, rotation);
+      auto *result = Krampus24::Gameplay::Entities::Turret::construct(
+         event_emitter,
+         model_bin,
+         bitmap_bin,
+         position,
+         rotation
+      );
       result->name = entity->name;
       return { result };
    }
